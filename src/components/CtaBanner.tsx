@@ -20,7 +20,7 @@ export function CtaBanner() {
               </p>
             </div>
             <a
-              href="#"
+              href="/invest"
               className="cta-invest btn btn-shine w-fit rounded-full bg-lime px-5 py-3 font-display text-[13px] font-bold text-ink hover:shadow-[0_10px_24px_-10px_rgba(0,145,255,0.7)]"
             >
               Invest with reID

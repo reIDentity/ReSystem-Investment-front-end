@@ -74,7 +74,7 @@ export function Header() {
               ))}
             </nav>
             <a
-              href="#"
+              href="/invest"
               className="header-invest btn btn-shine rounded-full bg-brand px-5 py-2.5 font-display text-[14px] font-semibold whitespace-nowrap text-white hover:shadow-[0_8px_18px_-8px_rgba(59,130,246,0.8)]"
             >
               Invest with reID
@@ -122,7 +122,7 @@ export function Header() {
                 ))}
               </nav>
               <div className="menu-item mt-4 flex gap-2" style={{ ["--i" as string]: links.length }}>
-                <a href="#" className="header-invest btn flex-1 rounded-full bg-brand py-2.5 text-center font-display text-sm font-semibold text-white">
+                <a href="/invest" className="header-invest btn flex-1 rounded-full bg-brand py-2.5 text-center font-display text-sm font-semibold text-white">
                   Invest with reID
                 </a>
               </div>

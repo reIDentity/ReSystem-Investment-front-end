@@ -149,7 +149,7 @@ export function Calculator() {
             </div>
 
             <a
-              href="#"
+              href="/invest"
               className="calculator-invest btn btn-shine mt-3 block rounded-full bg-lime py-3.5 text-center font-display text-[14px] font-bold text-ink hover:shadow-[0_10px_24px_-10px_rgba(0,145,255,0.9)]"
             >
               Invest {usd(amount)} in {product.name}
