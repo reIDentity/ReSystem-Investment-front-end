@@ -28,6 +28,8 @@ Private project records: [Documents library](https://app.notion.com/p/02d0e65d06
 - Current INFRA work is testnet/UAT. REST/OpenAPI remains the initial API plan; the GraphQL hosting decision does not make GraphQL a required implementation.
 - All 105 implementation task IDs and dependencies are preserved. Initial task JSON statuses are a planning snapshot; current progress and real commit/test evidence are in Notion and the implementation status document. The user approved implementation and UAT setup in this conversation; future sessions must read the current user request and verified state before acting.
 
+- **16 October 2026 publication-policy update:** the reserved GLOBAL super-admin may publish directly without independent project review; ordinary publishers retain review. This changes no metadata, permission, wallet-signing, contract/economic or financial-approval safeguard. See the detailed approved exception in section 10. Backend/admin source and checks are recorded in section 10; bounded live verification remains pending and no reviewer account was created.
+
 ### Tracking conventions
 
 - **To do:** not started or awaiting dependencies/decisions.
@@ -103,6 +105,7 @@ The existing deposit implementation is a useful live baseline, not the final rel
 | Resale | Investor-to-investor marketplace in the first release, including partial quantities |
 | Yield display | Owner enters yield manually; it is independent of funded claimable rewards |
 | Admin access | Username/password login, then MetaMask and reID wallet connections for signing |
+| Publication review | Reserved GLOBAL super-admin may directly publish without independent review; ordinary publishers retain independent review and all other publication/signing safeguards |
 | Admin management | Projects, owners, users, staff roles and permissions |
 | Repositories | Separate repositories for each frontend, backend and smart contracts; standalone indexer also separate |
 | Project tracking | Every task tracked To do → In progress → Done, with real GitHub commit evidence |
@@ -414,7 +417,7 @@ A MetaMask/reID connection grants no staff role by itself.
 
 | Role | Intended responsibility |
 |---|---|
-| Super admin | Staff, role and platform configuration |
+| Super admin | Staff, role and platform configuration; reserved GLOBAL direct-publication exception below |
 | Project manager | Drafts, project content and publication workflow |
 | Project owner | Assigned projects, manual yield and allowed project operations |
 | Finance preparer | Prepare treasury/revenue requests |
@@ -424,6 +427,22 @@ A MetaMask/reID connection grants no staff role by itself.
 | Operator | Indexer/service health and authorized recovery |
 
 Roles may be combined only under the agreed permission/separation-of-duty policy. On-chain roles must remain authoritative for signing even if a database permission was granted incorrectly. Verify an INFRA-compatible multisignature option before choosing treasury quorums; do not assume a particular deployment exists.
+
+### Approved publication-review exception — 16 October 2026
+
+The user explicitly approved: **“if its publishing super admin then no need review.”** Only the reserved **GLOBAL super-admin** may publish an eligible unpublished project directly without an independent reviewer. Ordinary publishers retain the existing independent-review requirement. This supersedes the proposed reviewer-account setup before any new reviewer account, credential or role was created; no private email is recorded here.
+
+This is an approved policy change. Admin presentation is published in [42f9023](https://github.com/reIDentity/ReSystem-Investment-admin/commit/42f9023cc73b33666e3b488b5d70e575e3d4cd1d), with 38 tests, lint, TypeScript and the 16-route zero-warning build passing; nine new guard/component tests cover capability, current-pin, malformed-payload and missing-signer cases. The existing transaction review and layout are unchanged. Backend enforcement is published in [1133d5b](https://github.com/reIDentity/ReSystem-Investment-backend/commit/1133d5b23afabbbffe7c345fdab60735d417dad8). The owner verified 12 unit and 27 real PostgreSQL/Redis integration tests, TypeScript/build/lint/schema/export and 18 Python helper checks. These include the strict capability/ordinary-review matrix, stale metadata/role/wallet-proof denial and post-broadcast reconciliation cases. Bounded FP rollout and actual preparation/guard verification remain pending. Do not infer the live exception from an admin label, a published source commit alone or an old browser session.
+
+Final source checkpoints also include backend CI-only [290e200](https://github.com/reIDentity/ReSystem-Investment-backend/commit/290e200f55ec1df63e59345a8ecae3630c8612e0) and admin CI-only [7bddd07](https://github.com/reIDentity/ReSystem-Investment-admin/commit/7bddd0788da9cf9df7468668ee76159dca3d6c9d). Investor API consumers are published in [51938cc](https://github.com/reIDentity/ReSystem-Investment-front-end/commit/51938cc9b57f93a837653cf85e85698f72820481), with 26 tests, lint, route type generation, TypeScript and a 20-route production build passing. Backend hosted run 38915838526 and admin hosted run 38915871996 were running at handoff; final CI conclusions remain to be checked. FP rollout has not occurred after Teleport expiry, so deployment identity and bounded live preparation/guard proof remain pending for the next authorized session. The submit gate remains false; no project publication, contract creation, signing or funds movement occurred.
+
+The published backend predicate is a fresh authenticated STAFF actor, MFA-verified session and a server-controlled GLOBAL membership (project assignment is null) carrying the reserved `*` permission. A role name, a browser-provided claim, ordinary `projects.publish`, a project-scoped wildcard or an investor session does not establish this eligibility. The server-issued `capabilities.directProjectPublication` is presentation information; canonical preparation/compilation must independently recompute authority from current server records. Absence or false is the ordinary reviewed path.
+
+Pre-sign authorization and post-broadcast reconciliation are separate. Before an unbroadcast action is approved, current role/scope, eligible draft/revision, signer binding and expiry must be rechecked. Once an actual canonical broadcast hash is recorded, later role removal, draft/revision change or intent expiry must not discard that hash, reset it to a newly broadcastable action or prevent receipt/canonical reconciliation. Reconciliation must match the frozen transaction/chain/sender and canonical receipt; it grants no new signing permission and never automatically rebroadcasts. Published backend regressions cover role removal and worker expiry after external approval, preserve an exact canonical hash, and require reconciliation with the retained actual receipt when metadata/context changes or receipt evidence mismatches. They also reject mismatched sender/destination/calldata/value/chain and cross-user hash recording; preserve already-published/archived/indexed facts; and restore a failed eligible draft without fabricating independent approval. This is source/test evidence until the reviewed FP rollout and actual guard check are verified.
+
+The exception waives only independent project review. It does not waive scoped publish permission, an eligible unpublished draft state, current matching pinned metadata revision, validated/frozen economics and owner/treasury, public-media acknowledgement, verified wallet binding, on-chain factory owner/creator authority, chain/manifest/RPC checks, simulation/gas/idempotency, CSRF/Origin/MFA or audit. It does not bypass contract audits, finance approvals, production release review or the disabled reID transaction-submit gate. Audit evidence must identify the direct GLOBAL super-admin path and exact revision/hash rather than fabricate an independent reviewer’s approval. UI layout remains unchanged.
+
+Ordinary publishers require the existing approved state and independent noncreator reviewer. All exact wallet transactions still need human approval. `REID_TRANSACTION_SUBMIT_ENABLED=false` remains unchanged; contracts, prices, ownership/reward rules and UAT funding limits are unchanged. Before calling the exception live, retain genuine backend/admin source commits, allow/deny and stale-metadata/authority tests, reviewed FP rollout identity and a bounded actual preparation/guard check. No publication, wallet signing or funds movement is authorized by this documentation update.
 
 Admin screens:
 
