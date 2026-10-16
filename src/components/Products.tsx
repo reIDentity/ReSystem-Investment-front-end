@@ -30,9 +30,12 @@ function ProductCard({ product }: { product: Product }) {
           )}
         </div>
         {product.status && (
-          <span className="product-badge absolute top-2 right-2 flex items-center gap-1.5 rounded-full bg-white px-2.5 py-1 font-display text-[11px] font-semibold text-forest">
-            
-            Product concept
+          <span
+            className="product-badge absolute top-2 right-2 flex items-center gap-1.5 rounded-full bg-white px-2.5 py-1 font-display text-[11px] font-semibold text-forest"
+            title={product.status === "Coming" ? undefined : "Published investment status is unavailable."}
+            aria-label={product.status === "Coming" ? undefined : "Published investment status unavailable"}
+          >
+            {product.status === "Coming" ? "Coming soon" : "—"}
           </span>
         )}
       </div>
@@ -40,12 +43,25 @@ function ProductCard({ product }: { product: Product }) {
         <h3 className="font-display text-[20px] leading-tight font-extrabold text-ink">{product.name}</h3>
         <p className="product-category mt-0.5 text-[14px] text-muted">{product.category}</p>
         <p className="product-description mt-3 min-h-[68px] text-[17px] leading-snug text-ink-soft">{product.description}</p>
-        <p className="product-stats mt-3 rounded-xl bg-[#f1f4f9] px-3 py-3 text-[13px] text-muted">Ecosystem concept. Confirm published availability, prices and funded revenue in the investor catalogue.</p>
+        <dl className="product-stats mt-3 grid grid-cols-3 gap-1.5 rounded-xl bg-[#f1f4f9] px-3 py-3">
+          <div>
+            <dt className="text-[11px] whitespace-nowrap text-muted">Revenue/mo</dt>
+            <dd className="font-display text-[15px] font-bold text-ink" title="Verified monthly revenue is unavailable." aria-label="Unavailable">—</dd>
+          </div>
+          <div>
+            <dt className="text-[11px] whitespace-nowrap text-muted">Yield pace</dt>
+            <dd className="font-display text-[15px] font-bold text-forest" title="Verified yield pace is unavailable." aria-label="Unavailable">—</dd>
+          </div>
+          <div>
+            <dt className="text-[11px] whitespace-nowrap text-muted">Sold</dt>
+            <dd className="font-display text-[15px] font-bold text-ink" title="Verified fractions sold are unavailable." aria-label="Unavailable">—</dd>
+          </div>
+        </dl>
         <a
-          href="/invest/explore"
+          href="#how-much"
           className="product-link mt-5 flex items-center justify-between font-display text-[14px] font-bold text-brand underline-offset-4 hover:underline"
         >
-          View published investment projects{" "}
+          See where, why and how much{" "}
           <span aria-hidden="true" className="transition-transform duration-500 ease-[var(--ease-spring)] group-hover:translate-x-1.5">→</span>
         </a>
       </div>
@@ -98,12 +114,12 @@ export function Products() {
     <section id="where" className="mt-24 scroll-mt-24">
       <Container>
         <Reveal variant="blur">
-          <h2 className="text-[34px] font-semibold tracking-tight text-ink sm:text-[40px]">Explore the ecosystem</h2>
+          <h2 className="text-[34px] font-semibold tracking-tight text-ink sm:text-[40px]">Where you can invest</h2>
         </Reveal>
         <Reveal variant="blur" delay={80}>
           <p className="section-description mt-4 max-w-[820px] text-[21px] leading-snug text-ink-soft">
-            Product concepts across finance, real-world assets, identity and services. Investment availability is determined by
-            confirmed project publication on INFRA. View the investor catalogue for actual prices, ownership and funded rewards.
+            Twelve products across finance, real-world assets, identity and services. Review published projects on INFRA to
+            see their confirmed revenue before you buy.
           </p>
         </Reveal>
 
