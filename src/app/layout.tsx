@@ -1,24 +1,46 @@
 import type { Metadata } from "next";
-import { IBM_Plex_Sans, Plus_Jakarta_Sans, Montserrat } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 import "./design.css";
+import "./fonts/fallbacks.css";
 
-const plex = IBM_Plex_Sans({
+const plex = localFont({
+  src: [
+    { path: "./fonts/IBM-Plex-Sans-latin.woff2", weight: "400", style: "normal" },
+    { path: "./fonts/IBM-Plex-Sans-latin.woff2", weight: "500", style: "normal" },
+    { path: "./fonts/IBM-Plex-Sans-latin.woff2", weight: "600", style: "normal" },
+    { path: "./fonts/IBM-Plex-Sans-latin.woff2", weight: "700", style: "normal" },
+  ],
   variable: "--font-plex",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  display: "swap",
+  preload: true,
+  adjustFontFallback: false,
+  fallback: ["IBM Plex Sans Fallback"],
+  declarations: [{ prop: "font-stretch", value: "100%" }],
 });
 
-const jakarta = Plus_Jakarta_Sans({
+const jakarta = localFont({
+  src: [
+    { path: "./fonts/Plus-Jakarta-Sans-latin.woff2", weight: "400", style: "normal" },
+    { path: "./fonts/Plus-Jakarta-Sans-latin.woff2", weight: "500", style: "normal" },
+    { path: "./fonts/Plus-Jakarta-Sans-latin.woff2", weight: "600", style: "normal" },
+    { path: "./fonts/Plus-Jakarta-Sans-latin.woff2", weight: "700", style: "normal" },
+    { path: "./fonts/Plus-Jakarta-Sans-latin.woff2", weight: "800", style: "normal" },
+  ],
   variable: "--font-jakarta",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
+  display: "swap",
+  preload: true,
+  adjustFontFallback: false,
+  fallback: ["Plus Jakarta Sans Fallback"],
 });
 
-const montserrat = Montserrat({
+const montserrat = localFont({
+  src: [{ path: "./fonts/Montserrat-latin.woff2", weight: "700", style: "normal" }],
   variable: "--font-montserrat",
-  subsets: ["latin"],
-  weight: ["700"],
+  display: "swap",
+  preload: true,
+  adjustFontFallback: false,
+  fallback: ["Montserrat Fallback"],
 });
 
 export const metadata: Metadata = {

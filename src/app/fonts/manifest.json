@@ -1,0 +1,246 @@
+{
+  "schemaVersion": 1,
+  "provenance": "Exact unmodified Latin WOFF2 bytes from the successful next/font/google local build cache, matched through emitted CSS and source maps.",
+  "googleFontsLicenseCommit": "bf7c667ae010c0ffb39944ae85097021478cb91d",
+  "fonts": [
+    {
+      "family": "IBM Plex Sans",
+      "file": "IBM-Plex-Sans-latin.woff2",
+      "style": "normal",
+      "weights": [
+        400,
+        500,
+        600,
+        700
+      ],
+      "variable": "--font-plex",
+      "subset": "latin",
+      "display": "swap",
+      "preload": true,
+      "sha256": "056e4e2459f57a0033c8c9c844ff19d6e42ac8602027803d4345823bcc939818",
+      "bytes": 40240,
+      "sourceUrl": "https://fonts.gstatic.com/s/ibmplexsans/v23/zYXzKVElMYYaJe8bpLHnCwDKr932-G7dytD-Dmu1syxeKYbSB4Zh.woff2",
+      "cachedFile": "03fc1b4a8d284b5e-s.p.0wiir8udbzjvx.woff2",
+      "cachedCssSha256": "2c0364e52bbebda386a0b0b7ecc2d888a16d44ba64b356b1e0f007f6281c8d57",
+      "fontMetadata": {
+        "postscriptName": "IBMPlexSans-Regular",
+        "fullName": "IBM Plex Sans Regular",
+        "version": "Version 3.201",
+        "unitsPerEm": 1000,
+        "ascent": 1025,
+        "descent": -275,
+        "lineGap": 0,
+        "variationAxes": {
+          "wght": {
+            "name": "Weight",
+            "min": 100,
+            "default": 400,
+            "max": 700
+          }
+        }
+      },
+      "fallback": {
+        "family": "IBM Plex Sans Fallback",
+        "source": "Arial",
+        "ascentOverride": "101.32%",
+        "descentOverride": "27.18%",
+        "lineGapOverride": "0.0%",
+        "sizeAdjust": "101.17%"
+      },
+      "license": {
+        "file": "licenses/IBM-Plex-Sans-OFL.txt",
+        "sha256": "7e6b2818edbd8f6a01ae80641cc8f16a51080d08fb4e532be3a0b6f74adb07da",
+        "sourceUrl": "https://github.com/google/fonts/blob/bf7c667ae010c0ffb39944ae85097021478cb91d/ofl/ibmplexsans/OFL.txt"
+      }
+    },
+    {
+      "family": "Plus Jakarta Sans",
+      "file": "Plus-Jakarta-Sans-latin.woff2",
+      "style": "normal",
+      "weights": [
+        400,
+        500,
+        600,
+        700,
+        800
+      ],
+      "variable": "--font-jakarta",
+      "subset": "latin",
+      "display": "swap",
+      "preload": true,
+      "sha256": "cd8db90cd950e26bc8761f65d323588bd5cd112d326d6d322bc7c8ea86771215",
+      "bytes": 27272,
+      "sourceUrl": "https://fonts.gstatic.com/s/plusjakartasans/v12/LDIoaomQNQcsA88c7O9yZ4KMCoOg4Ko20yygg_vb.woff2",
+      "cachedFile": "fba5a26ea33df6a3-s.p.18rizl4rsrl42.woff2",
+      "cachedCssSha256": "b58220f146be4b43aba90f5b0a55a1613c1134cd9eefcdf4d57d91034696f827",
+      "fontMetadata": {
+        "postscriptName": "PlusJakartaSans-Regular",
+        "fullName": "Plus Jakarta Sans Regular",
+        "version": "Version 2.071;gftools[0.9.30]",
+        "unitsPerEm": 1000,
+        "ascent": 1038,
+        "descent": -222,
+        "lineGap": 0,
+        "variationAxes": {
+          "wght": {
+            "name": "Weight",
+            "min": 200,
+            "default": 400,
+            "max": 800
+          }
+        }
+      },
+      "fallback": {
+        "family": "Plus Jakarta Sans Fallback",
+        "source": "Arial",
+        "ascentOverride": "98.88%",
+        "descentOverride": "21.15%",
+        "lineGapOverride": "0.0%",
+        "sizeAdjust": "104.98%"
+      },
+      "license": {
+        "file": "licenses/Plus-Jakarta-Sans-OFL.txt",
+        "sha256": "995c7199cab65954f545996326755daee7b63cc6b42b06c13da1f9502ab08a99",
+        "sourceUrl": "https://github.com/google/fonts/blob/bf7c667ae010c0ffb39944ae85097021478cb91d/ofl/plusjakartasans/OFL.txt"
+      }
+    },
+    {
+      "family": "Montserrat",
+      "file": "Montserrat-latin.woff2",
+      "style": "normal",
+      "weights": [
+        700
+      ],
+      "variable": "--font-montserrat",
+      "subset": "latin",
+      "display": "swap",
+      "preload": true,
+      "sha256": "cbcba0f7387dfa1ddb2e375f4ee04ea0dd733c94f0d0f4015baf425dcf9c1580",
+      "bytes": 16472,
+      "sourceUrl": "https://fonts.gstatic.com/s/montserrat/v31/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCuM73w5aXp-p7K4KLg.woff2",
+      "cachedFile": "221faba0970ae6e0-s.p.3skrc41owg6lo.woff2",
+      "cachedCssSha256": "3198809b96d2eac8d24e6ee936ad4addc1abc4f2520ce204b1b1f38d9be7e36d",
+      "fontMetadata": {
+        "postscriptName": "MontserratThin-Bold",
+        "fullName": "Montserrat Thin Bold",
+        "version": "Version 9.000",
+        "unitsPerEm": 1000,
+        "ascent": 968,
+        "descent": -251,
+        "lineGap": 0,
+        "variationAxes": {}
+      },
+      "fallback": {
+        "family": "Montserrat Fallback",
+        "source": "Arial",
+        "ascentOverride": "85.79%",
+        "descentOverride": "22.25%",
+        "lineGapOverride": "0.0%",
+        "sizeAdjust": "112.83%"
+      },
+      "license": {
+        "file": "licenses/Montserrat-OFL.txt",
+        "sha256": "8b7141c03fa4f8d44e6345d5d4931709290f0f67875e452e95ac1fd3a027802e",
+        "sourceUrl": "https://github.com/google/fonts/blob/bf7c667ae010c0ffb39944ae85097021478cb91d/ofl/montserrat/OFL.txt"
+      }
+    },
+    {
+      "family": "Space Grotesk",
+      "file": "Space-Grotesk-latin.woff2",
+      "style": "normal",
+      "weights": [
+        500,
+        600,
+        700
+      ],
+      "variable": "--font-invest-display",
+      "subset": "latin",
+      "display": "swap",
+      "preload": true,
+      "sha256": "a0d054c4af557de20afd6ca59f47ab353bcaec49c63ff04b6c9d39d0f8910557",
+      "bytes": 22320,
+      "sourceUrl": "https://fonts.gstatic.com/s/spacegrotesk/v22/V8mDoQDjQSkFtoMM3T6r8E7mPbF4C_k3HqU.woff2",
+      "cachedFile": "0c89a48fa5027cee-s.p.2cyn07wtgehh0.woff2",
+      "cachedCssSha256": "ea61e63a4a5eb1c7063d62ab55260458f9dfaf9af48751e2e7bee6ee765f48df",
+      "fontMetadata": {
+        "postscriptName": "SpaceGrotesk-Light",
+        "fullName": "Space Grotesk Light",
+        "version": "Version 2.000",
+        "unitsPerEm": 1000,
+        "ascent": 984,
+        "descent": -292,
+        "lineGap": 0,
+        "variationAxes": {
+          "wght": {
+            "name": "Weight",
+            "min": 300,
+            "default": 300,
+            "max": 700
+          }
+        }
+      },
+      "fallback": {
+        "family": "Space Grotesk Fallback",
+        "source": "Arial",
+        "ascentOverride": "89.71%",
+        "descentOverride": "26.62%",
+        "lineGapOverride": "0.0%",
+        "sizeAdjust": "109.69%"
+      },
+      "license": {
+        "file": "licenses/Space-Grotesk-OFL.txt",
+        "sha256": "564ce565c371c5e5bbf286006565a7c9aa55a9f56e7ca58d56e05d649dd61a72",
+        "sourceUrl": "https://github.com/google/fonts/blob/bf7c667ae010c0ffb39944ae85097021478cb91d/ofl/spacegrotesk/OFL.txt"
+      }
+    },
+    {
+      "family": "JetBrains Mono",
+      "file": "JetBrains-Mono-latin.woff2",
+      "style": "normal",
+      "weights": [
+        400,
+        500,
+        700
+      ],
+      "variable": "--font-invest-mono",
+      "subset": "latin",
+      "display": "swap",
+      "preload": true,
+      "sha256": "2c32b9b3ee358c119e210f6f5195f9bd34894d78a785ff2e95d60e718e400af4",
+      "bytes": 31340,
+      "sourceUrl": "https://fonts.gstatic.com/s/jetbrainsmono/v24/tDbv2o-flEEny0FZhsfKu5WU4zr3E_BX0PnT8RD8yKwBNntkaToggR7BYRbKPxDcwgknk-4.woff2",
+      "cachedFile": "051742360c26797e-s.p.1bkzbscqrt8rl.woff2",
+      "cachedCssSha256": "964f7d6cc4709b78c8b2d7371fa61b3c500b8bed6e5534f0de14ef2bf6963f46",
+      "fontMetadata": {
+        "postscriptName": "JetBrainsMono-Regular",
+        "fullName": "JetBrains Mono Regular",
+        "version": "Version 2.211",
+        "unitsPerEm": 1000,
+        "ascent": 1020,
+        "descent": -300,
+        "lineGap": 0,
+        "variationAxes": {
+          "wght": {
+            "name": "Weight",
+            "min": 400,
+            "default": 400,
+            "max": 800
+          }
+        }
+      },
+      "fallback": {
+        "family": "JetBrains Mono Fallback",
+        "source": "Arial",
+        "ascentOverride": "75.79%",
+        "descentOverride": "22.29%",
+        "lineGapOverride": "0.0%",
+        "sizeAdjust": "134.59%"
+      },
+      "license": {
+        "file": "licenses/JetBrains-Mono-OFL.txt",
+        "sha256": "b2fe5e8987594e9ffd1d2ca52a2f5d73eb8335243893c5d6254b5ad69269591d",
+        "sourceUrl": "https://github.com/google/fonts/blob/bf7c667ae010c0ffb39944ae85097021478cb91d/ofl/jetbrainsmono/OFL.txt"
+      }
+    }
+  ]
+}
