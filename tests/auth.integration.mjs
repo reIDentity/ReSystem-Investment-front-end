@@ -24,3 +24,22 @@ test('encrypted fixture session renders identity and signs out safely',async()=>
  const denied=await request('/api/auth/reid/logout',{headers:{...headers,Origin:'https://evil.example'},method:'POST'});assert.equal(denied.status,403);
  const logout=await request('/api/auth/reid/logout',{headers:{...headers,Origin:origin},method:'POST'});assert.equal(logout.status,303);assert.equal(logout.headers.location,origin+'/invest');assert.ok(logout.headers['set-cookie'].some(c=>c.startsWith(SESSION_COOKIE+'=')&&c.includes('Max-Age=0')));
 });
+test('deposit API requires a verified session and ignores a supplied wallet',async()=>{
+ for(const headers of [{},{Cookie:SESSION_COOKIE+'=forged'}]){
+  const denied=await request('/api/invest/deposits',{headers});
+  assert.equal(denied.status,401);
+  assert.match(denied.headers['cache-control'],/private.*no-store/);
+  assert.equal(JSON.parse(denied.body).wallet,undefined);
+ }
+ const wallet='0x1234567890123456789012345678901234567890';
+ const token=await sealSession({id:'deposit-test-fixture',name:'Deposit Tester',wallet,kycStatus:'incomplete'},process.env.SESSION_SECRET);
+ const response=await request('/api/invest/deposits?wallet=0x0000000000000000000000000000000000000001',{headers:{Cookie:SESSION_COOKIE+'='+token}});
+ assert.ok([200,502].includes(response.status));
+ assert.match(response.headers['cache-control'],/private.*no-store/);
+ assert.match(response.headers.vary,/Cookie/);
+ const body=JSON.parse(response.body);
+ assert.equal(body.wallet,wallet);
+ assert.match(body.qr,/^data:image\/png;base64,/);
+ if(response.status===200){assert.equal(body.chainId,15324);assert.ok(Array.isArray(body.deposits));}
+ else assert.equal(typeof body.error,'string');
+});

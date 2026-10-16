@@ -24,7 +24,11 @@ Registered and activated on 16 October 2026 through the UAT backend's authentica
 
 Sign-in uses PKCE S256 and a random state in short-lived HttpOnly, Secure, SameSite=Lax cookies. The callback exchanges the code on the server and creates an encrypted eight-hour session containing the user's ID, display name, wallet address and verification status. reID access and refresh tokens are discarded after sign-in; no private-key export or transaction permission is requested. Investor routes validate the session on the server. Sign-out clears this app's session, while the user's reID session stays in reID.
 
-**Investment data remains a demo:** sample holdings, balances, deposits, withdrawals and purchases are labelled as simulations. They do not read balances from or send transactions to the authenticated reID wallet.
+**The deposit page uses live INFRA data:** its receiving address comes from the verified reID session, and its QR encodes that same address. Recent deposits show confirmed incoming native reAED, contract-to-wallet reAED and transfers of the configured INFRA USDT contract, with actual amounts, dates and explorer links. Bank transfer and card are disabled as coming soon. Refreshing checks history; it never credits a simulated balance or submits a transaction.
+
+The authenticated `/api/invest/deposits` endpoint queries the UAT INFRA explorer without caching and ignores browser-supplied wallet addresses. It checks every 30 seconds while the page is visible and supports manual refresh. It displays up to eight recent deposits from the first page of each explorer activity source; the full wallet history link provides older activity. Explorer indexing can delay new deposits. Partial failures and unavailable history are disclosed rather than replaced with sample data. No additional environment variables are required.
+
+**Other investment data remains a demo:** sample holdings, balances, withdrawals and purchases remain simulations. They do not read balances from or send transactions to the authenticated reID wallet.
 
 ## Vercel deployment
 
@@ -46,10 +50,10 @@ All six variables are server-side. Do not add `NEXT_PUBLIC_` prefixes. Mark the 
 ## Checks
 
 ```sh
-npm test          # Encryption, expiry, state, redirect and identity validation
+npm test          # Authentication security and deposit normalization/error handling
 npm run lint
 npm run build
 npm run test:auth # HTTPS dev server must be running; uses local fixture sessions
 ```
 
-Integration checks exercise route protection, real PKCE redirects, cancellation and logout. A real reID sign-in requires a UAT user to log in and approve consent in their browser.
+Integration checks exercise route protection, real PKCE redirects, cancellation, logout and session-bound deposit access. A real reID sign-in requires a UAT user to log in and approve consent in their browser.

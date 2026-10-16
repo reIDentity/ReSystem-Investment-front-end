@@ -13,7 +13,7 @@ export function Asset({ name, width, height = width, className = "", alt = "", r
 export function InvestorLogo({ light = false }: { light?: boolean }) {
   return <Logo tone={light ? "light" : "dark"} className="iv-logo" />;
 }
-export function InvestorShell({ title, subtitle, children, page = "" }: { title: string; subtitle: string; children: ReactNode; page?: string }) {
+export function InvestorShell({ title, subtitle, children, page = "", liveData = false, networkBlock }: { title: string; subtitle: string; children: ReactNode; page?: string; liveData?: boolean; networkBlock?: number | null }) {
   const path = usePathname();
   const demo = useDemo();
   const initials = demo.user.name.split(/\s+/).filter(Boolean).slice(0, 2).map(part => part[0]).join("").toUpperCase();
@@ -30,12 +30,12 @@ export function InvestorShell({ title, subtitle, children, page = "" }: { title:
           <button className="iv-notification" aria-label="Notifications" aria-expanded={notifications} onClick={() => { setNotifications(!notifications); setAccount(false); }}><Asset name="5bcd1" width={18} /><i /></button>
           <button className="iv-account" aria-expanded={account} onClick={() => { setAccount(!account); setNotifications(false); }}><span className="iv-avatar">{initials}</span><span><strong>{demo.user.name}</strong><small><Asset name="4489b" width={12} /> Connected with reID</small></span><Asset name="6b211" width={14} /></button>
           {account && <div className="iv-popover"><strong>{demo.user.name}</strong><p>Connected with reID · UAT</p><p className="iv-connected-wallet">{demo.user.wallet}</p><p>Verification: {demo.user.kycStatus}</p><form action="/api/auth/reid/logout" method="post"><button className="iv-button iv-full">Sign out</button></form><Link href="/">Back to website</Link></div>}
-          {notifications && <div className="iv-popover"><strong>Notifications</strong><p>Your sample earnings are available to claim.</p><Link href="/invest/earnings" onClick={() => setNotifications(false)}>View my earnings →</Link></div>}
+          {notifications && <div className="iv-popover"><strong>{liveData ? "Deposit updates" : "Notifications"}</strong><p>{liveData ? "Incoming transfers appear after INFRA confirms them and the explorer indexes them." : "Your sample earnings are available to claim."}</p>{!liveData && <Link href="/invest/earnings" onClick={() => setNotifications(false)}>View my earnings →</Link>}</div>}
         </div>
       </header>
-      <div className="iv-page-heading"><div><h1>{title}</h1><p>{subtitle}</p></div><div className="iv-heading-actions"><span className="iv-network"><i />INFRA block 4,812,330</span><Link className="iv-button" href="/invest/deposit"><Asset name="4b50f" width={16} />Deposit</Link><Link className="iv-button iv-primary" onClick={page === "product" ? () => window.document.getElementById("invest")?.scrollIntoView({ block: "start", behavior: "instant" }) : undefined} href={`${page === "product" ? path : `/invest/products/${demo.selectedProduct}`}#invest`}><Asset name="cf794" width={16} />Buy shares</Link></div></div>
+      <div className="iv-page-heading"><div><h1>{title}</h1><p>{subtitle}</p></div><div className="iv-heading-actions"><span className={`iv-network ${liveData && !networkBlock ? "iv-network-unavailable" : ""}`}><i />{liveData ? networkBlock ? `INFRA block ${networkBlock.toLocaleString()}` : "INFRA · Chain 15324" : "INFRA block 4,812,330"}</span><Link className="iv-button" href="/invest/deposit"><Asset name="4b50f" width={16} />Deposit</Link><Link className="iv-button iv-primary" onClick={page === "product" ? () => window.document.getElementById("invest")?.scrollIntoView({ block: "start", behavior: "instant" }) : undefined} href={`${page === "product" ? path : `/invest/products/${demo.selectedProduct}`}#invest`}><Asset name="cf794" width={16} />Buy shares</Link></div></div>
       <main className="iv-content">{children}</main>
-      <p className="iv-demo-note">Connected with reID UAT · Investment preview uses sample balances and simulated transactions. No funds are transferred.</p>
+      <p className="iv-demo-note">{liveData ? "Connected with reID UAT · Your wallet address and deposit history are live on INFRA. Bank transfer and card are coming soon." : "Connected with reID UAT · Investment preview uses sample balances and simulated transactions. No funds are transferred."}</p>
     </div>
     {demo.notice && <div className="iv-toast" role="status"><span>{demo.notice}</span><button aria-label="Dismiss notification" onClick={() => demo.notify("")}>×</button></div>}
   </div>;
@@ -59,7 +59,7 @@ export function CopyButton({ value, children = "Copy address" }: { value: string
         const success = document.execCommand("copy"); input.remove(); if (!success) throw new Error("Clipboard unavailable");
       }
       setCopied(true);
-    } catch { notify(`Copy this demo address: ${value}`); }
+    } catch { notify(`Copy this address: ${value}`); }
   }}>{copied ? "Copied ✓" : children}</button>;
 }
 

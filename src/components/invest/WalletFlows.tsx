@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { products } from "@/data/products";
 import { useDemo } from "./DemoProvider";
-import { Asset, CopyButton, Initials, InvestorShell, Modal, Panel, Tag, usd } from "./InvestorUI";
+import { CopyButton, Initials, InvestorShell, Modal, Panel, usd } from "./InvestorUI";
 
 const demoAddress = "0x4e58b3727b290d24e0a1e037431fd5ddca3a80a6";
 
@@ -15,24 +15,6 @@ export function InvestorWallet() {
   return <InvestorShell page="wallet" title="Wallet" subtitle="Balances and share tokens held on INFRA">
     <div className="iv-wallet-top"><Panel className="iv-total-balance"><p>Total balance</p><strong>{usd(wallet)}</strong><div><span>0x7a3E…c91F</span><CopyButton value={demoAddress} /></div></Panel><Panel title="Quick actions" className="iv-quick-actions"><Link href="/invest/deposit"><Initials name="↓" />Deposit funds</Link><Link href={`/invest/products/${demo.selectedProduct}#invest`}><Initials name="+" />Buy shares</Link><button onClick={() => demo.claim()} disabled={claimable<=0}><Initials name="$" tone="dark" />Claim {usd(claimable)}</button><Link href="/invest/withdraw"><Initials name="↑" tone="neutral" />Withdraw</Link></Panel></div>
     <Panel title="Assets"><div className="iv-table-scroll"><table className="iv-table iv-assets-table"><thead><tr><th>Asset</th><th>Type</th><th>Balance</th><th>Value</th></tr></thead><tbody><tr><td><Initials name="AE" />reAED</td><td>Stablecoin</td><td>{demo.balances.reAED.toLocaleString(undefined,{maximumFractionDigits:2})}</td><td>{usd(demo.balances.reAED / 3.6725)}</td></tr><tr><td><Initials name="US" tone="green" />USDT</td><td>Stablecoin</td><td>{demo.balances.USDT.toLocaleString(undefined,{minimumFractionDigits:2})}</td><td>{usd(demo.balances.USDT)}</td></tr>{demo.holdings.map(h => <tr key={h.id}><td><Initials name={h.id === "fractionaire" ? "FR" : h.id === "reid" ? "ID" : "RE"} tone={h.id === "fractionaire" ? "orange" : h.id === "reid" ? "purple" : "blue"} />{products.find(p=>p.id===h.id)?.name} shares</td><td>Product shares</td><td>{h.shares}</td><td>{usd(h.invested)}</td></tr>)}</tbody></table></div></Panel>
-  </InvestorShell>;
-}
-
-export function InvestorDeposit() {
-  const demo = useDemo();
-  const [method, setMethod] = useState("reAED");
-  const [amount, setAmount] = useState("1000");
-  const [confirm, setConfirm] = useState(false);
-  const [done, setDone] = useState(false);
-  const asset = method === "USDT" ? "USDT" : "reAED";
-  const valid = Number.isFinite(Number(amount)) && Number(amount)>0;
-  return <InvestorShell page="deposit" title="Deposit" subtitle="Add reAED, USDT, a bank transfer or a card payment to your wallet">
-    <div className="iv-main-sidebar"><Panel className="iv-deposit-form" title="How would you like to add funds?"><fieldset className="iv-deposit-methods"><legend className="sr-only">Deposit method</legend>{[["reAED","Instant on INFRA"],["USDT","Instant on INFRA"],["Bank transfer","AED, 1–2 business days"],["Card","Visa ending 4417"]].map(([label,note]) => <label className={method === label ? "iv-selected-option" : ""} key={label}><input type="radio" name="deposit-method" value={label} checked={method===label} onChange={()=>{setMethod(label);setDone(false);}} /><span><strong>{label}</strong><small>{note}</small></span></label>)}</fieldset>
-      <label className="iv-form-label" htmlFor="deposit-amount">Amount</label><div className="iv-amount-field"><input id="deposit-amount" type="number" min="0.01" step="0.01" value={amount} onChange={e=>{setAmount(e.target.value);setDone(false);}} /><span>{asset}</span></div><div className="iv-presets">{[1000,5000,10000,25000].map(value=><button key={value} aria-pressed={Number(amount)===value} onClick={()=>{setAmount(String(value));setDone(false);}}>{value.toLocaleString()}</button>)}</div>
-      {method === "reAED" || method === "USDT" ? <div className="iv-deposit-address"><div className="iv-qr"><Asset name="5e079" width={124} /></div><div><p>Send {asset} on INFRA to</p><code>{demoAddress}</code><div><CopyButton value={demoAddress} /><Tag tone="amber">INFRA network only</Tag></div><small>Reference QR and address · Demo only. Do not send funds.</small></div></div> : method === "Bank transfer" ? <div className="iv-deposit-details"><strong>Bank transfer details</strong><dl><div><dt>Beneficiary</dt><dd>reSystem Investment · Demo</dd></div><div><dt>Reference</dt><dd>RS-MK-2214</dd></div><div><dt>Currency</dt><dd>AED</dd></div></dl><p>This is a demo preview. Bank details will be supplied when live deposits are connected.</p></div> : <div className="iv-deposit-details"><strong>Card payment preview</strong><p>Visa •••• 4417 · Sample card</p><p>No card details or payments are collected in this demo.</p></div>}
-      <button className="iv-button iv-primary iv-full" disabled={!valid || done} onClick={()=>setConfirm(true)}>{done ? "Demo deposit added ✓" : method === "Card" ? `Add ${Number(amount).toLocaleString()} ${asset}` : `I’ve sent ${Number(amount).toLocaleString()} ${asset}`}</button>
-    </Panel><Panel title="Recent deposits" className="iv-recent-deposits">{demo.transactions.filter(t=>t.kind==="Deposits").slice(0,4).map(t=><div className="iv-recent-row" key={t.id}><Initials name="↓" /><div><strong>{t.title}</strong><small>{t.date}</small></div><span><strong>{usd(t.amount)}</strong><Tag>Completed</Tag></span></div>)}</Panel></div>
-    {confirm && <Modal title="Simulate deposit" onClose={()=>setConfirm(false)}><p>Add {Number(amount).toLocaleString()} {asset} to your demo wallet? No payment will be made.</p><button className="iv-button iv-primary iv-full" onClick={()=>{demo.deposit(Number(amount),asset,method);setConfirm(false);setDone(true);}}>Simulate deposit</button></Modal>}
   </InvestorShell>;
 }
 
