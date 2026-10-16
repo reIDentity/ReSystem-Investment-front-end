@@ -8373,6 +8373,41 @@
                 "pattern": "^(0|[1-9][0-9]*)$",
                 "description": "Exact integer base units; never convert to a JavaScript number",
                 "nullable": true
+              },
+              "projectConfig": {
+                "type": "object",
+                "properties": {
+                  "owner": {
+                    "type": "string"
+                  },
+                  "treasury": {
+                    "type": "string"
+                  },
+                  "maxFractions": {
+                    "type": "string",
+                    "pattern": "^(0|[1-9][0-9]*)$",
+                    "description": "Exact integer base units; never convert to a JavaScript number"
+                  },
+                  "totalValueUSDT": {
+                    "type": "string",
+                    "pattern": "^(0|[1-9][0-9]*)$",
+                    "description": "Exact integer base units; never convert to a JavaScript number"
+                  },
+                  "metadataURI": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "owner",
+                  "treasury",
+                  "maxFractions",
+                  "totalValueUSDT",
+                  "metadataURI"
+                ],
+                "additionalProperties": false
+              },
+              "metadataURI": {
+                "type": "string"
               }
             },
             "required": [

@@ -1,4 +1,4 @@
-// Generated from OpenAPI 0.1.0; do not hand-edit. SHA-256: d4fd208e901d800b728e055315e0df47ad3e4375503f14e5f03b8ecf3e9df31b
+// Generated from OpenAPI 0.1.0; do not hand-edit. SHA-256: 484aa0635357fea37de78b6c32607c0b680c5c355b5d06fa0216e925204e36c2
 export type LoginDto = { "username": string; "password": string; "totp"?: string; };
 export type WalletChallengeDto = { "address": string; "chainId": 15324; };
 export type WalletVerifyDto = { "challengeId": string; "signature": string; };
@@ -22,7 +22,7 @@ export type ProjectPage = { "items": Array<ProjectResponse>; "nextCursor": (stri
 export type WalletAsset = { "symbol": "REAED" | "USDT"; "decimals": 6 | 18; "balanceAtomic": string; "address": (string) | null; };
 export type WalletResponse = { "chainId": 15324; "address": string; "wallet": string; "headBlock": string; "source": string; "assets": Array<WalletAsset>; "bank": { "available": false; }; "card": { "available": false; }; };
 export type UnsignedTransaction = { "to": string; "valueWei": string; "data": string; "chainId": 15324; "gasEstimate": string; "estimatedFeeWei": string; };
-export type TransactionResponse = { "id": string; "status": "CREATED" | "SUBMITTING" | "AWAITING_APPROVAL" | "BROADCAST" | "CONFIRMED" | "INDEXED" | "REJECTED" | "FAILED" | "EXPIRED" | "RECONCILIATION_REQUIRED"; "command": Record<string, unknown>; "walletAddress": string; "chainId": 15324; "transaction": (UnsignedTransaction) | null; "review": { "asset": (string) | null; "amountAtomic": (string) | null; "quantity": (string) | null; "recipient": (string) | null; "spender": (string) | null; "unitPriceAtomic"?: (string) | null; }; "approvalUrl": (string) | null; "txHash": (string) | null; "receipt": (Record<string, unknown>) | null; "errorCode": (string) | null; "expiresAt": string; };
+export type TransactionResponse = { "id": string; "status": "CREATED" | "SUBMITTING" | "AWAITING_APPROVAL" | "BROADCAST" | "CONFIRMED" | "INDEXED" | "REJECTED" | "FAILED" | "EXPIRED" | "RECONCILIATION_REQUIRED"; "command": Record<string, unknown>; "walletAddress": string; "chainId": 15324; "transaction": (UnsignedTransaction) | null; "review": { "asset": (string) | null; "amountAtomic": (string) | null; "quantity": (string) | null; "recipient": (string) | null; "spender": (string) | null; "unitPriceAtomic"?: (string) | null; "projectConfig"?: { "owner": string; "treasury": string; "maxFractions": string; "totalValueUSDT": string; "metadataURI": string; }; "metadataURI"?: string; }; "approvalUrl": (string) | null; "txHash": (string) | null; "receipt": (Record<string, unknown>) | null; "errorCode": (string) | null; "expiresAt": string; };
 export type TransactionPage = { "items": Array<TransactionResponse>; "nextCursor": (string) | null; };
 export type WalletChallengeResponse = { "id": string; "message": string; "expiresAt": string; };
 export type WalletBindingResponse = { "address": string; "chainId": 15324; "provider": "metamask" | "reid"; };
