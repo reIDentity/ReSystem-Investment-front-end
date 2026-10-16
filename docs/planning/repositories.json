@@ -1,0 +1,46 @@
+{
+  "workspace": "/Users/isurutmv/Developer Office/reSystem",
+  "layout": "independent sibling Git repositories under workspaces",
+  "repositories": [
+    {
+      "name": "ReSystem-Investment-front-end",
+      "path": "workspaces/ReSystem-Investment-front-end",
+      "url": "https://github.com/reIDentity/ReSystem-Investment-front-end.git",
+      "branch": "dev",
+      "responsibility": "investor",
+      "hosting": "Vercel"
+    },
+    {
+      "name": "ReSystem-Investment-admin",
+      "path": "workspaces/ReSystem-Investment-admin",
+      "url": "https://github.com/reIDentity/ReSystem-Investment-admin.git",
+      "branch": "dev",
+      "responsibility": "admin",
+      "hosting": "FP footprint.frontend"
+    },
+    {
+      "name": "ReSystem-Investment-backend",
+      "path": "workspaces/ReSystem-Investment-backend",
+      "url": "https://github.com/reIDentity/ReSystem-Investment-backend.git",
+      "branch": "dev",
+      "responsibility": "API and workers",
+      "hosting": "FP footprint.frontend"
+    },
+    {
+      "name": "ReSystem-Investment-contracts",
+      "path": "workspaces/ReSystem-Investment-contracts",
+      "url": "https://github.com/reIDentity/ReSystem-Investment-contracts.git",
+      "branch": "dev",
+      "responsibility": "INFRA UAT contracts",
+      "hosting": "INFRA chain15324"
+    },
+    {
+      "name": "ReSystem-Investment-indexer",
+      "path": "workspaces/ReSystem-Investment-indexer",
+      "url": "https://github.com/reIDentity/ReSystem-Investment-indexer.git",
+      "branch": "dev",
+      "responsibility": "chain ingestion",
+      "hosting": "FP footprint.frontend"
+    }
+  ]
+}

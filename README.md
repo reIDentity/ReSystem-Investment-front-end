@@ -1,59 +1,46 @@
 # reSystem Investment
 
-Next.js website and investor app. **Connect with reID** is the only sign-in method. Authentication uses `fpreid-connect-sdk` 0.3.0, matching Fractionaire.
+Independent Next.js investor frontend and Figma landing page. The admin, backend, indexer and smart contracts have separate repositories under the shared workspace. Start with [START_HERE.md](START_HERE.md), the [approved plan](docs/planning/RE_SYSTEM_IMPLEMENTATION_PLAN.md) and [implementation status](docs/planning/IMPLEMENTATION_STATUS.md).
+
+## Platform mode
+
+The investor app consumes the reviewed NestJS REST/OpenAPI contract through same-origin server routes. It uses actual session-bound wallet balances, published projects, confirmed activity and transaction intents. Empty, partial and unavailable states do not create balances, deposits, holdings or earnings. Bank transfer and card remain blurred and disabled as Coming soon. Support attachments and send-Max remain unavailable until their acceptance checks pass.
+
+Set these **server-only** variables in the correct investor Vercel account and redeploy reviewed `dev` after the FP API is ready:
+
+```dotenv
+PLATFORM_API_BASE=https://admin.resystem.org/v1
+PLATFORM_APP_ORIGIN=https://re-system-investment-front-end.vercel.app
+REID_APP_URL=https://app.reidentity.net
+```
+
+The connected Vercel tool account is unrelated to this investor project. Do not deploy or change another account's project. The backend owns reID credentials, token storage, sessions and approval intents in platform mode; no new frontend client secret is required. Do not use `NEXT_PUBLIC_` for these settings or any credential. Preserve the registered callback `https://re-system-investment-front-end.vercel.app/api/auth/reid/callback`.
+
+The BFF allowlists fixed API routes and methods, rejects cross-origin mutations, forwards only platform cookies, strips upstream redirect/cookie scope, never caches authenticated responses and never accepts a browser-selected wallet identity. Generated API snapshots pin version0.1.0 and SHA256 `484aa0635357fea37de78b6c32607c0b680c5c355b5d06fa0216e925204e36c2`.
+
+Connect with reID remains investor sign-in. Existing UAT client `reid_451935944a76413bbcbd2a4283098350` is separate from Fractionaire. Authentication is not wallet approval or on-chain authority. The provider safety patch has been deployed, but backend reID transaction submission remains disabled pending fresh user consent and exact wallet UAT. Do not mark full financial acceptance complete from UI or sign-in tests.
 
 ## Local development
 
-1. Install dependencies with `npm ci` (Node 22.18+).
-2. Copy `.env.example` to `.env.local` and supply the dedicated reID client credentials and a random `SESSION_SECRET` of at least 32 characters.
-3. Supply a localhost HTTPS certificate and private key in `certificates/localhost.pem` and `certificates/localhost-key.pem`. This folder and `.env.local` are gitignored. The configured machine already has its development certificates.
-4. Run `npm run dev:https` and open **https://localhost:3002/invest**.
+1. Use Node22.18+ and `npm ci`.
+2. Copy `.env.example` to `.env.local`. For platform mode set `PLATFORM_API_BASE` to the reviewed backend (example `http://127.0.0.1:3005/v1`) and `PLATFORM_APP_ORIGIN=https://localhost:3002`.
+3. Keep local HTTPS files at `certificates/localhost.pem` and `certificates/localhost-key.pem`; these and all `.env` secrets are ignored.
+4. Run `npm run dev:https` and open `https://localhost:3002`.
 
-The local callback is **https://localhost:3002/api/auth/reid/callback**. Sign-in must start on the same host as the callback. Opening the local site over a Wi-Fi IP redirects sign-in to localhost; use the deployed HTTPS site to test authentication from a phone.
+Phone authentication requires a registered reachable HTTPS origin. A phone's `localhost` points to the phone; use the deployed canonical site rather than the workstation's Wi-Fi IP for reID sign-in.
 
-## UAT authentication
+When `PLATFORM_API_BASE` is empty, the legacy read-only login remains available with the server-only variables documented in `.env.example`. Its callback performs PKCE S256/state verification, validates the reID wallet and seals an encrypted session while discarding provider tokens. It does not enable the new platform's financial workflows. Keep that legacy configuration separate from platform-mode acceptance.
 
-- API: `https://uat-wallet.reidentity.net`
-- Consent and login: `https://app.reidentity.net`
-- Client: `reid_451935944a76413bbcbd2a4283098350`
-- Name: **reSystem Investment UAT**
-- Client owner: `resystem-investment-ops`
-- Scopes: `profile`, `wallet:read`, `kyc:read`
-
-Registered and activated on 16 October 2026 through the UAT backend's authenticated client registration and approval APIs. This is a separate confidential client; the Fractionaire clients were not changed. Its secret is stored only in `.env.local`, never in browser code or this repository.
-
-Sign-in uses PKCE S256 and a random state in short-lived HttpOnly, Secure, SameSite=Lax cookies. The callback exchanges the code on the server and creates an encrypted eight-hour session containing the user's ID, display name, wallet address and verification status. reID access and refresh tokens are discarded after sign-in; no private-key export or transaction permission is requested. Investor routes validate the session on the server. Sign-out clears this app's session, while the user's reID session stays in reID.
-
-**The deposit page uses live INFRA data:** its receiving address comes from the verified reID session, and its QR encodes that same address. Recent deposits show confirmed incoming native reAED, contract-to-wallet reAED and transfers of the configured INFRA USDT contract, with actual amounts, dates and explorer links. Bank transfer and card are disabled as coming soon. Refreshing checks history; it never credits a simulated balance or submits a transaction.
-
-The authenticated `/api/invest/deposits` endpoint queries the UAT INFRA explorer without caching and ignores browser-supplied wallet addresses. It checks every 30 seconds while the page is visible and supports manual refresh. It displays up to eight recent deposits from the first page of each explorer activity source; the full wallet history link provides older activity. Explorer indexing can delay new deposits. Partial failures and unavailable history are disclosed rather than replaced with sample data. No additional environment variables are required.
-
-**Other investment data remains a demo:** sample holdings, balances, withdrawals and purchases remain simulations. They do not read balances from or send transactions to the authenticated reID wallet.
-
-## Vercel deployment
-
-Deployment URL: **https://re-system-investment-front-end.vercel.app**.
-
-Both localhost and **https://re-system-investment-front-end.vercel.app/api/auth/reid/callback** are registered on the UAT client. In Vercel Project Settings → Environment Variables, import the local `.env.vercel.local` file into the environment serving this domain, then redeploy `dev` after saving the variables. The import file is gitignored and contains:
-
-| Variable | Value |
-| --- | --- |
-| `REID_CLIENT_ID` | `reid_451935944a76413bbcbd2a4283098350` |
-| `REID_CLIENT_SECRET` | Dedicated UAT client secret; copy from the private import file |
-| `REID_REDIRECT_URI` | `https://re-system-investment-front-end.vercel.app/api/auth/reid/callback` |
-| `REID_BASE_URL` | `https://uat-wallet.reidentity.net` |
-| `REID_APP_URL` | `https://app.reidentity.net` |
-| `SESSION_SECRET` | Separate deployment session secret; copy from the private import file |
-
-All six variables are server-side. Do not add `NEXT_PUBLIC_` prefixes. Mark the client secret and session secret as sensitive/secret. New values apply after a redeploy. Preview URLs use the configured canonical domain for sign-in; register separate callbacks and clients before supporting independent preview authentication. Do not commit `.env.local`, `.env.vercel.local` or certificate keys.
-
-## Checks
+## Checks and evidence
 
 ```sh
-npm test          # Authentication security and deposit normalization/error handling
+npm test
 npm run lint
+npx tsc --noEmit
 npm run build
-npm run test:auth # HTTPS dev server must be running; uses local fixture sessions
+npm run test:auth
 ```
 
-Integration checks exercise route protection, real PKCE redirects, cancellation, logout and session-bound deposit access. A real reID sign-in requires a UAT user to log in and approve consent in their browser.
+The HTTPS integration command requires the local dev server; legacy-only cases skip when platform mode is selected. A real reID consent/approval flow requires the user's browser and wallet. The platform integration passed22tests and typecheck, with prior full lint/build and five anonymous HTTPS boundary checks. The requested homepage correction [0ebcef1](https://github.com/reIDentity/ReSystem-Investment-front-end/commit/0ebcef150c8eeb43a04972178dd98fb72abcc326) restores Figma node20:10105 values, spacing, type and dark panel, removes the extra paragraph, and passed scoped lint/typecheck plus desktop/390px visual checks. The landing design figures are authored presentation values; investor data continues to come from the API.
+
+Store actual development/testnet credentials only in protected runtime injection and the authorized private Notion Development Credentials register. Never commit secrets, session material, private user screenshots or runtime archives. The private Notion project contains the working task board, documents, service inventory and security evidence; source publication is separate from runtime readiness and financial UAT.

@@ -1,0 +1,2407 @@
+[
+  {
+    "id": "RSI-001",
+    "title": "Preserve and review the existing live deposit implementation",
+    "phase": "01 · Specification and baseline",
+    "repository": "Investor frontend",
+    "priority": "P0",
+    "objective": "Establish a safe starting point without discarding the current uncommitted work.",
+    "requirements": [
+      "Review the live wallet, QR, explorer history, disabled bank/card, dependencies, README and tests already in the working tree.",
+      "Keep verified reID authentication and blue branding; separate these existing changes from future platform work."
+    ],
+    "acceptance": [
+      "Current diff is reviewed and meaningful existing checks are recorded.",
+      "Baseline changes have a real GitHub commit before dependent implementation starts; no secrets are committed."
+    ],
+    "dependencies": [],
+    "status": "To do",
+    "commit_url": null
+  },
+  {
+    "id": "RSI-002",
+    "title": "Approve platform scope and economic decision register",
+    "phase": "01 · Specification and baseline",
+    "repository": "Cross-project",
+    "priority": "P0",
+    "objective": "Turn the confirmed requirements and remaining proposals into an explicit implementation specification.",
+    "requirements": [
+      "Record INFRA-only settlement, two payment assets, 3.6 fixed rate, ERC-1155 ownership, sold-only rewards, unrestricted receiving/trading and v1 resale.",
+      "Resolve proposed zero fees, deposit-time allocation, no guaranteed buyback and fixed implementation versions; distinguish approved rules from proposals."
+    ],
+    "acceptance": [
+      "Decision register has an owner and approval evidence for unresolved economic choices.",
+      "Frontend, contracts, backend and client wording use the same rules."
+    ],
+    "dependencies": [
+      "RSI-001"
+    ],
+    "status": "To do",
+    "commit_url": null
+  },
+  {
+    "id": "RSI-003",
+    "title": "Verify the INFRA target network and asset manifest",
+    "phase": "01 · Specification and baseline",
+    "repository": "Cross-project",
+    "priority": "P0",
+    "objective": "Establish authoritative network settings before deploying anything.",
+    "requirements": [
+      "Use the confirmed current INFRA testnet/UAT target, chain 15324, and verify HTTPS RPC, explorer, native reAED, USDT address/decimals, gas, logs and finality behavior.",
+      "Verify ERC-1155 support and reID/MetaMask connectivity; never assume the separately approved production manifest equals testnet/UAT."
+    ],
+    "acceptance": [
+      "Versioned manifest contains verified chain ID, RPC references, deployment blocks and asset metadata.",
+      "Read-only probes and network compatibility results are reproducible."
+    ],
+    "dependencies": [
+      "RSI-002"
+    ],
+    "status": "To do",
+    "commit_url": null
+  },
+  {
+    "id": "RSI-004",
+    "title": "Specify integer pricing, ownership and sale accounting",
+    "phase": "01 · Specification and baseline",
+    "repository": "Contracts",
+    "priority": "P0",
+    "objective": "Make all economic calculations exact and reviewable.",
+    "requirements": [
+      "Define fixed maximum N, total USDT atomic project value T, price T/N, exact divisibility and native conversion multiplier 3600000000000.",
+      "Specify whole-unit supply, no public burn/unrestricted mint, issued sold supply S, treasury proceeds and owner-held issued-token behavior."
+    ],
+    "acceptance": [
+      "Examples cover minimum units, large values, rejection of non-divisible values and 10-of-1000 transfers.",
+      "Ownership h/N and allocation participation h/S are separately defined and labelled."
+    ],
+    "dependencies": [
+      "RSI-002",
+      "RSI-003"
+    ],
+    "status": "To do",
+    "commit_url": null
+  },
+  {
+    "id": "RSI-005",
+    "title": "Specify reward allocation and rounding invariants",
+    "phase": "01 · Specification and baseline",
+    "repository": "Contracts",
+    "priority": "P0",
+    "objective": "Prove historical entitlements survive purchases, direct transfers and resale.",
+    "requirements": [
+      "Define per-asset funded liabilities, claim tracking, transfer corrections and settling before balance changes.",
+      "Specify no-holder rejection, duplicates/references, rounding-reserve policy and the proposed allocation record time."
+    ],
+    "acceptance": [
+      "Worked traces cover late buyers, repeated buys, partial/full exit, multiple deposits and two assets.",
+      "An invariant model states exactly who owns every funded unit and rounding remainder."
+    ],
+    "dependencies": [
+      "RSI-004"
+    ],
+    "status": "To do",
+    "commit_url": null
+  },
+  {
+    "id": "RSI-006",
+    "title": "Specify application and contract permissions",
+    "phase": "01 · Specification and baseline",
+    "repository": "Cross-project",
+    "priority": "P0",
+    "objective": "Separate staff authentication from wallet authority and unrestricted investor ownership.",
+    "requirements": [
+      "Define staff RBAC, project-scoped assignments, wallet bindings, two-step changes and emergency capabilities.",
+      "No reID/KYC allowlist gates fraction transfers or contract trading; choose admin MFA and treasury signer policies."
+    ],
+    "acceptance": [
+      "Permission matrix enumerates every privileged UI/API/contract operation.",
+      "Recovery, revocation and separation-of-duty cases are documented and approved."
+    ],
+    "dependencies": [
+      "RSI-002"
+    ],
+    "status": "To do",
+    "commit_url": null
+  },
+  {
+    "id": "RSI-007",
+    "title": "Audit existing UI and Figma flows against live behavior",
+    "phase": "01 · Specification and baseline",
+    "repository": "Cross-project",
+    "priority": "P1",
+    "objective": "Capture all minor UI requirements without preserving misleading demo behavior.",
+    "requirements": [
+      "Inventory homepage, all 14 investor designs, responsive states, branding, icons, metadata, accessibility and wallet flows.",
+      "Record replacements for fabricated metrics, instant sellback, sample support/notifications and confusing claim versus withdrawal actions."
+    ],
+    "acceptance": [
+      "Screen-to-feature coverage matrix maps every existing navigation target and major state.",
+      "Empty, loading, failure, indexing-delay and transaction-progress states are specified."
+    ],
+    "dependencies": [
+      "RSI-002"
+    ],
+    "status": "To do",
+    "commit_url": null
+  },
+  {
+    "id": "RSI-008",
+    "title": "Approve API, event and lifecycle acceptance contracts",
+    "phase": "01 · Specification and baseline",
+    "repository": "Cross-project",
+    "priority": "P0",
+    "objective": "Provide shared testable interfaces for independent repositories.",
+    "requirements": [
+      "Specify transaction state machines, identifiers, event ordering, idempotency keys and canonical command inputs.",
+      "Define end-to-end scenarios and data provenance for every balance, price, reward and activity entry."
+    ],
+    "acceptance": [
+      "OpenAPI/event schemas and acceptance scenarios are versioned.",
+      "No endpoint accepts unvalidated arbitrary calldata or browser-supplied identity authority."
+    ],
+    "dependencies": [
+      "RSI-004",
+      "RSI-005",
+      "RSI-006",
+      "RSI-007"
+    ],
+    "status": "To do",
+    "commit_url": null
+  },
+  {
+    "id": "RSI-009",
+    "title": "Create and configure the five independent repositories",
+    "phase": "02 · Repository and platform foundations",
+    "repository": "Cross-project",
+    "priority": "P0",
+    "objective": "Keep frontends, backend, contracts and indexer independently deployable.",
+    "requirements": [
+      "Retain the existing investor repository and create separate admin, backend, contracts and indexer repositories.",
+      "Add repository instructions, protected branches, ownership, dependency lockfiles and no cross-repository relative imports."
+    ],
+    "acceptance": [
+      "Each repository can be cloned, checked and built independently.",
+      "Repository registry records URLs and release responsibilities."
+    ],
+    "dependencies": [
+      "RSI-008"
+    ],
+    "status": "To do",
+    "commit_url": null
+  },
+  {
+    "id": "RSI-010",
+    "title": "Publish versioned shared interface artifacts",
+    "phase": "02 · Repository and platform foundations",
+    "repository": "Cross-project",
+    "priority": "P0",
+    "objective": "Synchronize contract ABIs, deployment manifests and API clients across repositories.",
+    "requirements": [
+      "Generate contract ABI/type packages and OpenAPI clients from versioned releases.",
+      "Pin artifact versions and reject accidental network/address mismatches."
+    ],
+    "acceptance": [
+      "Consumer builds use pinned artifacts rather than copied stale interfaces.",
+      "A compatibility check detects mismatched schemas and deployment manifests."
+    ],
+    "dependencies": [
+      "RSI-009"
+    ],
+    "status": "To do",
+    "commit_url": null
+  },
+  {
+    "id": "RSI-011",
+    "title": "Set up independent CI and quality gates",
+    "phase": "02 · Repository and platform foundations",
+    "repository": "Cross-project",
+    "priority": "P0",
+    "objective": "Require repeatable checks before merging or deploying.",
+    "requirements": [
+      "Configure type checks, lint, relevant unit/integration tests, production builds and contract checks by repository.",
+      "Use protected CI credentials and dependency/secret scanning without logging secrets."
+    ],
+    "acceptance": [
+      "A sample change runs required checks in each repository.",
+      "Release artifacts identify source commit and toolchain versions."
+    ],
+    "dependencies": [
+      "RSI-009"
+    ],
+    "status": "To do",
+    "commit_url": null
+  },
+  {
+    "id": "RSI-012",
+    "title": "Define secure environment and credential provisioning",
+    "phase": "02 · Repository and platform foundations",
+    "repository": "Cross-project",
+    "priority": "P0",
+    "objective": "Provision authorized development/testnet credentials and establish the private Notion register, runtime boundaries and production rotation gate.",
+    "requirements": [
+      "Record actual project development/testnet credential values only in the dedicated private Notion Development Credentials page under the user's existing authorization; general documents, Services records and task bodies link to it without literal values.",
+      "Define per-environment variables, server-only reID/Pinata secrets, protected runtime injection, rotation ownership and sanitized examples; existing development/testnet credentials may be used for authorized development and must be rotated before live production.",
+      "Maintain the private Notion Services inventory as tools/services are added or changed, including purpose, environment, owner, hosting target, verified runtime status and credential-page reference."
+    ],
+    "acceptance": [
+      "No literal credential appears in source, Git, local handoffs, general documents, task bodies, client PDF, generated clients, public frontend bundles or logs; the dedicated private Notion credential page is the authorized documentation exception.",
+      "Environment validation fails clearly on missing required values; production release checks require rotation without blocking current authorized testnet use.",
+      "The private credential register and Services inventory are linked from the project, with current values confined to the credential page and hosting targets distinguished from verified deployment state."
+    ],
+    "dependencies": [
+      "RSI-009",
+      "RSI-003"
+    ],
+    "status": "To do",
+    "commit_url": null
+  },
+  {
+    "id": "RSI-013",
+    "title": "Scaffold the standalone backend service",
+    "phase": "02 · Repository and platform foundations",
+    "repository": "Backend",
+    "priority": "P0",
+    "objective": "Provide the NestJS/TypeScript service and infrastructure foundation.",
+    "requirements": [
+      "Configure PostgreSQL/Prisma, health checks, structured logs, validation, graceful shutdown and a Docker runtime targeting the FP server accessed through Teleport.",
+      "Add migration, local-development and API-versioning conventions; document the backend and PostgreSQL hosting target and actual runtime status in the private Notion Services inventory."
+    ],
+    "acceptance": [
+      "Service starts independently with a clean database and passes health checks.",
+      "API rejects malformed requests and redacts confidential values."
+    ],
+    "dependencies": [
+      "RSI-009",
+      "RSI-012"
+    ],
+    "status": "To do",
+    "commit_url": null
+  },
+  {
+    "id": "RSI-014",
+    "title": "Design and migrate authoritative off-chain data models",
+    "phase": "02 · Repository and platform foundations",
+    "repository": "Backend",
+    "priority": "P0",
+    "objective": "Store private workflows and rebuildable chain projections with clear boundaries.",
+    "requirements": [
+      "Model investors/connections, staff/roles/sessions, projects/revisions/media, intents, activity projections, support, notifications and audit records.",
+      "Use exact integer quantities and immutable chain-event identity; avoid treating projections as custody or settlement authority."
+    ],
+    "acceptance": [
+      "Migration and rollback/recovery procedures run on an empty test database.",
+      "Constraints cover uniqueness, ownership scope, event deduplication and referential integrity."
+    ],
+    "dependencies": [
+      "RSI-013",
+      "RSI-008"
+    ],
+    "status": "To do",
+    "commit_url": null
+  },
+  {
+    "id": "RSI-015",
+    "title": "Configure background jobs and retry policies",
+    "phase": "02 · Repository and platform foundations",
+    "repository": "Backend",
+    "priority": "P1",
+    "objective": "Run durable non-interactive work outside frontend request lifetimes.",
+    "requirements": [
+      "Set up Redis/BullMQ for reID status checks, notifications, media jobs and operational retries, targeting the FP server accessed through Teleport.",
+      "Use bounded retries, idempotency and dead-letter/manual-recovery handling; maintain separate Redis/worker entries and actual deployment status in the private Notion Services inventory."
+    ],
+    "acceptance": [
+      "Restarting a worker does not duplicate a financial command or notification.",
+      "Failed jobs expose actionable status without leaking tokens."
+    ],
+    "dependencies": [
+      "RSI-013",
+      "RSI-014"
+    ],
+    "status": "To do",
+    "commit_url": null
+  },
+  {
+    "id": "RSI-016",
+    "title": "Pin and scaffold the Solidity toolchain",
+    "phase": "02 · Repository and platform foundations",
+    "repository": "Contracts",
+    "priority": "P0",
+    "objective": "Start with an INFRA-compatible, reproducible contract toolchain.",
+    "requirements": [
+      "Pin Solidity, EVM target, OpenZeppelin, Foundry and formatter/static-analysis settings after network probes.",
+      "Add deployment registry structure, test utilities and adversarial receiver/token fixtures."
+    ],
+    "acceptance": [
+      "Local compilation and initial test suite run reproducibly.",
+      "INFRA compatibility evidence is attached before implementation deployment."
+    ],
+    "dependencies": [
+      "RSI-009",
+      "RSI-003",
+      "RSI-012"
+    ],
+    "status": "To do",
+    "commit_url": null
+  },
+  {
+    "id": "RSI-017",
+    "title": "Implement the master project registry and factory",
+    "phase": "03 · Smart contracts",
+    "repository": "Contracts",
+    "priority": "P0",
+    "objective": "Create and discover a distinct contract address for every project.",
+    "requirements": [
+      "Implement createProject, getProject, isRegisteredProject and implementation-version reads with initialization validation.",
+      "Emit ProjectCreated including project ID, address, implementation and economic/metadata references."
+    ],
+    "acceptance": [
+      "Only authorized creators publish registered projects and duplicate IDs are rejected.",
+      "Two projects have independent supply, funds and administration."
+    ],
+    "dependencies": [
+      "RSI-016",
+      "RSI-004",
+      "RSI-006"
+    ],
+    "status": "To do",
+    "commit_url": null
+  },
+  {
+    "id": "RSI-018",
+    "title": "Implement fixed-version project deployment and initialization",
+    "phase": "03 · Smart contracts",
+    "repository": "Contracts",
+    "priority": "P0",
+    "objective": "Deploy gas-efficient project contracts without silent upgrades.",
+    "requirements": [
+      "Use ERC-1167 clones if the approved fixed-implementation model is retained.",
+      "Prevent uninitialized/duplicate initialization; version future implementations and validate all addresses."
+    ],
+    "acceptance": [
+      "Unprivileged initialization and implementation substitution attempts fail.",
+      "New implementation versions do not alter existing project contracts."
+    ],
+    "dependencies": [
+      "RSI-017",
+      "RSI-002"
+    ],
+    "status": "To do",
+    "commit_url": null
+  },
+  {
+    "id": "RSI-019",
+    "title": "Implement ERC-1155 ownership and fixed supply",
+    "phase": "03 · Smart contracts",
+    "repository": "Contracts",
+    "priority": "P0",
+    "objective": "Represent whole transferable project fractions as token ID 1.",
+    "requirements": [
+      "Expose ERC-1155 balance/transfer/approval/interface support and enforce immutable maximum supply.",
+      "Mint only from verified primary purchases; omit unrestricted mint and public burn."
+    ],
+    "acceptance": [
+      "Buy 1000 and transfer 10 produces balances 990/10 with unchanged issued supply.",
+      "Invalid IDs, excess supply and malformed receivers revert correctly."
+    ],
+    "dependencies": [
+      "RSI-018",
+      "RSI-004"
+    ],
+    "status": "To do",
+    "commit_url": null
+  },
+  {
+    "id": "RSI-020",
+    "title": "Implement exact quotes and economic getters",
+    "phase": "03 · Smart contracts",
+    "repository": "Contracts",
+    "priority": "P0",
+    "objective": "Return canonical prices without floating-point or exchange-rate ambiguity.",
+    "requirements": [
+      "Expose project value, maximum/issued/remaining supply, reAED and USDT prices and quotePurchase.",
+      "Use USDT atomic canonical price and exact 3.6 reAED conversion, with bounded quantity and stale-quote checks."
+    ],
+    "acceptance": [
+      "Quotes match contract charges across boundary values.",
+      "Unsupported decimals and non-divisible project values cannot publish."
+    ],
+    "dependencies": [
+      "RSI-019",
+      "RSI-004"
+    ],
+    "status": "To do",
+    "commit_url": null
+  },
+  {
+    "id": "RSI-021",
+    "title": "Implement primary-sale lifecycle and authorization",
+    "phase": "03 · Smart contracts",
+    "repository": "Contracts",
+    "priority": "P0",
+    "objective": "Control when new fractions can be purchased.",
+    "requirements": [
+      "Implement openSale, closeSale, sale state reads and role-restricted lifecycle changes.",
+      "Separate sale closure, archival and emergency suspension from ownership and historical claims."
+    ],
+    "acceptance": [
+      "Purchases fail outside permitted sale state and remaining supply.",
+      "Sale events and authority transitions are complete and testable."
+    ],
+    "dependencies": [
+      "RSI-020",
+      "RSI-006"
+    ],
+    "status": "To do",
+    "commit_url": null
+  },
+  {
+    "id": "RSI-022",
+    "title": "Implement native reAED purchases",
+    "phase": "03 · Smart contracts",
+    "repository": "Contracts",
+    "priority": "P0",
+    "objective": "Collect native payment and mint fractions atomically.",
+    "requirements": [
+      "Implement buyWithReAED with exact msg.value, quantity, recipient and expected-price validation.",
+      "Protect balance changes/revenue settlement hooks against reentrancy."
+    ],
+    "acceptance": [
+      "Successful receipt includes correct mint and purchase event.",
+      "Underpayment, overpayment, stale quote and receiver failure revert payment and mint."
+    ],
+    "dependencies": [
+      "RSI-021",
+      "RSI-025"
+    ],
+    "status": "To do",
+    "commit_url": null
+  },
+  {
+    "id": "RSI-023",
+    "title": "Implement verified USDT purchases",
+    "phase": "03 · Smart contracts",
+    "repository": "Contracts",
+    "priority": "P0",
+    "objective": "Support direct USDT payment without implicit swaps.",
+    "requirements": [
+      "Implement buyWithUSDT using verified address and SafeERC20; check actual received value.",
+      "Handle allowance flow explicitly; do not assume permit or fee-on-transfer support."
+    ],
+    "acceptance": [
+      "Exact USDT payment mints the quoted quantity and updates proceeds.",
+      "Missing allowance, false-return token behavior and mismatched receipts cannot create ownership."
+    ],
+    "dependencies": [
+      "RSI-021",
+      "RSI-025"
+    ],
+    "status": "To do",
+    "commit_url": null
+  },
+  {
+    "id": "RSI-024",
+    "title": "Implement isolated primary-sale proceeds",
+    "phase": "03 · Smart contracts",
+    "repository": "Contracts",
+    "priority": "P0",
+    "objective": "Let authorized treasuries collect investment principal without touching rewards.",
+    "requirements": [
+      "Track reAED/USDT sale proceeds independently from funded rewards and marketplace funds.",
+      "Implement withdrawSaleProceeds with recipient restrictions, liability checks and events."
+    ],
+    "acceptance": [
+      "Unauthorized or excessive withdrawals revert.",
+      "Primary-sale withdrawals cannot reduce amounts owed to reward claimants."
+    ],
+    "dependencies": [
+      "RSI-022",
+      "RSI-023",
+      "RSI-006"
+    ],
+    "status": "To do",
+    "commit_url": null
+  },
+  {
+    "id": "RSI-025",
+    "title": "Implement transfer-safe per-asset reward accounting",
+    "phase": "03 · Smart contracts",
+    "repository": "Contracts",
+    "priority": "P0",
+    "objective": "Keep allocated rewards with the historical holder.",
+    "requirements": [
+      "Implement cumulative allocation and balance-update corrections for mint, direct/batch transfer and resale.",
+      "Track per-wallet accrued/claimed amounts for both assets and protect historical reserves from late buyers."
+    ],
+    "acceptance": [
+      "Late purchases and partial/full transfers preserve all prior-holder entitlements.",
+      "Independent reference-model traces and invariants match exact integer accounting."
+    ],
+    "dependencies": [
+      "RSI-019",
+      "RSI-005"
+    ],
+    "status": "To do",
+    "commit_url": null
+  },
+  {
+    "id": "RSI-026",
+    "title": "Implement actual revenue deposits and references",
+    "phase": "03 · Smart contracts",
+    "repository": "Contracts",
+    "priority": "P0",
+    "objective": "Allocate only real received revenue to eligible issued fractions.",
+    "requirements": [
+      "Implement depositRevenueReAED and depositRevenueUSDT with authorized funders, sold-supply snapshot and unique references.",
+      "Reject no-holder allocation, duplicate references and unexpected token behavior; emit funding details and reporting references."
+    ],
+    "acceptance": [
+      "A real deposit creates liabilities only for balances eligible under the approved record rule.",
+      "No database or yield edit can create claimable rewards."
+    ],
+    "dependencies": [
+      "RSI-025",
+      "RSI-006"
+    ],
+    "status": "To do",
+    "commit_url": null
+  },
+  {
+    "id": "RSI-027",
+    "title": "Implement individual reward reads and claims",
+    "phase": "03 · Smart contracts",
+    "repository": "Contracts",
+    "priority": "P0",
+    "objective": "Pay actual funded rewards in their original asset.",
+    "requirements": [
+      "Implement claimable, claim and claimBoth with checks-effects-interactions and immutable recipient ownership.",
+      "Allow previous holders with zero current fractions to claim accrued rewards."
+    ],
+    "acceptance": [
+      "Claimed amount cannot exceed wallet entitlement or pool funding.",
+      "Repeated claims, failed payouts and reentrancy do not double-pay or corrupt balances."
+    ],
+    "dependencies": [
+      "RSI-026"
+    ],
+    "status": "To do",
+    "commit_url": null
+  },
+  {
+    "id": "RSI-028",
+    "title": "Implement bounded multi-project claims",
+    "phase": "03 · Smart contracts",
+    "repository": "Contracts",
+    "priority": "P1",
+    "objective": "Let investors collect multiple project rewards safely.",
+    "requirements": [
+      "Implement bounded claim batches using only factory-registered projects.",
+      "A routed claim always pays the entitled holder; specify partial-failure behavior."
+    ],
+    "acceptance": [
+      "Batch size/gas bounds and mixed-success cases follow the approved API.",
+      "Caller cannot redirect another holder’s rewards."
+    ],
+    "dependencies": [
+      "RSI-027",
+      "RSI-017"
+    ],
+    "status": "To do",
+    "commit_url": null
+  },
+  {
+    "id": "RSI-029",
+    "title": "Implement anchored metadata and manual yield revisions",
+    "phase": "03 · Smart contracts",
+    "repository": "Contracts",
+    "priority": "P1",
+    "objective": "Publish presentation data without changing economic rights.",
+    "requirements": [
+      "Implement versioned metadata URI updates/freezing and setIndicativeYield with period/effective date.",
+      "Emit auditable revision events; keep price/supply/reward allocation independent of yield."
+    ],
+    "acceptance": [
+      "Yield changes alter display only and cannot mint or allocate money.",
+      "Frozen metadata and unauthorized updates are enforced."
+    ],
+    "dependencies": [
+      "RSI-018",
+      "RSI-006"
+    ],
+    "status": "To do",
+    "commit_url": null
+  },
+  {
+    "id": "RSI-030",
+    "title": "Implement roles, two-step changes and scoped pauses",
+    "phase": "03 · Smart contracts",
+    "repository": "Contracts",
+    "priority": "P0",
+    "objective": "Bound privileged operations and preserve investor rights during incidents.",
+    "requirements": [
+      "Apply project/factory/marketplace roles, two-step owner/treasury changes and approved signer policy.",
+      "Scope purchase, listing, funding and emergency controls separately; explicitly decide any transfer/claim pause powers."
+    ],
+    "acceptance": [
+      "Permission matrix is enforced by negative tests for every privileged function.",
+      "Revocation and recovery work without broad admin seizure/withdrawal capabilities."
+    ],
+    "dependencies": [
+      "RSI-006",
+      "RSI-017",
+      "RSI-021",
+      "RSI-026"
+    ],
+    "status": "To do",
+    "commit_url": null
+  },
+  {
+    "id": "RSI-031",
+    "title": "Implement on-chain resale listing lifecycle",
+    "phase": "03 · Smart contracts",
+    "repository": "Contracts",
+    "priority": "P0",
+    "objective": "Let holders offer a whole fraction quantity without custody escrow.",
+    "requirements": [
+      "Implement createListing, getListing, cancelListing, expiry, chosen settlement asset and remaining quantity.",
+      "Validate registered project, unit price, seller, approvals and current balance; leave fractions with seller until fill."
+    ],
+    "acceptance": [
+      "Seller retains ownership/revenue while a listing remains unfilled.",
+      "Expired, cancelled, unapproved and underfunded listings cannot fill."
+    ],
+    "dependencies": [
+      "RSI-019",
+      "RSI-017",
+      "RSI-004"
+    ],
+    "status": "To do",
+    "commit_url": null
+  },
+  {
+    "id": "RSI-032",
+    "title": "Implement partial-fill quote and listing availability",
+    "phase": "03 · Smart contracts",
+    "repository": "Contracts",
+    "priority": "P0",
+    "objective": "Give deterministic trade prices and available quantities.",
+    "requirements": [
+      "Implement quoteFill with exact integer units and clear remaining-versus-available semantics.",
+      "Specify rate policy for resale price inputs and zero-fee proposal; validate deadline/expected amount protection."
+    ],
+    "acceptance": [
+      "A 1000-fraction listing supports multiple bounded fills.",
+      "Competing fills and direct seller transfers cannot oversell."
+    ],
+    "dependencies": [
+      "RSI-031",
+      "RSI-002"
+    ],
+    "status": "To do",
+    "commit_url": null
+  },
+  {
+    "id": "RSI-033",
+    "title": "Implement atomic reAED resale fills",
+    "phase": "03 · Smart contracts",
+    "repository": "Contracts",
+    "priority": "P0",
+    "objective": "Settle native trades and transfer the correct fraction quantity together.",
+    "requirements": [
+      "Implement fillWithReAED with exact payment, listing state update and ERC-1155 transfer.",
+      "Credit isolated seller proceeds and run transfer reward correction hooks."
+    ],
+    "acceptance": [
+      "A failed token receipt reverts buyer payment, fill and proceeds accounting.",
+      "Partial-fill quantity and historical reward ownership remain correct."
+    ],
+    "dependencies": [
+      "RSI-032",
+      "RSI-025"
+    ],
+    "status": "To do",
+    "commit_url": null
+  },
+  {
+    "id": "RSI-034",
+    "title": "Implement atomic USDT resale fills",
+    "phase": "03 · Smart contracts",
+    "repository": "Contracts",
+    "priority": "P0",
+    "objective": "Settle approved USDT trades with the same ownership guarantees.",
+    "requirements": [
+      "Implement fillWithUSDT with verified token/received-value checks and atomic fraction transfer.",
+      "Validate buyer allowances, asset choice, deadlines and expected cost."
+    ],
+    "acceptance": [
+      "Successful trades collect exact USDT and credit the seller’s correct proceeds.",
+      "False/failed transfers and malicious callbacks cannot take fractions without payment."
+    ],
+    "dependencies": [
+      "RSI-032",
+      "RSI-025"
+    ],
+    "status": "To do",
+    "commit_url": null
+  },
+  {
+    "id": "RSI-035",
+    "title": "Implement seller proceeds withdrawal",
+    "phase": "03 · Smart contracts",
+    "repository": "Contracts",
+    "priority": "P0",
+    "objective": "Keep resale income independently withdrawable on-chain.",
+    "requirements": [
+      "Expose proceeds by seller and asset and implement withdrawProceeds with authorized beneficiary.",
+      "Define failure/retry handling and emit proceeds withdrawal events."
+    ],
+    "acceptance": [
+      "Seller can collect completed-sale proceeds once only.",
+      "No project owner, buyer or marketplace admin can withdraw another seller’s proceeds."
+    ],
+    "dependencies": [
+      "RSI-033",
+      "RSI-034"
+    ],
+    "status": "To do",
+    "commit_url": null
+  },
+  {
+    "id": "RSI-036",
+    "title": "Finalize ABI, event coverage and deployed-address artifacts",
+    "phase": "03 · Smart contracts",
+    "repository": "Contracts",
+    "priority": "P1",
+    "objective": "Make every important financial and administrative action observable.",
+    "requirements": [
+      "Cover creation, purchases, transfers, sale states, revenue, claims, yield/metadata, listing/fill/proceeds and roles.",
+      "Publish generated ABIs, event schemas, deployment manifests and initialization arguments."
+    ],
+    "acceptance": [
+      "Indexer consumers decode representative events without handwritten mismatched ABIs.",
+      "Artifacts include chain, implementation version, address and deployment block."
+    ],
+    "dependencies": [
+      "RSI-024",
+      "RSI-028",
+      "RSI-029",
+      "RSI-030",
+      "RSI-035",
+      "RSI-010"
+    ],
+    "status": "To do",
+    "commit_url": null
+  },
+  {
+    "id": "RSI-037",
+    "title": "Complete contract unit and adversarial integration tests",
+    "phase": "03 · Smart contracts",
+    "repository": "Contracts",
+    "priority": "P0",
+    "objective": "Validate successful and failed operations across all contract functions.",
+    "requirements": [
+      "Cover authorization, initialization, ERC-1155 receivers, ERC-20 edge cases, native handling and event correctness.",
+      "Include purchase/transfer/resale/funding/claim/treasury sequences and every contract revert boundary."
+    ],
+    "acceptance": [
+      "Pinned Foundry suite passes with documented coverage and gas reports.",
+      "Known failure scenarios prove atomic rollback and liability segregation."
+    ],
+    "dependencies": [
+      "RSI-036"
+    ],
+    "status": "To do",
+    "commit_url": null
+  },
+  {
+    "id": "RSI-038",
+    "title": "Complete reference-model, fuzz and invariant testing",
+    "phase": "03 · Smart contracts",
+    "repository": "Contracts",
+    "priority": "P0",
+    "objective": "Test economic safety over randomized sequences and precision boundaries.",
+    "requirements": [
+      "Assert supply, no oversells, no historical reward leakage, no overclaim, funded conservation and proceeds isolation.",
+      "Compare multiple actors/assets, partial/full exits, concurrent ordering and rounding against an independent model."
+    ],
+    "acceptance": [
+      "Long-run randomized suites pass with fixed reproducible seeds and failure traces.",
+      "Every invariant has an explicit specification and regression test."
+    ],
+    "dependencies": [
+      "RSI-037",
+      "RSI-005"
+    ],
+    "status": "To do",
+    "commit_url": null
+  },
+  {
+    "id": "RSI-039",
+    "title": "Migrate real investor reID sessions to the standalone backend",
+    "phase": "04 · Backend services",
+    "repository": "Backend",
+    "priority": "P0",
+    "objective": "Preserve working login while removing business/auth persistence from the frontend.",
+    "requirements": [
+      "Implement start/callback, PKCE/state, user mapping, logout, session expiry/revocation and safe frontend proxies.",
+      "Derive wallet/identity from verified reID responses; preserve exact registered callback origins."
+    ],
+    "acceptance": [
+      "Login/logout and expired/invalid sessions pass integration tests.",
+      "No browser-supplied address can impersonate a connected investor."
+    ],
+    "dependencies": [
+      "RSI-014",
+      "RSI-012",
+      "RSI-001"
+    ],
+    "status": "To do",
+    "commit_url": null
+  },
+  {
+    "id": "RSI-040",
+    "title": "Implement encrypted reID connection and transaction scopes",
+    "phase": "04 · Backend services",
+    "repository": "Backend",
+    "priority": "P0",
+    "objective": "Support actual wallet transaction approvals beyond read-only login.",
+    "requirements": [
+      "Verify wallet:tx consent with provider; store access/refresh tokens encrypted server-side and rotate refresh tokens.",
+      "Handle expiry, reconnect, revoked grants and connection-specific scope checks."
+    ],
+    "acceptance": [
+      "A consented UAT account can approve a harmless verified transaction intent.",
+      "Secrets never enter browser responses, URLs or logs; revoked connections fail safely."
+    ],
+    "dependencies": [
+      "RSI-039",
+      "RSI-003"
+    ],
+    "status": "To do",
+    "commit_url": null
+  },
+  {
+    "id": "RSI-041",
+    "title": "Implement administrator username/password and MFA",
+    "phase": "04 · Backend services",
+    "repository": "Backend",
+    "priority": "P0",
+    "objective": "Authenticate staff independently from wallet connections.",
+    "requirements": [
+      "Use Argon2id passwords, MFA for privileged roles, invites, recovery, suspension and session management.",
+      "Apply login throttles, secure cookies, CSRF protections where relevant and audit events."
+    ],
+    "acceptance": [
+      "Valid staff login works and rejected/locked/expired/recovered cases are tested.",
+      "Connecting a wallet alone cannot create an admin session or role."
+    ],
+    "dependencies": [
+      "RSI-014",
+      "RSI-006"
+    ],
+    "status": "To do",
+    "commit_url": null
+  },
+  {
+    "id": "RSI-042",
+    "title": "Implement staff roles, permissions and project assignments",
+    "phase": "04 · Backend services",
+    "repository": "Backend",
+    "priority": "P0",
+    "objective": "Enforce authorization at every privileged API boundary.",
+    "requirements": [
+      "Implement role CRUD, permission assignment, staff invites/suspension and project-scoped memberships.",
+      "Mirror on-chain signing requirements without confusing database roles with contract authority."
+    ],
+    "acceptance": [
+      "Each privileged endpoint has allow/deny tests for the permission matrix.",
+      "Scope escalation and self-promotion attempts are rejected and audited."
+    ],
+    "dependencies": [
+      "RSI-041",
+      "RSI-006"
+    ],
+    "status": "To do",
+    "commit_url": null
+  },
+  {
+    "id": "RSI-043",
+    "title": "Implement authenticated admin wallet binding",
+    "phase": "04 · Backend services",
+    "repository": "Backend",
+    "priority": "P0",
+    "objective": "Link MetaMask/reID signers to authorized staff records.",
+    "requirements": [
+      "Verify nonce/domain/chain-bound proof of wallet control and manage bindings/revocations.",
+      "Require an allowed signing wallet plus app permission for admin transaction commands."
+    ],
+    "acceptance": [
+      "Replayed signatures and cross-user/cross-chain binding attempts fail.",
+      "Removed staff/bindings cannot prepare newly privileged actions."
+    ],
+    "dependencies": [
+      "RSI-042",
+      "RSI-040"
+    ],
+    "status": "To do",
+    "commit_url": null
+  },
+  {
+    "id": "RSI-044",
+    "title": "Implement Pinata/IPFS upload and media validation",
+    "phase": "04 · Backend services",
+    "repository": "Backend",
+    "priority": "P1",
+    "objective": "Publish safe public assets through server-controlled upload flows.",
+    "requirements": [
+      "Validate image/document size, type and metadata; use authorized server-only development/testnet Pinata credentials from protected runtime storage and rotate before live production.",
+      "Track CIDs, upload status, draft ownership and immutable published revisions; exclude private identity material and register Pinata as an external integration in the private Notion Services inventory."
+    ],
+    "acceptance": [
+      "Uploaded project assets resolve and published metadata refers to exact CIDs.",
+      "Unauthorized uploads and unsafe/private asset exposure are prevented."
+    ],
+    "dependencies": [
+      "RSI-012",
+      "RSI-014",
+      "RSI-015"
+    ],
+    "status": "To do",
+    "commit_url": null
+  },
+  {
+    "id": "RSI-045",
+    "title": "Implement project draft, review and publishing APIs",
+    "phase": "04 · Backend services",
+    "repository": "Backend",
+    "priority": "P0",
+    "objective": "Manage project creation without making the database the settlement authority.",
+    "requirements": [
+      "Implement CRUD for drafts, economics validation, media/document associations, review and publish requests.",
+      "Track deployment receipts, metadata revisions, archive state and manual yield changes."
+    ],
+    "acceptance": [
+      "A draft cannot appear as an investable on-chain project before confirmed publication.",
+      "Contract values and metadata revisions reconcile with published API records."
+    ],
+    "dependencies": [
+      "RSI-044",
+      "RSI-042",
+      "RSI-004",
+      "RSI-036"
+    ],
+    "status": "To do",
+    "commit_url": null
+  },
+  {
+    "id": "RSI-046",
+    "title": "Implement canonical transaction command orchestration",
+    "phase": "04 · Backend services",
+    "repository": "Backend",
+    "priority": "P0",
+    "objective": "Prepare safe, idempotent transactions from typed business actions.",
+    "requirements": [
+      "Support purchase, transfer, approvals, listing/fill/cancel, claims, proceeds, wallet sending and admin project/revenue commands.",
+      "Validate allowlisted chain/contract/function/asset inputs, simulate, estimate gas and enforce intent ownership/idempotency."
+    ],
+    "acceptance": [
+      "Duplicate requests do not create duplicate executable actions.",
+      "Arbitrary calldata, wrong recipient, invalid wallet and unsupported network inputs fail before approval."
+    ],
+    "dependencies": [
+      "RSI-040",
+      "RSI-043",
+      "RSI-036",
+      "RSI-008"
+    ],
+    "status": "To do",
+    "commit_url": null
+  },
+  {
+    "id": "RSI-047",
+    "title": "Implement approval, broadcast, receipt and confirmation tracking",
+    "phase": "04 · Backend services",
+    "repository": "Backend",
+    "priority": "P0",
+    "objective": "Display truthful transaction state through completion and indexing.",
+    "requirements": [
+      "Handle Created, Awaiting approval, Broadcast, Confirmed and Indexed plus rejection/expiry/failure states.",
+      "Reconcile timeouts, provider retries and receipts after process restarts; never treat a hash as success."
+    ],
+    "acceptance": [
+      "Rejected, reverted, delayed and successful UAT flows have correct recoverable states.",
+      "A confirmed action can be traced to receipt and indexed event evidence."
+    ],
+    "dependencies": [
+      "RSI-046",
+      "RSI-015"
+    ],
+    "status": "To do",
+    "commit_url": null
+  },
+  {
+    "id": "RSI-048",
+    "title": "Implement actual portfolio and holdings APIs",
+    "phase": "04 · Backend services",
+    "repository": "Backend",
+    "priority": "P1",
+    "objective": "Replace simulated investment balances with on-chain projections.",
+    "requirements": [
+      "Expose per-project ERC-1155 balances, h/N ownership, h/S participation, acquisitions and cost-basis records.",
+      "Separate actual transaction cost from indicative owner-entered valuations and show unknown values honestly."
+    ],
+    "acceptance": [
+      "API holdings reconcile to chain reads for tested wallets.",
+      "No invented balance, return or guaranteed valuation appears in responses."
+    ],
+    "dependencies": [
+      "RSI-014",
+      "RSI-061"
+    ],
+    "status": "To do",
+    "commit_url": null
+  },
+  {
+    "id": "RSI-049",
+    "title": "Implement revenue, claim and manual-yield APIs",
+    "phase": "04 · Backend services",
+    "repository": "Backend",
+    "priority": "P1",
+    "objective": "Expose funded income distinctly from presentation yield.",
+    "requirements": [
+      "Return per-asset funding, allocation, claimable/claimed values and report/document references.",
+      "Prepare authorized revenue funding, yield changes and holder claims through canonical intents."
+    ],
+    "acceptance": [
+      "Changing yield cannot change funded claimable values.",
+      "Per-wallet totals match contract reads and funding/claim events."
+    ],
+    "dependencies": [
+      "RSI-046",
+      "RSI-062"
+    ],
+    "status": "To do",
+    "commit_url": null
+  },
+  {
+    "id": "RSI-050",
+    "title": "Implement marketplace listings, trades and proceeds APIs",
+    "phase": "04 · Backend services",
+    "repository": "Backend",
+    "priority": "P1",
+    "objective": "Provide browsable resale views without overriding contract truth.",
+    "requirements": [
+      "Expose paginated/filterable listings, available quantities, expiry, approvals, fills, history and seller proceeds.",
+      "Prepare listing, cancel, fill, approval and withdrawal intents with fresh on-chain availability checks."
+    ],
+    "acceptance": [
+      "Stale/offline projections cannot authorize an invalid trade.",
+      "Partial fills and revoked/insufficient balances produce correct UI-readable states."
+    ],
+    "dependencies": [
+      "RSI-046",
+      "RSI-063"
+    ],
+    "status": "To do",
+    "commit_url": null
+  },
+  {
+    "id": "RSI-051",
+    "title": "Implement actual balances, wallet deposits and sending APIs",
+    "phase": "04 · Backend services",
+    "repository": "Backend",
+    "priority": "P0",
+    "objective": "Unify deposit ingestion and wallet operations for verified users.",
+    "requirements": [
+      "Expose native/USDT balances, session-derived address/QR, real incoming/outgoing transactions and gas reserve checks.",
+      "Migrate the existing live deposit behavior; bank/card stay unavailable and refresh never credits invented money."
+    ],
+    "acceptance": [
+      "Different signed-in users see only their own wallet views.",
+      "Amount precision, QR payload and chain provenance are verified; outgoing sends require wallet approval."
+    ],
+    "dependencies": [
+      "RSI-039",
+      "RSI-046",
+      "RSI-064",
+      "RSI-001"
+    ],
+    "status": "To do",
+    "commit_url": null
+  },
+  {
+    "id": "RSI-052",
+    "title": "Implement user-scoped activity and reporting endpoints",
+    "phase": "04 · Backend services",
+    "repository": "Backend",
+    "priority": "P1",
+    "objective": "Make all confirmed financial history searchable and exportable.",
+    "requirements": [
+      "Combine confirmed purchases, transfers, resale, proceeds, claims, deposits and wallet sends with typed filters/pagination.",
+      "Include transaction links, confirmation/indexing state, asset units and idempotent record identity."
+    ],
+    "acceptance": [
+      "User scoping and pagination do not leak another account’s private activity context.",
+      "Records trace to chain receipts/events and exports retain exact amounts."
+    ],
+    "dependencies": [
+      "RSI-061",
+      "RSI-062",
+      "RSI-063",
+      "RSI-064"
+    ],
+    "status": "To do",
+    "commit_url": null
+  },
+  {
+    "id": "RSI-053",
+    "title": "Implement persistent support tickets and replies",
+    "phase": "04 · Backend services",
+    "repository": "Backend",
+    "priority": "P1",
+    "objective": "Replace demo-only support interactions with durable service workflows.",
+    "requirements": [
+      "Implement create/read/reply, staff assignment, status changes, resolution and reopening.",
+      "Validate attachments and investor/staff access boundaries with auditability."
+    ],
+    "acceptance": [
+      "A ticket survives sessions and service restarts with complete conversation history.",
+      "Investors cannot read or modify another investor’s tickets."
+    ],
+    "dependencies": [
+      "RSI-014",
+      "RSI-042",
+      "RSI-044"
+    ],
+    "status": "To do",
+    "commit_url": null
+  },
+  {
+    "id": "RSI-054",
+    "title": "Implement actual notifications and preferences",
+    "phase": "04 · Backend services",
+    "repository": "Backend",
+    "priority": "P1",
+    "objective": "Deliver actionable account/transaction events instead of sample alerts.",
+    "requirements": [
+      "Generate purchase/fill/revenue/claim/approval/failure notifications from durable transitions/events.",
+      "Implement read/unread, pagination and preferences with idempotent delivery."
+    ],
+    "acceptance": [
+      "Repeated jobs/event replay do not duplicate a notification.",
+      "Links open the actual related project or transaction; no fabricated earnings alerts remain."
+    ],
+    "dependencies": [
+      "RSI-047",
+      "RSI-015",
+      "RSI-062",
+      "RSI-063"
+    ],
+    "status": "To do",
+    "commit_url": null
+  },
+  {
+    "id": "RSI-055",
+    "title": "Implement operational audit and monitoring APIs",
+    "phase": "04 · Backend services",
+    "repository": "Backend",
+    "priority": "P1",
+    "objective": "Make privileged actions, failures and recovery observable.",
+    "requirements": [
+      "Record staff actions, role/wallet changes, metadata/publication and finance command references.",
+      "Expose health, indexer lag, reconciliation/backfill status and sanitized incident details."
+    ],
+    "acceptance": [
+      "Authorized auditors can trace a privileged change to actor, time, command and chain evidence.",
+      "Audit entries are protected from ordinary edits/deletion and redact confidential values."
+    ],
+    "dependencies": [
+      "RSI-042",
+      "RSI-047",
+      "RSI-065"
+    ],
+    "status": "To do",
+    "commit_url": null
+  },
+  {
+    "id": "RSI-056",
+    "title": "Publish and verify the complete REST/OpenAPI contract",
+    "phase": "04 · Backend services",
+    "repository": "Backend",
+    "priority": "P1",
+    "objective": "Give both frontends generated, stable and documented API clients.",
+    "requirements": [
+      "Document authentication, all modules, validation, pagination, errors, idempotency and exact quantity serialization; archive API documents in the existing private Notion project.",
+      "Generate versioned clients and API contract tests; GraphQL remains optional and is added only for an approved concrete read requirement. If added, host it on FP accessed through Teleport and register it in Services."
+    ],
+    "acceptance": [
+      "Both independent frontend builds consume pinned generated clients.",
+      "Schema tests catch incompatible API behavior and undocumented status responses."
+    ],
+    "dependencies": [
+      "RSI-045",
+      "RSI-048",
+      "RSI-049",
+      "RSI-050",
+      "RSI-051",
+      "RSI-052",
+      "RSI-053",
+      "RSI-054",
+      "RSI-055",
+      "RSI-010"
+    ],
+    "status": "To do",
+    "commit_url": null
+  },
+  {
+    "id": "RSI-057",
+    "title": "Scaffold standalone INFRA ingestion and provider resilience",
+    "phase": "05 · INFRA indexer",
+    "repository": "Indexer",
+    "priority": "P0",
+    "objective": "Run a durable chain reader independently of frontend deployments.",
+    "requirements": [
+      "Set up viem clients, verified manifests, health checks, Docker service and RPC fallback/rate limits, targeting the FP server accessed through Teleport.",
+      "Start from deployment blocks, use bounded log ranges and avoid reliance on an explorer-only recent page; maintain the indexer entry and actual deployment status in the private Notion Services inventory."
+    ],
+    "acceptance": [
+      "Indexer starts independently and reads known deployed events.",
+      "Provider interruptions resume without losing or duplicating confirmed history."
+    ],
+    "dependencies": [
+      "RSI-036",
+      "RSI-014",
+      "RSI-003",
+      "RSI-009"
+    ],
+    "status": "To do",
+    "commit_url": null
+  },
+  {
+    "id": "RSI-058",
+    "title": "Implement durable cursors and event identity",
+    "phase": "05 · INFRA indexer",
+    "repository": "Indexer",
+    "priority": "P0",
+    "objective": "Process every relevant event exactly once in projections.",
+    "requirements": [
+      "Persist chain/address/block/log identifiers, block hashes and transactional checkpoints.",
+      "Make retries and backfills idempotent with deterministic within-block ordering."
+    ],
+    "acceptance": [
+      "Reprocessing the same range leaves identical projections.",
+      "Crash/restart at a batch boundary neither skips nor duplicates an event."
+    ],
+    "dependencies": [
+      "RSI-057"
+    ],
+    "status": "To do",
+    "commit_url": null
+  },
+  {
+    "id": "RSI-059",
+    "title": "Implement confirmation and reorganization recovery",
+    "phase": "05 · INFRA indexer",
+    "repository": "Indexer",
+    "priority": "P0",
+    "objective": "Prevent orphaned data from appearing permanently confirmed.",
+    "requirements": [
+      "Apply verified INFRA finality policy and preserve recent block hash history.",
+      "Detect divergent blocks, roll back affected projections and replay the canonical range."
+    ],
+    "acceptance": [
+      "A simulated reorganization removes orphaned events and restores correct balances/listings/rewards.",
+      "API can distinguish pending, confirmed and lagging index state."
+    ],
+    "dependencies": [
+      "RSI-058",
+      "RSI-003"
+    ],
+    "status": "To do",
+    "commit_url": null
+  },
+  {
+    "id": "RSI-060",
+    "title": "Project registry, sale and metadata projections",
+    "phase": "05 · INFRA indexer",
+    "repository": "Indexer",
+    "priority": "P1",
+    "objective": "Discover factory-created projects and their current public data.",
+    "requirements": [
+      "Index ProjectCreated, sale-state, supply economics, metadata/yield revisions and relevant roles.",
+      "Subscribe newly discovered project addresses from their creation block."
+    ],
+    "acceptance": [
+      "Publishing a new project makes it discoverable with verified immutable economics.",
+      "Metadata/yield history preserves source block and transaction."
+    ],
+    "dependencies": [
+      "RSI-059"
+    ],
+    "status": "To do",
+    "commit_url": null
+  },
+  {
+    "id": "RSI-061",
+    "title": "Index ownership, purchases and fraction transfers",
+    "phase": "05 · INFRA indexer",
+    "repository": "Indexer",
+    "priority": "P0",
+    "objective": "Build portfolios from canonical ERC-1155 events.",
+    "requirements": [
+      "Handle TransferSingle/TransferBatch, mints, primary purchases and direct wallet transfers.",
+      "Keep h/N and h/S views consistent and distinguish purchase cost from transfer acquisition."
+    ],
+    "acceptance": [
+      "Projected balances equal contract balances across mint/partial-transfer/resale fixtures.",
+      "Batch and repeated range processing preserve exact balances."
+    ],
+    "dependencies": [
+      "RSI-060"
+    ],
+    "status": "To do",
+    "commit_url": null
+  },
+  {
+    "id": "RSI-062",
+    "title": "Index revenue funding, claims and indicative yield",
+    "phase": "05 · INFRA indexer",
+    "repository": "Indexer",
+    "priority": "P0",
+    "objective": "Expose actual funded and paid amounts by project, asset and wallet.",
+    "requirements": [
+      "Project funding/claim records and allocation references; reconcile live claimable reads when needed.",
+      "Keep manual indicative yield separate from actual deposited/payout amounts and rounding reserves."
+    ],
+    "acceptance": [
+      "Funding and claim reports reconcile to liabilities and transaction events.",
+      "Late buyers and exited holders retain correct historical views."
+    ],
+    "dependencies": [
+      "RSI-060",
+      "RSI-026",
+      "RSI-027"
+    ],
+    "status": "To do",
+    "commit_url": null
+  },
+  {
+    "id": "RSI-063",
+    "title": "Index resale lifecycle, trades and proceeds",
+    "phase": "05 · INFRA indexer",
+    "repository": "Indexer",
+    "priority": "P0",
+    "objective": "Serve marketplace history with correct partial quantities.",
+    "requirements": [
+      "Index listing/fill/cancel/expiry-derived status and seller proceeds/withdrawals.",
+      "Revalidate approvals and seller holdings for availability without changing on-chain listing truth."
+    ],
+    "acceptance": [
+      "Partial-fill and revoked-approval fixtures produce truthful listing availability.",
+      "Seller proceeds match contract accounting and cannot be counted as project revenue."
+    ],
+    "dependencies": [
+      "RSI-061",
+      "RSI-035"
+    ],
+    "status": "To do",
+    "commit_url": null
+  },
+  {
+    "id": "RSI-064",
+    "title": "Index direct native and USDT wallet activity",
+    "phase": "05 · INFRA indexer",
+    "repository": "Indexer",
+    "priority": "P0",
+    "objective": "Supply complete actual deposit and withdrawal history for connected wallets.",
+    "requirements": [
+      "Implement verified native top-level/internal and USDT ingestion, exact destination/token validation and deduplication.",
+      "Define provider limitations/backfill coverage and distinguish wallet transfers from project commands."
+    ],
+    "acceptance": [
+      "The existing known live deposit records reconcile without fabricated entries.",
+      "Failed, self, zero, outgoing and spoof-token transfers are handled per the approved activity rules."
+    ],
+    "dependencies": [
+      "RSI-059",
+      "RSI-003"
+    ],
+    "status": "To do",
+    "commit_url": null
+  },
+  {
+    "id": "RSI-065",
+    "title": "Implement reconciliation, backfill and recovery controls",
+    "phase": "05 · INFRA indexer",
+    "repository": "Indexer",
+    "priority": "P0",
+    "objective": "Rebuild projections and detect silent accounting drift.",
+    "requirements": [
+      "Schedule chain-versus-database supply/balance/revenue/listing checks and expose lag/failure metrics.",
+      "Provide authorized restart-safe backfill/replay operations and operational runbooks."
+    ],
+    "acceptance": [
+      "Database projections can be rebuilt from deployment blocks with identical results.",
+      "Injected discrepancies and stalled ingestion trigger visible actionable alerts."
+    ],
+    "dependencies": [
+      "RSI-060",
+      "RSI-061",
+      "RSI-062",
+      "RSI-063",
+      "RSI-064"
+    ],
+    "status": "To do",
+    "commit_url": null
+  },
+  {
+    "id": "RSI-066",
+    "title": "Build independent admin app shell and authenticated navigation",
+    "phase": "06 · Administrator application",
+    "repository": "Admin frontend",
+    "priority": "P1",
+    "objective": "Provide a branded, accessible admin application with its own FP-server deployment accessed through Teleport.",
+    "requirements": [
+      "Use Next.js/TypeScript, generated API clients, shared approved visual assets and responsive navigation; target the FP server accessed through Teleport and record actual deployment status in Services.",
+      "Implement username/password, MFA, session expiry/recovery and route-level permission presentation."
+    ],
+    "acceptance": [
+      "Staff can log in/out and reach only permitted screens.",
+      "App builds independently and does not include privileged API/provider credentials."
+    ],
+    "dependencies": [
+      "RSI-009",
+      "RSI-041",
+      "RSI-056",
+      "RSI-007"
+    ],
+    "status": "To do",
+    "commit_url": null
+  },
+  {
+    "id": "RSI-067",
+    "title": "Build MetaMask and reID signer connection flows",
+    "phase": "06 · Administrator application",
+    "repository": "Admin frontend",
+    "priority": "P0",
+    "objective": "Connect an authorized wallet after staff authentication.",
+    "requirements": [
+      "Support network validation/switch guidance, wallet proof binding, reconnect and disconnect/revocation.",
+      "Display app permissions separately from on-chain authority and require approval for privileged commands."
+    ],
+    "acceptance": [
+      "Both approved providers can sign a verified UAT intent.",
+      "Wrong chain, wrong wallet and revoked binding block the action with useful feedback."
+    ],
+    "dependencies": [
+      "RSI-066",
+      "RSI-043",
+      "RSI-047"
+    ],
+    "status": "To do",
+    "commit_url": null
+  },
+  {
+    "id": "RSI-068",
+    "title": "Build complete project draft and economic configuration wizard",
+    "phase": "06 · Administrator application",
+    "repository": "Admin frontend",
+    "priority": "P1",
+    "objective": "Let staff prepare accurate projects and fraction prices.",
+    "requirements": [
+      "Capture owner/treasury, images, descriptions, required project data, total value, maximum fractions and public documents.",
+      "Preview exact reAED/USDT fraction prices and reject unsupported/non-divisible values."
+    ],
+    "acceptance": [
+      "Draft save/resume preserves validated data and permissions.",
+      "Preview matches contract input and distinguishes ownership from revenue participation."
+    ],
+    "dependencies": [
+      "RSI-066",
+      "RSI-045",
+      "RSI-020"
+    ],
+    "status": "To do",
+    "commit_url": null
+  },
+  {
+    "id": "RSI-069",
+    "title": "Build review, publish and contract lifecycle management",
+    "phase": "06 · Administrator application",
+    "repository": "Admin frontend",
+    "priority": "P0",
+    "objective": "Move a reviewed draft to a confirmed on-chain project.",
+    "requirements": [
+      "Show content/economics review, signer requirements, simulation and deployment approval status.",
+      "Manage sale open/close, archive, contract/version/address and publication receipt history."
+    ],
+    "acceptance": [
+      "A project appears publicly only after confirmed publication/indexing.",
+      "Failed or rejected deployment leaves a recoverable draft without duplicate projects."
+    ],
+    "dependencies": [
+      "RSI-068",
+      "RSI-067",
+      "RSI-017",
+      "RSI-021"
+    ],
+    "status": "To do",
+    "commit_url": null
+  },
+  {
+    "id": "RSI-070",
+    "title": "Build project media, metadata and document revision management",
+    "phase": "06 · Administrator application",
+    "repository": "Admin frontend",
+    "priority": "P1",
+    "objective": "Manage public assets with traceable IPFS references.",
+    "requirements": [
+      "Upload/preview validated files, inspect CIDs and publish controlled metadata revisions.",
+      "Expose freezing, effective revisions and audit history; separate drafts from published public records."
+    ],
+    "acceptance": [
+      "Published metadata resolves to the correct assets and source transaction.",
+      "Unauthorized/frozen edits fail and do not silently change economic terms."
+    ],
+    "dependencies": [
+      "RSI-068",
+      "RSI-044",
+      "RSI-029"
+    ],
+    "status": "To do",
+    "commit_url": null
+  },
+  {
+    "id": "RSI-071",
+    "title": "Build manual indicative yield controls",
+    "phase": "06 · Administrator application",
+    "repository": "Admin frontend",
+    "priority": "P1",
+    "objective": "Let project owners update labelled estimates without creating rewards.",
+    "requirements": [
+      "Capture yield value, period, effective date and supporting report/reference.",
+      "Show revision history, signer requirements and explicit distinction from funded claimable revenue."
+    ],
+    "acceptance": [
+      "Yield changes appear consistently on project views after confirmation.",
+      "No edit changes claimable balances or creates a revenue deposit."
+    ],
+    "dependencies": [
+      "RSI-070",
+      "RSI-049"
+    ],
+    "status": "To do",
+    "commit_url": null
+  },
+  {
+    "id": "RSI-072",
+    "title": "Build revenue funding and primary treasury workflows",
+    "phase": "06 · Administrator application",
+    "repository": "Admin frontend",
+    "priority": "P0",
+    "objective": "Let authorized finance staff prepare and sign actual project funding and withdrawals.",
+    "requirements": [
+      "Support asset/amount/reporting reference, no-holder checks, review, approval, receipt and retry handling.",
+      "Show isolated sale proceeds, funded liabilities, claims and finance-preparer/approver scope."
+    ],
+    "acceptance": [
+      "Deposits allocate actual received funds and can be traced to receipts.",
+      "An unauthorized signer or attempted withdrawal of reward liabilities is blocked."
+    ],
+    "dependencies": [
+      "RSI-067",
+      "RSI-049",
+      "RSI-024",
+      "RSI-026"
+    ],
+    "status": "To do",
+    "commit_url": null
+  },
+  {
+    "id": "RSI-073",
+    "title": "Build sales, holders, claims and marketplace reports",
+    "phase": "06 · Administrator application",
+    "repository": "Admin frontend",
+    "priority": "P1",
+    "objective": "Give operators and auditors accurate project oversight.",
+    "requirements": [
+      "Display supply, wallet balances, funding/claims, listings/fills and seller proceeds with filters/exports.",
+      "Use exact units, source links, indexing freshness and clear indicative-value labels."
+    ],
+    "acceptance": [
+      "Report totals reconcile to backend and contract samples.",
+      "Exports preserve precision and respect project/auditor permissions."
+    ],
+    "dependencies": [
+      "RSI-066",
+      "RSI-048",
+      "RSI-050",
+      "RSI-052"
+    ],
+    "status": "To do",
+    "commit_url": null
+  },
+  {
+    "id": "RSI-074",
+    "title": "Build investor directory and staff/role management",
+    "phase": "06 · Administrator application",
+    "repository": "Admin frontend",
+    "priority": "P0",
+    "objective": "Manage staff authority without restricting public token ownership.",
+    "requirements": [
+      "Provide staff invite/suspend, role/permission assignment, project assignments and wallet-binding review.",
+      "Show investor records and linked wallet context without exposing encrypted reID credentials or adding contract KYC gates."
+    ],
+    "acceptance": [
+      "Authorized admins can manage roles with complete audit records.",
+      "Support/read-only staff cannot elevate privileges or access confidential auth material."
+    ],
+    "dependencies": [
+      "RSI-066",
+      "RSI-042",
+      "RSI-043",
+      "RSI-039"
+    ],
+    "status": "To do",
+    "commit_url": null
+  },
+  {
+    "id": "RSI-075",
+    "title": "Build persistent support inbox and case workflow",
+    "phase": "06 · Administrator application",
+    "repository": "Admin frontend",
+    "priority": "P1",
+    "objective": "Allow staff to service actual investor requests.",
+    "requirements": [
+      "Implement queue filters, assignment, replies, attachments, resolution and reopening.",
+      "Enforce scoped visibility and preserve conversation/audit history."
+    ],
+    "acceptance": [
+      "A staff reply appears in the investor’s correct ticket after reload.",
+      "Unauthorized access and attachment leakage are prevented."
+    ],
+    "dependencies": [
+      "RSI-066",
+      "RSI-053"
+    ],
+    "status": "To do",
+    "commit_url": null
+  },
+  {
+    "id": "RSI-076",
+    "title": "Build notifications, audit and chain-health operations views",
+    "phase": "06 · Administrator application",
+    "repository": "Admin frontend",
+    "priority": "P1",
+    "objective": "Expose actionable operational status and recovery controls.",
+    "requirements": [
+      "Show real notifications, privileged action audits, indexer lag, reconciliation and backfill status.",
+      "Gate recovery commands and display source commit/deployment manifest versions."
+    ],
+    "acceptance": [
+      "An injected indexer failure is visible with a permitted recovery path.",
+      "Read-only roles cannot execute operational mutations."
+    ],
+    "dependencies": [
+      "RSI-066",
+      "RSI-055",
+      "RSI-054"
+    ],
+    "status": "To do",
+    "commit_url": null
+  },
+  {
+    "id": "RSI-077",
+    "title": "Verify complete admin workflows and accessibility",
+    "phase": "06 · Administrator application",
+    "repository": "Admin frontend",
+    "priority": "P1",
+    "objective": "Confirm administrators can operate the platform without unsafe hidden assumptions.",
+    "requirements": [
+      "Cover draft/publish/update/fund/report/roles/support with both wallet providers and failure states.",
+      "Check responsive layout, keyboard/screen-reader behavior and confirmation/status language."
+    ],
+    "acceptance": [
+      "Browser tests cover successful and rejected privileged actions.",
+      "No placeholder data or credential-bearing errors remain in admin production flows."
+    ],
+    "dependencies": [
+      "RSI-069",
+      "RSI-070",
+      "RSI-071",
+      "RSI-072",
+      "RSI-073",
+      "RSI-074",
+      "RSI-075",
+      "RSI-076"
+    ],
+    "status": "To do",
+    "commit_url": null
+  },
+  {
+    "id": "RSI-078",
+    "title": "Integrate generated clients and real account/session state",
+    "phase": "07 · Investor application",
+    "repository": "Investor frontend",
+    "priority": "P0",
+    "objective": "Replace the demo provider with actual identity and server-backed data.",
+    "requirements": [
+      "Preserve working reID login and branding while moving authentication/business calls to approved backend boundaries.",
+      "Implement loading/empty/error/session-expiry states and remove demo-credit mutation paths."
+    ],
+    "acceptance": [
+      "Existing signed-in users can reach the app with real wallet identity.",
+      "Production routes cannot synthesize balances or succeed from demo fallback state."
+    ],
+    "dependencies": [
+      "RSI-001",
+      "RSI-039",
+      "RSI-056"
+    ],
+    "status": "To do",
+    "commit_url": null
+  },
+  {
+    "id": "RSI-079",
+    "title": "Replace homepage and explore projects with published data",
+    "phase": "07 · Investor application",
+    "repository": "Investor frontend",
+    "priority": "P1",
+    "objective": "Show only actual published projects and truthful availability.",
+    "requirements": [
+      "Load images/metadata, exact prices, remaining fractions and labelled owner-entered yield.",
+      "Keep original Fractionaire branding, blue UI, working footer links and responsive/scroll behavior from the approved UI."
+    ],
+    "acceptance": [
+      "A newly confirmed project becomes discoverable and unpublished drafts remain hidden.",
+      "No fabricated live counters, sold percentages or price/yield claims remain."
+    ],
+    "dependencies": [
+      "RSI-078",
+      "RSI-060",
+      "RSI-007"
+    ],
+    "status": "To do",
+    "commit_url": null
+  },
+  {
+    "id": "RSI-080",
+    "title": "Build complete live project details",
+    "phase": "07 · Investor application",
+    "repository": "Investor frontend",
+    "priority": "P1",
+    "objective": "Explain economics, documents, ownership and revenue clearly.",
+    "requirements": [
+      "Show total value, maximum/sold/remaining fractions, dual-asset prices, contract, metadata/documents and actual funding history.",
+      "Distinguish h/N project entitlement from h/S revenue participation and indicative yield from actual rewards."
+    ],
+    "acceptance": [
+      "Displayed values match canonical quotes and project records.",
+      "Missing/failed data has explicit states rather than sample content."
+    ],
+    "dependencies": [
+      "RSI-079",
+      "RSI-045",
+      "RSI-049"
+    ],
+    "status": "To do",
+    "commit_url": null
+  },
+  {
+    "id": "RSI-081",
+    "title": "Implement primary buy/rebuy flows in both assets",
+    "phase": "07 · Investor application",
+    "repository": "Investor frontend",
+    "priority": "P0",
+    "objective": "Let investors purchase whole fractions with approved wallet transactions.",
+    "requirements": [
+      "Support quantity selection, exact quote, balance/gas/allowance checks, USDT approval and reID confirmation.",
+      "Show approval/broadcast/confirmed/indexed states with rejection/expiry/revert recovery."
+    ],
+    "acceptance": [
+      "Purchasing in reAED and USDT increases actual ERC-1155 holdings and charges exact amounts.",
+      "Repeat purchases retain historical rewards and no optimistic fake balance persists after failure."
+    ],
+    "dependencies": [
+      "RSI-080",
+      "RSI-046",
+      "RSI-047",
+      "RSI-022",
+      "RSI-023"
+    ],
+    "status": "To do",
+    "commit_url": null
+  },
+  {
+    "id": "RSI-082",
+    "title": "Replace dashboard with actual portfolio and balances",
+    "phase": "07 · Investor application",
+    "repository": "Investor frontend",
+    "priority": "P1",
+    "objective": "Provide a truthful account overview.",
+    "requirements": [
+      "Show real holdings, balances, actual funded earnings/claims and recent activity with provenance/freshness.",
+      "Separate invested cost, manual/indicative valuations and realized proceeds; no guaranteed return calculations."
+    ],
+    "acceptance": [
+      "Dashboard samples reconcile to contract/backend values.",
+      "Empty portfolios and indexing delays render clearly on desktop and phone."
+    ],
+    "dependencies": [
+      "RSI-078",
+      "RSI-048",
+      "RSI-049",
+      "RSI-051",
+      "RSI-052"
+    ],
+    "status": "To do",
+    "commit_url": null
+  },
+  {
+    "id": "RSI-083",
+    "title": "Build holdings details and fraction transfer UI",
+    "phase": "07 · Investor application",
+    "repository": "Investor frontend",
+    "priority": "P0",
+    "objective": "Allow arbitrary whole-quantity transfers to any valid INFRA wallet.",
+    "requirements": [
+      "Show exact token balance and recipient/quantity review; warn through clear irreversible-action review rather than blocking unrestricted ownership.",
+      "Use reID approval and explain sender retains already allocated rewards while future allocations follow transferred units."
+    ],
+    "acceptance": [
+      "Transfer 10 of 1000 confirms on-chain with balances 990 and 10.",
+      "Invalid recipients, insufficient balance and rejected approval cannot create a completed transfer."
+    ],
+    "dependencies": [
+      "RSI-082",
+      "RSI-046",
+      "RSI-047",
+      "RSI-019",
+      "RSI-025"
+    ],
+    "status": "To do",
+    "commit_url": null
+  },
+  {
+    "id": "RSI-084",
+    "title": "Build actual earnings, funding history and reward claims",
+    "phase": "07 · Investor application",
+    "repository": "Investor frontend",
+    "priority": "P0",
+    "objective": "Let current and former holders collect funded rewards.",
+    "requirements": [
+      "Show claimable/claimed per asset, funding references and individual/bounded multi-project claims.",
+      "Keep manual indicative yield separate; allow claims after a full fraction exit."
+    ],
+    "acceptance": [
+      "Historical-holder claim succeeds after transferring all fractions.",
+      "Failed/duplicate/rejected claims never increase displayed paid amounts."
+    ],
+    "dependencies": [
+      "RSI-082",
+      "RSI-049",
+      "RSI-027",
+      "RSI-028",
+      "RSI-047"
+    ],
+    "status": "To do",
+    "commit_url": null
+  },
+  {
+    "id": "RSI-085",
+    "title": "Replace wallet balances and assets with INFRA reads",
+    "phase": "07 · Investor application",
+    "repository": "Investor frontend",
+    "priority": "P0",
+    "objective": "Display actual native reAED, verified USDT and ownership tokens.",
+    "requirements": [
+      "Use verified contract metadata and exact decimals; show connected wallet/chain and refresh timestamps.",
+      "Handle insufficient reAED gas, disconnected sessions and unavailable data explicitly."
+    ],
+    "acceptance": [
+      "Wallet amounts reconcile to independent chain reads.",
+      "Unknown/spoof tokens are not presented as the platform’s verified USDT."
+    ],
+    "dependencies": [
+      "RSI-078",
+      "RSI-051"
+    ],
+    "status": "To do",
+    "commit_url": null
+  },
+  {
+    "id": "RSI-086",
+    "title": "Complete live deposit migration and eliminate sample data",
+    "phase": "07 · Investor application",
+    "repository": "Investor frontend",
+    "priority": "P0",
+    "objective": "Preserve the current real deposit behavior on the standalone backend/indexer.",
+    "requirements": [
+      "Use session wallet, independently verified QR and real incoming activity; keep bank/card blurred, disabled and Coming soon.",
+      "Manual refresh checks chain data only; do not credit entered planned amounts or sample transactions."
+    ],
+    "acceptance": [
+      "Two accounts receive their own correct QR/address/history and no query parameter can override identity.",
+      "Recent deposits show exact actual asset amounts, dates, explorer links and indexing/error states."
+    ],
+    "dependencies": [
+      "RSI-085",
+      "RSI-051",
+      "RSI-001"
+    ],
+    "status": "To do",
+    "commit_url": null
+  },
+  {
+    "id": "RSI-087",
+    "title": "Implement real outgoing wallet transfers",
+    "phase": "07 · Investor application",
+    "repository": "Investor frontend",
+    "priority": "P0",
+    "objective": "Send assets to another INFRA address with explicit wallet approval.",
+    "requirements": [
+      "Support reAED/USDT, recipient validation, exact amount, gas reserve, fee review and receipt tracking.",
+      "Keep sending wallet funds distinct from selling fractions, collecting proceeds and claiming rewards."
+    ],
+    "acceptance": [
+      "Approved sends reconcile to actual balance/history changes.",
+      "Max amount retains required native gas and failed sends never show as completed."
+    ],
+    "dependencies": [
+      "RSI-085",
+      "RSI-046",
+      "RSI-047"
+    ],
+    "status": "To do",
+    "commit_url": null
+  },
+  {
+    "id": "RSI-088",
+    "title": "Build investor resale browsing and partial buying",
+    "phase": "07 · Investor application",
+    "repository": "Investor frontend",
+    "priority": "P0",
+    "objective": "Make the v1 marketplace usable with real on-chain listings.",
+    "requirements": [
+      "Show seller price/asset, available quantity, expiry and invalid/unavailable states.",
+      "Implement partial-fill quote, allowance/payment review, reID approval and transaction progress."
+    ],
+    "acceptance": [
+      "A buyer purchases a partial quantity and receives actual fractions.",
+      "Stale, competing or revoked listings show recoverable failure without fabricated ownership."
+    ],
+    "dependencies": [
+      "RSI-078",
+      "RSI-050",
+      "RSI-032",
+      "RSI-033",
+      "RSI-034",
+      "RSI-047"
+    ],
+    "status": "To do",
+    "commit_url": null
+  },
+  {
+    "id": "RSI-089",
+    "title": "Build listing creation, cancellation and seller proceeds UI",
+    "phase": "07 · Investor application",
+    "repository": "Investor frontend",
+    "priority": "P0",
+    "objective": "Let investors resell held fractions and collect completed-sale proceeds.",
+    "requirements": [
+      "Support ERC-1155 approval, quantity/price/asset/expiry, list/cancel and remaining-fill history.",
+      "Show seller keeps revenue while holding tokens and expose separate proceeds withdrawal; remove instant platform sellback."
+    ],
+    "acceptance": [
+      "A 1000-fraction listing can fill in parts, cancel its remainder and collect exact proceeds.",
+      "Revocation/direct transfer/expiry states match contract availability."
+    ],
+    "dependencies": [
+      "RSI-083",
+      "RSI-050",
+      "RSI-035",
+      "RSI-047"
+    ],
+    "status": "To do",
+    "commit_url": null
+  },
+  {
+    "id": "RSI-090",
+    "title": "Replace activity with actual filtered transaction history",
+    "phase": "07 · Investor application",
+    "repository": "Investor frontend",
+    "priority": "P1",
+    "objective": "Explain all account actions with source evidence.",
+    "requirements": [
+      "Show purchases, transfers, fills, proceeds, deposits, sends, funding allocations and claims with filters/pagination.",
+      "Use actual timestamps, asset quantities, chain links and distinct transaction states."
+    ],
+    "acceptance": [
+      "Each completed item points to its real chain transaction or appropriate durable service record.",
+      "Reloading and event replay do not duplicate rows."
+    ],
+    "dependencies": [
+      "RSI-078",
+      "RSI-052"
+    ],
+    "status": "To do",
+    "commit_url": null
+  },
+  {
+    "id": "RSI-091",
+    "title": "Implement durable investor support tickets",
+    "phase": "07 · Investor application",
+    "repository": "Investor frontend",
+    "priority": "P1",
+    "objective": "Replace local/demo support with actual conversations.",
+    "requirements": [
+      "Create/read/reply/reopen tickets and show staff response/status with controlled attachments.",
+      "Handle submission retry, validation and access denial."
+    ],
+    "acceptance": [
+      "Tickets survive logout/reconnect and show the correct staff replies.",
+      "An investor cannot open another account’s support record."
+    ],
+    "dependencies": [
+      "RSI-078",
+      "RSI-053"
+    ],
+    "status": "To do",
+    "commit_url": null
+  },
+  {
+    "id": "RSI-092",
+    "title": "Implement real investor notifications",
+    "phase": "07 · Investor application",
+    "repository": "Investor frontend",
+    "priority": "P1",
+    "objective": "Show meaningful updates from account activity.",
+    "requirements": [
+      "Replace fabricated notification rows with paginated actual events and read/unread actions.",
+      "Link approvals, failures, trades, claims and revenue updates to the relevant destination."
+    ],
+    "acceptance": [
+      "Notifications update across reloads without duplicate delivery.",
+      "No sample earnings alerts remain in production."
+    ],
+    "dependencies": [
+      "RSI-078",
+      "RSI-054"
+    ],
+    "status": "To do",
+    "commit_url": null
+  },
+  {
+    "id": "RSI-093",
+    "title": "Complete responsive, accessibility and data-provenance UI audit",
+    "phase": "07 · Investor application",
+    "repository": "Investor frontend",
+    "priority": "P1",
+    "objective": "Finish all designed investor flows with honest states and consistent branding.",
+    "requirements": [
+      "Audit the homepage and all 14 investor designs on desktop/phone, icons, logos, button radii, contrast, motion and reduced-motion behavior.",
+      "Remove every unsupported demo financial statement; cover skeleton, empty, stale, failure and reconnect states."
+    ],
+    "acceptance": [
+      "Documented browser checks cover the complete investor journey with no overflow or broken images.",
+      "Each financial value is real, explicitly indicative or an honest unavailable state."
+    ],
+    "dependencies": [
+      "RSI-079",
+      "RSI-080",
+      "RSI-081",
+      "RSI-082",
+      "RSI-083",
+      "RSI-084",
+      "RSI-086",
+      "RSI-087",
+      "RSI-088",
+      "RSI-089",
+      "RSI-090",
+      "RSI-091",
+      "RSI-092"
+    ],
+    "status": "To do",
+    "commit_url": null
+  },
+  {
+    "id": "RSI-094",
+    "title": "Complete cross-service threat model and security checks",
+    "phase": "08 · Verification, release and operations",
+    "repository": "Cross-project",
+    "priority": "P0",
+    "objective": "Review economic, identity, contract and operational attack paths.",
+    "requirements": [
+      "Check signing commands, reID token handling, admin RBAC/MFA, uploads, rate limits, session/CSRF boundaries and secrets.",
+      "Run Slither/dependency checks and remediate critical/high findings with meaningful regression tests."
+    ],
+    "acceptance": [
+      "Threat model links risks to controls and test evidence, with its document archived in the private Notion project.",
+      "No unresolved release-blocking finding remains; verify literal credentials are confined to the dedicated private Notion credential register and protected runtime storage, and require rotation before live production rather than as a blocker for authorized testnet work."
+    ],
+    "dependencies": [
+      "RSI-038",
+      "RSI-056",
+      "RSI-065",
+      "RSI-077",
+      "RSI-093"
+    ],
+    "status": "To do",
+    "commit_url": null
+  },
+  {
+    "id": "RSI-095",
+    "title": "Complete backend/API/database integration suite",
+    "phase": "08 · Verification, release and operations",
+    "repository": "Backend",
+    "priority": "P0",
+    "objective": "Verify real service boundaries and failure recovery.",
+    "requirements": [
+      "Test auth isolation, role restrictions, idempotent intents, token refresh, jobs, projections and private records.",
+      "Exercise delayed receipts, repeated callbacks, provider outages and database migrations."
+    ],
+    "acceptance": [
+      "Suite runs against isolated services and passes in CI.",
+      "Tests prove no fake settlement, cross-user wallet override or silent data-loss fallback."
+    ],
+    "dependencies": [
+      "RSI-056",
+      "RSI-065"
+    ],
+    "status": "To do",
+    "commit_url": null
+  },
+  {
+    "id": "RSI-096",
+    "title": "Run complete multi-wallet platform lifecycle tests",
+    "phase": "08 · Verification, release and operations",
+    "repository": "Cross-project",
+    "priority": "P0",
+    "objective": "Prove the intended business journey end to end.",
+    "requirements": [
+      "Create/publish, buy both assets, rebuy, transfer 10 of 1000, partial resell, fund both assets, claim, fully exit and claim old rewards.",
+      "Cover admin preparation/approval, seller proceeds and history/notification/support propagation."
+    ],
+    "acceptance": [
+      "Receipts, balances, allocations and projections reconcile for each step.",
+      "Browser/API/chain evidence records success and rejected/reverted variations."
+    ],
+    "dependencies": [
+      "RSI-037",
+      "RSI-038",
+      "RSI-095",
+      "RSI-077",
+      "RSI-093"
+    ],
+    "status": "To do",
+    "commit_url": null
+  },
+  {
+    "id": "RSI-097",
+    "title": "Verify gas, throughput, pagination and operational bounds",
+    "phase": "08 · Verification, release and operations",
+    "repository": "Cross-project",
+    "priority": "P1",
+    "objective": "Keep production flows usable within INFRA and service limits.",
+    "requirements": [
+      "Measure worst-case claim batches, event ranges, portfolios, marketplace reads and upload/report limits.",
+      "Test gas estimates, RPC rate limits, worker concurrency and large exact quantities."
+    ],
+    "acceptance": [
+      "Published limits and latency/gas budgets have measured evidence.",
+      "No unbounded investor loop or single oversized request can block normal operations."
+    ],
+    "dependencies": [
+      "RSI-096"
+    ],
+    "status": "To do",
+    "commit_url": null
+  },
+  {
+    "id": "RSI-098",
+    "title": "Complete independent contract review and release remediation",
+    "phase": "08 · Verification, release and operations",
+    "repository": "Contracts",
+    "priority": "P0",
+    "objective": "Obtain a focused independent check before valuable deployments.",
+    "requirements": [
+      "Review implementation against economics, reward correction/rounding, permissions and marketplace atomicity.",
+      "Fix findings and rerun affected tests; freeze reviewed release artifacts and compiler settings."
+    ],
+    "acceptance": [
+      "Review report and remediation evidence identify the exact source commit.",
+      "No unresolved release-blocking accounting or authorization issue remains."
+    ],
+    "dependencies": [
+      "RSI-094",
+      "RSI-038",
+      "RSI-097"
+    ],
+    "status": "To do",
+    "commit_url": null
+  },
+  {
+    "id": "RSI-099",
+    "title": "Implement reproducible deployment and verification scripts",
+    "phase": "08 · Verification, release and operations",
+    "repository": "Contracts",
+    "priority": "P0",
+    "objective": "Deploy approved contracts without manual undocumented state.",
+    "requirements": [
+      "Use authorized development/testnet deployer credentials from protected runtime storage and explicit network/role parameters; credential documentation values remain only in the dedicated private Notion Development Credentials page and must be rotated before live production.",
+      "Record addresses, source/compiler/version, constructor/initializer values, transaction hashes and deployment blocks; verify source when supported and archive deployment documents in the private Notion project without literal credentials."
+    ],
+    "acceptance": [
+      "Dry-run and INFRA testnet/UAT deployment produce complete reproducible manifests.",
+      "Script rejects wrong chain, missing roles and stale artifacts; live-production release requires rotated credentials while current authorized testnet use is permitted."
+    ],
+    "dependencies": [
+      "RSI-098",
+      "RSI-012",
+      "RSI-036"
+    ],
+    "status": "To do",
+    "commit_url": null
+  },
+  {
+    "id": "RSI-100",
+    "title": "Configure backend, indexer and database hosting",
+    "phase": "08 · Verification, release and operations",
+    "repository": "Cross-project",
+    "priority": "P0",
+    "objective": "Run durable platform services on the FP server accessed through Teleport, independently of the Vercel investor frontend.",
+    "requirements": [
+      "Resolve the exact FP-to-Teleport-node mapping without guessing from inventory names; configure the FP server for the NestJS backend, private PostgreSQL, Redis/workers and standalone indexer, including container runtime, TLS/DNS, backups, migrations, scaling and protected environment injection.",
+      "Separate testnet/UAT and production environments; configure worker/indexer restarts and least-privilege service access. Optional GraphQL, only if separately approved, uses the same FP hosting target.",
+      "Maintain the private Notion Services inventory with purpose, environment, owner, hosting target, verified runtime/deployment state and credential-page reference; do not claim a planned service is deployed."
+    ],
+    "acceptance": [
+      "FP-hosted backend, database, Redis/workers and indexer pass health checks and preserve data across controlled restarts; Teleport administrative access is verified.",
+      "Backup restore succeeds and no database/queue/admin endpoint is unintentionally public.",
+      "Service records distinguish FP hosting targets from observed deployment evidence and contain no literal credentials outside the dedicated private credential page."
+    ],
+    "dependencies": [
+      "RSI-095",
+      "RSI-065",
+      "RSI-012"
+    ],
+    "status": "To do",
+    "commit_url": null
+  },
+  {
+    "id": "RSI-101",
+    "title": "Configure separate investor and admin frontend deployments",
+    "phase": "08 · Verification, release and operations",
+    "repository": "Cross-project",
+    "priority": "P1",
+    "objective": "Publish the investor frontend on Vercel and the admin frontend on FP with correct APIs, origins and callbacks.",
+    "requirements": [
+      "Configure the investor frontend on Vercel and the independent admin frontend on the FP server accessed through Teleport, with HTTPS domains, server-only environment boundaries and registered reID callbacks.",
+      "Deploy pinned API/contract manifests; check cookies/CORS/redirects and admin isolation, and record each application's target, URL and verified runtime status in the private Notion Services inventory."
+    ],
+    "acceptance": [
+      "Fresh browser sessions complete login and approved INFRA testnet/UAT actions at the investor Vercel URL and admin FP URL.",
+      "Public bundles contain no reID secret, Pinata credential or deployer key; private Services records accurately distinguish planned and deployed applications."
+    ],
+    "dependencies": [
+      "RSI-100",
+      "RSI-099",
+      "RSI-093",
+      "RSI-077"
+    ],
+    "status": "To do",
+    "commit_url": null
+  },
+  {
+    "id": "RSI-102",
+    "title": "Configure alerts, monitoring and reconciliation operations",
+    "phase": "08 · Verification, release and operations",
+    "repository": "Cross-project",
+    "priority": "P1",
+    "objective": "Detect and recover from actual service/chain failures.",
+    "requirements": [
+      "Monitor Vercel investor frontend and FP-hosted services for API errors, job failures, expired integrations, RPC availability, indexer lag, reorgs and accounting reconciliation.",
+      "Set alert ownership, dashboards, deploy-version visibility and incident escalation; archive operational documents in private Notion and update Services when monitoring tools/services are added or changed."
+    ],
+    "acceptance": [
+      "A test outage/drift generates a useful alert and runbook-guided recovery.",
+      "Logs and alerts redact user credentials and private wallet authorization material."
+    ],
+    "dependencies": [
+      "RSI-100",
+      "RSI-055",
+      "RSI-065"
+    ],
+    "status": "To do",
+    "commit_url": null
+  },
+  {
+    "id": "RSI-103",
+    "title": "Run client acceptance and deployment rehearsal on INFRA",
+    "phase": "08 · Verification, release and operations",
+    "repository": "Cross-project",
+    "priority": "P0",
+    "objective": "Get explicit sign-off on the complete working platform.",
+    "requirements": [
+      "Rehearse the confirmed INFRA testnet/UAT environment, initial project setup, signer roles, revenue and resale with several wallets, using the Vercel investor frontend and FP-hosted admin/services once deployed.",
+      "Verify manual yield wording, h/N versus h/S, fixed rate, no guaranteed liquidity and bank/card availability with client; archive the acceptance/rehearsal documents in the private Notion project."
+    ],
+    "acceptance": [
+      "Client acceptance checklist has linked evidence and resolved release blockers.",
+      "Final economic defaults, fees, allocation record rule and production network are explicitly approved."
+    ],
+    "dependencies": [
+      "RSI-096",
+      "RSI-101",
+      "RSI-102"
+    ],
+    "status": "To do",
+    "commit_url": null
+  },
+  {
+    "id": "RSI-104",
+    "title": "Perform approved release and privileged-role handover",
+    "phase": "08 · Verification, release and operations",
+    "repository": "Cross-project",
+    "priority": "P0",
+    "objective": "Release only after explicit deployment authorization and completed gates.",
+    "requirements": [
+      "Deploy/promote reviewed versions to their confirmed Vercel/FP targets, verify contracts/manifests and transfer roles to approved treasury/signers under explicit release authorization.",
+      "Confirm indexer start blocks, published initial data, smoke tests and emergency contacts; rotate development/testnet credentials before live production and record actual values only in the dedicated private Notion credential page."
+    ],
+    "acceptance": [
+      "Deployment register links every repository release commit and contract transaction, is archived in private Notion, and matches verified Services runtime status.",
+      "Authorized operators verify privileges and investors can complete approved live flows; any live-production release uses rotated credentials."
+    ],
+    "dependencies": [
+      "RSI-103",
+      "RSI-098",
+      "RSI-099"
+    ],
+    "status": "To do",
+    "commit_url": null
+  },
+  {
+    "id": "RSI-105",
+    "title": "Deliver operating runbooks, documentation and backlog evidence",
+    "phase": "08 · Verification, release and operations",
+    "repository": "Cross-project",
+    "priority": "P1",
+    "objective": "Make the platform maintainable across sessions and operators.",
+    "requirements": [
+      "Document release/rollback limits, FP/Teleport operations, indexer recovery, production credential rotation, admin onboarding, finance funding and incident procedures; archive all project documents and revisions in the existing private Notion project.",
+      "Keep implementation plan and task statuses current; attach real GitHub commit URLs and verification before marking Done. Maintain Services continuously as tools/services are added or changed, including hosting target versus verified runtime status.",
+      "Keep actual development/testnet credential values only in the dedicated private Notion Development Credentials page under the user's existing authorization; link to that page from general documents and service records without copying literal values."
+    ],
+    "acceptance": [
+      "A new Codex session can find repository roles, decisions, current state, archived project documents, current Services inventory, private credential-page reference and the next unblocked task.",
+      "Completed tasks link actual committed work; remaining tasks and known limits are explicit. No literal credentials appear in Git, local handoffs, client PDF, task bodies, logs or general documents."
+    ],
+    "dependencies": [
+      "RSI-104"
+    ],
+    "status": "To do",
+    "commit_url": null
+  }
+]

@@ -1,0 +1,730 @@
+{
+  "project": "reSystem Investment",
+  "created_date": "2026-10-16",
+  "timezone": "Asia/Dubai",
+  "workspace_url": "https://app.notion.com/p/3fb3b21ac925815cab02d74e0f79fc0b",
+  "project_page_id": "3fb3b21a-c925-815c-ab02-d74e0f79fc0b",
+  "database_id": "bb58726e-a929-4d81-b4d5-abcee5ab757a",
+  "database_url": "https://app.notion.com/p/bb58726ea9294d81b4d5abcee5ab757a",
+  "data_source_id": "1cdda21b-c684-4bdc-9ffb-10ac55e03271",
+  "data_source_url": "collection://1cdda21b-c684-4bdc-9ffb-10ac55e03271",
+  "status_options": [
+    "To do",
+    "In progress",
+    "Done"
+  ],
+  "properties": {
+    "title": "Task",
+    "id": "Task ID",
+    "status": "Status",
+    "repository": "Repository",
+    "phase": "Phase",
+    "priority": "Priority",
+    "dependencies": "Depends on",
+    "dependency_ids": "Dependencies",
+    "commit": "GitHub commit",
+    "pull_request": "GitHub PR",
+    "verification": "Verification evidence",
+    "blocked": "Blocked",
+    "blocker": "Blocker",
+    "started": "Started",
+    "completed": "Completed"
+  },
+  "views": {
+    "task_board": "view://3fb3b21a-c925-8143-a1a2-000ced5e10f8",
+    "all_tasks": "view://3fb3b21a-c925-81d3-bb79-000c0d6a1b57",
+    "by_repository": "view://3fb3b21a-c925-81ca-9ce8-000c2dc3c2fa",
+    "completion_evidence": "view://3fb3b21a-c925-8143-a497-000c9e62f861",
+    "delivery_status": "view://3fb3b21a-c925-81fc-b233-000c52bf6769",
+    "inline_board": "view://3fb3b21a-c925-815e-bdc0-000c97d0bf9d"
+  },
+  "workflow": "Read live task; set In progress when work starts; verify acceptance; attach real published GitHub commit and checks; set Done. Otherwise retain In progress and record blocker. No automatic GitHub synchronization is configured.",
+  "tasks": {
+    "RSI-001": {
+      "page_id": "3fb3b21a-c925-8100-9b77-c096bc689b5b",
+      "url": "https://app.notion.com/p/3fb3b21ac92581009b77c096bc689b5b?pvs=204",
+      "title": "Preserve and review the existing live deposit implementation"
+    },
+    "RSI-002": {
+      "page_id": "3fb3b21a-c925-816e-9f98-dcdad2c83d05",
+      "url": "https://app.notion.com/p/3fb3b21ac925816e9f98dcdad2c83d05?pvs=204",
+      "title": "Approve platform scope and economic decision register"
+    },
+    "RSI-003": {
+      "page_id": "3fb3b21a-c925-812e-b464-ed35ba52cb34",
+      "url": "https://app.notion.com/p/3fb3b21ac925812eb464ed35ba52cb34?pvs=204",
+      "title": "Verify the INFRA target network and asset manifest"
+    },
+    "RSI-004": {
+      "page_id": "3fb3b21a-c925-81ac-b39d-c8c59b0fac92",
+      "url": "https://app.notion.com/p/3fb3b21ac92581acb39dc8c59b0fac92?pvs=204",
+      "title": "Specify integer pricing, ownership and sale accounting"
+    },
+    "RSI-005": {
+      "page_id": "3fb3b21a-c925-8188-b825-deb90096625c",
+      "url": "https://app.notion.com/p/3fb3b21ac9258188b825deb90096625c?pvs=204",
+      "title": "Specify reward allocation and rounding invariants"
+    },
+    "RSI-006": {
+      "page_id": "3fb3b21a-c925-814e-ba81-f23561b75cdd",
+      "url": "https://app.notion.com/p/3fb3b21ac925814eba81f23561b75cdd?pvs=204",
+      "title": "Specify application and contract permissions"
+    },
+    "RSI-007": {
+      "page_id": "3fb3b21a-c925-8176-8f59-c0019ab011b0",
+      "url": "https://app.notion.com/p/3fb3b21ac92581768f59c0019ab011b0?pvs=204",
+      "title": "Audit existing UI and Figma flows against live behavior"
+    },
+    "RSI-008": {
+      "page_id": "3fb3b21a-c925-8128-8b1a-f6171500c906",
+      "url": "https://app.notion.com/p/3fb3b21ac92581288b1af6171500c906?pvs=204",
+      "title": "Approve API, event and lifecycle acceptance contracts"
+    },
+    "RSI-009": {
+      "page_id": "3fb3b21a-c925-818e-a21f-d209b5feb025",
+      "url": "https://app.notion.com/p/3fb3b21ac925818ea21fd209b5feb025?pvs=204",
+      "title": "Create and configure the five independent repositories"
+    },
+    "RSI-010": {
+      "page_id": "3fb3b21a-c925-81fa-a438-d6268b77beda",
+      "url": "https://app.notion.com/p/3fb3b21ac92581faa438d6268b77beda?pvs=204",
+      "title": "Publish versioned shared interface artifacts"
+    },
+    "RSI-011": {
+      "page_id": "3fb3b21a-c925-81b4-b5bc-f7816ae66427",
+      "url": "https://app.notion.com/p/3fb3b21ac92581b4b5bcf7816ae66427?pvs=204",
+      "title": "Set up independent CI and quality gates"
+    },
+    "RSI-012": {
+      "page_id": "3fb3b21a-c925-81f3-9845-f0a45e43d82b",
+      "url": "https://app.notion.com/p/3fb3b21ac92581f39845f0a45e43d82b?pvs=204",
+      "title": "Define secure environment and credential provisioning"
+    },
+    "RSI-013": {
+      "page_id": "3fb3b21a-c925-8150-af96-dbedf6f071de",
+      "url": "https://app.notion.com/p/3fb3b21ac9258150af96dbedf6f071de?pvs=204",
+      "title": "Scaffold the standalone backend service"
+    },
+    "RSI-014": {
+      "page_id": "3fb3b21a-c925-81e8-a48e-eeb44db9a0ce",
+      "url": "https://app.notion.com/p/3fb3b21ac92581e8a48eeeb44db9a0ce?pvs=204",
+      "title": "Design and migrate authoritative off-chain data models"
+    },
+    "RSI-015": {
+      "page_id": "3fb3b21a-c925-8186-9039-e317500542f6",
+      "url": "https://app.notion.com/p/3fb3b21ac92581869039e317500542f6?pvs=204",
+      "title": "Configure background jobs and retry policies"
+    },
+    "RSI-016": {
+      "page_id": "3fb3b21a-c925-819c-adde-d341374390f6",
+      "url": "https://app.notion.com/p/3fb3b21ac925819cadded341374390f6?pvs=204",
+      "title": "Pin and scaffold the Solidity toolchain"
+    },
+    "RSI-017": {
+      "page_id": "3fb3b21a-c925-81d2-b1ed-c9adee3eebe3",
+      "url": "https://app.notion.com/p/3fb3b21ac92581d2b1edc9adee3eebe3?pvs=204",
+      "title": "Implement the master project registry and factory"
+    },
+    "RSI-018": {
+      "page_id": "3fb3b21a-c925-8141-97ec-f527ea2568f9",
+      "url": "https://app.notion.com/p/3fb3b21ac925814197ecf527ea2568f9?pvs=204",
+      "title": "Implement fixed-version project deployment and initialization"
+    },
+    "RSI-019": {
+      "page_id": "3fb3b21a-c925-81f6-875b-d84a7d945542",
+      "url": "https://app.notion.com/p/3fb3b21ac92581f6875bd84a7d945542?pvs=204",
+      "title": "Implement ERC-1155 ownership and fixed supply"
+    },
+    "RSI-020": {
+      "page_id": "3fb3b21a-c925-8134-ae66-d0fa8f2095a5",
+      "url": "https://app.notion.com/p/3fb3b21ac9258134ae66d0fa8f2095a5?pvs=204",
+      "title": "Implement exact quotes and economic getters"
+    },
+    "RSI-021": {
+      "page_id": "3fb3b21a-c925-8170-b1c0-d607d2cca9dd",
+      "url": "https://app.notion.com/p/3fb3b21ac9258170b1c0d607d2cca9dd?pvs=204",
+      "title": "Implement primary-sale lifecycle and authorization"
+    },
+    "RSI-022": {
+      "page_id": "3fb3b21a-c925-81ae-aef3-fc44a574bfb4",
+      "url": "https://app.notion.com/p/3fb3b21ac92581aeaef3fc44a574bfb4?pvs=204",
+      "title": "Implement native reAED purchases"
+    },
+    "RSI-023": {
+      "page_id": "3fb3b21a-c925-8124-a21f-d9935b307446",
+      "url": "https://app.notion.com/p/3fb3b21ac9258124a21fd9935b307446?pvs=204",
+      "title": "Implement verified USDT purchases"
+    },
+    "RSI-024": {
+      "page_id": "3fb3b21a-c925-8119-a124-d559216a3f11",
+      "url": "https://app.notion.com/p/3fb3b21ac9258119a124d559216a3f11?pvs=204",
+      "title": "Implement isolated primary-sale proceeds"
+    },
+    "RSI-025": {
+      "page_id": "3fb3b21a-c925-817d-a372-fbf963dae336",
+      "url": "https://app.notion.com/p/3fb3b21ac925817da372fbf963dae336?pvs=204",
+      "title": "Implement transfer-safe per-asset reward accounting"
+    },
+    "RSI-026": {
+      "page_id": "3fb3b21a-c925-8181-aefc-fe82fe3509a8",
+      "url": "https://app.notion.com/p/3fb3b21ac9258181aefcfe82fe3509a8?pvs=204",
+      "title": "Implement actual revenue deposits and references"
+    },
+    "RSI-027": {
+      "page_id": "3fb3b21a-c925-8198-b2bb-e2b4e70fe543",
+      "url": "https://app.notion.com/p/3fb3b21ac9258198b2bbe2b4e70fe543?pvs=204",
+      "title": "Implement individual reward reads and claims"
+    },
+    "RSI-028": {
+      "page_id": "3fb3b21a-c925-813b-8ff7-fdb0f5cc7557",
+      "url": "https://app.notion.com/p/3fb3b21ac925813b8ff7fdb0f5cc7557?pvs=204",
+      "title": "Implement bounded multi-project claims"
+    },
+    "RSI-029": {
+      "page_id": "3fb3b21a-c925-810f-9bb5-e72a53f208a8",
+      "url": "https://app.notion.com/p/3fb3b21ac925810f9bb5e72a53f208a8?pvs=204",
+      "title": "Implement anchored metadata and manual yield revisions"
+    },
+    "RSI-030": {
+      "page_id": "3fb3b21a-c925-8138-a500-d356626fec23",
+      "url": "https://app.notion.com/p/3fb3b21ac9258138a500d356626fec23?pvs=204",
+      "title": "Implement roles, two-step changes and scoped pauses"
+    },
+    "RSI-031": {
+      "page_id": "3fb3b21a-c925-8185-b942-f66a4e8abc00",
+      "url": "https://app.notion.com/p/3fb3b21ac9258185b942f66a4e8abc00?pvs=204",
+      "title": "Implement on-chain resale listing lifecycle"
+    },
+    "RSI-032": {
+      "page_id": "3fb3b21a-c925-81e2-8b5d-da8838db7669",
+      "url": "https://app.notion.com/p/3fb3b21ac92581e28b5dda8838db7669?pvs=204",
+      "title": "Implement partial-fill quote and listing availability"
+    },
+    "RSI-033": {
+      "page_id": "3fb3b21a-c925-8108-9893-ce6548ef562a",
+      "url": "https://app.notion.com/p/3fb3b21ac92581089893ce6548ef562a?pvs=204",
+      "title": "Implement atomic reAED resale fills"
+    },
+    "RSI-034": {
+      "page_id": "3fb3b21a-c925-81c4-ac26-edfc473af50a",
+      "url": "https://app.notion.com/p/3fb3b21ac92581c4ac26edfc473af50a?pvs=204",
+      "title": "Implement atomic USDT resale fills"
+    },
+    "RSI-035": {
+      "page_id": "3fb3b21a-c925-8177-9c31-e149e8dbe4f2",
+      "url": "https://app.notion.com/p/3fb3b21ac92581779c31e149e8dbe4f2?pvs=204",
+      "title": "Implement seller proceeds withdrawal"
+    },
+    "RSI-036": {
+      "page_id": "3fb3b21a-c925-81d6-bd83-e4faf455143b",
+      "url": "https://app.notion.com/p/3fb3b21ac92581d6bd83e4faf455143b?pvs=204",
+      "title": "Finalize ABI, event coverage and deployed-address artifacts"
+    },
+    "RSI-037": {
+      "page_id": "3fb3b21a-c925-8135-8923-f53ba5881a75",
+      "url": "https://app.notion.com/p/3fb3b21ac92581358923f53ba5881a75?pvs=204",
+      "title": "Complete contract unit and adversarial integration tests"
+    },
+    "RSI-038": {
+      "page_id": "3fb3b21a-c925-8180-b2cb-da4a153f0385",
+      "url": "https://app.notion.com/p/3fb3b21ac9258180b2cbda4a153f0385?pvs=204",
+      "title": "Complete reference-model, fuzz and invariant testing"
+    },
+    "RSI-039": {
+      "page_id": "3fb3b21a-c925-8156-aa71-d961e8c2bcf8",
+      "url": "https://app.notion.com/p/3fb3b21ac9258156aa71d961e8c2bcf8?pvs=204",
+      "title": "Migrate real investor reID sessions to the standalone backend"
+    },
+    "RSI-040": {
+      "page_id": "3fb3b21a-c925-81e5-ab3b-ceaa5a6aebd4",
+      "url": "https://app.notion.com/p/3fb3b21ac92581e5ab3bceaa5a6aebd4?pvs=204",
+      "title": "Implement encrypted reID connection and transaction scopes"
+    },
+    "RSI-041": {
+      "page_id": "3fb3b21a-c925-81b7-a173-cc957004e089",
+      "url": "https://app.notion.com/p/3fb3b21ac92581b7a173cc957004e089?pvs=204",
+      "title": "Implement administrator username/password and MFA"
+    },
+    "RSI-042": {
+      "page_id": "3fb3b21a-c925-811a-9826-c7e41b0c6e53",
+      "url": "https://app.notion.com/p/3fb3b21ac925811a9826c7e41b0c6e53?pvs=204",
+      "title": "Implement staff roles, permissions and project assignments"
+    },
+    "RSI-043": {
+      "page_id": "3fb3b21a-c925-811d-8093-e52d24d5d83c",
+      "url": "https://app.notion.com/p/3fb3b21ac925811d8093e52d24d5d83c?pvs=204",
+      "title": "Implement authenticated admin wallet binding"
+    },
+    "RSI-044": {
+      "page_id": "3fb3b21a-c925-81b0-a4a4-d726ac5d3fae",
+      "url": "https://app.notion.com/p/3fb3b21ac92581b0a4a4d726ac5d3fae?pvs=204",
+      "title": "Implement Pinata/IPFS upload and media validation"
+    },
+    "RSI-045": {
+      "page_id": "3fb3b21a-c925-81b9-8ebb-fcfe2a002264",
+      "url": "https://app.notion.com/p/3fb3b21ac92581b98ebbfcfe2a002264?pvs=204",
+      "title": "Implement project draft, review and publishing APIs"
+    },
+    "RSI-046": {
+      "page_id": "3fb3b21a-c925-8198-9d17-c40d00a12b49",
+      "url": "https://app.notion.com/p/3fb3b21ac92581989d17c40d00a12b49?pvs=204",
+      "title": "Implement canonical transaction command orchestration"
+    },
+    "RSI-047": {
+      "page_id": "3fb3b21a-c925-8128-9c8b-f21327b09d10",
+      "url": "https://app.notion.com/p/3fb3b21ac92581289c8bf21327b09d10?pvs=204",
+      "title": "Implement approval, broadcast, receipt and confirmation tracking"
+    },
+    "RSI-048": {
+      "page_id": "3fb3b21a-c925-81d9-b563-e31c096b99fe",
+      "url": "https://app.notion.com/p/3fb3b21ac92581d9b563e31c096b99fe?pvs=204",
+      "title": "Implement actual portfolio and holdings APIs"
+    },
+    "RSI-049": {
+      "page_id": "3fb3b21a-c925-8148-80d4-d0d0a1c10ed0",
+      "url": "https://app.notion.com/p/3fb3b21ac925814880d4d0d0a1c10ed0?pvs=204",
+      "title": "Implement revenue, claim and manual-yield APIs"
+    },
+    "RSI-050": {
+      "page_id": "3fb3b21a-c925-811c-a032-ce5b336819a4",
+      "url": "https://app.notion.com/p/3fb3b21ac925811ca032ce5b336819a4?pvs=204",
+      "title": "Implement marketplace listings, trades and proceeds APIs"
+    },
+    "RSI-051": {
+      "page_id": "3fb3b21a-c925-81b4-af8a-d21d0f617d7f",
+      "url": "https://app.notion.com/p/3fb3b21ac92581b4af8ad21d0f617d7f?pvs=204",
+      "title": "Implement actual balances, wallet deposits and sending APIs"
+    },
+    "RSI-052": {
+      "page_id": "3fb3b21a-c925-81e4-8ee1-f5fcbc0b15a0",
+      "url": "https://app.notion.com/p/3fb3b21ac92581e48ee1f5fcbc0b15a0?pvs=204",
+      "title": "Implement user-scoped activity and reporting endpoints"
+    },
+    "RSI-053": {
+      "page_id": "3fb3b21a-c925-8135-a2cb-c25bece00f05",
+      "url": "https://app.notion.com/p/3fb3b21ac9258135a2cbc25bece00f05?pvs=204",
+      "title": "Implement persistent support tickets and replies"
+    },
+    "RSI-054": {
+      "page_id": "3fb3b21a-c925-818f-91c9-e6a532f8c5ee",
+      "url": "https://app.notion.com/p/3fb3b21ac925818f91c9e6a532f8c5ee?pvs=204",
+      "title": "Implement actual notifications and preferences"
+    },
+    "RSI-055": {
+      "page_id": "3fb3b21a-c925-8183-bdd7-e093a18d5190",
+      "url": "https://app.notion.com/p/3fb3b21ac9258183bdd7e093a18d5190?pvs=204",
+      "title": "Implement operational audit and monitoring APIs"
+    },
+    "RSI-056": {
+      "page_id": "3fb3b21a-c925-817b-a3b8-f55beb8a2b86",
+      "url": "https://app.notion.com/p/3fb3b21ac925817ba3b8f55beb8a2b86?pvs=204",
+      "title": "Publish and verify the complete REST/OpenAPI contract"
+    },
+    "RSI-057": {
+      "page_id": "3fb3b21a-c925-81b3-b8e9-fb69d673c7fc",
+      "url": "https://app.notion.com/p/3fb3b21ac92581b3b8e9fb69d673c7fc?pvs=204",
+      "title": "Scaffold standalone INFRA ingestion and provider resilience"
+    },
+    "RSI-058": {
+      "page_id": "3fb3b21a-c925-8103-9873-edea90fa2243",
+      "url": "https://app.notion.com/p/3fb3b21ac92581039873edea90fa2243?pvs=204",
+      "title": "Implement durable cursors and event identity"
+    },
+    "RSI-059": {
+      "page_id": "3fb3b21a-c925-8170-ab0d-cc547bb55aee",
+      "url": "https://app.notion.com/p/3fb3b21ac9258170ab0dcc547bb55aee?pvs=204",
+      "title": "Implement confirmation and reorganization recovery"
+    },
+    "RSI-060": {
+      "page_id": "3fb3b21a-c925-81fa-984f-c323451eeddb",
+      "url": "https://app.notion.com/p/3fb3b21ac92581fa984fc323451eeddb?pvs=204",
+      "title": "Project registry, sale and metadata projections"
+    },
+    "RSI-061": {
+      "page_id": "3fb3b21a-c925-8175-9868-ea9b7559111a",
+      "url": "https://app.notion.com/p/3fb3b21ac92581759868ea9b7559111a?pvs=204",
+      "title": "Index ownership, purchases and fraction transfers"
+    },
+    "RSI-062": {
+      "page_id": "3fb3b21a-c925-8130-bbef-d9999356bf34",
+      "url": "https://app.notion.com/p/3fb3b21ac9258130bbefd9999356bf34?pvs=204",
+      "title": "Index revenue funding, claims and indicative yield"
+    },
+    "RSI-063": {
+      "page_id": "3fb3b21a-c925-819e-873b-e97850c1fdb8",
+      "url": "https://app.notion.com/p/3fb3b21ac925819e873be97850c1fdb8?pvs=204",
+      "title": "Index resale lifecycle, trades and proceeds"
+    },
+    "RSI-064": {
+      "page_id": "3fb3b21a-c925-8101-b1a4-e268af2fe070",
+      "url": "https://app.notion.com/p/3fb3b21ac9258101b1a4e268af2fe070?pvs=204",
+      "title": "Index direct native and USDT wallet activity"
+    },
+    "RSI-065": {
+      "page_id": "3fb3b21a-c925-81bb-a8a2-d67653ef6c1f",
+      "url": "https://app.notion.com/p/3fb3b21ac92581bba8a2d67653ef6c1f?pvs=204",
+      "title": "Implement reconciliation, backfill and recovery controls"
+    },
+    "RSI-066": {
+      "page_id": "3fb3b21a-c925-81ea-8690-f2dbf8f9ffe9",
+      "url": "https://app.notion.com/p/3fb3b21ac92581ea8690f2dbf8f9ffe9?pvs=204",
+      "title": "Build independent admin app shell and authenticated navigation"
+    },
+    "RSI-067": {
+      "page_id": "3fb3b21a-c925-81dc-b846-d99602bd0d3b",
+      "url": "https://app.notion.com/p/3fb3b21ac92581dcb846d99602bd0d3b?pvs=204",
+      "title": "Build MetaMask and reID signer connection flows"
+    },
+    "RSI-068": {
+      "page_id": "3fb3b21a-c925-81cf-85c9-c108aa9df814",
+      "url": "https://app.notion.com/p/3fb3b21ac92581cf85c9c108aa9df814?pvs=204",
+      "title": "Build complete project draft and economic configuration wizard"
+    },
+    "RSI-069": {
+      "page_id": "3fb3b21a-c925-816e-9eab-de93b747408d",
+      "url": "https://app.notion.com/p/3fb3b21ac925816e9eabde93b747408d?pvs=204",
+      "title": "Build review, publish and contract lifecycle management"
+    },
+    "RSI-070": {
+      "page_id": "3fb3b21a-c925-81c4-b581-e5695997b1cf",
+      "url": "https://app.notion.com/p/3fb3b21ac92581c4b581e5695997b1cf?pvs=204",
+      "title": "Build project media, metadata and document revision management"
+    },
+    "RSI-071": {
+      "page_id": "3fb3b21a-c925-813d-98b9-d39290270891",
+      "url": "https://app.notion.com/p/3fb3b21ac925813d98b9d39290270891?pvs=204",
+      "title": "Build manual indicative yield controls"
+    },
+    "RSI-072": {
+      "page_id": "3fb3b21a-c925-81c5-84f7-c157f3f3e1f2",
+      "url": "https://app.notion.com/p/3fb3b21ac92581c584f7c157f3f3e1f2?pvs=204",
+      "title": "Build revenue funding and primary treasury workflows"
+    },
+    "RSI-073": {
+      "page_id": "3fb3b21a-c925-81e7-be7d-c24a84a31f14",
+      "url": "https://app.notion.com/p/3fb3b21ac92581e7be7dc24a84a31f14?pvs=204",
+      "title": "Build sales, holders, claims and marketplace reports"
+    },
+    "RSI-074": {
+      "page_id": "3fb3b21a-c925-814c-8d7c-fa746a3e9acc",
+      "url": "https://app.notion.com/p/3fb3b21ac925814c8d7cfa746a3e9acc?pvs=204",
+      "title": "Build investor directory and staff/role management"
+    },
+    "RSI-075": {
+      "page_id": "3fb3b21a-c925-810a-b3ab-cd9e5b023658",
+      "url": "https://app.notion.com/p/3fb3b21ac925810ab3abcd9e5b023658?pvs=204",
+      "title": "Build persistent support inbox and case workflow"
+    },
+    "RSI-076": {
+      "page_id": "3fb3b21a-c925-8168-b4bc-d24bd1c82a48",
+      "url": "https://app.notion.com/p/3fb3b21ac9258168b4bcd24bd1c82a48?pvs=204",
+      "title": "Build notifications, audit and chain-health operations views"
+    },
+    "RSI-077": {
+      "page_id": "3fb3b21a-c925-8137-bd96-d9303bbb1fcf",
+      "url": "https://app.notion.com/p/3fb3b21ac9258137bd96d9303bbb1fcf?pvs=204",
+      "title": "Verify complete admin workflows and accessibility"
+    },
+    "RSI-078": {
+      "page_id": "3fb3b21a-c925-818e-9a89-f341ba4b2ff9",
+      "url": "https://app.notion.com/p/3fb3b21ac925818e9a89f341ba4b2ff9?pvs=204",
+      "title": "Integrate generated clients and real account/session state"
+    },
+    "RSI-079": {
+      "page_id": "3fb3b21a-c925-81d2-be0b-cbbc257a4cad",
+      "url": "https://app.notion.com/p/3fb3b21ac92581d2be0bcbbc257a4cad?pvs=204",
+      "title": "Replace homepage and explore projects with published data"
+    },
+    "RSI-080": {
+      "page_id": "3fb3b21a-c925-81bd-8a14-ed09d8e7bd08",
+      "url": "https://app.notion.com/p/3fb3b21ac92581bd8a14ed09d8e7bd08?pvs=204",
+      "title": "Build complete live project details"
+    },
+    "RSI-081": {
+      "page_id": "3fb3b21a-c925-81e4-84bc-eb5ffbf8b2ef",
+      "url": "https://app.notion.com/p/3fb3b21ac92581e484bceb5ffbf8b2ef?pvs=204",
+      "title": "Implement primary buy/rebuy flows in both assets"
+    },
+    "RSI-082": {
+      "page_id": "3fb3b21a-c925-810b-9430-ebc352aa098f",
+      "url": "https://app.notion.com/p/3fb3b21ac925810b9430ebc352aa098f?pvs=204",
+      "title": "Replace dashboard with actual portfolio and balances"
+    },
+    "RSI-083": {
+      "page_id": "3fb3b21a-c925-8118-bc1c-ed668953cbe3",
+      "url": "https://app.notion.com/p/3fb3b21ac9258118bc1ced668953cbe3?pvs=204",
+      "title": "Build holdings details and fraction transfer UI"
+    },
+    "RSI-084": {
+      "page_id": "3fb3b21a-c925-8196-ba29-e0da9ca35971",
+      "url": "https://app.notion.com/p/3fb3b21ac9258196ba29e0da9ca35971?pvs=204",
+      "title": "Build actual earnings, funding history and reward claims"
+    },
+    "RSI-085": {
+      "page_id": "3fb3b21a-c925-8107-873d-e6f9d3b4c15d",
+      "url": "https://app.notion.com/p/3fb3b21ac9258107873de6f9d3b4c15d?pvs=204",
+      "title": "Replace wallet balances and assets with INFRA reads"
+    },
+    "RSI-086": {
+      "page_id": "3fb3b21a-c925-81a4-bb17-d3675b66bdee",
+      "url": "https://app.notion.com/p/3fb3b21ac92581a4bb17d3675b66bdee?pvs=204",
+      "title": "Complete live deposit migration and eliminate sample data"
+    },
+    "RSI-087": {
+      "page_id": "3fb3b21a-c925-81de-b53e-dcb20328c3d2",
+      "url": "https://app.notion.com/p/3fb3b21ac92581deb53edcb20328c3d2?pvs=204",
+      "title": "Implement real outgoing wallet transfers"
+    },
+    "RSI-088": {
+      "page_id": "3fb3b21a-c925-81e2-84f6-e336e05fd21d",
+      "url": "https://app.notion.com/p/3fb3b21ac92581e284f6e336e05fd21d?pvs=204",
+      "title": "Build investor resale browsing and partial buying"
+    },
+    "RSI-089": {
+      "page_id": "3fb3b21a-c925-81e2-81ff-c08ff1b92886",
+      "url": "https://app.notion.com/p/3fb3b21ac92581e281ffc08ff1b92886?pvs=204",
+      "title": "Build listing creation, cancellation and seller proceeds UI"
+    },
+    "RSI-090": {
+      "page_id": "3fb3b21a-c925-81cb-abc8-df474a9a3188",
+      "url": "https://app.notion.com/p/3fb3b21ac92581cbabc8df474a9a3188?pvs=204",
+      "title": "Replace activity with actual filtered transaction history"
+    },
+    "RSI-091": {
+      "page_id": "3fb3b21a-c925-81e7-99b2-ca15dfee484a",
+      "url": "https://app.notion.com/p/3fb3b21ac92581e799b2ca15dfee484a?pvs=204",
+      "title": "Implement durable investor support tickets"
+    },
+    "RSI-092": {
+      "page_id": "3fb3b21a-c925-8155-8db4-d1804aec9171",
+      "url": "https://app.notion.com/p/3fb3b21ac92581558db4d1804aec9171?pvs=204",
+      "title": "Implement real investor notifications"
+    },
+    "RSI-093": {
+      "page_id": "3fb3b21a-c925-8152-81e4-f11c6cbfcd6f",
+      "url": "https://app.notion.com/p/3fb3b21ac925815281e4f11c6cbfcd6f?pvs=204",
+      "title": "Complete responsive, accessibility and data-provenance UI audit"
+    },
+    "RSI-094": {
+      "page_id": "3fb3b21a-c925-81e6-8b17-f37327c0ff19",
+      "url": "https://app.notion.com/p/3fb3b21ac92581e68b17f37327c0ff19?pvs=204",
+      "title": "Complete cross-service threat model and security checks"
+    },
+    "RSI-095": {
+      "page_id": "3fb3b21a-c925-81cc-9fcb-e5c2450978e3",
+      "url": "https://app.notion.com/p/3fb3b21ac92581cc9fcbe5c2450978e3?pvs=204",
+      "title": "Complete backend/API/database integration suite"
+    },
+    "RSI-096": {
+      "page_id": "3fb3b21a-c925-81f5-9699-d63758beb798",
+      "url": "https://app.notion.com/p/3fb3b21ac92581f59699d63758beb798?pvs=204",
+      "title": "Run complete multi-wallet platform lifecycle tests"
+    },
+    "RSI-097": {
+      "page_id": "3fb3b21a-c925-8150-8103-e2e43601734e",
+      "url": "https://app.notion.com/p/3fb3b21ac92581508103e2e43601734e?pvs=204",
+      "title": "Verify gas, throughput, pagination and operational bounds"
+    },
+    "RSI-098": {
+      "page_id": "3fb3b21a-c925-81e4-96b7-f15fd6aaa7dc",
+      "url": "https://app.notion.com/p/3fb3b21ac92581e496b7f15fd6aaa7dc?pvs=204",
+      "title": "Complete independent contract review and release remediation"
+    },
+    "RSI-099": {
+      "page_id": "3fb3b21a-c925-811e-b31d-ff97af282d4e",
+      "url": "https://app.notion.com/p/3fb3b21ac925811eb31dff97af282d4e?pvs=204",
+      "title": "Implement reproducible deployment and verification scripts"
+    },
+    "RSI-100": {
+      "page_id": "3fb3b21a-c925-812e-81d9-da2a152e5e34",
+      "url": "https://app.notion.com/p/3fb3b21ac925812e81d9da2a152e5e34?pvs=204",
+      "title": "Configure backend, indexer and database hosting"
+    },
+    "RSI-101": {
+      "page_id": "3fb3b21a-c925-8138-bde1-da6d5bad4aa6",
+      "url": "https://app.notion.com/p/3fb3b21ac9258138bde1da6d5bad4aa6?pvs=204",
+      "title": "Configure separate investor and admin frontend deployments"
+    },
+    "RSI-102": {
+      "page_id": "3fb3b21a-c925-8125-a1f8-f6eefb452b3e",
+      "url": "https://app.notion.com/p/3fb3b21ac9258125a1f8f6eefb452b3e?pvs=204",
+      "title": "Configure alerts, monitoring and reconciliation operations"
+    },
+    "RSI-103": {
+      "page_id": "3fb3b21a-c925-8194-8f34-e609b06b4a48",
+      "url": "https://app.notion.com/p/3fb3b21ac92581948f34e609b06b4a48?pvs=204",
+      "title": "Run client acceptance and deployment rehearsal on INFRA"
+    },
+    "RSI-104": {
+      "page_id": "3fb3b21a-c925-814c-8ca0-cd0c42925ddb",
+      "url": "https://app.notion.com/p/3fb3b21ac925814c8ca0cd0c42925ddb?pvs=204",
+      "title": "Perform approved release and privileged-role handover"
+    },
+    "RSI-105": {
+      "page_id": "3fb3b21a-c925-814a-8f29-d78cb7a153d2",
+      "url": "https://app.notion.com/p/3fb3b21ac925814a8f29d78cb7a153d2?pvs=204",
+      "title": "Deliver operating runbooks, documentation and backlog evidence"
+    }
+  },
+  "task_count": 105,
+  "initial_status": "To do",
+  "github_sync": "Codex-managed workflow; no automatic webhook or background automation configured",
+  "plan_page_id": "3fb3b21a-c925-810b-9694-e2c99173f5f9",
+  "plan_page_url": "https://app.notion.com/p/3fb3b21ac925810b9694e2c99173f5f9?pvs=204",
+  "initial_sync_verified_at_utc": "2026-10-16 08:04:57 UTC",
+  "initial_verified_task_count": 105,
+  "dependency_edges": 301,
+  "dependency_relations_verified": true,
+  "documents": {
+    "database_id": "02d0e65d064b4316b6fbe3a9c466434f",
+    "data_source_id": "18dc1501-7faa-4823-89f1-c98c9c530ac9",
+    "url": "https://app.notion.com/p/02d0e65d064b4316b6fbe3a9c466434f"
+  },
+  "services": {
+    "database_id": "772a663cc1334f269b73e144c998f089",
+    "data_source_id": "af32e393-509e-4e91-888e-04ee85e8e6c0",
+    "url": "https://app.notion.com/p/772a663cc1334f269b73e144c998f089"
+  },
+  "credentials_page": {
+    "page_id": "3fb3b21a-c925-812d-a705-f4394432fe55",
+    "url": "https://app.notion.com/p/3fb3b21ac925812da705f4394432fe55?pvs=204"
+  },
+  "maintenance_workflow": {
+    "page_id": "3fb3b21a-c925-8126-a8cd-f47262d97fb2",
+    "url": "https://app.notion.com/p/3fb3b21ac9258126a8cdf47262d97fb2?pvs=204"
+  },
+  "hosting": {
+    "investor": "Vercel",
+    "other_application_services": "FP server via Teleport",
+    "fp_teleport_node": "footprint.frontend",
+    "graphql": "Optional; FP server if introduced",
+    "infra_environment": "Testnet",
+    "admin_public_url": "https://admin.resystem.org",
+    "backend_public_url": "https://admin.resystem.org/v1",
+    "access_verified": "resystem SSH login and Docker verified 2026-10-16",
+    "domain_migration_state": "User-requested canonical hostname; DNS A verified to FP; TLS/origin/sign-in checks underway"
+  },
+  "document_records": {
+    "docs/planning/RE_SYSTEM_IMPLEMENTATION_PLAN.md": {
+      "page_id": "3fb3b21a-c925-81ff-82a2-cb4cba7798c9",
+      "url": "https://app.notion.com/p/3fb3b21ac92581ff82a2cb4cba7798c9?pvs=204",
+      "title": "Implementation plan and session handoff"
+    },
+    "START_HERE.md": {
+      "page_id": "3fb3b21a-c925-8197-9764-d783026ad5f0",
+      "url": "https://app.notion.com/p/3fb3b21ac92581979764d783026ad5f0?pvs=204",
+      "title": "New-session startup guide"
+    },
+    "AGENTS.md": {
+      "page_id": "3fb3b21a-c925-81b0-9d54-f34d93ac0d35",
+      "url": "https://app.notion.com/p/3fb3b21ac92581b09d54f34d93ac0d35?pvs=204",
+      "title": "Repository agent instructions"
+    },
+    "docs/planning/tasks.json": {
+      "page_id": "3fb3b21a-c925-8177-ba8e-e9315f23a33c",
+      "url": "https://app.notion.com/p/3fb3b21ac9258177ba8ee9315f23a33c?pvs=204",
+      "title": "Implementation task backlog"
+    },
+    "docs/planning/notion-tracker.json": {
+      "page_id": "3fb3b21a-c925-81a1-aabb-f805ed81ac52",
+      "url": "https://app.notion.com/p/3fb3b21ac92581a1aabbf805ed81ac52?pvs=204",
+      "title": "Notion tracker mapping"
+    },
+    "README.md": {
+      "page_id": "3fb3b21a-c925-81ec-9c6a-c8aa53233f3e",
+      "url": "https://app.notion.com/p/3fb3b21ac92581ec9c6ac8aa53233f3e?pvs=204",
+      "title": "Investor repository README"
+    },
+    "output/pdf/reSystem-Investment-Platform-Plan.pdf": {
+      "page_id": "3fb3b21a-c925-81b9-a821-d16f28d0ba3d",
+      "url": "https://app.notion.com/p/3fb3b21ac92581b9a821d16f28d0ba3d?pvs=204",
+      "title": "Client platform plan - illustrated PDF"
+    },
+    "Native Notion operational page": {
+      "page_id": "3fb3b21a-c925-81ea-966f-c2c29bffb235",
+      "url": "https://app.notion.com/p/3fb3b21ac92581ea966fc2c29bffb235?pvs=204",
+      "title": "Documentation and service maintenance workflow"
+    },
+    "docs/security/SECURITY_ARCHITECTURE.md": {
+      "page_id": "3fb3b21a-c925-818b-87b4-e28f073df9f9",
+      "url": "https://app.notion.com/p/3fb3b21ac925818b87b4e28f073df9f9",
+      "title": "Security architecture, privacy and fund protection"
+    },
+    "docs/planning/IMPLEMENTATION_STATUS.md": {
+      "page_id": "3fb3b21a-c925-81a4-923f-f21995bd56eb",
+      "url": "https://app.notion.com/p/3fb3b21ac92581a4923ff21995bd56eb",
+      "title": "Implementation and recovery status"
+    }
+  },
+  "service_records": {
+    "Investor website and app": {
+      "page_id": "3fb3b21a-c925-811f-8c2e-c64c23182bf0",
+      "url": "https://app.notion.com/p/3fb3b21ac925811f8c2ec64c23182bf0?pvs=204"
+    },
+    "Admin application": {
+      "page_id": "3fb3b21a-c925-8192-a11b-eb4b34ff57c3",
+      "url": "https://app.notion.com/p/3fb3b21ac9258192a11beb4b34ff57c3?pvs=204"
+    },
+    "Platform backend / REST API": {
+      "page_id": "3fb3b21a-c925-8168-8993-d1f83a22e1f0",
+      "url": "https://app.notion.com/p/3fb3b21ac92581688993d1f83a22e1f0?pvs=204"
+    },
+    "PostgreSQL": {
+      "page_id": "3fb3b21a-c925-81f8-9625-c6e234e74af9",
+      "url": "https://app.notion.com/p/3fb3b21ac92581f89625c6e234e74af9?pvs=204"
+    },
+    "Redis / BullMQ": {
+      "page_id": "3fb3b21a-c925-815e-81a8-ed842cbb5d4d",
+      "url": "https://app.notion.com/p/3fb3b21ac925815e81a8ed842cbb5d4d?pvs=204"
+    },
+    "Background workers": {
+      "page_id": "3fb3b21a-c925-81ad-81bd-d429ff243559",
+      "url": "https://app.notion.com/p/3fb3b21ac92581ad81bdd429ff243559?pvs=204"
+    },
+    "INFRA event indexer": {
+      "page_id": "3fb3b21a-c925-81e6-8f2c-e1c2f26a951b",
+      "url": "https://app.notion.com/p/3fb3b21ac92581e68f2ce1c2f26a951b?pvs=204"
+    },
+    "GraphQL endpoint, if introduced": {
+      "page_id": "3fb3b21a-c925-81f0-9414-e6fa80fa133b",
+      "url": "https://app.notion.com/p/3fb3b21ac92581f09414e6fa80fa133b?pvs=204"
+    },
+    "Reverse proxy / TLS": {
+      "page_id": "3fb3b21a-c925-81f8-bfaa-d149c8119abf",
+      "url": "https://app.notion.com/p/3fb3b21ac92581f8bfaad149c8119abf?pvs=204"
+    },
+    "Monitoring and backups": {
+      "page_id": "3fb3b21a-c925-8113-ba9e-da4e2462e863",
+      "url": "https://app.notion.com/p/3fb3b21ac9258113ba9eda4e2462e863?pvs=204"
+    },
+    "reID UAT backend": {
+      "page_id": "3fb3b21a-c925-81a3-bae5-e92415955b15",
+      "url": "https://app.notion.com/p/3fb3b21ac92581a3bae5e92415955b15?pvs=204"
+    },
+    "reID approval application": {
+      "page_id": "3fb3b21a-c925-81b1-a4ed-db3ea8d7080a",
+      "url": "https://app.notion.com/p/3fb3b21ac92581b1a4eddb3ea8d7080a?pvs=204"
+    },
+    "INFRA testnet": {
+      "page_id": "3fb3b21a-c925-81db-9aee-d119ce8d3790",
+      "url": "https://app.notion.com/p/3fb3b21ac92581db9aeed119ce8d3790?pvs=204"
+    },
+    "Pinata / IPFS": {
+      "page_id": "3fb3b21a-c925-8173-8d9c-e997ea8632d0",
+      "url": "https://app.notion.com/p/3fb3b21ac92581738d9ce997ea8632d0?pvs=204"
+    },
+    "Teleport FP access": {
+      "page_id": "3fb3b21a-c925-81d9-be84-f81af5bf297f",
+      "url": "https://app.notion.com/p/3fb3b21ac92581d9be84f81af5bf297f?pvs=204"
+    },
+    "GitHub repositories / Actions": {
+      "page_id": "3fb3b21a-c925-8127-ad1a-f6d5abfe944e",
+      "url": "https://app.notion.com/p/3fb3b21ac9258127ad1af6d5abfe944e?pvs=204"
+    },
+    "Notion project documentation": {
+      "page_id": "3fb3b21a-c925-8129-9557-f8215be14852",
+      "url": "https://app.notion.com/p/3fb3b21ac92581299557f8215be14852?pvs=204"
+    }
+  },
+  "operations_updated_at_utc": "2026-10-16 08:24:59 UTC"
+}

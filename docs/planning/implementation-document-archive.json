@@ -1,0 +1,669 @@
+{
+  "format": 1,
+  "project": "reSystem Investment",
+  "archived_at_utc": "2026-10-16 10:09:48 UTC",
+  "private_archive": true,
+  "documents_library": {
+    "database_id": "02d0e65d064b4316b6fbe3a9c466434f",
+    "data_source_id": "18dc1501-7faa-4823-89f1-c98c9c530ac9",
+    "url": "https://app.notion.com/p/02d0e65d064b4316b6fbe3a9c466434f"
+  },
+  "scope": "Exact committed README, docs/*.md, FP deployment README/resource bounds snapshots from four implementation repositories, plus the provider transaction-hardening document and nonsecret UAT evidence JSON; immutable prior versions retained.",
+  "runtime_status_at_archive": "Source code published; FP application rollout and end-to-end verification pending with deployment owner. Contract UAT deployment evidence is preserved separately and does not establish application readiness. reID transaction submission remains disabled pending provider verification.",
+  "task_statuses_changed": false,
+  "existing_root_records_modified": false,
+  "verification": {
+    "page_count": 5,
+    "attachment_count": 27,
+    "all_pages_fetched": true,
+    "all_pages_untruncated": true,
+    "all_attachment_texts_downloaded_and_matched": true,
+    "all_attachment_byte_lengths_matched": true,
+    "duplicate_source_records": 0,
+    "credentials_or_environment_files_included": false,
+    "current_document_count": 24,
+    "immutable_previous_versions_preserved": true
+  },
+  "records": [
+    {
+      "repository": "ReSystem-Investment-backend",
+      "repository_url": "https://github.com/reIDentity/ReSystem-Investment-backend",
+      "source_commit": "f1a07227a0f4b21348fe2d3894242fedf1369bfd",
+      "source_commit_url": "https://github.com/reIDentity/ReSystem-Investment-backend/commit/f1a07227a0f4b21348fe2d3894242fedf1369bfd",
+      "publication_evidence": {
+        "kind": "Exact source snapshot is ancestor of published origin/dev; git merge-base --is-ancestor verified",
+        "reference": "origin/dev",
+        "reference_commit": "80aafe89d22cb1a0a4faacac0b681d41969493bd",
+        "commit": "f1a07227a0f4b21348fe2d3894242fedf1369bfd"
+      },
+      "notion_page_id": "3fb3b21a-c925-8157-be92-fa98b487b2f3",
+      "notion_page_url": "https://app.notion.com/p/3fb3b21ac9258157be92fa98b487b2f3?pvs=204",
+      "title": "Backend implementation and FP deployment documentation",
+      "source_state": "Published",
+      "archive_state": "Current",
+      "runtime_state_at_snapshot": "FP application rollout/verification pending; source archive is not a deployment claim",
+      "documents": [
+        {
+          "source_path": "workspaces/ReSystem-Investment-backend/README.md",
+          "repository_path": "README.md",
+          "source_url": "https://github.com/reIDentity/ReSystem-Investment-backend/blob/3962c056c6443dd16d35eb9b048da0a65eec9a0f/README.md",
+          "sha256": "b759cfd7e8e8e482a4bedcacdbecc06f76a2db03b162b91e27a468cc879e6976",
+          "utf8_bytes": 8893,
+          "attachment_upload_id": "3fb3b21a-c925-8155-a368-00b23607c451",
+          "attachment_filename": "backend-README.md",
+          "attached_to_page": true,
+          "downloaded_text_matches_source": true,
+          "verified_at_utc": "2026-10-16T10:09:21.145Z"
+        },
+        {
+          "source_path": "workspaces/ReSystem-Investment-backend/deploy/fp/README.md",
+          "repository_path": "deploy/fp/README.md",
+          "source_url": "https://github.com/reIDentity/ReSystem-Investment-backend/blob/f1a07227a0f4b21348fe2d3894242fedf1369bfd/deploy/fp/README.md",
+          "sha256": "6c56ebfce8ff5bc42fd02ea0b934b1ae18f3004867875e98b882d959408c289a",
+          "utf8_bytes": 11678,
+          "attachment_upload_id": "3fb3b21a-c925-811e-abd4-00b23c76363a",
+          "attachment_filename": "backend-deploy-fp-README.md-f1a0722.md",
+          "attached_to_page": true,
+          "downloaded_text_matches_source": true,
+          "verified_at_utc": "2026-10-16T10:41:33.760Z"
+        },
+        {
+          "source_path": "workspaces/ReSystem-Investment-backend/deploy/fp/RESOURCE_BOUNDS.md",
+          "repository_path": "deploy/fp/RESOURCE_BOUNDS.md",
+          "source_url": "https://github.com/reIDentity/ReSystem-Investment-backend/blob/f1a07227a0f4b21348fe2d3894242fedf1369bfd/deploy/fp/RESOURCE_BOUNDS.md",
+          "sha256": "69f6f7f638af4c3070378b548eb8da10bc9bf1c87a8ede9ecf5eaf81add7356c",
+          "utf8_bytes": 7644,
+          "attachment_upload_id": "3fb3b21a-c925-8143-bfc4-00b28064d211",
+          "attachment_filename": "backend-deploy-fp-RESOURCE_BOUNDS.md-f1a0722.md",
+          "attached_to_page": true,
+          "downloaded_text_matches_source": true,
+          "verified_at_utc": "2026-10-16T10:41:34.560Z"
+        },
+        {
+          "source_path": "workspaces/ReSystem-Investment-backend/docs/DEPLOYMENT_MANIFEST.md",
+          "repository_path": "docs/DEPLOYMENT_MANIFEST.md",
+          "source_url": "https://github.com/reIDentity/ReSystem-Investment-backend/blob/3962c056c6443dd16d35eb9b048da0a65eec9a0f/docs/DEPLOYMENT_MANIFEST.md",
+          "sha256": "396fb9560315821a903809b2c89b71d5c7a32958e31824aff14162020369bf1b",
+          "utf8_bytes": 2154,
+          "attachment_upload_id": "3fb3b21a-c925-8134-9a95-00b2e9907d5b",
+          "attachment_filename": "backend-docs-DEPLOYMENT_MANIFEST.md",
+          "attached_to_page": true,
+          "downloaded_text_matches_source": true,
+          "verified_at_utc": "2026-10-16T10:09:21.153Z"
+        },
+        {
+          "source_path": "workspaces/ReSystem-Investment-backend/docs/SECURITY.md",
+          "repository_path": "docs/SECURITY.md",
+          "source_url": "https://github.com/reIDentity/ReSystem-Investment-backend/blob/3962c056c6443dd16d35eb9b048da0a65eec9a0f/docs/SECURITY.md",
+          "sha256": "e21cf67c081425a0d0fcc7958e87bc3687a8cf3c27caaccc9300719f15c2d7a3",
+          "utf8_bytes": 7712,
+          "attachment_upload_id": "3fb3b21a-c925-81c7-bb6d-00b2aea0140a",
+          "attachment_filename": "backend-docs-SECURITY.md",
+          "attached_to_page": true,
+          "downloaded_text_matches_source": true,
+          "verified_at_utc": "2026-10-16T10:09:21.153Z"
+        },
+        {
+          "source_path": "workspaces/ReSystem-Investment-backend/docs/VERIFICATION.md",
+          "repository_path": "docs/VERIFICATION.md",
+          "source_url": "https://github.com/reIDentity/ReSystem-Investment-backend/blob/f1a07227a0f4b21348fe2d3894242fedf1369bfd/docs/VERIFICATION.md",
+          "sha256": "aa81a09a2e5726368bc22485727e947e438b6980d850f5ef2814e285fed1f41c",
+          "utf8_bytes": 9754,
+          "attachment_upload_id": "3fb3b21a-c925-81cc-85d7-00b29db3bd84",
+          "attachment_filename": "backend-docs-VERIFICATION.md-f1a0722.md",
+          "attached_to_page": true,
+          "downloaded_text_matches_source": true,
+          "verified_at_utc": "2026-10-16T10:41:35.419Z"
+        }
+      ],
+      "previous_snapshots": [
+        {
+          "source_commit": "3962c056c6443dd16d35eb9b048da0a65eec9a0f",
+          "source_commit_url": "https://github.com/reIDentity/ReSystem-Investment-backend/commit/3962c056c6443dd16d35eb9b048da0a65eec9a0f",
+          "publication_evidence": {
+            "kind": "Local origin tracking reference matches exact snapshot commit",
+            "reference": "origin/dev",
+            "commit": "3962c056c6443dd16d35eb9b048da0a65eec9a0f"
+          },
+          "runtime_state_at_snapshot": "FP application rollout/verification pending; source archive is not a deployment claim",
+          "documents": [
+            {
+              "source_path": "workspaces/ReSystem-Investment-backend/README.md",
+              "repository_path": "README.md",
+              "source_url": "https://github.com/reIDentity/ReSystem-Investment-backend/blob/3962c056c6443dd16d35eb9b048da0a65eec9a0f/README.md",
+              "sha256": "b759cfd7e8e8e482a4bedcacdbecc06f76a2db03b162b91e27a468cc879e6976",
+              "utf8_bytes": 8893,
+              "attachment_upload_id": "3fb3b21a-c925-8155-a368-00b23607c451",
+              "attachment_filename": "backend-README.md",
+              "attached_to_page": true,
+              "downloaded_text_matches_source": true,
+              "verified_at_utc": "2026-10-16T10:09:21.145Z"
+            },
+            {
+              "source_path": "workspaces/ReSystem-Investment-backend/deploy/fp/README.md",
+              "repository_path": "deploy/fp/README.md",
+              "source_url": "https://github.com/reIDentity/ReSystem-Investment-backend/blob/3962c056c6443dd16d35eb9b048da0a65eec9a0f/deploy/fp/README.md",
+              "sha256": "863dfde9ddbc8da29f7d566b800bef3991bf5799c00b0bb753a5f4b5772b0ec4",
+              "utf8_bytes": 11066,
+              "attachment_upload_id": "3fb3b21a-c925-810b-a9e6-00b2774cefc7",
+              "attachment_filename": "backend-deploy-fp-README.md",
+              "attached_to_page": true,
+              "downloaded_text_matches_source": true,
+              "verified_at_utc": "2026-10-16T10:09:21.153Z"
+            },
+            {
+              "source_path": "workspaces/ReSystem-Investment-backend/docs/DEPLOYMENT_MANIFEST.md",
+              "repository_path": "docs/DEPLOYMENT_MANIFEST.md",
+              "source_url": "https://github.com/reIDentity/ReSystem-Investment-backend/blob/3962c056c6443dd16d35eb9b048da0a65eec9a0f/docs/DEPLOYMENT_MANIFEST.md",
+              "sha256": "396fb9560315821a903809b2c89b71d5c7a32958e31824aff14162020369bf1b",
+              "utf8_bytes": 2154,
+              "attachment_upload_id": "3fb3b21a-c925-8134-9a95-00b2e9907d5b",
+              "attachment_filename": "backend-docs-DEPLOYMENT_MANIFEST.md",
+              "attached_to_page": true,
+              "downloaded_text_matches_source": true,
+              "verified_at_utc": "2026-10-16T10:09:21.153Z"
+            },
+            {
+              "source_path": "workspaces/ReSystem-Investment-backend/docs/SECURITY.md",
+              "repository_path": "docs/SECURITY.md",
+              "source_url": "https://github.com/reIDentity/ReSystem-Investment-backend/blob/3962c056c6443dd16d35eb9b048da0a65eec9a0f/docs/SECURITY.md",
+              "sha256": "e21cf67c081425a0d0fcc7958e87bc3687a8cf3c27caaccc9300719f15c2d7a3",
+              "utf8_bytes": 7712,
+              "attachment_upload_id": "3fb3b21a-c925-81c7-bb6d-00b2aea0140a",
+              "attachment_filename": "backend-docs-SECURITY.md",
+              "attached_to_page": true,
+              "downloaded_text_matches_source": true,
+              "verified_at_utc": "2026-10-16T10:09:21.153Z"
+            },
+            {
+              "source_path": "workspaces/ReSystem-Investment-backend/docs/VERIFICATION.md",
+              "repository_path": "docs/VERIFICATION.md",
+              "source_url": "https://github.com/reIDentity/ReSystem-Investment-backend/blob/3962c056c6443dd16d35eb9b048da0a65eec9a0f/docs/VERIFICATION.md",
+              "sha256": "25c69d96672940c75206a2e581302f915cd7eed040e026df38b954ccb9d78d18",
+              "utf8_bytes": 8652,
+              "attachment_upload_id": "3fb3b21a-c925-8133-bba1-00b2f10bf07e",
+              "attachment_filename": "backend-docs-VERIFICATION.md",
+              "attached_to_page": true,
+              "downloaded_text_matches_source": true,
+              "verified_at_utc": "2026-10-16T10:09:21.153Z"
+            }
+          ],
+          "archived_at_utc": "2026-10-16 10:09:48 UTC"
+        }
+      ],
+      "updated_at_utc": "2026-10-16 10:41:16 UTC",
+      "hosted_ci_evidence": {
+        "commit": "80aafe89d22cb1a0a4faacac0b681d41969493bd",
+        "run_id": 38888547917,
+        "run_url": "https://github.com/reIDentity/ReSystem-Investment-backend/actions/runs/38888547917",
+        "conclusion": "success",
+        "duration": "1m 34s",
+        "observed_at_utc": "2026-10-16 10:43:18 UTC",
+        "scope": "Workflow health-command quoting only; no runtime application/API/dependency source changes",
+        "integration_tests_passed": 16,
+        "integration_tests_failed": 0,
+        "integration_tests_skipped": 0,
+        "all_workflow_steps_passed": true
+      }
+    },
+    {
+      "repository": "ReSystem-Investment-admin",
+      "repository_url": "https://github.com/reIDentity/ReSystem-Investment-admin",
+      "source_commit": "98e645e579fdee07c55d6b57a67f726c5819d12d",
+      "source_commit_url": "https://github.com/reIDentity/ReSystem-Investment-admin/commit/98e645e579fdee07c55d6b57a67f726c5819d12d",
+      "publication_evidence": {
+        "kind": "Local origin tracking reference matches exact snapshot commit",
+        "reference": "origin/dev",
+        "commit": "98e645e579fdee07c55d6b57a67f726c5819d12d"
+      },
+      "notion_page_id": "3fb3b21a-c925-81ba-8f82-efe3b7ea118f",
+      "notion_page_url": "https://app.notion.com/p/3fb3b21ac92581ba8f82efe3b7ea118f?pvs=204",
+      "title": "Admin application implementation documentation",
+      "source_state": "Published",
+      "archive_state": "Current",
+      "runtime_state_at_snapshot": "FP application rollout/verification pending; source archive is not a deployment claim",
+      "documents": [
+        {
+          "source_path": "workspaces/ReSystem-Investment-admin/README.md",
+          "repository_path": "README.md",
+          "source_url": "https://github.com/reIDentity/ReSystem-Investment-admin/blob/98e645e579fdee07c55d6b57a67f726c5819d12d/README.md",
+          "sha256": "92600c832e7568d0856c7284a241e52cb169132a96f087dfd721c1f14b4a27ec",
+          "utf8_bytes": 6749,
+          "attachment_upload_id": "3fb3b21a-c925-81a1-b370-00b235d91b71",
+          "attachment_filename": "admin-README.md",
+          "attached_to_page": true,
+          "downloaded_text_matches_source": true,
+          "verified_at_utc": "2026-10-16T10:09:22.092Z"
+        },
+        {
+          "source_path": "workspaces/ReSystem-Investment-admin/docs/ADMIN_DESIGN.md",
+          "repository_path": "docs/ADMIN_DESIGN.md",
+          "source_url": "https://github.com/reIDentity/ReSystem-Investment-admin/blob/98e645e579fdee07c55d6b57a67f726c5819d12d/docs/ADMIN_DESIGN.md",
+          "sha256": "7d680f2f401c70fea451e0311d517ccb6bd66668b19496303667fdf814d96aae",
+          "utf8_bytes": 6017,
+          "attachment_upload_id": "3fb3b21a-c925-8145-9cdf-00b2017f3497",
+          "attachment_filename": "admin-docs-ADMIN_DESIGN.md",
+          "attached_to_page": true,
+          "downloaded_text_matches_source": true,
+          "verified_at_utc": "2026-10-16T10:09:22.092Z"
+        },
+        {
+          "source_path": "workspaces/ReSystem-Investment-admin/docs/DELIVERY_STATUS.md",
+          "repository_path": "docs/DELIVERY_STATUS.md",
+          "source_url": "https://github.com/reIDentity/ReSystem-Investment-admin/blob/98e645e579fdee07c55d6b57a67f726c5819d12d/docs/DELIVERY_STATUS.md",
+          "sha256": "c172727fd153cb7d4eb76ce9d00df115aba0282123adac47f3cb111e4a70e163",
+          "utf8_bytes": 7666,
+          "attachment_upload_id": "3fb3b21a-c925-8106-8fff-00b26798df3f",
+          "attachment_filename": "admin-docs-DELIVERY_STATUS.md",
+          "attached_to_page": true,
+          "downloaded_text_matches_source": true,
+          "verified_at_utc": "2026-10-16T10:09:22.092Z"
+        },
+        {
+          "source_path": "workspaces/ReSystem-Investment-admin/docs/SECURITY.md",
+          "repository_path": "docs/SECURITY.md",
+          "source_url": "https://github.com/reIDentity/ReSystem-Investment-admin/blob/98e645e579fdee07c55d6b57a67f726c5819d12d/docs/SECURITY.md",
+          "sha256": "af91b8037f45ac67580e522fe74978aa0b29d618a61dbf91929bd672fb6b6a37",
+          "utf8_bytes": 8442,
+          "attachment_upload_id": "3fb3b21a-c925-818c-a3d0-00b2d4919c4c",
+          "attachment_filename": "admin-docs-SECURITY.md",
+          "attached_to_page": true,
+          "downloaded_text_matches_source": true,
+          "verified_at_utc": "2026-10-16T10:09:22.092Z"
+        }
+      ]
+    },
+    {
+      "repository": "ReSystem-Investment-indexer",
+      "repository_url": "https://github.com/reIDentity/ReSystem-Investment-indexer",
+      "source_commit": "8bd7acb0f8c279a3c90f462a7a0ee3a4be2e91f8",
+      "source_commit_url": "https://github.com/reIDentity/ReSystem-Investment-indexer/commit/8bd7acb0f8c279a3c90f462a7a0ee3a4be2e91f8",
+      "publication_evidence": {
+        "kind": "Implementation/deployment owner confirmed exact published dev commit; exact committed source documents read for archive",
+        "reference": "origin/dev",
+        "commit": "8bd7acb0f8c279a3c90f462a7a0ee3a4be2e91f8"
+      },
+      "notion_page_id": "3fb3b21a-c925-816c-af7e-c7d11a4cf0e1",
+      "notion_page_url": "https://app.notion.com/p/3fb3b21ac925816caf7ec7d11a4cf0e1?pvs=204",
+      "title": "INFRA indexer implementation and operations documentation",
+      "source_state": "Published",
+      "archive_state": "Current",
+      "runtime_state_at_snapshot": "Newer source8bd7acb is not deployed. Last verified runtime e3c6d42 is live but readiness503 INGESTION_FAILED with no committed cursor/blocks/events. Original deployment block7287836 retained; deployment owner prioritizes canonical-domain TLS before rebuild.",
+      "documents": [
+        {
+          "source_path": "workspaces/ReSystem-Investment-indexer/README.md",
+          "repository_path": "README.md",
+          "source_url": "https://github.com/reIDentity/ReSystem-Investment-indexer/blob/8bd7acb0f8c279a3c90f462a7a0ee3a4be2e91f8/README.md",
+          "sha256": "92540edffb11c4ab3ddfb3481bdb142922b0e223a391a216946351df1dbaed07",
+          "utf8_bytes": 8978,
+          "attachment_upload_id": "3fb3b21a-c925-8159-98de-00b21a180b0d",
+          "attachment_filename": "indexer-README.md-8bd7acb.md",
+          "attached_to_page": true,
+          "downloaded_text_matches_source": true,
+          "verified_at_utc": "2026-10-16T11:25:47.773Z"
+        },
+        {
+          "source_path": "workspaces/ReSystem-Investment-indexer/docs/OPERATIONS.md",
+          "repository_path": "docs/OPERATIONS.md",
+          "source_url": "https://github.com/reIDentity/ReSystem-Investment-indexer/blob/8bd7acb0f8c279a3c90f462a7a0ee3a4be2e91f8/docs/OPERATIONS.md",
+          "sha256": "6ef5dc26c1b464486e9d0249c247625503afe5b3d8b7e1b31e21a13dd60da9b6",
+          "utf8_bytes": 4670,
+          "attachment_upload_id": "3fb3b21a-c925-8171-97b8-00b26eb97807",
+          "attachment_filename": "indexer-docs-OPERATIONS.md",
+          "attached_to_page": true,
+          "downloaded_text_matches_source": true,
+          "verified_at_utc": "2026-10-16T11:25:47.773Z"
+        },
+        {
+          "source_path": "workspaces/ReSystem-Investment-indexer/docs/SECURITY.md",
+          "repository_path": "docs/SECURITY.md",
+          "source_url": "https://github.com/reIDentity/ReSystem-Investment-indexer/blob/8bd7acb0f8c279a3c90f462a7a0ee3a4be2e91f8/docs/SECURITY.md",
+          "sha256": "cd06c77785f35611e871920bd4bb9b5cd03e46c0af78e5613c381d38691e497c",
+          "utf8_bytes": 6136,
+          "attachment_upload_id": "3fb3b21a-c925-8150-a641-00b28c79f9d7",
+          "attachment_filename": "indexer-docs-SECURITY.md",
+          "attached_to_page": true,
+          "downloaded_text_matches_source": true,
+          "verified_at_utc": "2026-10-16T11:25:47.773Z"
+        },
+        {
+          "source_path": "workspaces/ReSystem-Investment-indexer/docs/TASK_EVIDENCE.md",
+          "repository_path": "docs/TASK_EVIDENCE.md",
+          "source_url": "https://github.com/reIDentity/ReSystem-Investment-indexer/blob/8bd7acb0f8c279a3c90f462a7a0ee3a4be2e91f8/docs/TASK_EVIDENCE.md",
+          "sha256": "be920bf249f9bd8dcee776f19181a19a3eb4e54f725f528d781ffb8920f5daef",
+          "utf8_bytes": 11113,
+          "attachment_upload_id": "3fb3b21a-c925-81d5-bbac-00b29fdf07af",
+          "attachment_filename": "indexer-docs-TASK_EVIDENCE.md-8bd7acb.md",
+          "attached_to_page": true,
+          "downloaded_text_matches_source": true,
+          "verified_at_utc": "2026-10-16T11:25:47.773Z"
+        }
+      ],
+      "previous_snapshots": [
+        {
+          "source_commit": "e722afd3835a5335ad7b2d7583c64ccb7827f632",
+          "source_commit_url": "https://github.com/reIDentity/ReSystem-Investment-indexer/commit/e722afd3835a5335ad7b2d7583c64ccb7827f632",
+          "publication_evidence": {
+            "kind": "Local origin tracking reference matches exact snapshot commit",
+            "reference": "origin/dev",
+            "commit": "e722afd3835a5335ad7b2d7583c64ccb7827f632"
+          },
+          "runtime_state_at_snapshot": "FP application rollout/verification pending; source archive is not a deployment claim",
+          "documents": [
+            {
+              "source_path": "workspaces/ReSystem-Investment-indexer/README.md",
+              "repository_path": "README.md",
+              "source_url": "https://github.com/reIDentity/ReSystem-Investment-indexer/blob/e722afd3835a5335ad7b2d7583c64ccb7827f632/README.md",
+              "sha256": "eaed45138741d8dc2226df2a8134365e93d37371d904fd56d1607ed5814d3570",
+              "utf8_bytes": 7610,
+              "attachment_upload_id": "3fb3b21a-c925-816b-b403-00b2f1d03b0a",
+              "attachment_filename": "indexer-README.md",
+              "attached_to_page": true,
+              "downloaded_text_matches_source": true,
+              "verified_at_utc": "2026-10-16T10:09:22.092Z"
+            },
+            {
+              "source_path": "workspaces/ReSystem-Investment-indexer/docs/OPERATIONS.md",
+              "repository_path": "docs/OPERATIONS.md",
+              "source_url": "https://github.com/reIDentity/ReSystem-Investment-indexer/blob/e722afd3835a5335ad7b2d7583c64ccb7827f632/docs/OPERATIONS.md",
+              "sha256": "6ef5dc26c1b464486e9d0249c247625503afe5b3d8b7e1b31e21a13dd60da9b6",
+              "utf8_bytes": 4670,
+              "attachment_upload_id": "3fb3b21a-c925-8171-97b8-00b26eb97807",
+              "attachment_filename": "indexer-docs-OPERATIONS.md",
+              "attached_to_page": true,
+              "downloaded_text_matches_source": true,
+              "verified_at_utc": "2026-10-16T10:09:24.272Z"
+            },
+            {
+              "source_path": "workspaces/ReSystem-Investment-indexer/docs/SECURITY.md",
+              "repository_path": "docs/SECURITY.md",
+              "source_url": "https://github.com/reIDentity/ReSystem-Investment-indexer/blob/e722afd3835a5335ad7b2d7583c64ccb7827f632/docs/SECURITY.md",
+              "sha256": "cd06c77785f35611e871920bd4bb9b5cd03e46c0af78e5613c381d38691e497c",
+              "utf8_bytes": 6136,
+              "attachment_upload_id": "3fb3b21a-c925-8150-a641-00b28c79f9d7",
+              "attachment_filename": "indexer-docs-SECURITY.md",
+              "attached_to_page": true,
+              "downloaded_text_matches_source": true,
+              "verified_at_utc": "2026-10-16T10:09:24.272Z"
+            },
+            {
+              "source_path": "workspaces/ReSystem-Investment-indexer/docs/TASK_EVIDENCE.md",
+              "repository_path": "docs/TASK_EVIDENCE.md",
+              "source_url": "https://github.com/reIDentity/ReSystem-Investment-indexer/blob/e722afd3835a5335ad7b2d7583c64ccb7827f632/docs/TASK_EVIDENCE.md",
+              "sha256": "1a08205ea998d0f04354cc3348a4ba2086b24d2f47c7d2eebdc0432b925ca9ae",
+              "utf8_bytes": 8355,
+              "attachment_upload_id": "3fb3b21a-c925-8133-a2c3-00b2f23e07d0",
+              "attachment_filename": "indexer-docs-TASK_EVIDENCE.md",
+              "attached_to_page": true,
+              "downloaded_text_matches_source": true,
+              "verified_at_utc": "2026-10-16T10:09:24.272Z"
+            }
+          ],
+          "archived_at_utc": "2026-10-16 10:09:48 UTC"
+        },
+        {
+          "source_commit": "e3c6d42b8a97583c74567631ac826e8f2e433bbb",
+          "source_commit_url": "https://github.com/reIDentity/ReSystem-Investment-indexer/commit/e3c6d42b8a97583c74567631ac826e8f2e433bbb",
+          "publication_evidence": {
+            "kind": "Assigned implementation owner confirmed exact git push to dev; publication succeeded before archive",
+            "reference": "origin/dev",
+            "commit": "e3c6d42b8a97583c74567631ac826e8f2e433bbb"
+          },
+          "runtime_state_at_snapshot": "Exact e3c6d42 FP image started and live; readiness503 INGESTION_FAILED with no committed cursor, blocks or events. Deployment block7287836 preserved; diagnosis pending. Source/archive is not a readiness or full-history claim.",
+          "documents": [
+            {
+              "source_path": "workspaces/ReSystem-Investment-indexer/README.md",
+              "repository_path": "README.md",
+              "source_url": "https://github.com/reIDentity/ReSystem-Investment-indexer/blob/e3c6d42b8a97583c74567631ac826e8f2e433bbb/README.md",
+              "sha256": "9681cf6b8a90d27c054d3137db159dfdf8732617f78e554ed94fffddeef7ad25",
+              "utf8_bytes": 8590,
+              "attachment_upload_id": "3fb3b21a-c925-81dc-812d-00b2979ce19f",
+              "attachment_filename": "indexer-README.md-e3c6d42.md",
+              "attached_to_page": true,
+              "downloaded_text_matches_source": true,
+              "verified_at_utc": "2026-10-16T11:17:44.462Z"
+            },
+            {
+              "source_path": "workspaces/ReSystem-Investment-indexer/docs/OPERATIONS.md",
+              "repository_path": "docs/OPERATIONS.md",
+              "source_url": "https://github.com/reIDentity/ReSystem-Investment-indexer/blob/e3c6d42b8a97583c74567631ac826e8f2e433bbb/docs/OPERATIONS.md",
+              "sha256": "6ef5dc26c1b464486e9d0249c247625503afe5b3d8b7e1b31e21a13dd60da9b6",
+              "utf8_bytes": 4670,
+              "attachment_upload_id": "3fb3b21a-c925-8171-97b8-00b26eb97807",
+              "attachment_filename": "indexer-docs-OPERATIONS.md",
+              "attached_to_page": true,
+              "downloaded_text_matches_source": true,
+              "verified_at_utc": "2026-10-16T11:17:44.462Z"
+            },
+            {
+              "source_path": "workspaces/ReSystem-Investment-indexer/docs/SECURITY.md",
+              "repository_path": "docs/SECURITY.md",
+              "source_url": "https://github.com/reIDentity/ReSystem-Investment-indexer/blob/e3c6d42b8a97583c74567631ac826e8f2e433bbb/docs/SECURITY.md",
+              "sha256": "cd06c77785f35611e871920bd4bb9b5cd03e46c0af78e5613c381d38691e497c",
+              "utf8_bytes": 6136,
+              "attachment_upload_id": "3fb3b21a-c925-8150-a641-00b28c79f9d7",
+              "attachment_filename": "indexer-docs-SECURITY.md",
+              "attached_to_page": true,
+              "downloaded_text_matches_source": true,
+              "verified_at_utc": "2026-10-16T11:17:44.462Z"
+            },
+            {
+              "source_path": "workspaces/ReSystem-Investment-indexer/docs/TASK_EVIDENCE.md",
+              "repository_path": "docs/TASK_EVIDENCE.md",
+              "source_url": "https://github.com/reIDentity/ReSystem-Investment-indexer/blob/e3c6d42b8a97583c74567631ac826e8f2e433bbb/docs/TASK_EVIDENCE.md",
+              "sha256": "d88daf60cbb0cd8c539f4f8d7da6e3ae288877678b1f2d0aeb4a099d08190a07",
+              "utf8_bytes": 10062,
+              "attachment_upload_id": "3fb3b21a-c925-8160-b2ec-00b22e5a7775",
+              "attachment_filename": "indexer-docs-TASK_EVIDENCE.md-e3c6d42.md",
+              "attached_to_page": true,
+              "downloaded_text_matches_source": true,
+              "verified_at_utc": "2026-10-16T11:17:44.462Z"
+            }
+          ],
+          "archived_at_utc": "2026-10-16T11:17:44.462Z"
+        }
+      ],
+      "updated_at_utc": "2026-10-16T11:25:47.773Z",
+      "verification": {
+        "current_document_count": 4,
+        "group_attachment_count": 8,
+        "changed_documents_uploaded": 2,
+        "previous_attachments_preserved": 6,
+        "all_current_originals_downloaded_and_text_matched": true,
+        "page_readback_verified": true,
+        "source_tests": {
+          "unit": 43,
+          "postgres_integration": 4,
+          "verification": "Implementation owner confirmed latest published source checks passed; this archive downloaded and matched the exact committed documents."
+        }
+      }
+    },
+    {
+      "repository": "ReSystem-Investment-contracts",
+      "repository_url": "https://github.com/reIDentity/ReSystem-Investment-contracts",
+      "source_commit": "41513e50b0264b8f1556adc10b6446ca4f9828a0",
+      "source_commit_url": "https://github.com/reIDentity/ReSystem-Investment-contracts/commit/41513e50b0264b8f1556adc10b6446ca4f9828a0",
+      "publication_evidence": {
+        "kind": "Local origin tracking reference matches exact snapshot commit",
+        "reference": "origin/dev",
+        "commit": "41513e50b0264b8f1556adc10b6446ca4f9828a0"
+      },
+      "notion_page_id": "3fb3b21a-c925-815f-a7bc-fe612b18f495",
+      "notion_page_url": "https://app.notion.com/p/3fb3b21ac925815fa7bcfe612b18f495?pvs=204",
+      "title": "UAT contracts implementation and deployment documentation",
+      "source_state": "Published",
+      "archive_state": "Current",
+      "runtime_state_at_snapshot": "FP application rollout/verification pending; source archive is not a deployment claim",
+      "documents": [
+        {
+          "source_path": "workspaces/ReSystem-Investment-contracts/README.md",
+          "repository_path": "README.md",
+          "source_url": "https://github.com/reIDentity/ReSystem-Investment-contracts/blob/41513e50b0264b8f1556adc10b6446ca4f9828a0/README.md",
+          "sha256": "3d679889f73a602076c47e0be83632b26fcfa9aee733c4bc97651ddae1dc3648",
+          "utf8_bytes": 3799,
+          "attachment_upload_id": "3fb3b21a-c925-81d2-80a3-00b2b163ad55",
+          "attachment_filename": "contracts-README.md",
+          "attached_to_page": true,
+          "downloaded_text_matches_source": true,
+          "verified_at_utc": "2026-10-16T10:09:24.272Z"
+        },
+        {
+          "source_path": "workspaces/ReSystem-Investment-contracts/docs/DEPLOYMENT_UAT.md",
+          "repository_path": "docs/DEPLOYMENT_UAT.md",
+          "source_url": "https://github.com/reIDentity/ReSystem-Investment-contracts/blob/41513e50b0264b8f1556adc10b6446ca4f9828a0/docs/DEPLOYMENT_UAT.md",
+          "sha256": "72fc20c2fe822e1254005c5a5e05ba42cb0e66cf830b3abf19dc3003f5aed2e0",
+          "utf8_bytes": 3002,
+          "attachment_upload_id": "3fb3b21a-c925-813a-89aa-00b2dda27c6c",
+          "attachment_filename": "contracts-docs-DEPLOYMENT_UAT.md",
+          "attached_to_page": true,
+          "downloaded_text_matches_source": true,
+          "verified_at_utc": "2026-10-16T10:09:24.273Z"
+        },
+        {
+          "source_path": "workspaces/ReSystem-Investment-contracts/docs/ECONOMICS.md",
+          "repository_path": "docs/ECONOMICS.md",
+          "source_url": "https://github.com/reIDentity/ReSystem-Investment-contracts/blob/41513e50b0264b8f1556adc10b6446ca4f9828a0/docs/ECONOMICS.md",
+          "sha256": "e8ac9d141043cebfd5b3a539a470a22a665c284497b0f2f021f53fce63ce6d97",
+          "utf8_bytes": 4889,
+          "attachment_upload_id": "3fb3b21a-c925-8160-9bf6-00b2b1348754",
+          "attachment_filename": "contracts-docs-ECONOMICS.md",
+          "attached_to_page": true,
+          "downloaded_text_matches_source": true,
+          "verified_at_utc": "2026-10-16T10:09:25.482Z"
+        },
+        {
+          "source_path": "workspaces/ReSystem-Investment-contracts/docs/OPERATIONS.md",
+          "repository_path": "docs/OPERATIONS.md",
+          "source_url": "https://github.com/reIDentity/ReSystem-Investment-contracts/blob/41513e50b0264b8f1556adc10b6446ca4f9828a0/docs/OPERATIONS.md",
+          "sha256": "3b3065226b4fbaf27ee8c4295e11cfc0d67037006c52d4cd5524200283b9c614",
+          "utf8_bytes": 3113,
+          "attachment_upload_id": "3fb3b21a-c925-8121-9100-00b25ff409be",
+          "attachment_filename": "contracts-docs-OPERATIONS.md",
+          "attached_to_page": true,
+          "downloaded_text_matches_source": true,
+          "verified_at_utc": "2026-10-16T10:09:25.482Z"
+        },
+        {
+          "source_path": "workspaces/ReSystem-Investment-contracts/docs/PERMISSIONS.md",
+          "repository_path": "docs/PERMISSIONS.md",
+          "source_url": "https://github.com/reIDentity/ReSystem-Investment-contracts/blob/41513e50b0264b8f1556adc10b6446ca4f9828a0/docs/PERMISSIONS.md",
+          "sha256": "643dd4f102b9dcee381cb10a8d41907008241e6e9d01f42aec3af74ba85b7a54",
+          "utf8_bytes": 3942,
+          "attachment_upload_id": "3fb3b21a-c925-81ec-8f08-00b2d4a41b7a",
+          "attachment_filename": "contracts-docs-PERMISSIONS.md",
+          "attached_to_page": true,
+          "downloaded_text_matches_source": true,
+          "verified_at_utc": "2026-10-16T10:09:25.482Z"
+        },
+        {
+          "source_path": "workspaces/ReSystem-Investment-contracts/docs/SECURITY.md",
+          "repository_path": "docs/SECURITY.md",
+          "source_url": "https://github.com/reIDentity/ReSystem-Investment-contracts/blob/41513e50b0264b8f1556adc10b6446ca4f9828a0/docs/SECURITY.md",
+          "sha256": "b92c2e8195cc4cb383d33a9a96ba841015ce3adee4b6c3f7a3e67d79636f06cc",
+          "utf8_bytes": 5956,
+          "attachment_upload_id": "3fb3b21a-c925-81a9-b63e-00b26d769628",
+          "attachment_filename": "contracts-docs-SECURITY.md",
+          "attached_to_page": true,
+          "downloaded_text_matches_source": true,
+          "verified_at_utc": "2026-10-16T10:09:25.482Z"
+        },
+        {
+          "source_path": "workspaces/ReSystem-Investment-contracts/docs/TASK_EVIDENCE.md",
+          "repository_path": "docs/TASK_EVIDENCE.md",
+          "source_url": "https://github.com/reIDentity/ReSystem-Investment-contracts/blob/41513e50b0264b8f1556adc10b6446ca4f9828a0/docs/TASK_EVIDENCE.md",
+          "sha256": "63cb56fd93de06254b739809ae550e8ac0db05fdc4f760e9acb023a42027cebf",
+          "utf8_bytes": 5052,
+          "attachment_upload_id": "3fb3b21a-c925-812d-9101-00b2f13b2835",
+          "attachment_filename": "contracts-docs-TASK_EVIDENCE.md",
+          "attached_to_page": true,
+          "downloaded_text_matches_source": true,
+          "verified_at_utc": "2026-10-16T10:09:25.482Z"
+        },
+        {
+          "source_path": "workspaces/ReSystem-Investment-contracts/docs/VERIFICATION.md",
+          "repository_path": "docs/VERIFICATION.md",
+          "source_url": "https://github.com/reIDentity/ReSystem-Investment-contracts/blob/41513e50b0264b8f1556adc10b6446ca4f9828a0/docs/VERIFICATION.md",
+          "sha256": "ff16b9964072cf61b17bc514e7d62b1d59c8dd57cf9db9b8b9113ad48cd4e70f",
+          "utf8_bytes": 5097,
+          "attachment_upload_id": "3fb3b21a-c925-81e7-991b-00b28088828b",
+          "attachment_filename": "contracts-docs-VERIFICATION.md",
+          "attached_to_page": true,
+          "downloaded_text_matches_source": true,
+          "verified_at_utc": "2026-10-16T10:09:26.408Z"
+        }
+      ]
+    },
+    {
+      "repository": "ReSystem-reID-UAT-hardening",
+      "repository_url": "https://github.com/reIDentity/backend_Re-ID",
+      "source_commit": "b306d85a62c43ab24c1dc33e9eb9a4e439030573",
+      "source_commit_url": "https://github.com/reIDentity/backend_Re-ID/commit/b306d85a62c43ab24c1dc33e9eb9a4e439030573",
+      "publication_evidence": {
+        "kind": "Implementation owner confirmed published private feature branch and exact ls-remote verification",
+        "branch": "fix/resystem-uat-approval-safety",
+        "commit_url": "https://github.com/reIDentity/backend_Re-ID/commit/b306d85a62c43ab24c1dc33e9eb9a4e439030573"
+      },
+      "notion_page_id": "3fb3b21a-c925-8155-b225-d0c968af329b",
+      "notion_page_url": "https://app.notion.com/p/3fb3b21ac9258155b225d0c968af329b?pvs=204",
+      "title": "reID UAT transaction provider hardening documentation",
+      "source_state": "Published",
+      "archive_state": "Current",
+      "runtime_state_at_snapshot": "Owner committed narrow UAT provider replacement evidence; platform submission gate remains disabled; real user consent/approval/receipt UAT pending",
+      "documents": [
+        {
+          "source_path": "workspaces/ReSystem-reID-UAT-hardening/docs/OAUTH_TRANSACTION_HARDENING.md",
+          "repository_path": "docs/OAUTH_TRANSACTION_HARDENING.md",
+          "source_url": "https://github.com/reIDentity/backend_Re-ID/blob/b306d85a62c43ab24c1dc33e9eb9a4e439030573/docs/OAUTH_TRANSACTION_HARDENING.md",
+          "sha256": "4ee3416147beaba0781e1933e570182169fdf6997eae2fb1834f83e9a3add028",
+          "utf8_bytes": 12912,
+          "attachment_upload_id": "3fb3b21a-c925-8103-a3e0-00b289f4c5a6",
+          "attachment_filename": "reid-hardening-docs-OAUTH_TRANSACTION_HARDENING.md-b306d85.md",
+          "attached_to_page": true,
+          "downloaded_text_matches_source": true,
+          "verified_at_utc": "2026-10-16T10:42:48.459Z"
+        },
+        {
+          "source_path": "workspaces/ReSystem-reID-UAT-hardening/docs/evidence/RE_SYSTEM_UAT_2026-10-16.json",
+          "repository_path": "docs/evidence/RE_SYSTEM_UAT_2026-10-16.json",
+          "source_url": "https://github.com/reIDentity/backend_Re-ID/blob/b306d85a62c43ab24c1dc33e9eb9a4e439030573/docs/evidence/RE_SYSTEM_UAT_2026-10-16.json",
+          "sha256": "327b9994fb366cc61118b272d33acac417b9fcf85b8dafb0c8315bf01535bd35",
+          "utf8_bytes": 6283,
+          "attachment_upload_id": "3fb3b21a-c925-8107-9d7f-00b259f0f3be",
+          "attachment_filename": "reid-hardening-docs-evidence-RE_SYSTEM_UAT_2026-10-16.json-b306d85.json",
+          "attached_to_page": true,
+          "downloaded_text_matches_source": true,
+          "verified_at_utc": "2026-10-16T10:42:49.808Z"
+        }
+      ],
+      "previous_snapshots": [
+        {
+          "source_commit": "384ae548abffde524d16f81c0ca102f1dd92f2ba",
+          "source_commit_url": "https://github.com/reIDentity/backend_Re-ID/commit/384ae548abffde524d16f81c0ca102f1dd92f2ba",
+          "publication_evidence": {
+            "kind": "Implementation owner confirmed published private feature branch",
+            "branch": "fix/resystem-uat-approval-safety",
+            "commit_url": "https://github.com/reIDentity/backend_Re-ID/commit/384ae548abffde524d16f81c0ca102f1dd92f2ba"
+          },
+          "runtime_state_at_snapshot": "Separate provider UAT build/tests/guarded replacement pending; submission gate remains disabled",
+          "documents": [
+            {
+              "source_path": "workspaces/ReSystem-reID-UAT-hardening/docs/OAUTH_TRANSACTION_HARDENING.md",
+              "repository_path": "docs/OAUTH_TRANSACTION_HARDENING.md",
+              "source_url": "https://github.com/reIDentity/backend_Re-ID/blob/384ae548abffde524d16f81c0ca102f1dd92f2ba/docs/OAUTH_TRANSACTION_HARDENING.md",
+              "sha256": "af0651311b00c6aa269498016f5166ee1fa50c68fd24729010bddd704b1b2025",
+              "utf8_bytes": 6816,
+              "attachment_upload_id": "3fb3b21a-c925-81a0-9359-00b2f77dabd0",
+              "attachment_filename": "reid-hardening-docs-OAUTH_TRANSACTION_HARDENING.md",
+              "attached_to_page": true,
+              "downloaded_text_matches_source": true,
+              "verified_at_utc": "2026-10-16T10:09:26.408Z"
+            }
+          ],
+          "archived_at_utc": "2026-10-16 10:09:48 UTC"
+        }
+      ],
+      "updated_at_utc": "2026-10-16 10:42:40 UTC"
+    }
+  ],
+  "updated_at_utc": "2026-10-16 10:43:18 UTC"
+}
