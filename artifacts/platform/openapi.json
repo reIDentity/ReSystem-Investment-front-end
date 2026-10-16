@@ -7977,6 +7977,18 @@
           "csrfToken": {
             "type": "string"
           },
+          "capabilities": {
+            "type": "object",
+            "properties": {
+              "directProjectPublication": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "directProjectPublication"
+            ],
+            "additionalProperties": false
+          },
           "user": {
             "$ref": "#/components/schemas/SessionUser",
             "nullable": true
@@ -7986,6 +7998,7 @@
           "authenticated",
           "kind",
           "csrfToken",
+          "capabilities",
           "user"
         ],
         "additionalProperties": false
@@ -8097,6 +8110,13 @@
                 "version": {
                   "type": "integer"
                 },
+                "status": {
+                  "type": "string",
+                  "enum": [
+                    "PINNED",
+                    "CONFIRMED"
+                  ]
+                },
                 "metadataUri": {
                   "type": "string"
                 },
@@ -8107,6 +8127,7 @@
               },
               "required": [
                 "version",
+                "status",
                 "metadataUri",
                 "createdAt"
               ],
