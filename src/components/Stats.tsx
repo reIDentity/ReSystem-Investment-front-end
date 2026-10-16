@@ -1,12 +1,13 @@
 import { Container } from "./Container";
+import { CountUp } from "./CountUp";
 import { Reveal } from "./Reveal";
 
 const stats = [
-  { value: <span>INFRA</span>, label: "On-chain settlement" },
-  { value: <span>reID</span>, label: "Separate wallet approval" },
-  { value: <span>Two assets</span>, label: "Native reAED and USDT" },
-  { value: <span>Whole units</span>, label: "Transferable project fractions" },
-  { value: <span>Funded</span>, label: "Rewards from actual deposits" },
+  { value: <CountUp to={12} />, label: "Products open to investors" },
+  { value: <CountUp to={96.4} prefix="$" suffix="k" decimals={1} />, label: "Revenue paid in last month" },
+  { value: <CountUp to={51} suffix="%" />, label: "Of all shares already sold" },
+  { value: <CountUp to={2000} prefix="$" />, label: "Minimum investment" },
+  { value: <span>0 days</span>, label: "Lock period" },
 ];
 
 export function Stats() {
@@ -16,16 +17,16 @@ export function Stats() {
         <Reveal variant="scale">
           <dl
             data-spotlight
-            className="stats-panel relative grid grid-cols-2 gap-x-6 gap-y-6 overflow-hidden rounded-2xl bg-panel px-6 py-8 text-white [--spot-size:520px] [--spot:rgba(0,145,255,0.18)] sm:px-10 md:grid-cols-5"
+            className="stats-panel relative grid grid-cols-2 gap-x-6 gap-y-6 overflow-hidden rounded-2xl bg-panel px-6 py-6 text-white [--spot-size:520px] [--spot:rgba(0,145,255,0.18)] sm:px-10 md:grid-cols-3 lg:grid-cols-5 lg:gap-x-[53px] lg:px-[43px] lg:py-[19px]"
           >
             {stats.map((s, i) => (
-              <Reveal key={s.label} variant="blur" delay={150 + i * 70} className="group">
+              <Reveal key={s.label} variant="blur" delay={150 + i * 70} className="group lg:pl-2 lg:pt-1">
                 <dt className="sr-only">{s.label}</dt>
                 <dd>
-                  <p className="font-sans text-[28px] font-bold tracking-tight transition-colors duration-500">
+                  <p className="font-sans text-[28px] leading-9 font-bold tracking-[-0.56px] transition-colors duration-500">
                     {s.value}
                   </p>
-                  <p className="mt-1 text-[14px] text-[#e0e0e0]">{s.label}</p>
+                  <p className="mt-1 text-[14px] leading-[18px] text-[#e0e0e0]">{s.label}</p>
                 </dd>
               </Reveal>
             ))}
