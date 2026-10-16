@@ -30,7 +30,7 @@ export function LiveDeposit() {
         <fieldset className="iv-deposit-options">
           <legend>How would you like to add funds?</legend>
           <div className="iv-deposit-methods">
-            {(["REAED", "USDT"] as const).map(value => <label key={value} className={asset === value ? "iv-selected" : ""}><input type="radio" name="deposit-method" value={value} checked={asset === value} onChange={() => setAsset(value)} /><span><strong>{assetLabel(value)}</strong><small>Receive on INFRA</small></span></label>)}
+            {(["REAED", "USDT"] as const).map(value => <label key={value} className={asset === value ? "iv-selected-option" : ""}><input type="radio" name="deposit-method" value={value} checked={asset === value} onChange={() => setAsset(value)} /><span><strong>{assetLabel(value)}</strong><small>Receive on INFRA</small></span></label>)}
             {["Bank transfer", "Card"].map(label => <label className="iv-method-coming" key={label}><span className="iv-method-coming-content" aria-hidden="true"><input type="radio" disabled tabIndex={-1} /><span><strong>{label}</strong><small>{label === "Card" ? "Debit or credit card" : "Bank account transfer"}</small></span></span><span className="iv-coming-soon">Coming soon</span><span className="sr-only">{label} — Coming soon, unavailable</span></label>)}
           </div>
         </fieldset>
