@@ -601,8 +601,11 @@
     "infra_environment": "Testnet",
     "admin_public_url": "https://admin.resystem.org",
     "backend_public_url": "https://admin.resystem.org/v1",
-    "access_verified": "resystem SSH login and Docker verified 2026-10-16",
-    "domain_migration_state": "User-requested canonical hostname; DNS A verified to FP; TLS/origin/sign-in checks underway"
+    "access_verified": "resystem Teleport/sudo and Docker; canonical TLS/password+MFA browser dashboard verified2026-10-16",
+    "domain_migration_state": "Verified canonical HTTPS, exact reID callback, repeated origin/cookie/CORS checks and actual existing password/TOTP browser dashboard login; financial/indexer acceptance remains separate",
+    "investor_configuration_state": "Operator saved/redeployed canonical server-only BFF environment; anonymous boundaries and human-consented authenticated reads verified. Connected Vercel account is not authorized for this project.",
+    "indexer_observation": "2026-10-16 11:57:40 UTC: private /health/ready 200; lag 12; history partial (2 complete, 1 pending, 0 failed). Backend financial submission remains disabled.",
+    "investor_ui_observation": "Published c61d34e Home/shared-header Figma restoration verified on the public authenticated investor app at desktop1440 and phone390; actual API values, native assets, search/clear and disabled zero-reward claim checked without financial transactions. All14-screen acceptance remains separate."
   },
   "document_records": {
     "docs/planning/RE_SYSTEM_IMPLEMENTATION_PLAN.md": {
@@ -726,5 +729,5 @@
       "url": "https://app.notion.com/p/3fb3b21ac92581299557f8215be14852?pvs=204"
     }
   },
-  "operations_updated_at_utc": "2026-10-16 08:24:59 UTC"
+  "operations_updated_at_utc": "2026-10-16 12:16:51 UTC"
 }
