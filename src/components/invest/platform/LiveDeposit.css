@@ -1,0 +1,23 @@
+.iv-deposit-page .iv-deposit-form { display:flex; flex-direction:column; gap:20px; border-radius:22px; }
+.iv-deposit-options { border:0; padding:0; margin:0; }
+.iv-deposit-options legend { font-size:18px; font-weight:700; margin-bottom:12px; }
+.iv-deposit-options .iv-deposit-methods { margin:0; }
+.iv-deposit-page .iv-deposit-methods label { min-height:60px; }
+.iv-deposit-page .iv-form-label { display:block; margin-bottom:10px; }
+.iv-deposit-page .iv-form-label small { color:#64748b; font-weight:400; }
+.iv-deposit-page .iv-deposit-address { margin:0; min-height:184px; }
+.iv-deposit-page .iv-qr { width:148px; height:148px; padding:12px; }
+.iv-deposit-page .iv-qr-placeholder { width:124px; height:124px; }
+.iv-deposit-page .iv-deposit-form > .iv-button { min-height:52px; }
+.iv-deposit-page .iv-deposit-help { color:#64748b; font-size:11px; }
+.iv-deposit-page .iv-real-deposit { flex-wrap:wrap; gap:8px; }
+.iv-deposit-page .iv-real-deposit > span:last-child { margin-left:auto; overflow-wrap:anywhere; }
+.iv-deposit-page .iv-real-deposit time { display:block; color:#64748b; font-size:11px; }
+.iv-deposit-page .iv-real-deposit .iv-text-link { font-size:10px; }
+@media(max-width:767px) {
+  .iv-deposit-page .iv-deposit-address { align-items:center; flex-direction:column; }
+  .iv-deposit-page .iv-qr img { width:124px; height:124px; }
+  .iv-deposit-page .iv-deposit-address > div:last-child { width:100%; }
+  .iv-deposit-page .iv-deposit-address code { font-size:12px; }
+  .iv-deposit-page .iv-presets button { min-height:44px; }
+}

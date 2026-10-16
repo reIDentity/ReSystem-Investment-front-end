@@ -1,0 +1,13 @@
+.iv-marketplace .iv-live-columns .iv-panel { position:relative; padding:26px; border-radius:22px; }
+.iv-marketplace .iv-live-columns .iv-panel:first-child { background:#061b2e; color:#fff; }
+.iv-marketplace .iv-live-columns .iv-panel:first-child .iv-muted { color:#cbd5e1; }
+.iv-marketplace .iv-live-columns .iv-panel .iv-large-amount { display:block; margin:18px 0 10px; font-size:36px; overflow-wrap:anywhere; }
+.iv-marketplace .iv-live-columns .iv-panel p { font-size:12px; margin-bottom:20px; }
+.iv-marketplace .iv-content > .iv-panel { border-radius:22px; }
+.iv-marketplace .iv-holding-grid { margin-top:18px; }
+.iv-marketplace .iv-holding-card { border:1px solid #edf0f4; }
+.iv-marketplace .iv-holding-card .iv-break { font-size:12px; color:#64748b; }
+.iv-marketplace .iv-holding-card .iv-exact-summary { padding:14px; background:#fff; border-radius:14px; }
+.iv-marketplace .iv-holding-card .iv-exact-summary dd { overflow-wrap:anywhere; font-size:12px; }
+.iv-marketplace .iv-empty { display:grid; place-items:center; min-height:240px; margin-top:20px; border:1px dashed #e2e8f0; border-radius:18px; background:#fafbfc; }
+@media(max-width:767px) { .iv-marketplace .iv-live-columns .iv-panel .iv-large-amount { font-size:28px; } }

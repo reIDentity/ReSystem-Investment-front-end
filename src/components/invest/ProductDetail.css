@@ -1,0 +1,63 @@
+.iv-pd-page { overflow:hidden; }
+.iv-pd-page .iv-product-hero { min-height:570px; background:#f1f1f1; }
+.iv-pd-page .iv-product-hero h2 { max-width:650px; overflow-wrap:anywhere; }
+.iv-pd-page .iv-product-hero p { display:-webkit-box; -webkit-line-clamp:5; -webkit-box-orient:vertical; overflow:hidden; }
+.iv-pd-page .iv-product-badges { min-height:34px; }
+.iv-pd-page .iv-product-poster > div { overflow:hidden; }
+.iv-pd-page .iv-product-poster img { width:100%; height:100%; object-fit:cover; }
+.iv-pd-image-empty { display:grid; place-items:center; height:100%; padding:24px; color:#64748b; font-size:12px; text-align:center; }
+.iv-pd-page .iv-product-moneyflow { min-height:550px; }
+.iv-pd-page .iv-flow-columns { min-height:330px; }
+.iv-pd-deposit { display:flex; align-items:center; gap:10px; margin-top:8px; padding:12px; border:1px solid #e6e8ec; border-radius:5px; font-size:11px; color:#0f172a; }
+.iv-pd-deposit b { overflow-wrap:anywhere; }
+.iv-pd-empty { display:grid!important; place-items:center; min-height:250px; padding:20px!important; color:#64748b; text-align:center; line-height:1.6; }
+.iv-pd-pool-empty { display:flex; flex-direction:column; justify-content:center; min-height:260px; padding:24px 12px; margin-top:14px; border-radius:8px; background:repeating-linear-gradient(0deg,#f2f4f7 0 1px,transparent 1px 36px),repeating-linear-gradient(90deg,#f2f4f7 0 1px,#fafbfc 1px 36px); text-align:center; }
+.iv-pd-pool-empty strong { font-family:inherit; font-size:14px; }
+.iv-pd-pool-empty p { margin-top:10px; font-size:12px; color:#64748b; }
+.iv-pd-holder-empty { display:grid; place-items:center; min-height:270px; color:#64748b; font-size:12px; text-align:center; background:repeating-linear-gradient(to top,#eef1f6 0 1px,transparent 1px 25%); }
+.iv-pd-page .iv-flow-totals strong { overflow-wrap:anywhere; }
+.iv-pd-page .iv-launch { min-height:210px; }
+.iv-pd-page .iv-launch-prices { align-items:flex-start; gap:20px; }
+.iv-pd-page .iv-launch-prices strong { font-size:clamp(23px,3vw,42px); white-space:normal; overflow-wrap:anywhere; }
+.iv-pd-page .iv-launch-prices em { display:block; margin-top:4px; color:#64748b; font-family:var(--font-jakarta),sans-serif; font-style:normal; font-size:12px; letter-spacing:0; }
+.iv-pd-page .iv-launch-progress > span { max-width:100%; }
+.iv-pd-small { margin-top:10px!important; color:#64748b; font-size:11px; line-height:1.6; }
+.iv-pd-page .iv-bento-halves > .iv-panel { min-height:256px; }
+.iv-pd-page .iv-why-invest,.iv-pd-page .iv-core-features { min-height:292px!important; }
+.iv-pd-page .iv-bento-thirds > .iv-panel { min-height:325px; }
+.iv-pd-page .iv-bento-reverse > .iv-panel { min-height:297px; }
+.iv-pd-price-reference { display:flex; flex-direction:column; margin:20px 0; }
+.iv-pd-price-reference strong { color:#0091ff; font-size:34px; line-height:1.2; overflow-wrap:anywhere; }
+.iv-pd-price-reference span { margin-top:5px; color:#64748b; font-size:11px; }
+.iv-pd-supply-tiles { display:grid; grid-template-columns:repeat(10,minmax(0,1fr)); gap:4px; }
+.iv-pd-supply-tiles i { display:block; aspect-ratio:1; border:1px solid #d2d8e2; border-radius:4px; background:#fff; }
+.iv-pd-allocation-tiles { flex:0 0 250px; grid-template-columns:repeat(10,minmax(0,1fr)); gap:3px; }
+.iv-pd-page .iv-allocation dd { margin:0; text-align:right; overflow-wrap:anywhere; }
+.iv-pd-page .iv-allocation dl { min-width:0; }
+.iv-pd-revenue-empty { display:grid; place-items:center; min-height:115px; margin-top:16px; border-radius:8px; color:#64748b; font-size:12px; background:repeating-linear-gradient(to top,#edf0f4 0 1px,transparent 1px 25%); }
+.iv-pd-page .iv-how-earn > small { display:block; margin-top:12px; }
+.iv-pd-page .iv-product-wallet > code { overflow-wrap:anywhere; }
+.iv-pd-contract-link { display:inline-block; margin-left:12px; }
+.iv-pd-page .iv-roadmap > div:nth-child(2) small { color:#64748b; }
+.iv-pd-page .iv-invest-panel { min-height:621px; }
+.iv-pd-document-empty { display:inline-flex; align-items:center; gap:8px; padding:10px 12px; border:1px solid #e6e8ec; border-radius:6px; color:#64748b; font-size:12px; }
+.iv-pd-page .iv-document { max-width:100%; white-space:normal; overflow-wrap:anywhere; }
+.iv-pd-page .iv-block-selector { display:flex; flex-direction:column; }
+.iv-pd-page .iv-block-grid-wrap { padding:20px; }
+.iv-pd-page .iv-block-controls { margin-top:auto; padding-top:20px; flex-wrap:wrap; }
+.iv-pd-page .iv-block-controls input { width:92px; min-height:44px; }
+.iv-pd-page .iv-block-controls > div > button { min-width:40px; min-height:44px; }
+.iv-pd-page .iv-block-controls > button { min-height:40px; }
+.iv-pd-issued-key { background:#d7dde7; }
+.iv-pd-page .iv-order-summary dd { overflow-wrap:anywhere; }
+.iv-pd-page .iv-order-total strong { font-size:clamp(19px,2vw,26px); overflow-wrap:anywhere; }
+.iv-pd-page .iv-order-assets span { overflow-wrap:anywhere; }
+.iv-pd-page .iv-order-assets label:focus-within { outline:2px solid #0091ff; outline-offset:2px; }
+.iv-pd-page .iv-order-assets input { width:16px; height:16px; position:static; opacity:1; float:right; accent-color:#0091ff; }
+.iv-pd-allowance { margin-bottom:10px; border:1px solid #d6e0ec; }
+.iv-pd-manage { padding:22px; border:1px solid #e6e8ec; border-radius:14px; background:#fff; }
+.iv-pd-manage summary { cursor:pointer; font-weight:700; }
+.iv-pd-manage[open] summary { margin-bottom:18px; }
+@media(max-width:1279px) { .iv-pd-page .iv-flow-columns { gap:16px; } .iv-pd-allocation-tiles { flex-basis:200px; } .iv-pd-page .iv-product-hero h2 { font-size:48px; } }
+@media(max-width:1023px) { .iv-pd-page .iv-product-hero h2 { font-size:40px; } .iv-pd-page .iv-flow-columns { grid-template-columns:1fr 1fr; } .iv-pd-page .iv-holder-blocks { grid-column:1 / -1; } .iv-pd-holder-empty { min-height:130px; } .iv-pd-page .iv-allocation-content { flex-direction:column; } .iv-pd-allocation-tiles { flex-basis:auto; width:min(100%,250px); } .iv-pd-page .iv-flow-totals { grid-template-columns:1fr 1fr; } }
+@media(max-width:767px) { .iv-pd-page .iv-product-hero { min-height:0; } .iv-pd-page .iv-product-hero h2 { font-size:38px; } .iv-pd-page .iv-product-poster { min-height:350px; } .iv-pd-page .iv-product-poster > div { width:190px; height:338px; } .iv-pd-page .iv-product-poster > span { left:50%; bottom:24px; transform:translateX(-50%); max-width:95%; white-space:normal; text-align:center; } .iv-pd-page .iv-flow-columns { grid-template-columns:1fr; margin-bottom:20px; } .iv-pd-page .iv-product-moneyflow { min-height:0; } .iv-pd-page .iv-holder-blocks { grid-column:auto; } .iv-pd-pool-empty { min-height:160px; } .iv-pd-empty { min-height:120px; } .iv-pd-page .iv-launch-prices strong { font-size:27px; } .iv-pd-page .iv-launch-prices { flex-wrap:wrap; } .iv-pd-page .iv-launch-stats strong { overflow-wrap:anywhere; } .iv-pd-page .iv-allocation-content { flex-direction:row; gap:12px; } .iv-pd-allocation-tiles { flex:0 0 42%; } .iv-pd-page .iv-allocation dl > div { flex-direction:column; align-items:flex-start; font-size:10px; } .iv-pd-page .iv-revenue-summary strong { font-size:20px; overflow-wrap:anywhere; } .iv-pd-page .iv-block-grid-wrap { padding:12px; } .iv-pd-page .iv-order-summary { min-width:0; } .iv-pd-contract-link { margin:12px 0 0; display:block; } .iv-pd-manage { padding:16px; } .iv-pd-page .iv-invest-panel { min-height:0; } }

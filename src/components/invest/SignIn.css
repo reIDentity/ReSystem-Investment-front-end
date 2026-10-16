@@ -1,0 +1,11 @@
+.iv-auth-screen { background:#eceef3; }
+.iv-auth-screen .iv-signin-card { width:min(100%,1180px); min-height:852px; }
+.iv-auth-screen .iv-signin-story { min-height:852px; }
+.iv-auth-screen .iv-signin-story-copy { padding-top:150px; }
+.iv-auth-screen .iv-signin-story p { max-width:409px; }
+.iv-auth-screen .iv-signin-stats > div { min-height:69px; }
+.iv-auth-screen .iv-signin-form { align-items:center; }
+.iv-auth-screen .iv-signin-steps { margin:18px 0; }
+.iv-auth-screen .iv-signin-steps li { min-height:42px; }
+.iv-auth-screen .iv-signin-protected { margin-top:26px!important; font-size:12px; }
+@media (max-width:767px) { .iv-auth-screen .iv-signin-card { min-height:0; } .iv-auth-screen .iv-signin-story { min-height:0; } .iv-auth-screen .iv-signin-story-copy { padding-top:40px; } .iv-auth-screen .iv-signin-stats > div { min-height:65px; } .iv-auth-screen .iv-signin-protected { font-size:10px; } }
