@@ -8,7 +8,7 @@
 .investor-app :focus-visible { outline:2px solid #0091ff; outline-offset:3px; }
 .investor-app a { text-decoration:none; }
 .investor-app h1,.investor-app h2,.investor-app h3,.investor-app p { margin:0; }
-.investor-app h1 { font-size:32px; line-height:1.25; letter-spacing:-1.28px; font-weight:700; }
+.investor-app h1 { font-size:32px; line-height:1.25; letter-spacing:-.96px; font-weight:700; }
 .investor-app h2 { font-size:18px; line-height:1.35; letter-spacing:-.36px; font-weight:700; }
 .investor-app h3 { font-size:15px; line-height:1.35; font-weight:700; }
 .investor-app small { font-size:12px; line-height:1.4; }
@@ -25,21 +25,22 @@
 .iv-notification i { position:absolute; top:8px; right:9px; width:10px; height:10px; border:1px solid #fff; border-radius:50%; background:#f04438; }
 .iv-account { display:flex; align-items:center; gap:10px; padding:4px 12px 4px 4px; border-radius:24px; text-align:left; }
 .iv-account strong { display:block; font-size:14px; }
-.iv-account small { display:flex; align-items:center; gap:4px; color:#64748b; font-size:11px; }
+.iv-account small { display:flex; align-items:center; gap:4px; color:#64748b; font-size:12px; }
 .iv-avatar { display:grid; place-items:center; width:40px; height:40px; border-radius:50%; background:var(--iv-blue-soft); color:#061b2e; font-size:13px; font-weight:700; }
 .iv-popover { position:absolute; top:56px; right:0; z-index:30; width:290px; padding:20px; border:1px solid #e6e8ec; border-radius:16px; background:#fff; box-shadow:0 12px 35px #061b2e20; }
 .iv-popover p { margin:8px 0 12px; color:#64748b; }
 .iv-popover a { display:block; padding:8px 0; color:#007aff; }
-.iv-page-heading { display:flex; align-items:flex-start; gap:20px; padding:22px 4px 18px; }
+.iv-page-heading { display:flex; align-items:flex-start; gap:11px; padding:22px 4px 18px; }
 .iv-page-heading > div:first-child { flex-shrink:0; }
 .iv-page-heading p { margin-top:7px; color:#64748b; font-size:14px; }
 .iv-heading-actions { display:flex; align-items:center; gap:5px; padding-top:0; }
-.iv-network { display:inline-flex; align-items:center; gap:8px; min-height:44px; padding:0 16px; border-radius:24px; background:#fff; color:#334155; font-size:12px; white-space:nowrap; }
+.iv-network { display:inline-flex; align-items:center; gap:8px; min-height:44px; padding:0 16px; border-radius:22px; background:#fff; color:#334155; font-size:13px; font-weight:500; white-space:nowrap; }
 .iv-network i,.iv-live { display:inline-block; width:7px; height:7px; border-radius:50%; background:#12b76a; }
 .iv-button { display:inline-flex; align-items:center; justify-content:center; gap:8px; min-height:44px; padding:10px 18px; border:1px solid transparent; border-radius:22px; background:#fff; color:#061b2e; font-size:13px; font-weight:600; line-height:1.3; transition:filter .18s,box-shadow .18s; white-space:nowrap; }
 .iv-button:hover { filter:brightness(.97); }
 .iv-button.iv-primary { background:var(--iv-accent); color:#fff; font-weight:700; }
 .iv-heading-actions .iv-primary { box-shadow:0 8px 18px #0091ff33; }
+.iv-heading-actions .iv-primary > img { filter:brightness(0) invert(1); }
 .iv-blue { background:#0091ff!important; color:#fff!important; }
 .iv-dark { background:#061b2e!important; color:#fff!important; }
 .iv-small { min-height:34px; padding:7px 12px; font-size:12px; }
@@ -609,10 +610,9 @@
   .investor-app h1 { font-size:26px; letter-spacing:-1px; }
   .iv-page-heading { padding:22px 2px 18px; }
   .iv-page-heading p { font-size:12px; }
-  .iv-heading-actions { width:100%; margin:0; }
-  .iv-network { margin-right:auto; min-height:38px; font-size:10px; padding:0 10px; gap:5px; }
-  .iv-heading-actions .iv-button { min-height:38px; padding:9px 12px; font-size:11px; }
-  .iv-heading-actions .iv-button img { width:13px; height:13px; }
+  .iv-heading-actions { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); width:100%; margin:0; gap:8px; }
+  .iv-network { grid-column:1/-1; justify-self:start; min-height:38px; font-size:10px; padding:0 10px; gap:5px; }
+  .iv-heading-actions .iv-button { min-height:44px; padding:10px 12px; font-size:12px; }
   .iv-kpis { gap:10px; }
   .iv-kpi { border-radius:18px; padding:16px; min-height:175px; }
   .iv-kpi > span { font-size:11px; }

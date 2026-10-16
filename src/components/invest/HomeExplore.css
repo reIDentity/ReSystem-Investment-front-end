@@ -1,0 +1,307 @@
+.iv-home-content {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  min-width: 0;
+}
+
+.iv-home-summary .iv-kpi {
+  display: flex;
+  flex-direction: column;
+  min-height: 194px;
+  border-radius: 22px;
+}
+
+.iv-home-summary .iv-kpi > span {
+  display: block;
+  min-height: 42px;
+  padding-right: 45px;
+  font-size: 14px;
+}
+
+.iv-home-summary .iv-kpi-icon {
+  background: linear-gradient(139deg, #7cc8ff, var(--iv-blue));
+}
+
+.iv-home-summary .iv-kpi-value {
+  margin-top: 14px;
+  margin-bottom: 22px;
+}
+
+.iv-home-summary .iv-kpi strong {
+  font-size: clamp(22px, 2.35vw, 34px);
+  line-height: 1.25;
+  overflow-wrap: anywhere;
+}
+
+.iv-home-summary .iv-kpi > p {
+  position: static;
+  margin-top: auto;
+  font-size: 12px;
+}
+
+.iv-home-summary .iv-kpi-primary .iv-kpi-icon {
+  background: #fff;
+}
+
+.iv-home-summary .iv-tag {
+  font-size: 10px;
+  padding: 3px 7px;
+}
+
+.iv-home-summary .iv-live {
+  width: 6px;
+  height: 6px;
+}
+
+.iv-home-cashflow {
+  min-height: 197px;
+  border-radius: 16px;
+}
+
+.iv-home-cashflow .iv-cash-bars > div {
+  grid-template-columns: 140px minmax(0, 1fr) minmax(74px, auto);
+}
+
+.iv-home-cashflow .iv-cash-bars > div > div {
+  border-radius: 2px;
+}
+
+.iv-home-cashflow .iv-cash-bars strong {
+  text-align: right;
+  overflow-wrap: anywhere;
+}
+
+.iv-home-caption, .iv-home-currency-note, .iv-home-chart-note {
+  color: #64748b;
+  font-size: 11px;
+  line-height: 1.6;
+}
+
+.iv-home-caption {
+  margin-top: 12px !important;
+}
+
+.iv-home-caption a, .iv-home-retry {
+  color: #0074cc;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.iv-home-middle {
+  align-items: stretch;
+}
+
+.iv-home-performance {
+  min-height: 518px;
+}
+
+.iv-home-performance .iv-panel-subtitle {
+  padding-right: 120px;
+}
+
+.iv-home-empty-chart {
+  display: grid;
+  place-items: center;
+  min-height: 278px;
+  margin-top: 18px;
+  border-bottom: 1px solid #e9edf3;
+  background: repeating-linear-gradient(to top, #edf0f4 0 1px, transparent 1px 20%);
+  text-align: center;
+}
+
+.iv-home-empty-chart > div {
+  max-width: 290px;
+  padding: 20px;
+  border: 1px solid #eef0f4;
+  border-radius: 16px;
+  background: #fff;
+}
+
+.iv-home-empty-chart strong, .iv-home-holdings-empty > strong, .iv-home-recommendation-empty > strong {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.iv-home-empty-chart p, .iv-home-holdings-empty > p, .iv-home-recommendation-empty > p {
+  margin-top: 6px;
+  color: #64748b;
+  font-size: 12px;
+}
+
+.iv-home-chart-note {
+  margin-top: 16px !important;
+}
+
+.iv-home-recommended {
+  min-height: 518px;
+}
+
+.iv-home-recommended .iv-mini-stats {
+  margin-top: 0;
+}
+
+.iv-home-recommendation-list {
+  flex: 1;
+  align-content: start;
+  min-height: 264px;
+}
+
+.iv-home-recommendation-list a {
+  min-height: 64px;
+}
+
+.iv-home-recommendation-list a strong, .iv-home-recommendation-list a small {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  overflow-wrap: anywhere;
+}
+
+.iv-home-recommendation-empty {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 264px;
+  padding: 20px;
+  border-radius: 16px;
+  background: #f6f7fa;
+  text-align: center;
+}
+
+.iv-home-recommendation-empty .iv-home-retry {
+  margin-top: 12px;
+}
+
+.iv-home-holdings {
+  min-height: 385px;
+}
+
+.iv-home-holdings-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 197px;
+  padding: 24px;
+  border: 1px dashed #e2e8f0;
+  border-radius: 20px;
+  background: #fafbfc;
+  text-align: center;
+}
+
+.iv-home-holdings-empty .iv-button {
+  margin-top: 16px;
+}
+
+.iv-home-holding-card .iv-holding-title > div {
+  flex: 1;
+}
+
+.iv-home-holding-card h3, .iv-home-holding-card dd {
+  overflow-wrap: anywhere;
+}
+
+.iv-home-holding-card .iv-holding-title .iv-tag {
+  flex-shrink: 0;
+}
+
+.iv-home-claim-amount {
+  color: #067647;
+}
+
+.iv-home-holdings .iv-claim-all {
+  min-height: 70px;
+}
+
+.iv-home-currency-note {
+  padding: 0 4px;
+}
+
+.iv-home-claim-choices {
+  display: grid;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.iv-home-claim-choices > div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px;
+  border: 1px solid #e6edf5;
+  border-radius: 16px;
+}
+
+.iv-home-claim-choices strong, .iv-home-claim-choices small {
+  display: block;
+  overflow-wrap: anywhere;
+}
+
+.iv-home-claim-choices strong {
+  margin: 4px 0;
+  font-size: 20px;
+}
+
+.iv-home-claim-choices small {
+  color: #64748b;
+}
+
+@media (max-width: 1023px) {
+  .iv-home-performance .iv-panel-subtitle {
+    padding-right: 0;
+  }
+}
+
+@media (max-width: 767px) {
+  .iv-home-summary .iv-kpi {
+    min-height: 180px;
+    padding: 16px;
+  }
+
+  .iv-home-summary .iv-kpi > span {
+    min-height: 32px;
+    padding-right: 0;
+    font-size: 12px;
+  }
+
+  .iv-home-summary .iv-kpi strong {
+    font-size: 26px;
+  }
+
+  .iv-home-summary .iv-kpi > p {
+    font-size: 10px;
+  }
+
+  .iv-home-summary .iv-kpi-value {
+    margin-top: 12px;
+    margin-bottom: 16px;
+  }
+
+  .iv-home-cashflow .iv-cash-bars > div {
+    grid-template-columns: 92px minmax(0, 1fr) minmax(54px, auto);
+  }
+
+  .iv-home-performance, .iv-home-recommended {
+    min-height: 390px;
+  }
+
+  .iv-home-recommendation-list, .iv-home-recommendation-empty {
+    min-height: 180px;
+  }
+
+  .iv-home-claim-choices > div {
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 374px) {
+  .iv-home-summary .iv-kpi strong {
+    font-size: 23px;
+  }
+}
