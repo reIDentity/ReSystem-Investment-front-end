@@ -19,6 +19,7 @@ export default function Home() {
       <Header />
       <main>
         <Hero />
+        <p className="mx-auto max-w-5xl px-6 text-center text-sm text-muted">Product visuals and example calculations are illustrations. Published project prices, ownership and actual revenue records appear in the investor catalogue.</p>
         <Ecosystem />
         <Stats />
         <Products />

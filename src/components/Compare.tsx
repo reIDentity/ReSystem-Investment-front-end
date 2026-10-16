@@ -2,8 +2,8 @@ import { Container } from "./Container";
 import { Reveal } from "./Reveal";
 
 const rows = [
-  ["Where returns come from", "Product revenue, paid monthly", "Dividends or a future exit", "Price changes"],
-  ["What you can see", "Live revenue wallet on INFRA", "Quarterly or yearly reports", "Price chart"],
+  ["Where returns come from", "Actual project revenue deposits", "Dividends or a future exit", "Price changes"],
+  ["What you can see", "On-chain funding and claims", "Quarterly or yearly reports", "Price chart"],
   ["Minimum ticket", "$2,000", "Usually $25,000+", "Any"],
   ["Getting money out", "Any time, no lock period", "Often locked for years", "Any time, at market price"],
   ["Income while you hold", "Yes, claim whenever you like", "Sometimes", "Rarely"],

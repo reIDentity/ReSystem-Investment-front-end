@@ -1,10 +1,11 @@
 "use client";
 
 import Image from "next/image";
+import { LiveDeposit } from "./platform/LiveDeposit";
 import Link from "next/link";
 import { useState } from "react";
 import useSWR from "swr";
-import { useDemo } from "./DemoProvider";
+import { usePlatform } from "./PlatformProvider";
 import { CopyButton, Initials, InvestorShell, Panel, Tag } from "./InvestorUI";
 import { INFRA_EXPLORER, type DepositAsset, type DepositResponse } from "@/lib/deposits";
 
@@ -31,8 +32,10 @@ async function fetchDeposits([url, wallet]: readonly [string, string]): Promise<
   return body;
 }
 
-export function InvestorDeposit() {
-  const { user } = useDemo();
+export function InvestorDeposit() { const { live } = usePlatform(); return live ? <LiveDeposit /> : <ReadOnlyDeposit />; }
+
+function ReadOnlyDeposit() {
+  const { user } = usePlatform();
   const [asset, setAsset] = useState<DepositAsset>("reAED");
   const [amount, setAmount] = useState("");
   const [status, setStatus] = useState("");

@@ -1,9 +1,15 @@
+import { platformEnabled } from "@/lib/platform/server";
+import { proxyConfig, proxyPlatform } from "@/lib/platform/proxy";
 import { NextRequest, NextResponse } from "next/server";
 import { exchangeCodeForToken } from "fpreid-connect-sdk";
 import { getReidConfig, OAUTH_COOKIES, OAUTH_NEXT, OAUTH_PATH, OAUTH_STATE, OAUTH_VERIFIER } from "@/lib/reid/config";
 import { parseInvestorUser, safeInvestorPath, sealSession, SESSION_COOKIE, SESSION_SECONDS, statesMatch } from "@/lib/auth/security";
 
 export async function GET(request: NextRequest) {
+  if (platformEnabled()) {
+    try { return await proxyPlatform(request, ["auth", "reid", "callback"], proxyConfig(process.env)); }
+    catch { return NextResponse.json({ error: "The platform sign-in service is unavailable." }, { status: 503, headers: { "Cache-Control": "no-store" } }); }
+  }
   let config;
   try { config = getReidConfig(); }
   catch { return NextResponse.redirect(new URL("/invest?reidError=not_configured", request.url)); }

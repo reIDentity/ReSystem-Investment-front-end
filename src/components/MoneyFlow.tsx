@@ -437,7 +437,7 @@ export function MoneyFlow() {
         </Reveal>
         <Reveal variant="blur" delay={80}>
           <p className="mt-3 max-w-[820px] text-[19px] leading-snug text-ink-soft">
-            Customers pay the product. The payment lands in its revenue wallet on INFRA, moves to the shareholder pool and is
+            This illustration shows the revenue-allocation model. Authorized operators deposit actual revenue on INFRA, and each funded allocation is
             split by blocks held. Nothing is taken out on the way.
           </p>
         </Reveal>

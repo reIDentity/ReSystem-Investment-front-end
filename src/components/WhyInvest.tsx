@@ -29,7 +29,7 @@ const reasons: Reason[] = [
   {
     id: "shared",
     iconAsset: "/images/figma/why-shared.svg",
-    title: "100% shared with holders",
+    title: "Funded revenue shared with holders",
     body: "All revenue in a product’s wallet goes to its shareholder pool and is split by shares held. The more you hold, the larger your cut.",
     image: "/images/why-2-shared.jpg",
     fallback: "radial-gradient(70% 80% at 45% 45%, #4a3626 0%, #2a1d14 55%, #120d0a 100%)",

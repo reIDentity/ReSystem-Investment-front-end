@@ -8,7 +8,7 @@ import { Reveal } from "./Reveal";
 const faqs = [
   {
     q: "How are my earnings calculated?",
-    a: "Each product sends all of its revenue to a shareholder pool. Your earnings are the pool multiplied by your shares, divided by all shares sold. If a product earns $1,000 and you hold 1% of its sold shares, you can claim $10.",
+    a: "Authorized project operators deposit actual revenue on INFRA. Each new allocation is shared by the issued fractions held at funding time. For example, a funded pool of 1,000 USDT and 1% participation allocates 10 USDT before atomic-unit rounding. Historical allocations stay with their original holder after a transfer.",
   },
   {
     q: "What is the minimum and maximum?",

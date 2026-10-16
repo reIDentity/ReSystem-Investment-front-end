@@ -1,13 +1,12 @@
 import { Container } from "./Container";
-import { CountUp } from "./CountUp";
 import { Reveal } from "./Reveal";
 
 const stats = [
-  { value: <CountUp to={12} />, label: "Products open to investors" },
-  { value: <CountUp to={96.4} prefix="$" suffix="k" decimals={1} />, label: "Revenue paid in last month" },
-  { value: <CountUp to={51} suffix="%" />, label: "Of all shares already sold" },
-  { value: <CountUp to={2000} prefix="$" />, label: "Minimum investment" },
-  { value: <span>0 days</span>, label: "Lock period" },
+  { value: <span>INFRA</span>, label: "On-chain settlement" },
+  { value: <span>reID</span>, label: "Separate wallet approval" },
+  { value: <span>Two assets</span>, label: "Native reAED and USDT" },
+  { value: <span>Whole units</span>, label: "Transferable project fractions" },
+  { value: <span>Funded</span>, label: "Rewards from actual deposits" },
 ];
 
 export function Stats() {

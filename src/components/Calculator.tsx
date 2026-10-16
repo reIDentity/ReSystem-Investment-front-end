@@ -39,10 +39,10 @@ export function Calculator() {
         <Reveal>
         <div ref={ref} className="calculator-panel grid gap-8 rounded-[20px] border border-line bg-[#efefef] p-4 sm:p-5 lg:grid-cols-[1fr_0.95fr]">
           <div className="calculator-inputs flex flex-col p-2 sm:p-4">
-            <h2 className="text-[30px] font-semibold tracking-tight text-ink sm:text-[34px]">How much should you invest?</h2>
+            <h2 className="text-[30px] font-semibold tracking-tight text-ink sm:text-[34px]">Illustrative allocation calculator</h2>
             <p className="mt-4 max-w-[430px] text-[19px] leading-snug text-ink-soft">
-              Pick a product and an amount to see what that share would have earned at last month&apos;s revenue. Shares cost
-              $100 each, minimum 20 shares.
+              Explore a hypothetical allocation using example figures. This illustration assumes $100 per fraction and 20 minimum fractions;
+              these are not current project prices, revenue records or an investment offer.
             </p>
 
             <div className="calculator-products mt-10 rounded-2xl bg-white p-5">
@@ -110,7 +110,7 @@ export function Calculator() {
               <Stat label="You get">
                 <RollingNumber value={result.shares.toLocaleString("en-US")} ready={shown} /> shares
               </Stat>
-              <Stat label="Your share of the pool">
+              <Stat label="Illustrative pool share">
                 <RollingNumber value={`${(result.poolShare * 100).toFixed(3)}%`} ready={shown} />
               </Stat>
               <Stat label="Est. per month" accent>
@@ -123,9 +123,9 @@ export function Calculator() {
 
             <div className="calculator-chart mt-3 flex flex-1 flex-col rounded-2xl bg-white p-4 text-ink">
               <div className="flex items-center justify-between">
-                <p className="font-display text-[12px] font-bold">Earnings over 12 months</p>
+                <p className="font-display text-[12px] font-bold">Hypothetical earnings over 12 months</p>
                 <p className="text-[11px] text-muted">
-                  <RollingNumber value={`${result.pace.toFixed(1)}%`} ready={shown} /> yearly at current pace
+                  <RollingNumber value={`${result.pace.toFixed(1)}%`} ready={shown} /> yearly in this example
                 </p>
               </div>
               <div className="calculator-bars mt-3 flex min-h-[170px] flex-1 items-end gap-1.5" role="img" aria-label="Projected earnings, growing each month">
@@ -152,11 +152,11 @@ export function Calculator() {
               href="/invest"
               className="calculator-invest btn btn-shine mt-3 block rounded-full bg-lime py-3.5 text-center font-display text-[14px] font-bold text-ink hover:shadow-[0_10px_24px_-10px_rgba(0,145,255,0.9)]"
             >
-              Invest {usd(amount)} in {product.name}
+              View actual project prices
             </a>
             <p className="calculator-disclaimer mt-3 text-[11px] leading-snug text-white/70">
-              Estimates use the product&apos;s revenue last month and today&apos;s number of shares sold. Revenue changes month to
-              month and more shares may be sold, so actual earnings can be higher or lower. Not a guarantee of returns.
+              Example values are illustrative and do not represent actual project revenue, ownership or yield. Published project economics and
+              real funded allocations are shown in the investor app. No future return or liquidity is guaranteed.
             </p>
           </div>
         </div>

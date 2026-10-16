@@ -5,7 +5,7 @@ export type InvestorUser = {
   id: string;
   name: string;
   wallet: string;
-  kycStatus: "approved" | "pending" | "rejected" | "incomplete";
+  kycStatus: "approved" | "pending" | "rejected" | "incomplete" | "not_requested";
 };
 
 export const SESSION_COOKIE = "resystem_investor_session";
