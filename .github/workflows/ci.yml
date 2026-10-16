@@ -10,16 +10,38 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
           persist-credentials: false
-      - uses: actions/setup-node@v4
+          fetch-depth: 0
+      - name: CI security helper regressions
+        run: PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s .github/ci -p 'test_*.py' -v
+      - name: Redacted full-history secret scan
+        run: python3 .github/ci/checks.py secrets
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
           node-version: 22
           cache: npm
       - run: npm ci
+      - name: Production and development dependency vulnerability gates
+        run: python3 .github/ci/checks.py npm
       - run: npm run lint
       - run: npm test
       - run: npx next typegen
       - run: npx tsc --noEmit --incremental false
       - run: npm run build
+      - name: Record source, toolchain and artifact provenance
+        if: always()
+        run: python3 .github/ci/checks.py provenance --status '${{ job.status }}'
+      - name: Upload nonsecret CI evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: ci-evidence-${{ github.sha }}
+          path: |
+            .github/ci/evidence/secrets.json
+            .github/ci/evidence/dependencies.json
+            .github/ci/evidence/provenance.json
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 14

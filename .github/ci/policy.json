@@ -1,0 +1,15 @@
+{
+  "npmDevExceptions": [
+    {
+      "advisory": "GHSA-vfj7-8cjw-p6xm",
+      "package": "braces",
+      "version": "3.0.3",
+      "expires": "2026-10-30",
+      "reason": "No patched upstream release. Development-only Next ESLint dependency; lint globs are repository-controlled. Production findings are never excepted.",
+      "sources": [
+        "https://github.com/advisories/GHSA-vfj7-8cjw-p6xm",
+        "https://github.com/micromatch/braces/issues/70"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+# Exact historical public schema checksums, public USDT addresses, or RFC 6238 test vector.
+# No path-wide, rule-wide, live credential, or inline-comment exclusions.
+c7df827e91b8e25bcb7a3eaf671baecd6610d3fb:docs/planning/IMPLEMENTATION_STATUS.md:generic-api-key:15
+608ef56a09444b3f94d1cb0a026662b3c68544dc:artifacts/platform/api-manifest.json:generic-api-key:3
+608ef56a09444b3f94d1cb0a026662b3c68544dc:docs/INVESTOR_INTEGRATION.md:generic-api-key:21
+3d4a706cfdcbb2a3a49710c1e96c874e93d875b0:artifacts/platform/api-manifest.json:generic-api-key:3
+3d4a706cfdcbb2a3a49710c1e96c874e93d875b0:docs/INVESTOR_INTEGRATION.md:generic-api-key:21
