@@ -1,10 +1,16 @@
-# Proposed INFRA UAT project and lifecycle
+# INFRA UAT project and lifecycle — details approved for preparation
 
-Status: proposed for user review. This record authorizes no financial transaction by itself. Keep backend submission disabled until the technical release gate and the user's exact transaction approvals are satisfied.
+Status: **DETAILS APPROVED FOR PREPARATION / NOT EXECUTED**. The user approved the fixture details on 16 October 2026: 10,000 fractions, 10 USDT total, 0.001 USDT / 0.0036 reAED per fraction, the existing authorized deployer as owner/treasury, and at most 25 reAED plus 2 USDT including gas/top-ups. The earlier PROPOSED status is superseded only for preparation.
+
+The coordinator saved an actual **DRAFT, version 1** through the canonical admin UI and verified the name/economics/owner/treasury, clearly labelled UAT fiction and absent indicative yield. No project publication, project contract creation, transaction signing or funds movement has occurred. The internal draft UUID/link and private proof are recorded only in the private Notion status record, outside general Git documentation.
+
+Approved public imagery, metadata pinning, independent review and the authorized signer remain pending. Backend `REID_TRANSACTION_SUBMIT_ENABLED=false` remains unchanged. These approved details authorize preparation, not automatic execution of the steps below. Each exact reID wallet transaction still needs human approval; this record does not accept consent or a signature for the user.
+
+Read-only UAT preflight at INFRA block 7294942 verified all four base runtime hashes, registry/implementation bindings and ownership; registered project count remained zero. The owner’s native/USDT balances met the approved preparation thresholds; exact balances are private and are not copied here. Intent preparation may proceed while submission is disabled, but public imagery/IPFS metadata, independent reviewer and a session-bound authorized wallet are still required. No approval, signing or broadcast occurred.
 
 ## Project configuration
 
-| Field | Proposed value |
+| Field | Approved preparation value |
 | --- | --- |
 | Name | reSystem UAT Lifecycle Test |
 | Description | Clearly labelled test project for ownership, payments, transfers, resale and reward-allocation acceptance on INFRA testnet. No real property or business backing is claimed. |
@@ -18,12 +24,12 @@ Status: proposed for user review. This record authorizes no financial transactio
 | Investor A | The user's existing connected reID UAT wallet; exact address checked in each transaction review and excluded from general documents |
 | Investor B | A separate disposable UAT test wallet, generated and recorded only in the private development credential register before use |
 | Indicative yield | Not set; actual rewards come only from the deposits below |
-| Primary sale | Open after the user reviews the publication data and creator authority is verified |
+| Primary sale | Not published/opened; publication metadata, independent review and authorized signer are still required |
 | Transaction limits | At most 25 reAED and 2 USDT total test funding/top-ups, including gas reserves; stop and seek revised limits before exceeding either cap |
 
 The two prices follow the approved fixed rate of 1 USDT = 3.6 reAED. They are test inputs, not published production project data. All token balances and available gas must be read before preparing transfers. No token minting, unrelated wallet balance or production network is assumed.
 
-## Ordered acceptance checks
+## Ordered acceptance checks — all unexecuted
 
 1. **Preflight and publication.** Verify chain, factory/implementation/marketplace/router hashes and binding, provider approval safety, creator authority and the disabled submission gate. Upload clearly labelled public test metadata, prepare the exact project creation intent and review it. Publish only after its actual contract address, receipt and canonical confirmation are reconciled. The listing must appear in Explore; drafts must remain hidden.
 2. **Native purchase.** Investor A purchases 1,000 fractions for exactly 3.6 reAED, plus the separately reviewed network fee. Verify ERC-1155 ID 1 balance 1,000, total issued supply 1,000, remaining supply 9,000, project entitlement 10% and current revenue participation 100%.
@@ -40,5 +46,7 @@ The two prices follow the approved fixed rate of 1 USDT = 3.6 reAED. They are te
 No script may automatically accept the human's reID consent, wallet signature or final financial approval. Prepared actions must name the exact wallet, contract, asset, amount, recipient and gas estimate. A timeout is reconciled against the existing transaction before any retry. Screenshots, identity data and wallet credentials stay outside Git and ordinary Notion documents.
 
 ## Completion evidence
+
+No financial acceptance step below has been performed by this document update. The saved off-chain DRAFT is preparation evidence only. See the [screen coverage matrix](INVESTOR_SCREEN_COVERAGE.md) and [current continuation status](../planning/IMPLEMENTATION_STATUS.md) for completed read-only identity/UI evidence; neither is funded lifecycle acceptance.
 
 For every corresponding Notion task, attach the actual source commit, contract transaction/receipt evidence (where public), observed API/indexer values and browser result. Mark Done only when that task's acceptance criteria pass. Keep production audit, governance/rotation, complete historical coverage and unrelated unfinished tasks separate from this test-project result.
