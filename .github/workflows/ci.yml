@@ -20,5 +20,6 @@ jobs:
       - run: npm ci
       - run: npm run lint
       - run: npm test
+      - run: npx next typegen
       - run: npx tsc --noEmit --incremental false
       - run: npm run build
