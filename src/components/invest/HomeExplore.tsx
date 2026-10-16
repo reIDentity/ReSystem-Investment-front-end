@@ -20,11 +20,11 @@ export function InvestorHome() {
   const holdings = demo.holdings.filter(h => products.find(p => p.id === h.id)?.name.toLowerCase().includes(query.toLowerCase())).sort((a, b) => sort === "invested" ? b.invested - a.invested : sort === "name" ? a.id.localeCompare(b.id) : b.claimable - a.claimable);
   const cash = [
     ["Payouts in", payouts, 1, "#0091ff"],
-    ["Deposits in", demo.transactions.filter(t => t.kind === "Deposits").reduce((s, t) => s + t.amount, 0), 59, "#efffb4"],
+    ["Deposits in", demo.transactions.filter(t => t.kind === "Deposits").reduce((s, t) => s + t.amount, 0), 59, "#b9dfff"],
     ["Blocks bought", -demo.transactions.filter(t => t.kind === "Buys").reduce((s, t) => s + t.amount, 0), 100, "#0091ff"],
     ["Withdrawals", -demo.transactions.filter(t => t.kind === "Withdrawals").reduce((s, t) => s + t.amount, 0), 2, "#9edaff"],
   ] as const;
-  return <InvestorShell page="home" title="Welcome back, Manoj" subtitle="Here is how your investments are doing today">
+  return <InvestorShell page="home" title={`Welcome back, ${demo.user.name.split(/\s+/)[0]}`} subtitle="Here is how your sample investments are doing today">
     <div className="iv-kpis">{[
       ["Total invested", usd(invested, 0), "↑ 6.7% yield", `${demo.holdings.reduce((s,h) => s+h.shares,0)} shares in ${demo.holdings.length} products`, "078eb"],
       ["Available to claim", usd(claimable), "• Live", "Paid in reAED when you claim", "6d55c"],

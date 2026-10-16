@@ -1,6 +1,7 @@
 "use client";
 
 import { createContext, useContext, useRef, useState, type Dispatch, type ReactNode, type SetStateAction } from "react";
+import type { InvestorUser } from "@/lib/auth/security";
 
 export type Transaction = {
   id: string; kind: "Payouts" | "Buys" | "Deposits" | "Withdrawals";
@@ -37,6 +38,7 @@ export const initialTransactions: Transaction[] = [
 ];
 
 type DemoState = {
+  user: InvestorUser;
   holdings: Holding[]; balances: Record<"reAED" | "USDT", number>; transactions: Transaction[];
   selectedProduct: string; selectProduct: (id: string) => void;
   notice: string; notify: (message: string) => void;
@@ -48,7 +50,7 @@ type DemoState = {
 };
 const DemoContext = createContext<DemoState | null>(null);
 
-export function DemoProvider({ children }: { children: ReactNode }) {
+export function DemoProvider({ children, user }: { children: ReactNode; user: InvestorUser }) {
   const [holdings, setHoldings] = useState(initialHoldings);
   const [balances, setBalances] = useState({ reAED: 19097, USDT: 2450 });
   const [transactions, setTransactions] = useState(initialTransactions);
@@ -105,7 +107,7 @@ export function DemoProvider({ children }: { children: ReactNode }) {
     notify("Demo withdrawal complete. No funds were transferred.");
     return true;
   }
-  return <DemoContext.Provider value={{ holdings, balances, transactions, selectedProduct, selectProduct, notice, notify, tickets, setTickets, claim, deposit, buy, withdraw }}>{children}</DemoContext.Provider>;
+  return <DemoContext.Provider value={{ user, holdings, balances, transactions, selectedProduct, selectProduct, notice, notify, tickets, setTickets, claim, deposit, buy, withdraw }}>{children}</DemoContext.Provider>;
 }
 
 export function useDemo() {

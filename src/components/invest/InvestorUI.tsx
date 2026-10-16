@@ -5,39 +5,37 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { useDemo } from "./DemoProvider";
+import { Logo } from "@/components/Logo";
 
 export function Asset({ name, width, height = width, className = "", alt = "", responsive = false }: { name: string; width: number; height?: number; className?: string; alt?: string; responsive?: boolean }) {
   return <Image src={`/images/invest/${name}.svg`} width={width} height={height} alt={alt} className={className} style={responsive ? { height: "auto" } : undefined} />;
 }
-export function InvestorLogo({ light = false, mark = "cf67d" }: { light?: boolean; mark?: string }) {
-  return <span className={`iv-logo ${light ? "iv-logo-light" : ""}`}>
-    <span className="iv-logo-symbol"><Asset name={light ? "7aff3" : mark} width={light ? 24.094 : 12.59} height={light ? 24.09 : 12.588} /></span>
-    <span className="iv-wordmark"><Asset name={light ? "758cb" : "c31d0"} width={light ? 29.353 : 23.2358} height={light ? 19.57 : 15.4915} /><span>System Investment</span></span>
-  </span>;
+export function InvestorLogo({ light = false }: { light?: boolean }) {
+  return <Logo tone={light ? "light" : "dark"} className="iv-logo" />;
 }
 export function InvestorShell({ title, subtitle, children, page = "" }: { title: string; subtitle: string; children: ReactNode; page?: string }) {
   const path = usePathname();
   const demo = useDemo();
+  const initials = demo.user.name.split(/\s+/).filter(Boolean).slice(0, 2).map(part => part[0]).join("").toUpperCase();
   const [account, setAccount] = useState(false);
   const [notifications, setNotifications] = useState(false);
   const nav = [["Home", "home"], ["Explore", "explore"], ["My earnings", "earnings"], ["Wallet", "wallet"], ["Activity", "activity"], ["Support", "support"]];
   const active = path.includes("/products/") ? "explore" : ["deposit", "withdraw"].includes(page) ? "wallet" : page;
-  const mark = page === "home" ? "fe9e8" : page === "activity" ? "22520" : page === "support" ? "0588a" : ["deposit", "withdraw"].includes(page) ? "d451c" : "cf67d";
   return <div className={`investor-app iv-${page}`}>
     <div className="iv-frame">
       <header className="iv-header">
-        <Link href="/invest/home" aria-label="reSystem Investment dashboard"><InvestorLogo mark={mark} /></Link>
+        <Link href="/invest/home" aria-label="reSystem Investment dashboard"><InvestorLogo /></Link>
         <nav aria-label="Investor navigation">{nav.map(([label, slug]) => <Link key={slug} href={`/invest/${slug}`} aria-current={active === slug ? "page" : undefined}>{label}</Link>)}</nav>
         <div className="iv-account-area">
           <button className="iv-notification" aria-label="Notifications" aria-expanded={notifications} onClick={() => { setNotifications(!notifications); setAccount(false); }}><Asset name="5bcd1" width={18} /><i /></button>
-          <button className="iv-account" aria-expanded={account} onClick={() => { setAccount(!account); setNotifications(false); }}><span className="iv-avatar">MK</span><span><strong>Manoj K.</strong><small><Asset name="4489b" width={12} /> Demo account</small></span><Asset name="6b211" width={14} /></button>
-          {account && <div className="iv-popover"><strong>Manoj K. · Demo account</strong><p>Explore the investor app using sample data.</p><Link href="/invest">Back to sign in</Link><Link href="/">Back to website</Link></div>}
+          <button className="iv-account" aria-expanded={account} onClick={() => { setAccount(!account); setNotifications(false); }}><span className="iv-avatar">{initials}</span><span><strong>{demo.user.name}</strong><small><Asset name="4489b" width={12} /> Connected with reID</small></span><Asset name="6b211" width={14} /></button>
+          {account && <div className="iv-popover"><strong>{demo.user.name}</strong><p>Connected with reID · UAT</p><p className="iv-connected-wallet">{demo.user.wallet}</p><p>Verification: {demo.user.kycStatus}</p><form action="/api/auth/reid/logout" method="post"><button className="iv-button iv-full">Sign out</button></form><Link href="/">Back to website</Link></div>}
           {notifications && <div className="iv-popover"><strong>Notifications</strong><p>Your sample earnings are available to claim.</p><Link href="/invest/earnings" onClick={() => setNotifications(false)}>View my earnings →</Link></div>}
         </div>
       </header>
       <div className="iv-page-heading"><div><h1>{title}</h1><p>{subtitle}</p></div><div className="iv-heading-actions"><span className="iv-network"><i />INFRA block 4,812,330</span><Link className="iv-button" href="/invest/deposit"><Asset name="4b50f" width={16} />Deposit</Link><Link className="iv-button iv-primary" onClick={page === "product" ? () => window.document.getElementById("invest")?.scrollIntoView({ block: "start", behavior: "instant" }) : undefined} href={`${page === "product" ? path : `/invest/products/${demo.selectedProduct}`}#invest`}><Asset name="cf794" width={16} />Buy shares</Link></div></div>
       <main className="iv-content">{children}</main>
-      <p className="iv-demo-note">Demo preview · Sample balances and simulated transactions. No real funds or wallet connection.</p>
+      <p className="iv-demo-note">Connected with reID UAT · Investment preview uses sample balances and simulated transactions. No funds are transferred.</p>
     </div>
     {demo.notice && <div className="iv-toast" role="status"><span>{demo.notice}</span><button aria-label="Dismiss notification" onClick={() => demo.notify("")}>×</button></div>}
   </div>;
