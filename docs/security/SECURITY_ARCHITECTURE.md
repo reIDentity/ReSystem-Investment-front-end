@@ -1,5 +1,9 @@
 # Platform security, privacy and fund protection
 
+## Current UAT financial boundary — 17 October 2026, 09:45 UTC
+
+The [execution/security register](../testing/UAT_EXECUTION_20261017.md) records the explicit human approval and verified09:27UTC service-wide reID submission switch, unchanged reviewed API/worker identities/limits, provider/RPC/session/consent checks and remaining risks. Earlier `REID_TRANSACTION_SUBMIT_ENABLED=false` statements are historical and superseded for this approved UAT session. Each wallet transaction still requires its own human approval. New requests must be disabled at session end; this does not cancel already-created provider approvals. Publication, sale opening and first native purchase are independently canonical/indexed; first owner revenue allocation is verified; partial-transfer retention, later funding, resale and actual claims remain open. No investor UI or provider credential/security bypass was introduced.
+
 Version 1.6 — 17 October 2026. This is an evidence register, not an independent audit or a promise of absolute safety. It covers the five independent investment repositories and their INFRA UAT deployment. Update this document and its private Notion copy with every material security decision, verified control, remediation or open risk. Automated checks, coordinator-verified runtime checks and remaining user acceptance are recorded separately below.
 
 ## Current UAT checkpoint — 17 October 2026, 08:36 UTC

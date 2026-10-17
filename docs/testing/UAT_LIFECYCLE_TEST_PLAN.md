@@ -1,5 +1,9 @@
 # INFRA UAT project and lifecycle — details approved for preparation
 
+## Current execution supersedes historical preparation status
+
+See [the17October execution record](UAT_EXECUTION_20261017.md): publication and sale opening are verified; the remaining lifecycle is incomplete. The preparation-only status and unexecuted claims below describe their dated historical checkpoints. The current approved aggregate cap is150reAED+2USDT.
+
 Status: **DETAILS APPROVED FOR PREPARATION / NOT EXECUTED**. The user approved the fixture details on 16 October 2026: 10,000 fractions, 10 USDT total, 0.001 USDT / 0.0036 reAED per fraction, the existing authorized deployer as owner/treasury, and at most 25 reAED plus 2 USDT including gas/top-ups. The earlier PROPOSED status is superseded only for preparation.
 
 The coordinator saved an actual **DRAFT, version 1** through the canonical admin UI and verified the name/economics/owner/treasury, clearly labelled UAT fiction and absent indicative yield. No project publication, project contract creation, transaction signing or funds movement has occurred. The internal draft UUID/link and private proof are recorded only in the private Notion status record, outside general Git documentation.

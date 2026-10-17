@@ -1,5 +1,9 @@
 # Implementation and recovery status — 16 October 2026
 
+## Latest execution checkpoint — 17 October 2026, 09:45 UTC
+
+Read the [actual UAT execution record](../testing/UAT_EXECUTION_20261017.md) first. Publication and sale opening are canonical/indexed; the first native purchase is verified (1000fractions,10%ownership). The first3.6reAED owner funding and holder allocation are also verified. Total spent including principal/fees is19.2reAED;130.8reAED+2USDT remains. After explicit human approval of the exact service-wide switch, reID submission is enabled for this UAT session on unchanged backend65393fc. The10-fraction transfer is awaiting its own canonical reconciliation. Backend62b9f9c/admin3dfd61b/indexer4abc7e9 are published with observed successful CI; media source is not deployed. These observations supersede earlier DRAFT/unspent/gate-disabled source checkpoints below; they do not complete the lifecycle or change the investor UI.
+
 This is the continuation record for the approved platform. Source publication, runtime readiness and full financial acceptance are separate. Read the live private Notion board and current user request before acting; preserve concurrent work and existing services.
 
 ## Current UAT checkpoint — 17 October 2026, 08:36 UTC
