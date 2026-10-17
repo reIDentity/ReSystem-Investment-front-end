@@ -601,11 +601,13 @@
     "infra_environment": "Testnet",
     "admin_public_url": "https://admin.resystem.org",
     "backend_public_url": "https://admin.resystem.org/v1",
-    "access_verified": "resystem Teleport/sudo and Docker; canonical TLS/password+MFA browser dashboard verified2026-10-16",
-    "domain_migration_state": "Verified canonical HTTPS, exact reID callback, repeated origin/cookie/CORS checks and actual existing password/TOTP browser dashboard login; financial/indexer acceptance remains separate",
+    "access_verified": "17 October 2026: resystem Teleport/sudo and Docker; canonical strict TLS/auth boundaries, deployed staff MFA and 08:29 controlled restart verified. All 20 existing container identities and protected application environment files preserved.",
+    "domain_migration_state": "Canonical admin https://admin.resystem.org and REST API /v1 verified. 17 October 08:29:17 UTC strict-TLS anonymous protected staff/roles/projects/wallet/portfolio/support reads 401; public health/ready unpublished 404; ports 5432/6379/3304/3305/4101 externally closed. Each financial transaction remains separately approved/gated.",
     "investor_configuration_state": "Operator saved/redeployed canonical server-only BFF environment; anonymous boundaries and human-consented authenticated reads verified. Connected Vercel account is not authorized for this project.",
-    "indexer_observation": "2026-10-16 11:57:40 UTC: private /health/ready 200; lag 12; history partial (2 complete, 1 pending, 0 failed). Backend financial submission remains disabled.",
-    "investor_ui_observation": "Published c61d34e Home/shared-header Figma restoration verified on the public authenticated investor app at desktop1440 and phone390; actual API values, native assets, search/clear and disabled zero-reward claim checked without financial transactions. All14-screen acceptance remains separate."
+    "indexer_observation": "17 October 2026: exact deployed 5227157 private readiness 200 / lag 12; three candidate-source queues complete,0 pending / 0 failed. Canonical facts/cursor survived 08:29 controlled restart; candidate completion is not proof of exhaustive wallet history. Historic alert rows 1/2 were precisely audited/resolved after 37 canonical progress blocks; unchanged monitor automatically HEALTHY 08:25:27. Financial submission remains disabled.",
+    "investor_ui_observation": "Published c61d34e Home/shared-header Figma restoration verified on the public authenticated investor app at desktop1440 and phone390; actual API values, native assets, search/clear and disabled zero-reward claim checked without financial transactions. All14-screen acceptance remains separate.",
+    "backup_timer_observation": "17 October 08:36:18 UTC reviewed 543d4dc root-owned operations/minimal separate backup runtime installed. Default preflight+systemd validation+actual manual systemd service run passed: encrypted 2096637-byte archive/checksum/receipt. Retention dry-run deleted nothing. Timer enabled/active 02:30 UTC+<=15-minute jitter, observed next 2026-10-18T02:42:47UTC; future automatic run not yet observed. Authenticated archive catalog verification pending; off-host recovery and task 100 final reconciliation / 102 broader coverage remain separate.",
+    "mail_observation": "17 October: actual deployed outbox/drill and automatic recovery SENT/audit/envelope-erasure behavior verified without duplicate sends after restart. User explicitly confirmed receipt of test/recovery emails. This is not human staff invitation/recovery completion or wallet approval."
   },
   "document_records": {
     "docs/planning/RE_SYSTEM_IMPLEMENTATION_PLAN.md": {
@@ -729,5 +731,5 @@
       "url": "https://app.notion.com/p/3fb3b21ac92581299557f8215be14852?pvs=204"
     }
   },
-  "operations_updated_at_utc": "2026-10-16 12:16:51 UTC"
+  "operations_updated_at_utc": "2026-10-17 08:38:31 UTC"
 }
