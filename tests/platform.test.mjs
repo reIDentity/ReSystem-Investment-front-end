@@ -4,7 +4,7 @@ import { createHash } from 'node:crypto';
 import { transactionIssue, isSettled } from '../src/lib/platform/transaction.ts';
 import assert from 'node:assert/strict';
 import { proxyConfig, proxyPlatform } from '../src/lib/platform/proxy.ts';
-import { atomic, units, whole, validWhole, percentage, safeAddress, safeApproval } from '../src/lib/platform/money.ts';
+import { atomic, units, contractAsset, decimals, assetLabel, whole, validWhole, percentage, safeAddress, safeApproval } from '../src/lib/platform/money.ts';
 const config=proxyConfig({PLATFORM_API_BASE:'http://127.0.0.1:3005/v1',PLATFORM_APP_ORIGIN:'https://localhost:3002'});
 const request=(path='transactions',options={})=>new Request('https://localhost:3002/api/platform/'+path,options);
 test('fixed upstream URL rejects credentials, remote HTTP and path injection',()=>{
@@ -77,4 +77,11 @@ test('generated interface bundle is pinned to the exact OpenAPI schema and inves
 test('USDT expense review requires the frozen canonical amount',()=>{
  const wallet='0x'+'a'.repeat(40),intent={id:'real',status:'CREATED',chainId:15324,walletAddress:wallet,command:{type:'BUY',asset:'USDT',quantity:'1'},transaction:{chainId:15324,to:'0x'+'b'.repeat(40),data:'0x',valueWei:'0',gasEstimate:'21000',estimatedFeeWei:'1'},approvalUrl:null,txHash:null,receipt:null,errorCode:null,expiresAt:'2026-10-16'};
  assert.ok(transactionIssue(intent,wallet));assert.equal(transactionIssue({...intent,review:{asset:'USDT',amountAtomic:'1000000',quantity:'1',recipient:wallet,spender:null}},wallet),null);
+});
+
+// Raw ABI enum values are numeric in actual indexed RevenueFunded responses.
+test('contract revenue enums retain the original asset and exact atomic decimals',()=>{
+ const rows=[{asset:1,amount:'1100000',expected:'1.1 USDT'},{asset:0,amount:'3600000000000000000',expected:'3.6 reAED'},{asset:'1',amount:'1',expected:'0.000001 USDT'},{asset:'0',amount:'1',expected:'0.000000000000000001 reAED'},{asset:'USDT',amount:'9007199254740993123456',expected:'9,007,199,254,740,993.123456 USDT'},{asset:'REAED',amount:'3600000000000000000',expected:'3.6 reAED'}];
+ for(const row of rows){const asset=contractAsset(row.asset);assert.ok(asset);assert.equal(`${units(row.amount,decimals(asset))} ${assetLabel(asset)}`,row.expected);}
+ for(const value of [null,undefined,false,true,2,-1,'01','1.0','usdt',{},[]])assert.equal(contractAsset(value),null);
 });

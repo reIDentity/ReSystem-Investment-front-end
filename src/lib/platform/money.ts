@@ -1,6 +1,11 @@
 export type PaymentAsset = "REAED" | "USDT";
 export const decimals = (asset: PaymentAsset) => asset === "USDT" ? 6 : 18;
 export const assetLabel = (asset: string) => asset === "REAED" ? "reAED" : asset;
+export function contractAsset(value: unknown): PaymentAsset | null {
+  if (value === 0 || value === "0" || value === "REAED") return "REAED";
+  if (value === 1 || value === "1" || value === "USDT") return "USDT";
+  return null;
+}
 export function atomic(value: string, places: number): string {
   if (!new RegExp(`^(?:0|[1-9][0-9]*)(?:\\.[0-9]{1,${places}})?$`).test(value)) throw new Error(`Enter a positive amount with up to ${places} decimals.`);
   const [whole, fraction = ""] = value.split("."); const amount = BigInt(whole) * 10n ** BigInt(places) + BigInt(fraction.padEnd(places, "0"));

@@ -272,6 +272,28 @@ change only tests/docs. Do not claim a runtime rollout from a green source run.
 
 ## Remaining acceptance
 
+### Observed raw-event asset formatting correction — 10:48 UTC source check
+
+The authenticated revenue response returned the three actual funding records,
+7.2 reAED / 1.1 USDT funded, zero paid and matching reserves. Its raw ABI asset
+enums are numeric 0/1. The deployed product history compared only string "1",
+so the 1.1 USDT history row incorrectly displayed 0.0000000000011 reAED, while
+combined funded/reward totals remained correct. Earnings incoming rows similarly
+treated numeric enums as unavailable. A temporary request failure separately
+recovered through the existing retry/refresh; it is not the formatting cause.
+
+The source correction shares an exact numeric/string enum decoder across those
+two raw-event bindings, keeps amounts as integer strings and leaves unknown
+assets unavailable. It changes no API, source fact, contract, CSS, layout,
+navigation or control. Independent TypeScript AST comparison with the published
+baseline found identical JSX tags and full attributes: 430 nodes in ProductDetail
+(Figma 7:1520), 253 in Earnings (Figma 8:968). All 27 tests, TypeScript, lint and
+the 20-route production build passed. The initial sandboxed build stalled and
+was stopped; a normal-permission build completed successfully. This records
+source/markup preservation, not a new full visual/phone audit or verified Vercel
+deployment. Verify the actual post-deployment rows before claiming the public
+formatting defect is resolved.
+
 Approval source-event recovery, both-asset partial resale/cancellation, full exit, retained
 claims, seller proceeds, rejection/expiry/revocation variations and exact
 balance/allocation/indexer reconciliation remain to be executed and verified.
