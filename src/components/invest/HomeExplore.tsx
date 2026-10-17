@@ -5,6 +5,7 @@ import { useState } from "react";
 import type { ProjectPage, WalletResponse } from "@/lib/platform/api.generated";
 import type { Holding, Portfolio, Project, ProjectState } from "@/lib/platform/types";
 import { assetLabel, percentage, units, type PaymentAsset } from "@/lib/platform/money";
+import { publicIpfsUrl } from "@/lib/platform/media";
 import { usePlatform, useResource } from "./PlatformProvider";
 import { Asset, DataState, Initials, InvestorShell, Modal, Panel, Tag } from "./InvestorUI";
 import { TransactionReview, type InvestorCommand } from "./platform/Transaction";
@@ -159,7 +160,7 @@ export function ProjectCard({ project, ownedQuantity }: { project: Project; owne
   const issued = supply ? percentage(supply.totalSupply, project.maxFractions) : "—";
   const owned = ownedQuantity && /^[0-9]+$/.test(ownedQuantity) && BigInt(ownedQuantity) > 0n;
   return <Link className="iv-product-card iv-explore-card" href={`/invest/products/${project.id}`}>
-    <div className="iv-product-placeholder iv-explore-image">{image ? <Image src={`https://ipfs.io/ipfs/${image.cid}`} alt={project.title} width={640} height={360} unoptimized /> : <span className="sr-only">Project image not supplied</span>}{owned ? <Tag tone="dark">You own {units(ownedQuantity, 0)}</Tag> : <Tag tone="neutral">Published</Tag>}<span className="iv-explore-project-mark" aria-hidden="true" /></div>
+    <div className="iv-product-placeholder iv-explore-image">{image ? <Image src={publicIpfsUrl(image.cid)} alt={project.title} width={640} height={360} unoptimized /> : <span className="sr-only">Project image not supplied</span>}{owned ? <Tag tone="dark">You own {units(ownedQuantity, 0)}</Tag> : <Tag tone="neutral">Published</Tag>}<span className="iv-explore-project-mark" aria-hidden="true" /></div>
     <h2>{project.title}</h2><small>{project.location || "INFRA project"}</small><p>{project.description}</p>
     <div className="iv-product-supply"><span>{issued === "—" ? chain.isLoading ? "Loading supply…" : "Supply unavailable" : `${issued} issued`}</span><span>{supply ? `${units(supply.remainingSupply, 0)} left` : "—"}</span></div>
     <div className="iv-progress" aria-hidden="true">{issued !== "—" ? <span style={{ width: issued }} /> : null}</div>

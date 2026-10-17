@@ -5,6 +5,7 @@ import { transactionIssue, isSettled } from '../src/lib/platform/transaction.ts'
 import assert from 'node:assert/strict';
 import { proxyConfig, proxyPlatform } from '../src/lib/platform/proxy.ts';
 import { atomic, units, contractAsset, decimals, assetLabel, whole, validWhole, percentage, safeAddress, safeApproval } from '../src/lib/platform/money.ts';
+import { publicIpfsUrl } from '../src/lib/platform/media.ts';
 const config=proxyConfig({PLATFORM_API_BASE:'http://127.0.0.1:3005/v1',PLATFORM_APP_ORIGIN:'https://localhost:3002'});
 const request=(path='transactions',options={})=>new Request('https://localhost:3002/api/platform/'+path,options);
 test('fixed upstream URL rejects credentials, remote HTTP and path injection',()=>{
@@ -84,4 +85,12 @@ test('contract revenue enums retain the original asset and exact atomic decimals
  const rows=[{asset:1,amount:'1100000',expected:'1.1 USDT'},{asset:0,amount:'3600000000000000000',expected:'3.6 reAED'},{asset:'1',amount:'1',expected:'0.000001 USDT'},{asset:'0',amount:'1',expected:'0.000000000000000001 reAED'},{asset:'USDT',amount:'9007199254740993123456',expected:'9,007,199,254,740,993.123456 USDT'},{asset:'REAED',amount:'3600000000000000000',expected:'3.6 reAED'}];
  for(const row of rows){const asset=contractAsset(row.asset);assert.ok(asset);assert.equal(`${units(row.amount,decimals(asset))} ${assetLabel(asset)}`,row.expected);}
  for(const value of [null,undefined,false,true,2,-1,'01','1.0','usdt',{},[]])assert.equal(contractAsset(value),null);
+});
+
+test('public project IPFS URLs keep the exact CID on the existing fixed gateway and reject URL injection',()=>{
+ const cid='QmZN1FFxB9dD8od2BoWQDR9b9cUnV63qCWsvhcthsTsDJz';
+ const url=new URL(publicIpfsUrl(cid));
+ assert.equal(url.origin,'https://gateway.pinata.cloud');assert.equal(url.pathname,`/ipfs/${cid}`);
+ assert.equal(url.search,'');assert.equal(url.hash,'');assert.equal(url.username,'');assert.equal(url.password,'');
+ for(const value of [null,undefined,{},[],1,'','a'.repeat(31),'a'.repeat(121),`https://evil.invalid/${cid}`,`//evil.invalid/${cid}`,`../${cid}`,`${cid}?token=private`,`${cid}#fragment`,`${cid}/document`,`${cid}%2Fdocument`,`${cid} `,`${cid}\n`])assert.throws(()=>publicIpfsUrl(value),/Invalid public IPFS CID/);
 });
