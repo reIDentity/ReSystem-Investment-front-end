@@ -1,8 +1,8 @@
 # reSystem Investment - start here
 
-## Latest executed UAT checkpoint — 17 October 2026, 09:45 UTC
+## Latest executed UAT checkpoint — 17 October 2026, 10:21 UTC
 
-[Actual execution and security decision](docs/testing/UAT_EXECUTION_20261017.md): the human-approved project publication and sale opening are canonical/indexed, with the first1000-fraction reID purchase also verified. The first3.6reAED revenue deposit is verified with claimable3.6reAED and separate proceeds. Total19.2reAED spent;130.8reAED+2USDT remains. The human explicitly approved reID submission for this UAT session; it is now enabled on the unchanged reviewed API/worker. The human-approved10-fraction transfer is awaiting canonical reconciliation. Full lifecycle acceptance remains open. This supersedes earlier DRAFT/unspent/gate-disabled statements only for these current observations; historical records remain below. Investor UI is unchanged.
+[Actual execution and security decision](docs/testing/UAT_EXECUTION_20261017.md): ten human-approved transactions are verified, covering publication, sale opening, native purchase, partial transfer, two native revenue allocations, USDT rebuy and USDT revenue funding. Holdings are investor 1,090 / wallet B 10, with 1,100 issued. Claimable rewards are 7.164 reAED + 1.09 USDT / 0.036 reAED + 0.01 USDT. Spend is 40.8 reAED + 1.2 USDT; 109.2 reAED + 0.8 USDT remains. Eight intents are INDEXED; two allowance-only intents are canonical CONFIRMED pending correction of the old indexer's Approval source-event gap. Do not patch their statuses or invent source facts. reID submission remains explicitly human-approved for this UAT session; disable new requests at session end after reconciling pending approvals. Resale, full exit and actual claims remain open. Investor UI is unchanged.
 
 This is the investor frontend repository, not a monorepo. The complete platform is planned across five independent repositories.
 

@@ -4,6 +4,38 @@ This record supersedes older preparation-only statements for the steps actually
 verified below. It is a partial execution record, not full lifecycle acceptance
 or a production release. Preserve the approved investor UI.
 
+## Current checkpoint — 10:21 UTC
+
+Ten human-approved transactions have been independently reconciled. Eight are
+INDEXED; two allowance-only transactions are canonical CONFIRMED while a known
+indexer source-event gap is being corrected. They must not be labelled INDEXED
+until the actual emitted Approval facts have been ingested.
+
+The investor holds 1,090 fractions and disposable wallet B holds 10, out of
+1,100 issued / 10,000 maximum. Claimable rewards are **7.164 reAED + 1.09 USDT**
+for the investor and **0.036 reAED + 0.01 USDT** for B. No rewards have been
+claimed. Both exact USDT allowances have been consumed by their separately
+approved purchase/funding actions; their current allowances are zero.
+
+| Human-approved action | Canonical block | Verified result |
+| --- | ---: | --- |
+| Project publication | 7,330,261 | INDEXED; exact approved fixture |
+| Open primary sale | 7,330,442 | INDEXED; sale open |
+| Buy 1,000 fractions with 3.6 reAED | 7,330,918 | INDEXED; ERC1155 ID 1 quantity 1,000 |
+| Fund 3.6 reAED revenue | 7,331,162 | INDEXED; investor initially allocated all 3.6 |
+| Transfer 10 fractions to B | 7,331,407 | INDEXED; existing 3.6 allocation retained by sender |
+| Fund another 3.6 reAED revenue | 7,331,642 | INDEXED; 3.564 / 0.036 new allocation |
+| Investor exact 0.1 USDT allowance | 7,331,801 | Canonical CONFIRMED; source-indexing gap |
+| Buy another 100 fractions with 0.1 USDT | 7,331,996 | INDEXED; investor 1,090 / B 10; old rewards unchanged |
+| Owner exact 1.1 USDT allowance | 7,332,331 | Canonical CONFIRMED; source-indexing gap |
+| Fund 1.1 USDT revenue | 7,332,428 | INDEXED; 1.09 / 0.01 USDT allocation |
+
+Actual aggregate spend is **40.8 reAED + 1.2 USDT**. The approved budget has
+**109.2 reAED + 0.8 USDT** remaining, including future fees/top-ups. The protected
+ledger deduplicates by actual transaction hash. Resale, full exit, claims and
+negative journey acceptance remain open. Source changes to address the Approval
+gap are not proof of a runtime rollout. No investor application UI was changed.
+
 ## Verified project creation
 
 The human reviewed and submitted publication through MetaMask. The successful
@@ -82,21 +114,96 @@ Indexer funded amount/issued supply/primary proceeds agreed. Native gas cost3reA
 The human then explicitly approved generating disposable walletB. Its credential
 was created using a cryptographic generator, stored locally with0600permissions
 and saved/read back only in the existing private Development Credentials record.
-No source or public document contains its key or private identity. The planned
-10-fraction partial transfer was prepared and personally approved in reID; its
-canonical receipt and retained-reward checks are still being reconciled at this
-checkpoint. Do not count that step as verified merely from the human's hash.
+No source or public document contains its key or private identity. Its public
+wallet address, ERC1155 balances and rewards are verified independently below.
+
+## Verified partial transfer and second native funding
+
+The investor personally approved the
+[10-fraction transfer](https://uat.scan.infraworld.org/tx/0x30fd528f8502e1e76e89e5d115b02d0d13891bb526a4be66d96a8f6a67fba23b)
+in reID. It was mined at block 7,331,407 at 09:45:30 UTC, before its app expiry.
+All 59 independent checks passed. One actual TransferSingle moved ID 1 quantity
+10 from the investor to B, with no mint/burn and zero native value. Holdings
+became 990 / 10 while issued supply stayed 1,000. The investor retained the full
+previous 3.6 reAED allocation; B initially had zero rewards. The fee was 3 reAED.
+
+The owner separately submitted
+[the second native revenue deposit](https://uat.scan.infraworld.org/tx/0x13c2501186143564de1bf1dac2399a96aa1dc04a7b54800c176ebe3bcc51ce76)
+in MetaMask. It was mined at block 7,331,642 at 09:53:20 UTC and independently
+canonical/INDEXED at 09:54:25 UTC. Its exact 3.6 reAED value and unique reference
+matched the frozen command and one RevenueFunded event with issued supply 1,000.
+This deposit allocated 3.564 reAED to the investor and 0.036 to B. Cumulative
+claimable became 7.164 / 0.036 reAED, with reserve 7.2 and primary proceeds 3.6
+kept separate. The contract's 10.8 reAED balance reconciled both categories.
+
+## Verified USDT rebuy and revenue allocation
+
+The investor personally approved the
+[exact 0.1 USDT allowance](https://uat.scan.infraworld.org/tx/0x3215ad6dacead339f6e3ce1c60d8b57ac42c8882f99e9dffa800cdbe9b5729f3)
+for the project, followed by the separate
+[100-fraction USDT purchase](https://uat.scan.infraworld.org/tx/0x2ad654120d8ed5ffa2dbd00f7299b84b5cec1d6b029d0ddc42f5825574918e3a).
+The allowance was mined at block 7,331,801 at 09:58:38 UTC, the purchase at
+7,331,996 at 10:05:08 UTC. Both matched their exact frozen commands and app
+expiry; the purchase also met its contract deadline. The allowance granted
+100,000 atomic units, never an unlimited value. Its successful canonical
+receipt has one Approval and no token transfer. The later purchase transferred
+exactly 100,000 USDT atomic units to the project, minted another ID 1 quantity
+100 and consumed the allowance to zero. All 52 purchase checks passed and the
+purchase was INDEXED.
+
+Current holdings became investor 1,090 / B 10, issued 1,100 and remaining 8,900.
+The investor owns 10.9% of maximum fractions and participates with 1,090/1,100
+of the currently issued revenue supply. The purchase preserved already allocated
+native rewards of 7.164 / 0.036 reAED. USDT primary proceeds became 0.1 USDT;
+no USDT rewards existed before the separate funding below.
+
+The owner submitted the
+[exact 1.1 USDT allowance](https://uat.scan.infraworld.org/tx/0x00bb5e7c66b69329b2ba84be7af706de253af9f7f4d1f373d2e2aeaa8b6867e8)
+in MetaMask at block 7,332,331 / 10:16:18 UTC. All 40 financial/canonical checks
+passed at 10:17:39 UTC. It granted exactly 1,100,000 atomic units to this project
+and moved no funds. The independently submitted
+[1.1 USDT revenue deposit](https://uat.scan.infraworld.org/tx/0x65290e6612c603355629cec46942cc8f13b3c71f429592fd57e098c2a21cd854)
+was mined at block 7,332,428 / 10:19:32 UTC, before its app expiry, and INDEXED
+at verification 10:21:05 UTC. All 56 checks passed: exact sender/project/calldata,
+zero native value, unique reference, successful canonical receipt, one actual
+1.1 USDT transfer and one RevenueFunded event with eligible supply 1,100.
+
+The deposit allocated exactly 1.09 USDT to the investor and 0.01 USDT to B. The
+owner's unsold fractions and claimable remained zero. USDT reserve 1.1 and
+primary proceeds 0.1 reconciled the project's 1.2 USDT balance. Native balances,
+reserve, proceeds and both holders' old native rewards were unchanged. The
+owner's limited allowance was fully consumed. Each approval, purchase and
+funding transaction charged 3 reAED independently.
+
+### Approval indexing gap
+
+At this checkpoint the two allowance-only intents are canonical CONFIRMED, not
+INDEXED: the running old indexer persists fixed-USDT Transfer events but ignores
+Approval. This is a source-event tracking gap, not a failed approval, unspent
+duplicate request or financial balance discrepancy. The normal backend already
+allows a separately reviewed action after canonical confirmation. Its worker
+continues reconciliation until the real source event appears.
+
+An indexer-only correction has passed local source tests and independent review
+is pending. It must persist the actual successful canonical Approval log as a
+non-accounting fact; it must not invent a deposit, project allowance from events,
+rewind a cursor or directly patch intent status. Forward ingestion alone cannot
+discover the two earlier ignored logs behind the cursor. Any reviewed recovery
+must preserve accounting and use a bounded canonical historical import with the
+indexer stopped. No such runtime rollout/import has occurred at this checkpoint.
 
 ## Budget and fee observations
 
-The approved aggregate UAT cap is150reAED plus2USDT, including gas/top-ups.
-Publication and sale opening each cost3reAED, with zero native transaction
-value. The native purchase and first revenue deposit each added3.6reAED principal and3reAED fee. The protected deduplicated ledger records four canonical/indexed
-transactions, total19.2reAED spent and130.8reAED plus2USDT remaining at this checkpoint.
+The approved aggregate UAT cap is 150 reAED plus 2 USDT, including gas/top-ups.
+Ten successful transactions charged 30 reAED in fees. The native purchase and
+two native revenue deposits contributed 10.8 reAED principal; the USDT purchase
+and funding contributed 1.2 USDT. Allowance transactions moved no principal.
+The deduplicated ledger therefore records 40.8 reAED + 1.2 USDT spent and
+109.2 reAED + 0.8 USDT remaining at 10:21 UTC.
 The earlier1000USDT transfer and sample NFTs belong to separate requests and are
 not repeated or counted as new lifecycle execution.
 
-Both receipts reported gasUsed1000000 and effectiveGasPrice3000000000000wei,
+Observed receipts reported gasUsed1000000 and effectiveGasPrice3000000000000wei,
 producing exactly3reAED. INFRA can report charged gas above the prepared gas
 limit. The4reAED application quote threshold is not a cryptographic chain fee
 cap. The explicitly approved public HTTP fee source remains time/size bounded
@@ -146,11 +253,14 @@ Do not reuse an expired review or infer a signature from this document.
 | Repository | Published source | Observed successful hosted run |
 | --- | --- | --- |
 | Backend durable media jobs | [62b9f9c](https://github.com/reIDentity/ReSystem-Investment-backend/commit/62b9f9c4af478a6d2ef4b8dc47b1c582bf1db9ac) | [39020931067](https://github.com/reIDentity/ReSystem-Investment-backend/actions/runs/39020931067) |
+| Backend bounded media rollout preparation | [4e88b23](https://github.com/reIDentity/ReSystem-Investment-backend/commit/4e88b23af12af828225afbcfa5d46b58aeff4cf0) | [39023131527](https://github.com/reIDentity/ReSystem-Investment-backend/actions/runs/39023131527) |
+| Investor earlier execution checkpoint, documents only | [cf4090b](https://github.com/reIDentity/ReSystem-Investment-front-end/commit/cf4090bbe9df22c990215ed99af084208d719a96) | [39023248475](https://github.com/reIDentity/ReSystem-Investment-front-end/actions/runs/39023248475) |
 | Admin session/permission acceptance | [3dfd61b](https://github.com/reIDentity/ReSystem-Investment-admin/commit/3dfd61bc940db0b048f743fd2a104b28a23f666a) | [39021173180](https://github.com/reIDentity/ReSystem-Investment-admin/actions/runs/39021173180) |
 | Indexer bounded retained-history tests | [4abc7e9](https://github.com/reIDentity/ReSystem-Investment-indexer/commit/4abc7e9e4e5ccf476b3b7b9dea09641e544165d4) | [39020817002](https://github.com/reIDentity/ReSystem-Investment-indexer/actions/runs/39020817002) |
 
 Backend checks include27unit/105realPG-Redis integration tests, schema/types/lint/
 build, unchanged OpenAPI/client contract,33deployment and11CI helper checks.
+The later rollout package adds one deployment helper regression (34 total).
 Admin has87normal tests and five separately run local realBFF/API/PG/Redis
 checks. Hosted normal admin CI does not run that opt-in integration. Indexer
 checks include56unit/sixPGtests plus its actual-contract lifecycle fixture.
@@ -162,8 +272,7 @@ change only tests/docs. Do not claim a runtime rollout from a green source run.
 
 ## Remaining acceptance
 
-Partial transfer reconciliation, second native funding,
-USDT rebuy/funding, both-asset partial resale/cancellation, full exit, retained
+Approval source-event recovery, both-asset partial resale/cancellation, full exit, retained
 claims, seller proceeds, rejection/expiry/revocation variations and exact
 balance/allocation/indexer reconciliation remain to be executed and verified.
 Use [the lifecycle plan](UAT_LIFECYCLE_TEST_PLAN.md) for that sequence and the

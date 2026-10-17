@@ -2,7 +2,7 @@
 
 ## Current execution supersedes historical preparation status
 
-See [the17October execution record](UAT_EXECUTION_20261017.md): publication and sale opening are verified; the remaining lifecycle is incomplete. The preparation-only status and unexecuted claims below describe their dated historical checkpoints. The current approved aggregate cap is150reAED+2USDT.
+See [the 17 October execution record](UAT_EXECUTION_20261017.md): ten human-approved transactions are verified through native/USDT purchases, partial transfer and both-asset revenue allocation. Resale, full exit and claims remain incomplete. Two canonical allowance-only intents await actual Approval source-event ingestion; never infer INDEXED from receipt success alone. The preparation-only status and unexecuted claims below describe dated historical checkpoints. The approved cap is 150 reAED + 2 USDT; at 10:21 UTC, 40.8 reAED + 1.2 USDT is spent and 109.2 reAED + 0.8 USDT remains.
 
 Status: **DETAILS APPROVED FOR PREPARATION / NOT EXECUTED**. The user approved the fixture details on 16 October 2026: 10,000 fractions, 10 USDT total, 0.001 USDT / 0.0036 reAED per fraction, the existing authorized deployer as owner/treasury, and at most 25 reAED plus 2 USDT including gas/top-ups. The earlier PROPOSED status is superseded only for preparation.
 
