@@ -1,7 +1,9 @@
-// Generated from OpenAPI 0.1.0; do not hand-edit. SHA-256: 459ed8a3742f187bd68fcffb57827ae379c352daa5a4c81b237b7aac71caba20
+// Generated from OpenAPI 0.1.0; do not hand-edit. SHA-256: 9d67247e5c978a94af12ccec4f8a949251bed8f59ab786590e69f6c4cf2ddcbf
 export type LoginDto = { "username": string; "password": string; "totp"?: string; };
 export type MfaEnrollmentConfirmDto = { "enrollmentToken": string; "totp": string; };
 export type MfaChallengeVerifyDto = { "challengeToken": string; "totp": string; };
+export type StaffHandoffAcceptDto = { "token": string; "password": string; };
+export type StaffContactConfirmDto = { "token": string; };
 export type WalletChallengeDto = { "address": string; "chainId": 15324; };
 export type WalletVerifyDto = { "challengeId": string; "signature": string; };
 export type ProjectDto = { "title": string; "description": string; "location"?: string; "totalValueUsdtAtomic": string; "maxFractions": string; "ownerWallet": string; "treasuryWallet": string; };
@@ -9,6 +11,7 @@ export type UpdateProjectDto = { "title"?: string; "description"?: string; "loca
 export type PublicMetadataDto = { "publicMetadata": true; "title"?: string; "description"?: string; "location"?: string; };
 export type StaffDto = { "username": string; "name": string; };
 export type SuspendDto = { "suspended": boolean; };
+export type StaffInviteDto = { "email": string; };
 export type RoleDto = { "name": string; "permissions": Array<string>; };
 export type MembershipDto = { "roleId": string; "projectId"?: string; };
 export type TicketUpdateDto = { "status": "OPEN" | "IN_PROGRESS" | "RESOLVED" | "CLOSED"; "assignedToId"?: string; };
@@ -21,6 +24,9 @@ export type AuthenticatedResponse = { "authenticated": true; };
 export type MfaSetup = { "enrollmentToken": string; "expiresAt": string; "secret": string; "otpauthUri": string; "qrDataUrl": string; };
 export type MfaChallenge = { "challengeToken": string; "expiresAt": string; };
 export type StaffLoginResponse = AuthenticatedResponse | { "authenticated": false; "mfaRequired": true; "mfaChallenge": MfaChallenge; } | { "authenticated": false; "mfaSetup": MfaSetup; };
+export type StaffHandoffAcceptedResponse = { "accepted": true; "next": "staff_login_required"; };
+export type StaffContactConfirmedResponse = { "confirmed": true; };
+export type StaffInvitationQueuedResponse = { "queued": true; "handoffId": string; "expiresAt": string; };
 export type SessionUser = { "id": string; "kind": "staff" | "investor"; "username": (string) | null; "name": (string) | null; "walletAddress": (string) | null; "wallet": (string) | null; "kycStatus": "not_requested"; "walletProvider": ("metamask" | "reid") | null; "permissions": Array<string>; };
 export type SessionResponse = { "authenticated": boolean; "kind": ("staff" | "investor") | null; "csrfToken": string; "capabilities": { "directProjectPublication": boolean; }; "user": (SessionUser) | null; };
 export type ProjectResponse = { "id": string; "title": string; "description": string; "location"?: (string) | null; "status": "DRAFT" | "IN_REVIEW" | "APPROVED" | "PUBLISH_PENDING" | "PUBLISHED" | "ARCHIVED"; "version": number; "totalValueUsdtAtomic": string; "maxFractions": string; "unitPriceUsdtAtomic": string; "unitPriceReaedAtomic": string; "metadataUri"?: (string) | null; "contractAddress"?: (string) | null; "publicationTxHash"?: (string) | null; "publicationBlock"?: (string) | null; "indicativeYieldBps"?: (number) | null; "pendingMetadataUri"?: (string) | null; "media"?: Array<{ "cid": string; "mimeType": string; "filename": string; }>; "revisions"?: Array<{ "version": number; "status": "PINNED" | "CONFIRMED"; "metadataUri": string; "createdAt": string; }>; "createdAt"?: string; "updatedAt"?: string; };
@@ -44,6 +50,8 @@ export interface Operations {
 "POST /v1/auth/staff/mfa/enroll/confirm": {body:MfaEnrollmentConfirmDto;response:AuthenticatedResponse};
 "POST /v1/auth/staff/mfa/verify": {body:MfaChallengeVerifyDto;response:AuthenticatedResponse};
 "POST /v1/auth/logout": {body:unknown;response:unknown};
+"POST /v1/auth/staff/handoff/accept": {body:StaffHandoffAcceptDto;response:StaffHandoffAcceptedResponse};
+"POST /v1/auth/staff/contact/confirm": {body:StaffContactConfirmDto;response:StaffContactConfirmedResponse};
 "GET /v1/auth/reid/start": {body:unknown;response:unknown};
 "GET /v1/auth/reid/callback": {body:unknown;response:unknown};
 "POST /v1/auth/wallet/challenge": {body:WalletChallengeDto;response:WalletChallengeResponse};
@@ -71,8 +79,11 @@ export interface Operations {
 "GET /v1/admin/staff": {body:unknown;response:unknown};
 "POST /v1/admin/staff": {body:StaffDto;response:unknown};
 "PATCH /v1/admin/staff/{id}": {body:SuspendDto;response:unknown};
+"POST /v1/admin/staff/{id}/invitation": {body:StaffInviteDto;response:StaffInvitationQueuedResponse};
 "GET /v1/admin/roles": {body:unknown;response:unknown};
 "POST /v1/admin/roles": {body:RoleDto;response:unknown};
+"PATCH /v1/admin/roles/{id}": {body:RoleDto;response:unknown};
+"DELETE /v1/admin/roles/{id}": {body:unknown;response:unknown};
 "POST /v1/admin/staff/{id}/roles": {body:MembershipDto;response:unknown};
 "DELETE /v1/admin/staff/{id}/roles/{membershipId}": {body:unknown;response:unknown};
 "GET /v1/admin/indexer": {body:unknown;response:unknown};

@@ -18,7 +18,7 @@ The independent backend's generated OpenAPI/types are vendored, without cross-re
 - `artifacts/platform/api-manifest.json`
 - `src/lib/platform/api.generated.ts`
 
-API version: `0.1.0`. OpenAPI SHA-256: `484aa0635357fea37de78b6c32607c0b680c5c355b5d06fa0216e925204e36c2`. The pin test verifies the schema bytes, manifest and generated-client header agree. Backend source reference supplied by its owner: `2e484dccc5e278418140b702db73a5efb8f47235`. The frontend uses generated session, command, wallet, transaction and durable support/notification types. Read shapes not yet described by the backend generator are explicitly typed locally.
+API version: `0.1.0`. The exact schema digest is in the committed `artifacts/platform/api-manifest.json`; the pin test verifies schema bytes, manifest and generated-client header agree. The current generated snapshot comes from backend source `55ef28ff128585113f6bd832ba11c33f50910146`, including staff-only handoff additions. Investor session and transaction response contracts remain compatible. This update changes generated artifacts and documentation only; the approved investor UI is unchanged. The frontend uses generated session, command, wallet, transaction and durable support/notification types. Read shapes not yet described by the backend generator are explicitly typed locally.
 
 ## Financial state and privacy
 

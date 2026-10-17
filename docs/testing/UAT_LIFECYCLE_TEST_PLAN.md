@@ -24,6 +24,10 @@ The exception waives only independent project review. It does not waive scoped p
 
 Ordinary publishers require the existing approved state and independent noncreator reviewer. All exact wallet transactions still need human approval. `REID_TRANSACTION_SUBMIT_ENABLED=false` remains unchanged; contracts, prices, ownership/reward rules and UAT funding limits are unchanged. Before calling the exception live, retain genuine backend/admin source commits, allow/deny and stale-metadata/authority tests, reviewed FP rollout identity and a bounded actual preparation/guard check. No publication, wallet signing or funds movement is authorized by this documentation update.
 
+## Funding revision approved — 17 October 2026
+
+The user approved the revised aggregate UAT cap of **150reAED+2USDT**, replacing the earlier25reAED preparation cap because the observed INFRA fixed fee is3reAED per transaction. The project configuration is unchanged. See [the approved funding revision](UAT_FUNDING_REVISION_20261017.md) for transaction planning, application quote thresholds and stop rules. Each exact wallet action still requires human approval; the budget approval is not signing, publication or a claim that the journey has run. Earlier25reAED statements below remain historical preparation evidence and are superseded by this dated revision.
+
 ## Project configuration
 
 | Field | Approved preparation value |
