@@ -1,6 +1,16 @@
 # Implementation and recovery status — 16 October 2026
 
-## Latest checkpoint — 17 October 2026, 12:46 UTC
+## End-of-day checkpoint — 17 October 2026, 13:08:53 UTC
+
+The approved temporary UAT submission window is closed: **gate false**, **17 INDEXED app intents + 2 unsigned EXPIRED historical intents**, **zero unsettled and zero uncertain-provider actions**. The same API/worker 65393fc images/limits were restarted; 18 other container identities, protected environment and intent history were preserved. API health 200, owned builder stopped. The 13:07:26 UTC local inspection found no project dev server; unrelated applications/services were preserved. These are measured shutdown facts, not a claim that unrelated services were stopped.
+
+Independent partial-fill verification at **13:01:14 UTC passed 83/83**: B bought 10 listing #1 fractions for exactly 0.01 USDT with a 3 reAED fee; canonical receipt and indexed facts reconcile. **A 1,176/B 24, supply 1,200/max 10,000**, listing #1 remaining 990, B allowance/USDT zero and native 18, seller USDT proceeds accrued 0.01. Earlier allocated rewards are unchanged: A 7.164 reAED + 1.09 USDT / B 0.036 reAED + 0.01 USDT, zero claimed. Final **20 actual successes = 17 INDEXED app intents + 3 external indexed transactions**; accounted **95.16 reAED + 1.22 USDT**, remaining **54.84 reAED + 0.78 USDT**. [Execution details](../testing/UAT_EXECUTION_20261017.md) preserve exact receipts, the earlier failed-assumption proof and ledger hashes.
+
+Running admin remains **ba508f2 / c97a281c…3629a14**, API/worker **65393fc**, indexer **2232e9a**. Published admin refresh source **51788d0** passed local 113 tests/lint/types/build/secret scan and coordinator-observed [hosted CI 39035276976](https://github.com/reIDentity/ReSystem-Investment-admin/actions/runs/39035276976), but is **not deployed**. Coordinator-observed [investor 47422f3 CI 39034388942](https://github.com/reIDentity/ReSystem-Investment-front-end/actions/runs/39034388942) also passed; the next docs revision needs its own CI result. Media 62/migration remain undeployed. No investor UI/code/generated changes are authorized by this checkpoint.
+
+Remaining work is not Done: cancellation/full exit/future funding/actual claims/proceeds withdrawal, history/notification/support propagation and rejected/reverted variants, bounded phone-image/empty-delay checks and media rollout. Tomorrow requires a fresh canonical read and <=32-action replan; listing #1 expires **today at 14:00 UTC**, so never reuse expired reviews. Native listing #2 quantity 2/price 5 reAED is a distinct economic offer requiring fresh specific approval. Preserve the closed gate and stopped local dev state until new authorized work. Older pending/funding/runtime statements below are dated history.
+
+## Historical checkpoint — 17 October 2026, 12:46 UTC
 
 Actual admin rollout completed **12:42:32.633 UTC**, source **ba508f2**, immutable image **sha256:c97a281cb31209c1a4bb3748e4980378a2e3d75c3c479f3aeca23099a3629a14**. Only admin was recreated; all other container identities/environment/gate were preserved, API/worker 65393fc/indexer 2232e9a unchanged. Builder stopped, media 62b9f9c migration still unapplied. Filtered proof `uat-admin-wallet-actions-deployed-20261017.json` observed 12:46:39 UTC records complete/no signing/broadcast/financial/database mutation. The earlier build-start/refusal notes are history, superseded only by the actual reviewed completion below.
 

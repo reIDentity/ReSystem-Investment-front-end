@@ -4,7 +4,104 @@ This record supersedes older preparation-only statements for the steps actually
 verified below. It is a partial execution record, not full lifecycle acceptance
 or a production release. Preserve the approved investor UI.
 
-## Current checkpoint — 12:46 UTC admin deployed; unsigned review pending
+## End-of-day checkpoint — 13:08:53 UTC; gate closed, local dev stopped
+
+The user ended the day after the first USDT partial resale. The final protected
+ledger has **20 successful real transactions = 17 INDEXED application intents +
+3 external canonical/indexed transactions** (two specifically authorized top-ups
+and one direct investor transfer). Two historical unsigned EXPIRED intents are
+unspent history. Accounted spend is **95.16 reAED + 1.22 USDT**, leaving
+**54.84 reAED + 0.78 USDT** under the approved 150 reAED + 2 USDT cap; 20/32
+planned slots are used. The earlier 17/19-transaction checkpoints remain history.
+
+### Final positive receipts and exact-block evidence
+
+- **Direct external transfer:** [0x1619…524c](https://uat.scan.infraworld.org/tx/0x16195ac4690bfd3751cf20ebde492c36c4dca158fed92f776e08b591b9bd524c),
+  block 7,336,490, mined 12:34:56 UTC, passed **58/58** independent checks at
+  12:57:17.974 UTC. A/B moved 1,188/12 → 1,186/14 via one canonical/indexed
+  TransferSingle ID 1/quantity 2; **zero app intents** exist for the hash. Fee
+  3 reAED; supply/reserves/proceeds and old allocations unchanged.
+- **B's exact marketplace allowance:** [0xb1f8…4485](https://uat.scan.infraworld.org/tx/0xb1f8e2abeb76abda9713a71dfac35dd0523e2e831f21bcdb5671b03fe9a34485),
+  block 7,336,817, independently **72/72** verified at 12:53:15.141 UTC,
+  INDEXED, 10,000 atomic units = 0.01 USDT to the registered marketplace only.
+  Approval fee 3 reAED; no token/fraction movement at its exact receipt block.
+  Preserve original v1 **68/70**: only stale HEAD assumptions `a1188`/`b12`
+  failed after the separate direct transfer. V2 uses receipt-block-1→block
+  unchanged-state invariants and separately records observed A 1,186/B 14.
+- **First partial USDT fill:** [0xd7a7…4101](https://uat.scan.infraworld.org/tx/0xd7a7c7e71bb5acc1390ebf97143a1a1c909f3a5a962fb81e073b2b8ea69e4101),
+  block **7,337,161**, mined **12:57:18 UTC**, independently **83/83** verified
+  at **13:01:14.413 UTC**, INDEXED. B bought **10** from listing #1 at 0.001
+  USDT each, exactly **0.01 USDT**, native value zero and fee **3 reAED**.
+  Canonical receipt, two indexed contract facts and one indexed payment activity
+  reconcile with exact receipt-block state.
+
+After the fill, **A 1,176/B 24, supply 1,200/max 10,000/remaining 8,800**;
+listing #1 remaining **990**, native listing #2 still quantity 2/price 5 reAED.
+B USDT balance and allowance are **zero**, native balance **18 reAED**. Seller
+USDT proceeds accrued **0.01 USDT** in the marketplace; no proceeds withdrawal
+has occurred. Earlier allocated rewards remain **A 7.164 reAED + 1.09 USDT /
+B 0.036 reAED + 0.01 USDT**, with zero claimed. Project reward reserves remain
+7.2 reAED/1.1 USDT, separate from primary proceeds 3.96 reAED/0.1 USDT and
+marketplace seller proceeds. Supply did not change in a resale.
+
+### Verified shutdown boundary
+
+At **13:08:53.778773 UTC**, protected proof
+`uat-end-of-day-gate-closed-20261017.json` verifies **gate false** after normal
+API/worker restart on the **same 65393fc images and unchanged limits**:
+17 INDEXED app intents + 2 historical unsigned EXPIRED, **zero unsettled and
+zero uncertain-provider actions**. Only API/worker were recreated; 18 other
+container identities, other protected environment files and intent history were
+preserved. API health 200, owned remote builder stopped. Closure itself made no
+signature, broadcast or database write.
+
+At **13:07:26.954606 UTC**, `local-server-end-of-day-inspection-20261017.json`
+found **no reSystem investment local dev server**. No local process needed to be
+stopped by that inspection; unrelated applications/services and an unproven-owner
+pre-existing receiver were preserved. This is project-scoped cleanup evidence,
+not a claim that all unrelated local services were stopped.
+
+Running sources remain **admin ba508f2 / image c97a281c…3629a14**,
+**API/worker 65393fc**, **indexer 2232e9a**. Admin refresh fix
+[51788d0](https://github.com/reIDentity/ReSystem-Investment-admin/commit/51788d0fee976e8a823c9fb4a8e77003e4ee494d)
+is published, with 113 local tests/lint/types/build/secret scan passed and
+coordinator-observed [CI 39035276976 SUCCESS](https://github.com/reIDentity/ReSystem-Investment-admin/actions/runs/39035276976),
+but **not deployed**. Earlier investor docs
+[47422f3 CI 39034388942 SUCCESS](https://github.com/reIDentity/ReSystem-Investment-front-end/actions/runs/39034388942)
+was separately observed through authenticated GitHub. That does not assert the
+Vercel runtime SHA or the CI result of this later documentation revision.
+Backend media 62b9f9c/migration remain unapplied. Investor UI is unchanged.
+
+### Exact protected originals and remaining work
+
+| Protected filename | UTF-8 bytes | SHA-256 |
+| --- | ---: | --- |
+| `uat-b-usdt-partial-fill-independent-20261017.json` | 6,546 | `acf67133a9c91ae1f71d013286f7af1de45db2a6a375fcedd811a80d581fb962` |
+| `uat-lifecycle-budget-20261017.json` — final 20-row snapshot | 13,693 | `d197ae56f87531ea00ffe970962130da8862624dbe0d85381edbc588fe385fac` |
+| `uat-end-of-day-gate-closed-20261017.json` | 716 | `207484f3a2859feb2ccea91c2fd140018f581250c815c48474325054812f55d0` |
+| `local-server-end-of-day-inspection-20261017.json` | 3,784 | `505363353def0fd65288a17a154762756d939a79936dfc4762543e1bb362f735` |
+
+Keep these originals and the prior 19-row/v1/v2/direct-transfer proofs on the
+existing private Backend Documents record, using native byte verification and
+preserving earlier attachments/parents/access. No private intent identifier,
+credential, factor, wallet material, cookie or raw authenticated body is copied
+into general Git docs. Original RSI-047/096 criteria stay open as appropriate;
+positive partial-fill evidence is not a broad task-completion claim.
+
+**Tomorrow:** resume only after fresh user direction and a canonical read of
+balances, listings, allowances, intents, provider/chain state and remaining cap.
+Replan the remaining actions within **32 total**; do not automatically reuse
+older full-exit quantities or cost projections. Listing #1 expires **17 October
+2026 at 14:00 UTC**; its payloads/reviews must not be reused after expiry.
+Native listing #2 **2 fractions at 5 reAED each** needs fresh specific buyer
+approval. Cancellation, full exit, future deposits, actual claims, proceeds
+withdrawal, notification/history/support propagation and rejected/reverted/
+delayed recoverability variants remain unfinished. Bounded post-fix phone-image,
+controlled empty/indexing-delay and durable-media rollout acceptance remain
+open. Keep the gate closed, do not sign/deploy/resume finance automatically, and
+preserve the approved investor UI. Older checkpoints below remain dated history.
+
+## Historical checkpoint — 12:46 UTC admin deployed; unsigned review pending
 
 The reviewed **admin-only rollout completed 12:42:32.633 UTC**. Filtered nonsecret
 proof `uat-admin-wallet-actions-deployed-20261017.json`, observed 12:46:39 UTC,

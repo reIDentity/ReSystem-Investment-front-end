@@ -1,6 +1,16 @@
 # reSystem Investment - start here
 
-## Latest checkpoint — 17 October 2026, 12:46 UTC: admin deployed, approval pending
+## End-of-day checkpoint — 17 October 2026, 13:08:53 UTC
+
+Work is saved for the day. The coordinator verified the temporary financial submission gate **false**, **17 INDEXED application intents + 2 historical unsigned EXPIRED intents**, and **zero unsettled/uncertain-provider actions**. Only API/worker were recreated with their same 65393fc images/limits; 18 other container identities, other environment files and intent history were preserved, API health was 200 and the owned remote builder was stopped. At 13:07:26 UTC, no reSystem investment local dev server was running; unrelated servers were preserved.
+
+**20 successful real transactions = 17 INDEXED application intents + 3 external indexed transactions** (two bounded top-ups and one direct transfer). The first USDT partial resale is verified: B bought 10 for 0.01 USDT, leaving **A 1,176/B 24, supply 1,200**, listing #1 remaining 990 and seller proceeds accrued 0.01 USDT. Earlier allocated rewards remain A 7.164 reAED + 1.09 USDT / B 0.036 reAED + 0.01 USDT, with zero claimed. Final accounted budget is **95.16 reAED + 1.22 USDT / 54.84 reAED + 0.78 USDT remaining** under the 150 reAED + 2 USDT cap. [Exact execution and protected proof references](docs/testing/UAT_EXECUTION_20261017.md) distinguish receipts from unfinished acceptance.
+
+Actual runtime remains admin **ba508f2 / c97a281c…3629a14**, API/worker **65393fc**, indexer **2232e9a**. Admin refresh fix [51788d0](https://github.com/reIDentity/ReSystem-Investment-admin/commit/51788d0fee976e8a823c9fb4a8e77003e4ee494d) is published and [CI 39035276976 passed](https://github.com/reIDentity/ReSystem-Investment-admin/actions/runs/39035276976), but is **not deployed**. Earlier investor docs [47422f3 CI 39034388942 passed](https://github.com/reIDentity/ReSystem-Investment-front-end/actions/runs/39034388942); this does not identify the Vercel runtime SHA. Backend media 62/migration remain unapplied. The investor UI is unchanged.
+
+**Resume only on a fresh user request.** Re-read the live Notion tasks, canonical balances/intents/listings and remaining budget, then replan within 32 actions before any exact human approval. Listing #1 expires **17 October at 14:00 UTC**; do not reuse expired listing/review payloads. Native listing #2 is **2 fractions at 5 reAED each** and needs fresh specific buyer approval. Cancellation, full exit, later revenue/claims, seller-proceeds withdrawal, propagation/negative variants, post-fix phone image/empty-delay acceptance and durable media rollout remain open. Do not automatically reopen the gate, sign, deploy or resume finance. Earlier checkpoints below are preserved history.
+
+## Historical checkpoint — 17 October 2026, 12:46 UTC: admin deployed, approval pending
 
 The admin-only rollout completed at **12:42:32 UTC**: actual admin source **ba508f2**, image **c97a281c…3629a14**. Only admin was recreated; API/worker 65393fc, indexer 2232e9a, other containers, environment and gate true were preserved. Builder is stopped; backend media 62/migration remain unapplied. The actual new wallet-action form was observed with B/MetaMask/chain 15324. Source, successful CI and measured runtime are distinct; [execution details](docs/testing/UAT_EXECUTION_20261017.md) record the exact image and filtered proof.
 
