@@ -291,7 +291,246 @@
         },
         "responses": {
           "201": {
-            "description": ""
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffLoginResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "cookie": []
+          }
+        ],
+        "tags": [
+          "Authentication"
+        ]
+      }
+    },
+    "/v1/auth/staff/mfa/enroll/confirm": {
+      "post": {
+        "operationId": "AuthController_enrollMfa",
+        "parameters": [
+          {
+            "name": "X-CSRF-Token",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Token from GET /v1/auth/session; configured Origin must also be forwarded"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MfaEnrollmentConfirmDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthenticatedResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "cookie": []
+          }
+        ],
+        "tags": [
+          "Authentication"
+        ]
+      }
+    },
+    "/v1/auth/staff/mfa/verify": {
+      "post": {
+        "operationId": "AuthController_verifyMfa",
+        "parameters": [
+          {
+            "name": "X-CSRF-Token",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Token from GET /v1/auth/session; configured Origin must also be forwarded"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MfaChallengeVerifyDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthenticatedResponse"
+                }
+              }
+            }
           },
           "400": {
             "description": "Validated, permission, conflict, throttling or dependency error",
@@ -7569,6 +7808,36 @@
           "password"
         ]
       },
+      "MfaEnrollmentConfirmDto": {
+        "type": "object",
+        "properties": {
+          "enrollmentToken": {
+            "type": "string"
+          },
+          "totp": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "enrollmentToken",
+          "totp"
+        ]
+      },
+      "MfaChallengeVerifyDto": {
+        "type": "object",
+        "properties": {
+          "challengeToken": {
+            "type": "string"
+          },
+          "totp": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "challengeToken",
+          "totp"
+        ]
+      },
       "WalletChallengeDto": {
         "type": "object",
         "properties": {
@@ -7895,6 +8164,121 @@
         "required": [
           "transactionUpdates",
           "supportUpdates"
+        ]
+      },
+      "AuthenticatedResponse": {
+        "type": "object",
+        "properties": {
+          "authenticated": {
+            "type": "boolean",
+            "enum": [
+              true
+            ]
+          }
+        },
+        "required": [
+          "authenticated"
+        ],
+        "additionalProperties": false
+      },
+      "MfaSetup": {
+        "type": "object",
+        "properties": {
+          "enrollmentToken": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]{43}$"
+          },
+          "expiresAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "secret": {
+            "type": "string"
+          },
+          "otpauthUri": {
+            "type": "string"
+          },
+          "qrDataUrl": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "enrollmentToken",
+          "expiresAt",
+          "secret",
+          "otpauthUri",
+          "qrDataUrl"
+        ],
+        "additionalProperties": false
+      },
+      "MfaChallenge": {
+        "type": "object",
+        "properties": {
+          "challengeToken": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]{43}$"
+          },
+          "expiresAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "challengeToken",
+          "expiresAt"
+        ],
+        "additionalProperties": false
+      },
+      "StaffLoginResponse": {
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/AuthenticatedResponse"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "authenticated": {
+                "type": "boolean",
+                "enum": [
+                  false
+                ]
+              },
+              "mfaRequired": {
+                "type": "boolean",
+                "enum": [
+                  true
+                ]
+              },
+              "mfaChallenge": {
+                "$ref": "#/components/schemas/MfaChallenge"
+              }
+            },
+            "required": [
+              "authenticated",
+              "mfaRequired",
+              "mfaChallenge"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "authenticated": {
+                "type": "boolean",
+                "enum": [
+                  false
+                ]
+              },
+              "mfaSetup": {
+                "$ref": "#/components/schemas/MfaSetup"
+              }
+            },
+            "required": [
+              "authenticated",
+              "mfaSetup"
+            ],
+            "additionalProperties": false
+          }
         ]
       },
       "SessionUser": {

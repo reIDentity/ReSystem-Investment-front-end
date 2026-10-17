@@ -1,5 +1,7 @@
-// Generated from OpenAPI 0.1.0; do not hand-edit. SHA-256: 61c9af218ceeab3fdae95a13e400c9d9144c804d28724d31c79c33f3b0cf10f9
+// Generated from OpenAPI 0.1.0; do not hand-edit. SHA-256: 459ed8a3742f187bd68fcffb57827ae379c352daa5a4c81b237b7aac71caba20
 export type LoginDto = { "username": string; "password": string; "totp"?: string; };
+export type MfaEnrollmentConfirmDto = { "enrollmentToken": string; "totp": string; };
+export type MfaChallengeVerifyDto = { "challengeToken": string; "totp": string; };
 export type WalletChallengeDto = { "address": string; "chainId": 15324; };
 export type WalletVerifyDto = { "challengeId": string; "signature": string; };
 export type ProjectDto = { "title": string; "description": string; "location"?: string; "totalValueUsdtAtomic": string; "maxFractions": string; "ownerWallet": string; "treasuryWallet": string; };
@@ -15,6 +17,10 @@ export type CommandDto = { "type": "SEND" | "APPROVE_USDT" | "BUY" | "TRANSFER" 
 export type BroadcastDto = { "txHash": string; };
 export type TicketDto = { "subject": string; "body": string; };
 export type PreferenceDto = { "transactionUpdates": boolean; "supportUpdates": boolean; };
+export type AuthenticatedResponse = { "authenticated": true; };
+export type MfaSetup = { "enrollmentToken": string; "expiresAt": string; "secret": string; "otpauthUri": string; "qrDataUrl": string; };
+export type MfaChallenge = { "challengeToken": string; "expiresAt": string; };
+export type StaffLoginResponse = AuthenticatedResponse | { "authenticated": false; "mfaRequired": true; "mfaChallenge": MfaChallenge; } | { "authenticated": false; "mfaSetup": MfaSetup; };
 export type SessionUser = { "id": string; "kind": "staff" | "investor"; "username": (string) | null; "name": (string) | null; "walletAddress": (string) | null; "wallet": (string) | null; "kycStatus": "not_requested"; "walletProvider": ("metamask" | "reid") | null; "permissions": Array<string>; };
 export type SessionResponse = { "authenticated": boolean; "kind": ("staff" | "investor") | null; "csrfToken": string; "capabilities": { "directProjectPublication": boolean; }; "user": (SessionUser) | null; };
 export type ProjectResponse = { "id": string; "title": string; "description": string; "location"?: (string) | null; "status": "DRAFT" | "IN_REVIEW" | "APPROVED" | "PUBLISH_PENDING" | "PUBLISHED" | "ARCHIVED"; "version": number; "totalValueUsdtAtomic": string; "maxFractions": string; "unitPriceUsdtAtomic": string; "unitPriceReaedAtomic": string; "metadataUri"?: (string) | null; "contractAddress"?: (string) | null; "publicationTxHash"?: (string) | null; "publicationBlock"?: (string) | null; "indicativeYieldBps"?: (number) | null; "pendingMetadataUri"?: (string) | null; "media"?: Array<{ "cid": string; "mimeType": string; "filename": string; }>; "revisions"?: Array<{ "version": number; "status": "PINNED" | "CONFIRMED"; "metadataUri": string; "createdAt": string; }>; "createdAt"?: string; "updatedAt"?: string; };
@@ -34,7 +40,9 @@ export type NotificationPage = { "items": Array<Notification>; "nextCursor": (st
 export type ApiError = { "error": { "code": string; "message": string | Record<string, unknown>; }; "statusCode": number; };
 export interface Operations {
 "GET /v1/auth/session": {body:unknown;response:SessionResponse};
-"POST /v1/auth/staff/login": {body:LoginDto;response:unknown};
+"POST /v1/auth/staff/login": {body:LoginDto;response:StaffLoginResponse};
+"POST /v1/auth/staff/mfa/enroll/confirm": {body:MfaEnrollmentConfirmDto;response:AuthenticatedResponse};
+"POST /v1/auth/staff/mfa/verify": {body:MfaChallengeVerifyDto;response:AuthenticatedResponse};
 "POST /v1/auth/logout": {body:unknown;response:unknown};
 "GET /v1/auth/reid/start": {body:unknown;response:unknown};
 "GET /v1/auth/reid/callback": {body:unknown;response:unknown};
