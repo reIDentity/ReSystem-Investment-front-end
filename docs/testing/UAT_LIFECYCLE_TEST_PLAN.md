@@ -1,6 +1,16 @@
 # INFRA UAT project and lifecycle — details approved for preparation
 
-## 19 October 2026 execution-plan checkpoint — 21 successes; no new financial window
+## 19 October 2026, 07:34 UTC — media recovery observed; financial window remains closed
+
+**Latest continuation:** wallet B’s human MetaMask proof is now verified. The human submitted [one native fraction from listing #2](https://uat.scan.infraworld.org/tx/0x5060ca4a10d9eac03bb7ba816469e3653d7522943ac619139731955f7f11876a), reviewed at **5 reAED + 3 reAED estimated fee**. **Independent canonical/indexed verification is pending**: do not count a success, fee, changed holding or budget from the supplied hash alone. Gate remains false, no fresh reID submission window was requested, and financial tasks remain In progress.
+
+Actual media acceptance now includes normal upload/metadata, identical settled retries and a queued upload that completed after the same stopped worker resumed **before retry**. Two stop/start cycles used the same worker. Independent **07:34:46 UTC** final proof verifies **4 SUCCEEDED jobs / attempts 1 each, 2 media, 2 PINNED revisions (1/2), 0 active jobs and all ciphertext/leases erased**; audit **4 queued / 2 uploaded / 2 metadata pinned**. Actual source 62/image 179ce921…231077, admin 517/indexer 223 and gate false are retained. The separate media fixture stays **off-chain DRAFT version 2**, no publication/contract. Initial generic-network-error upload created 0 jobs; cause unproven, exact retry succeeded without UI/source change. No live provider outage/client abort/24-hour pruning claim; controlled tests are separate. **RSI-015 is Done for its original criteria after coordinator/backend concurrence.**
+
+The financial checkpoint is unchanged: **21 successful actual transactions = 17 INDEXED app intents + 4 external indexed transactions**, **A 1,174/B 26, issued 1,200/max 10,000**, **98.16 reAED + 1.22 USDT accounted / 51.84 reAED + 0.78 USDT remaining**. Gate false; no new transaction, publication or approval. Fresh read-only preflight passed **20/20** at confirmed block **7,413,872** without state drift; the proposed remaining sequence is not approval and the separate human-submitted hash above still needs independent receipt/indexer verification.
+
+[Execution details](UAT_EXECUTION_20261017.md) retain exact proof hashes, controlled-versus-actual distinctions and historical blocked/zero-job checkpoints. Any remaining <=32-action sequence must use fresh canonical state, quotes and exact human review. Listing #1 is expired; native listing #2 remains a distinct **2-at-5-reAED** offer. Cancellation/full exit/future deposits/claims/proceeds and negative/propagation variants remain open; RSI-080/082 original display acceptance is separately complete. No investor UI change, new financial window or automatic signing is authorized.
+
+## Historical 19 October 2026, 07:11 UTC — execution-plan checkpoint — 21 successes; no new financial window
 
 Independent **06:24:08 UTC / 58-of-58** verification reconciled a direct A→B transfer of 2, mined 17 October 18:52:38 UTC at block 7,347,821, with no app intent. **A 1,174/B 26, supply 1,200/max 10,000**; old rewards/reserves/proceeds are unchanged. Ledger: **21 actual successes = 17 INDEXED app intents + 4 external indexed transactions**, **98.16 reAED + 1.22 USDT accounted / 51.84 reAED + 0.78 USDT remaining**, 21/32 slots. [Execution record](UAT_EXECUTION_20261017.md) retains exact proof hashes and older immutable snapshots.
 

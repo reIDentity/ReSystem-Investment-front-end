@@ -4,7 +4,37 @@ This record supersedes older preparation-only statements for the steps actually
 verified below. It is a partial execution record, not full lifecycle acceptance
 or a production release. Preserve the approved investor UI.
 
-## 19 October 2026 checkpoint — 21 real transactions; display criteria complete
+## 19 October 2026, 07:34 UTC — actual media acceptance and unchanged financial preflight
+
+**Latest continuation:** wallet B’s human MetaMask proof is now verified. The human submitted [one native fraction from listing #2](https://uat.scan.infraworld.org/tx/0x5060ca4a10d9eac03bb7ba816469e3653d7522943ac619139731955f7f11876a), reviewed at **5 reAED + 3 reAED estimated fee**. **Independent canonical/indexed verification is pending**: do not count a success, fee, changed holding or budget from the supplied hash alone. Gate remains false, no fresh reID submission window was requested, and financial tasks remain In progress.
+
+Independent `media-independent-final-proof-20261019.json` at **07:34:46.182 UTC** reports **allObservedChecksPass true** for actual source **62b9f9c4af478a6d2ef4b8dc47b1c582bf1db9ac**, API/worker image **sha256:179ce9212d462b6c22cbe60ada7e1438cd44c1b1fbda3108a888219f0d231077**, same worker container across two stop/start cycles, admin 517/indexer 223 preserved and submission gate false. Six finished migrations/MediaJob remain present. Final durable state is **4 SUCCEEDED jobs, attempts 1 each; 2 media records; 2 PINNED revisions (1/2); 0 active jobs; all ciphertext and leases erased**. Exact audit counts are **4 media.job_queued / 2 project.media_uploaded / 2 project.metadata_pinned**.
+
+### Actual submitted sequence and bounded failures
+
+The extension-local-file blocker described below was resolved before actual submissions. The first normal upload attempt returned a generic network failure and created **0 jobs**; its cause is unproven. The later exact retry succeeded, yielding one media/job, followed by pinned metadata revision 1. Repeating identical completed metadata did not create an extra revision/job. While the same worker was stopped, a second approved upload persisted as **QUEUED/attempts 0/encrypted payload retained**, with one existing media record and no fake CID. The UI's timeout state was observed. After resuming the same worker it became SUCCEEDED and the second media record existed **before client retry**; retry did not duplicate it. Metadata revision 2 and subsequent settled retries resulted in the final four jobs/two revisions. A second stop/start of that same worker retained completed state, cleared payloads/leases and exact counts. No provider outage or forced client abort was induced.
+
+The separate media fixture remains **off-chain DRAFT version 2**, no publication hash and no contract; the existing published investment fixture is unchanged. Both images are approved public WebP content (183,092 bytes each) with asset CID `QmY95eC3RjvpaAECTweHxSBmhRSkkeakZcnrtcyuH7tTkN`. Pinned metadata URIs are `ipfs://QmZ3vHD3MsGfogiQjeVpJd3Smm4kGAMYxcdm3PQQA6Zd1n` (revision 1) and `ipfs://QmeJa5vS7s7oH9VVKjkB6cENYZd6U6jt4WnsY2Ur82oSpR` (revision 2). Strict other-project/media/revision/full-intent/canonical-prefix fingerprints are stable; original wallet activity is retained, cursor/projection versions advance monotonically, and accounting data is unchanged. No new chain transaction or financial intent was created by media work.
+
+| Protected actual proof | UTF-8 bytes | SHA-256 |
+| --- | ---: | --- |
+| `media-upload-success-proof-20261019.json` | 5,371 | `b9e74f6bfba38a27ef7a430386c0815cdc5e8586905754ea1434376a46ab5ee3` |
+| `media-normal-settled-proof-20261019.json` | 5,995 | `5ae0e2ba68fd20aae7cdda4aa28b283a7bff12d9a3b718a20c7cc4ca5d362f44` |
+| `media-queued-stopped-proof-20261019.json` | 6,341 | `a5885b00d165ec25a938d5b1c99e86c3aed29334bf2018c45cd8d12a0f98e69c` |
+| `media-recovered-proof-20261019.json` | 6,674 | `e7f07c71ddb59285c6dced191ae450c958e614b62275ea0dd618f03d3e72ed23` |
+| `media-retries-settled-proof-20261019.json` | 7,219 | `a958c19b9bde61e14ae28908a67ffcfffccbb99ae1a30ecd6b49d234bb4e70d0` |
+| `media-independent-final-proof-20261019.json` | 16,292 | `37725fae0d3031301dc2e4775f927f85ffa324f631271fdf332209e967d7d370` |
+| `uat-window-preflight-public-20261019.json` | 6,785 | `44ddd6a104fffb79edc47683d4e778462f8c1f1c6bfd1599b8fa0604f957ed61` |
+
+Settled UI/DOM evidence uses `media-upload-success-ui`, `media-worker-timeout-ui`, `media-recovery-success-ui` and `media-revisions-success-ui` (20261019 JPG/JSON pairs). Stopped-uploading and ambiguous metadata1 intermediate images are excluded from final settled-state evidence. The stopped-worker timeout is labelled as failure/recovery evidence, not relabelled a settled success. Actual provider/worker observations complement the existing published local PG/Redis/loopback failure, lease-expiry and idempotency tests; they do **not** prove a live Pinata outage, forced client abort or waiting 24 hours for expiry/pruning. No production UI/source fix was made for the initial generic network error. **RSI-015 is Done after coordinator/backend concurrence on the two original criteria**, using actual worker/outbox/media observations and separately labelled published failure/recovery tests. Original wording, dependencies and history are preserved; no financial or full-platform completion is implied.
+
+### Financial state remains unchanged; fresh approval still required
+
+The financial checkpoint is unchanged: **21 successful actual transactions = 17 INDEXED app intents + 4 external indexed transactions**, **A 1,174/B 26, issued 1,200/max 10,000**, **98.16 reAED + 1.22 USDT accounted / 51.84 reAED + 0.78 USDT remaining**. Gate false; no new transaction, publication or approval. Fresh read-only preflight passed **20/20** at confirmed block **7,413,872** without state drift; the proposed remaining sequence is not approval and the separate human-submitted hash above still needs independent receipt/indexer verification.
+
+`uat-window-preflight-public-20261019.json` at **07:34:54.428 UTC** verifies chain 15324, confirmed block 7,413,872, code pins/solvency/current state, expired USDT listing #1 unavailable and native listing #2 quantity 2/price 5 reAED available. A read-only fill simulation succeeds, but it is **not an intent, signature or approval**. Proposed 11 remaining actions would total 32 with projected 136.556 reAED within the 150 cap and 1.22 USDT within the 2 cap; future gas/receipt costs are not guaranteed and each review must refresh. Wallet B proof is now verified; the separate human-submitted hash above is pending independent receipt/indexer verification, with gate false and all financial tasks still open. Earlier dated checkpoints below are preserved verbatim as history.
+
+## Historical 19 October 2026, 07:11 UTC — checkpoint — 21 real transactions; display criteria complete
 
 At **06:24:08.485 UTC**, `uat-additional-external-transfer-independent-20261019.json` passed **58/58** checks for the [direct A→B transfer of 2](https://uat.scan.infraworld.org/tx/0xfd4ecf91328c774182b5749407ac51c94646688e4d8301b69aee8cdc29b8fbf7), block **7,347,821**, mined **17 October 18:52:38 UTC**. One canonical/indexed TransferSingle ID 1/quantity 2, zero application intents, exact pre/post state **A 1,176/B 24 → A 1,174/B 26**, supply 1,200/max 10,000/remaining 8,800. Native value 0, fee **3 reAED**. Allocated rewards remain **A 7.164 reAED + 1.09 USDT / B 0.036 reAED + 0.01 USDT**, zero claimed; reserves 7.2 reAED/1.1 USDT, primary proceeds 3.96 reAED/0.1 USDT and marketplace seller proceeds accrued 0.01 USDT are unchanged. This reconciles past user activity without an agent signature/provider request.
 

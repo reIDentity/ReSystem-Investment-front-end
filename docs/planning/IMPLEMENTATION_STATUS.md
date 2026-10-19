@@ -1,6 +1,18 @@
 # Implementation and recovery status — 16 October 2026
 
-## 19 October 2026 checkpoint — display criteria complete; media runtime verified, upload acceptance pending
+## 19 October 2026, 07:34 UTC — media runtime and real recovery observed
+
+**Latest continuation:** wallet B’s human MetaMask proof is now verified. The human submitted [one native fraction from listing #2](https://uat.scan.infraworld.org/tx/0x5060ca4a10d9eac03bb7ba816469e3653d7522943ac619139731955f7f11876a), reviewed at **5 reAED + 3 reAED estimated fee**. **Independent canonical/indexed verification is pending**: do not count a success, fee, changed holding or budget from the supplied hash alone. Gate remains false, no fresh reID submission window was requested, and financial tasks remain In progress.
+
+Independent `media-independent-final-proof-20261019.json` at **07:34:46 UTC** passes all observed checks on actual source **62b9f9c**, API/worker image **179ce921…231077**, with admin 517/indexer 223 preserved and gate false. Two stop/start cycles used the **same worker container**. Final state: **4 SUCCEEDED jobs, each attempts 1; 2 media records; 2 PINNED revisions (1/2); 0 active jobs; all encrypted payloads and leases erased**. Audit is exactly **4 queued / 2 uploaded / 2 metadata pinned**. Normal upload and metadata, identical settled retries, and queued upload recovered before its client retry are recorded; no duplicate media/revision/job was added by retry. The isolated media fixture is **DRAFT version 2**, no publication/contract.
+
+Other project/media/revision records, full intent history and canonical prefix remain stable. Original wallet activity is retained; cursor/projection versions are monotonic and accounting data is unchanged. The first generic-network-error upload created **zero jobs**; root cause is unproven, later exact retry succeeded, and no production UI/source fix was made. The earlier file-selection permission blocker is historical. Actual-provider outage, forced client abort and 24-hour expiry/pruning were not induced; isolated PG/Redis/loopback tests remain separately labelled. **RSI-015 is Done for its original criteria after coordinator/backend concurrence**; RSI-080/082 original display acceptance remains Done.
+
+The financial checkpoint is unchanged: **21 successful actual transactions = 17 INDEXED app intents + 4 external indexed transactions**, **A 1,174/B 26, issued 1,200/max 10,000**, **98.16 reAED + 1.22 USDT accounted / 51.84 reAED + 0.78 USDT remaining**. Gate false; no new transaction, publication or approval. Fresh read-only preflight passed **20/20** at confirmed block **7,413,872** without state drift; the proposed remaining sequence is not approval and the separate human-submitted hash above still needs independent receipt/indexer verification.
+
+[Execution evidence](../testing/UAT_EXECUTION_20261017.md) identifies exact protected proofs and settled UI captures; stopped-uploading and ambiguous intermediate metadata screenshots are excluded from settled acceptance. The investor UI is unchanged. Financial, negative-flow and full visual/accessibility tasks remain separate; no all-platform completion or new submission window is implied.
+
+## Historical 19 October 2026, 07:11 UTC — checkpoint — display criteria complete; media runtime verified, upload acceptance pending
 
 Independent **06:24:08 UTC** verification reconciled an external A→B transfer of 2, **58/58** checks, mined 17 October 18:52:38 UTC at block **7,347,821**, with zero app intents. Holdings are **A 1,174/B 26**, issued 1,200/max 10,000; allocated rewards/reserves/proceeds are unchanged. Current ledger: **21 actual successes = 17 INDEXED app intents + 4 external indexed transactions**, **98.16 reAED + 1.22 USDT spent / 51.84 reAED + 0.78 USDT remaining**, 21/32 slots. [Execution details](../testing/UAT_EXECUTION_20261017.md) preserve exact proof hashes and dated 20-row history.
 
