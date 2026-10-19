@@ -11,3 +11,6 @@ c7df827e91b8e25bcb7a3eaf671baecd6610d3fb:docs/planning/IMPLEMENTATION_STATUS.md:
 ca8650805e5f3095187ba1aed520b8196becfbf1:artifacts/platform/api-manifest.json:generic-api-key:3
 # Human-approved exact public staff-handoff schema checksum; recomputed from committed bytes.
 06406e736fc1ba29bdf9f2a33b1ae3fe3f9c5452:artifacts/platform/api-manifest.json:generic-api-key:3
+
+# Verified SHA-256 of the committed public OpenAPI schema; exact commit/file/rule/line only.
+b6532871f2c7336cb9c2a1d07421c8ef6a3f2f8f:artifacts/platform/api-manifest.json:generic-api-key:3
