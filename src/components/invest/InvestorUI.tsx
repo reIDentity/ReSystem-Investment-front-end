@@ -15,6 +15,7 @@ export function InvestorLogo({ light = false }: { light?: boolean }) { return <L
 export function notificationPath(href: string) {
   const transaction = href.match(/^\/transactions\/([a-zA-Z0-9_-]+)$/); if (transaction) return `/invest/activity?intent=${transaction[1]}`;
   const support = href.match(/^\/support\/([a-zA-Z0-9_-]+)$/); if (support) return `/invest/support?ticket=${support[1]}`;
+  const project = href.match(/^\/projects\/([a-zA-Z0-9_-]+)$/); if (project) return `/invest/products/${project[1]}`;
   return "/invest/activity";
 }
 export function InvestorShell({ title, subtitle, children, page = "", networkBlock }: { title: string; subtitle: string; children: ReactNode; page?: string; liveData?: boolean; networkBlock?: number | string | null }) {
