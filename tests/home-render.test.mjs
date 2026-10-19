@@ -12,10 +12,10 @@ function kpi(html, title) {
 }
 function render(name) { const renderer = createHomeRenderer(); const html = renderer.render(name); assert.equal(renderer.stats.blockedApiCalls, 0); assert.equal(renderer.stats.blockedTransactionCalls, 0); return html; }
 
-test('verified empty balances are zero while invested cost remains unknown', () => {
+test('verified empty complete portfolio has zero remaining basis and verified zero balances', () => {
   const html = render('empty');
   for (const title of ['Available to claim', 'Total paid out', 'Wallet balance']) assert.equal(kpi(html, title), '$0.00');
-  assert.equal(kpi(html, 'Total invested'), '—'); assert.equal(disabled(html), true);
+  assert.equal(kpi(html, 'Total invested'), '$0.00'); assert.equal(disabled(html), true);
   assert.match(text(html), /Your first investment starts here/);
 });
 test('missing/loading data cannot be represented as zero or a claimable balance', () => {
@@ -82,6 +82,38 @@ test('disabled service shows the unchanged unavailable banner and no financial d
 test('every scenario renders current production source using real React, Link and Image without changing source', () => {
   const before = sourceHashes(); const renderer = createHomeRenderer();
   for (const name of Object.keys(scenarios)) assert.match(renderer.render(name), /aria-label="Investment summary"/);
-  assert.deepEqual(sourceHashes(), before); assert.equal(renderer.loadedSourcePaths().length, 5);
+  assert.deepEqual(sourceHashes(), before); assert.ok(renderer.loadedSourcePaths().includes('src/components/invest/HomeExplore.tsx'));
   assert.equal(renderer.stats.blockedApiCalls, 0); assert.equal(renderer.stats.blockedTransactionCalls, 0);
+});
+
+
+test('existing invested slots display only same-anchor remaining acquisition basis and preserve the approved card structure', () => {
+  const html = render('known-basis');
+  assert.equal(kpi(html, 'Total invested'), '$1.00');
+  assert.match(html, /<dt>Invested<\/dt><dd>\$1\.00<\/dd>/);
+  assert.match(html, /iv-home-performance/);
+  assert.match(text(html), /No performance history available yet/);
+  assert.equal((html.match(/class="iv-kpi /g) || []).length, 4);
+  for (const name of ['gift-basis', 'malformed-basis']) {
+    const unknown = render(name);
+    assert.equal(kpi(unknown, 'Total invested'), '—');
+    assert.match(unknown, /<dt>Invested<\/dt><dd>—<\/dd>/);
+    assert.equal(kpi(unknown, 'Available to claim'), '$3.08');
+  }
+});
+
+
+test('existing cash-flow slots and original bars use full verified gross flows, signed exact net and known purchase-only fallback', () => {
+  const html = render('cashflow');
+  assert.match(html, /<small>IN<\/small><strong>\$25\.00<\/strong>/);
+  assert.match(html, /<small>OUT<\/small><strong>\$25\.50<\/strong>/);
+  assert.match(html, /<small>NET<\/small><strong>-\$0\.50<\/strong>/);
+  assert.match(text(html), /Payouts in\$5\.00Deposits in\$20\.00Shares bought\$21\.00Withdrawals\$4\.50/);
+  assert.match(html, /Gross cash flows exclude network fees/);
+  assert.doesNotMatch(text(html), /Complete cash-flow totals are not available yet/);
+  const stale = render('cashflow-stale');
+  assert.match(stale, /<small>IN<\/small><strong>—<\/strong>/);
+  assert.match(text(stale), /Complete cash-flow totals are not available yet/);
+  const partial = text(render('gift-basis'));
+  assert.match(partial, /Shares bought\$3\.00/);
 });

@@ -2,10 +2,13 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import type { ProjectPage, WalletResponse } from "@/lib/platform/api.generated";
+import type { ProjectPage, WalletResponse, WalletCashflowResponse } from "@/lib/platform/api.generated";
 import type { Holding, Portfolio, Project, ProjectState } from "@/lib/platform/types";
 import { assetLabel, percentage, units, type PaymentAsset } from "@/lib/platform/money";
 import { publicIpfsUrl } from "@/lib/platform/media";
+import { holdingCostBasis, portfolioCostBasis, portfolioAcquisitionOutlay } from "@/lib/platform/portfolio-values";
+import { formatRationalUsdEquivalent, formatSignedUsdEquivalent } from "@/lib/platform/valuation";
+import { readWalletCashflow, cashflowWidths } from "@/lib/platform/cashflow-values";
 import { usePlatform, useResource } from "./PlatformProvider";
 import { Asset, DataState, Initials, InvestorShell, Modal, Panel, Tag } from "./InvestorUI";
 import { TransactionReview, type InvestorCommand } from "./platform/Transaction";
@@ -57,7 +60,7 @@ function HomeHoldingCard({ holding }: { holding: Holding }) {
   const hasRewards = claimable && (claimable.REAED > 0n || claimable.USDT > 0n);
   return <article className="iv-holding-card iv-home-holding-card">
     <div className="iv-holding-title"><Initials name={holding.title.slice(0, 2).toUpperCase()} /><div><h3>{holding.title}</h3><small>{holding.quantity === "0" ? "Previous holding" : "Project shares"}</small></div><Tag tone={hasRewards ? "green" : "neutral"}>{hasRewards ? "To claim" : holding.quantity === "0" ? "Previous" : "Holding"}</Tag></div>
-    <dl><div><dt>Shares</dt><dd>{isAtomic(holding.quantity) ? units(holding.quantity, 0) : "—"}</dd></div><div><dt>Invested</dt><dd>—</dd></div><div><dt>To claim</dt><dd className="iv-home-claim-amount">{homeCurrency(claimable)}</dd></div></dl>
+    <dl><div><dt>Shares</dt><dd>{isAtomic(holding.quantity) ? units(holding.quantity, 0) : "—"}</dd></div><div><dt>Invested</dt><dd>{formatRationalUsdEquivalent(holdingCostBasis(holding))}</dd></div><div><dt>To claim</dt><dd className="iv-home-claim-amount">{homeCurrency(claimable)}</dd></div></dl>
     <div className="iv-two-buttons"><Link className="iv-button iv-blue" href="/invest/earnings">My earnings</Link><Link className="iv-button iv-primary" href={`/invest/products/${holding.projectId}`}>Buy more</Link></div>
   </article>;
 }
@@ -67,13 +70,19 @@ export function InvestorHome() {
   const portfolio = useResource<Portfolio>("portfolio");
   const wallet = useResource<WalletResponse>("wallet");
   const projects = useResource<ProjectPage>("projects");
+  const cashflow = useResource<WalletCashflowResponse>("wallet/cashflow");
   const [query, setQuery] = useState("");
   const [sort, setSort] = useState("claimable");
   const [claimOpen, setClaimOpen] = useState(false);
   const [command, setCommand] = useState<InvestorCommand | null>(null);
-  const verifiedPortfolio = portfolio.error ? undefined : portfolio.data;
+  const verifiedPortfolio = portfolio.error || !live ? undefined : portfolio.data;
   const available = portfolioAmounts(verifiedPortfolio, "claimable");
   const paid = portfolioAmounts(verifiedPortfolio, "claimed");
+  const verifiedFlow = readWalletCashflow(cashflow.error || !live ? undefined : cashflow.data, user.wallet);
+  const acquisitionOutlay = portfolioAcquisitionOutlay(verifiedPortfolio);
+  const flow = verifiedFlow && acquisitionOutlay && verifiedPortfolio?.headBlock === verifiedFlow.confirmedBlock && verifiedPortfolio.blockHash.toLowerCase() === verifiedFlow.blockHash.toLowerCase() && HOME_ASSETS.some(asset => acquisitionOutlay[asset] !== verifiedFlow.amounts.purchases[asset]) ? null : verifiedFlow;
+  const widths = flow ? cashflowWidths(flow) : null;
+  const flowContext = flow ? `Gross cash flows exclude network fees. Confirmed through ${flow.asOf} · block ${flow.confirmedBlock}` : "Complete cash-flow history is unavailable. Network fees are excluded.";
   const nativeBalance = wallet.data?.assets.find(asset => asset.symbol === "REAED" && asset.decimals === 18);
   const usdtBalance = wallet.data?.assets.find(asset => asset.symbol === "USDT" && asset.decimals === 6);
   const balances = !wallet.error && nativeBalance && usdtBalance && isAtomic(nativeBalance.balanceAtomic) && isAtomic(usdtBalance.balanceAtomic)
@@ -90,16 +99,16 @@ export function InvestorHome() {
   const claimable = Boolean(available && (available.REAED > 0n || available.USDT > 0n));
   const shares = verifiedPortfolio && allHoldings.every(holding => isAtomic(holding.quantity)) ? units(allHoldings.reduce((total, holding) => total + BigInt(holding.quantity), 0n).toString(), 0) : null;
   const cards = [
-    { title: "Total invested", value: "—", icon: "078eb", badge: null, note: shares ? `${shares} shares in ${ownedIds.size} ${ownedIds.size === 1 ? "project" : "projects"}` : "Your investment overview" },
+    { title: "Total invested", value: formatRationalUsdEquivalent(portfolioCostBasis(verifiedPortfolio)), icon: "078eb", badge: null, note: shares ? `${shares} shares in ${ownedIds.size} ${ownedIds.size === 1 ? "project" : "projects"}` : "Your investment overview" },
     { title: "Available to claim", value: homeCurrency(available), icon: "6d55c", badge: available ? "Live" : null, note: "Claim in reAED or USDT" },
     { title: "Total paid out", value: homeCurrency(paid), icon: "fea92", badge: null, note: "Earnings you have already claimed" },
     { title: "Wallet balance", value: homeCurrency(balances), icon: "dfe8a", badge: balances ? "Ready to invest" : null, note: wallet.error ? "Balance unavailable" : "Your reAED and USDT balance" },
   ];
   const cashRows = [
-    { label: "Payouts in", value: homeCurrency(paid), color: "#0091ff" },
-    { label: "Deposits in", value: "—", color: "#dff1ff" },
-    { label: "Shares bought", value: "—", color: "#0091ff" },
-    { label: "Withdrawals", value: "—", color: "#96d2ff" },
+    { label: "Payouts in", value: homeCurrency(flow?.amounts.payouts || null), color: "#0091ff" },
+    { label: "Deposits in", value: homeCurrency(flow?.amounts.deposits || null), color: "#dff1ff" },
+    { label: "Shares bought", value: homeCurrency(flow?.amounts.purchases || acquisitionOutlay), color: "#0091ff" },
+    { label: "Withdrawals", value: homeCurrency(flow?.amounts.withdrawals || null), color: "#96d2ff" },
   ];
   function reviewClaims(asset: PaymentAsset) {
     const ids = allHoldings.filter(holding => (holdingAmounts(holding, "claimable")?.[asset] || 0n) > 0n).slice(0, 20).map(holding => holding.projectId);
@@ -118,9 +127,9 @@ export function InvestorHome() {
       </div>
 
       <Panel className="iv-cashflow iv-home-cashflow">
-        <div className="iv-cash-heading"><div><span className="iv-eyebrow">CASH FLOW · ALL TIME</span><h2>Inflow vs outflow</h2></div>{["IN", "OUT", "NET"].map(label => <div key={label}><small>{label}</small><strong>—</strong></div>)}</div>
-        <div className="iv-cash-bars">{cashRows.map(row => <div key={row.label}><span><i style={{ background: row.color }} />{row.label}</span><div aria-hidden="true" /><strong>{row.value}</strong></div>)}</div>
-        <p className="iv-home-caption">Complete cash-flow totals are not available yet. <Link href="/invest/activity">View activity →</Link></p>
+        <div className="iv-cash-heading" title={flowContext}><div><span className="iv-eyebrow">CASH FLOW · ALL TIME</span><h2>Inflow vs outflow</h2></div>{[{ label: "IN", value: homeCurrency(flow?.amounts.incoming || null) }, { label: "OUT", value: homeCurrency(flow?.amounts.outgoing || null) }, { label: "NET", value: formatSignedUsdEquivalent(flow?.amounts.net) }].map(item => <div key={item.label}><small>{item.label}</small><strong>{item.value}</strong></div>)}</div>
+        <div className="iv-cash-bars">{cashRows.map((row, index) => <div key={row.label}><span><i style={{ background: row.color }} />{row.label}</span><div aria-hidden="true">{widths ? <i style={{ width: widths[index], background: row.color, minWidth: widths[index] === "0.00%" ? 0 : undefined }} /> : null}</div><strong title={flowContext}>{row.value}</strong></div>)}</div>
+        <p className="iv-home-caption">{!flow ? "Complete cash-flow totals are not available yet. " : null}<Link href="/invest/activity">View activity →</Link></p>
       </Panel>
 
       <div className="iv-home-middle iv-home-middle">

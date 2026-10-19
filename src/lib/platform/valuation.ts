@@ -34,3 +34,27 @@ export function sumRewardTotals(holdings: readonly { claimable: Rewards; claimed
   }
   return total;
 }
+
+export type RationalAssetTotals = Record<PaymentAsset, { numerator: bigint; denominator: bigint }>;
+
+/** Retain weighted-average sub-atomic basis fractions until the final fixed-rate display. */
+export function formatRationalUsdEquivalent(amounts: RationalAssetTotals | null | undefined, precision: 2 | 4 = 2): string {
+  if (!amounts || [amounts.REAED, amounts.USDT].some(value => !value || typeof value.numerator !== "bigint" || typeof value.denominator !== "bigint" || value.numerator < 0n || value.denominator <= 0n)) return "—";
+  const native = amounts.REAED, usdt = amounts.USDT;
+  const numerator = native.numerator * 5n * usdt.denominator + usdt.numerator * 18n * 10n ** 12n * native.denominator;
+  const denominator = 18n * 10n ** 18n * native.denominator * usdt.denominator;
+  const scale = 10n ** BigInt(precision);
+  const displayed = numerator * scale / denominator;
+  if (numerator > 0n && displayed === 0n) return `< $0.${"0".repeat(precision - 1)}1`;
+  const whole = (displayed / scale).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  return `$${whole}.${(displayed % scale).toString().padStart(precision, "0")}`;
+}
+
+
+/** Net cash flow can be negative; offset the original assets at the fixed rational rate first. */
+export function formatSignedUsdEquivalent(amounts: AssetTotals | null | undefined): string {
+  if (!amounts) return "—";
+  const numerator = amounts.REAED * 5n + amounts.USDT * 18n * 10n ** 12n;
+  const magnitude = formatRationalUsdEquivalent({ REAED: { numerator: numerator < 0n ? -numerator : numerator, denominator: 5n }, USDT: { numerator: 0n, denominator: 1n } });
+  return numerator < 0n ? magnitude.startsWith("< ") ? `> -${magnitude.slice(2)}` : `-${magnitude}` : magnitude;
+}

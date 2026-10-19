@@ -1,6 +1,8 @@
 import type { TransactionResponse } from "./api.generated";
-export function transactionIssue(intent: TransactionResponse, wallet: string): string | null {
-  if (intent.chainId !== 15324 || intent.walletAddress.toLowerCase() !== wallet.toLowerCase()) return "The signing wallet or network changed. Reconnect before approving this transaction.";
+export function transactionIssue(intent: TransactionResponse, wallet: string, now = Date.now()): string | null {
+  if (!intent || intent.chainId !== 15324 || typeof intent.walletAddress !== "string" || typeof wallet !== "string" || !/^0x[0-9a-f]{40}$/i.test(wallet) || /^0x0{40}$/i.test(wallet) || intent.walletAddress.toLowerCase() !== wallet.toLowerCase()) return "The signing wallet or network changed. Reconnect before approving this transaction.";
+  if (!intent.command || typeof intent.command.type !== "string") return "The prepared action could not be verified. Please refresh its status.";
+  if (["CREATED", "SUBMITTING", "AWAITING_APPROVAL"].includes(intent.status) && (typeof intent.expiresAt !== "string" || !Number.isFinite(Date.parse(intent.expiresAt)) || Date.parse(intent.expiresAt) <= now)) return "This prepared transaction has expired or its deadline cannot be verified. Do not approve it. Refresh this same intent before preparing any replacement.";
   if (intent.command.asset === "USDT" && ["BUY", "FILL_LISTING", "SEND", "APPROVE_USDT"].includes(String(intent.command.type)) && (!intent.review || intent.review.asset !== "USDT" || !intent.review.amountAtomic || !/^[0-9]+$/.test(intent.review.amountAtomic))) return "The prepared USDT amount is unavailable. No approval will be requested.";
   const tx = intent.transaction;
   if (!tx && ["CREATED", "SUBMITTING", "AWAITING_APPROVAL"].includes(intent.status)) return "The prepared transaction is unavailable. No approval link will be opened.";

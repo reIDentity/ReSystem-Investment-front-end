@@ -5,6 +5,7 @@ import { useState } from "react";
 import type { Holding, Portfolio, ProjectState, RewardView } from "@/lib/platform/types";
 import { contractAsset, assetLabel, decimals, explorer, percentage, units, type PaymentAsset } from "@/lib/platform/money";
 import { formatUsdEquivalent, sumRewardTotals, type AssetTotals } from "@/lib/platform/valuation";
+import { readRevenueSeries, revenueChart, revenueMoney, type VerifiedRevenueSeries } from "@/lib/platform/revenue-values";
 import { usePlatform, useResource } from "./PlatformProvider";
 import { Asset, CopyButton, DataState, Initials, InvestorShell, Modal, Panel, Provenance, Tag } from "./InvestorUI";
 import { TransactionReview, type InvestorCommand } from "./platform/Transaction";
@@ -30,6 +31,18 @@ function rewardTotals(revenue: RewardView | undefined, field: "fundedAtomic" | "
 
 function exactAmount(amounts: AssetTotals | null, asset: PaymentAsset) {
   return amounts ? units(amounts[asset].toString(), decimals(asset)) : "—";
+}
+
+function RevenueChart({ series, perShare }: { series: VerifiedRevenueSeries; perShare: boolean }) {
+  const [hover, setHover] = useState(13);
+  const chart = revenueChart(series, perShare);
+  return <div className="iv-chart" role="group" title={`Confirmed through ${series.asOf} · UTC`} aria-label={`Daily ${perShare ? "per-share" : "project"} revenue chart · UTC`}>
+    <div className="iv-chart-axis" aria-hidden="true">{chart.axis.map((tick, index) => <span key={index} title={tick.full}>{tick.label}</span>)}</div>
+    <div className="iv-bars">{chart.points.map((point, index) => <div className="iv-bar-column" key={point.date}>
+      <button type="button" className={`iv-bar ${index === 13 ? "iv-bar-current" : ""}`} style={{ height: point.height, minHeight: point.positive ? undefined : 0 }} onMouseEnter={() => setHover(index)} onFocus={() => setHover(index)} aria-label={`${point.date}: ${point.display}`}><span className="iv-bar-fill" />{index === hover ? <span className="iv-chart-tooltip" style={index < 3 ? { left: 0, right: "auto" } : undefined}><strong>{index === 13 ? "Today so far" : point.date}</strong><span style={{ whiteSpace: "nowrap" }}>Revenue <b style={revenueMoney(point.revenue).length > 12 ? { minWidth: 0, overflowWrap: "anywhere", whiteSpace: "normal" } : { whiteSpace: "nowrap" }}>{revenueMoney(point.revenue)}</b></span><span style={{ whiteSpace: "nowrap" }}>Per share <b style={revenueMoney(point.perShare, true).length > 12 ? { minWidth: 0, overflowWrap: "anywhere", whiteSpace: "normal" } : { whiteSpace: "nowrap" }}>{revenueMoney(point.perShare, true)}</b></span></span> : null}</button>
+      <span className="iv-bar-label">{point.label}</span>
+    </div>)}</div>
+  </div>;
 }
 
 export function InvestorEarnings() {
@@ -59,6 +72,7 @@ export function InvestorEarnings() {
   const soldPercent = sold !== null && cap !== null ? percentage(sold, cap) : "—";
   const contract = holding && /^0x[0-9a-fA-F]{40}$/.test(holding.contractAddress) ? holding.contractAddress : null;
   const history = verifiedRevenue?.history;
+  const series = readRevenueSeries(verifiedRevenue?.series);
 
   function reviewProjectClaim(asset?: PaymentAsset) {
     if (!projectId || !claimable || (asset ? claimable[asset] === 0n : !canClaim)) return;
@@ -67,10 +81,10 @@ export function InvestorEarnings() {
   }
 
   const summary = [
-    { title: "Revenue today", value: "—", note: "Daily totals are not available yet", primary: true },
-    { title: "Revenue this month", value: "—", note: "Monthly totals are not available yet" },
+    { title: "Revenue today", value: series ? revenueMoney(series.totals.today) : "—", note: series ? `Yesterday: ${revenueMoney(series.days[12].revenue)}` : "Daily totals are not available yet", primary: true },
+    { title: "Revenue this month", value: series ? revenueMoney(series.totals.month) : "—", note: series ? "Last month: —" : "Monthly totals are not available yet" },
     { title: "Shares sold", value: sold === null ? "—" : units(sold, 0), note: cap === null ? "Select a project to view supply" : `of ${units(cap, 0)} total`, badge: soldPercent === "—" ? null : soldPercent },
-    { title: "Earned per share", value: "—", note: "Historical per-share totals unavailable" },
+    { title: "Earned per share", value: series ? revenueMoney(series.totals.monthPerShare, true) : "—", note: series ? "This month so far" : "Historical per-share totals unavailable" },
   ];
 
   return <InvestorShell page="earnings" title="My earnings" subtitle="Live revenue from the products you own and your share of it" networkBlock={verifiedPortfolio?.headBlock}>
@@ -82,14 +96,14 @@ export function InvestorEarnings() {
 
       <div className="eg-summary" aria-label="Selected project earnings summary">
         {summary.map(card => <section className={`eg-kpi ${card.primary ? "eg-kpi-primary" : ""}`} key={card.title} aria-busy={card.title === "Shares sold" && chain.isLoading}>
-          <div className="eg-kpi-heading"><span>{card.title}</span>{card.badge ? <Tag tone="neutral">{card.badge}</Tag> : null}</div><strong>{card.value}</strong><p>{card.note}</p>
+          <div className="eg-kpi-heading"><span>{card.title}</span>{card.badge ? <Tag tone="neutral">{card.badge}</Tag> : null}</div><strong title={series && card.title !== "Shares sold" ? `Confirmed through ${series.asOf} · UTC` : undefined}>{card.value}</strong><p>{card.note}</p>
         </section>)}
       </div>
 
       <div className="eg-upper">
-        <Panel className="eg-daily">
+        <Panel className={`eg-daily ${series ? "iv-daily-chart" : ""}`}>
           <div className="eg-panel-heading"><div><h2>Daily revenue</h2><p>{holding ? `Paid into ${holding.title} · last 14 days` : "Payments into the selected project"}</p></div><div className="eg-chart-switch" role="group" aria-label="Daily revenue view">{["Revenue", "Per share"].map(mode => <button key={mode} aria-pressed={mode === chartMode} onClick={() => setChartMode(mode)}>{mode}</button>)}</div></div>
-          <div className="eg-chart-empty" role="status"><div><strong>{chartMode === "Revenue" ? "Daily revenue history is not available yet" : "Daily per-share history is not available yet"}</strong><p>Confirmed funding records appear below. A daily series will appear here when verified history is available.</p></div></div>
+          {series ? <RevenueChart series={series} perShare={chartMode === "Per share"} /> : <div className="eg-chart-empty" role="status"><div><strong>{chartMode === "Revenue" ? "Daily revenue history is not available yet" : "Daily per-share history is not available yet"}</strong><p>Confirmed funding records appear below. A daily series will appear here when verified history is available.</p></div></div>}
         </Panel>
 
         <Panel className="eg-supply">

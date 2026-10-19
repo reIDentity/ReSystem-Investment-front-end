@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useState } from "react";
 import type { LiveListing, Page, Quote } from "@/lib/platform/types";
 import { assetLabel, decimals, units, whole, validWhole, type PaymentAsset } from "@/lib/platform/money";
+import { currentListingQuote } from "@/lib/platform/marketplace";
 import { usePlatform, useResource } from "./PlatformProvider";
 import { DataState, InvestorShell, Modal, Panel, Provenance, Tag } from "./InvestorUI";
 import { TransactionReview, type InvestorCommand } from "./platform/Transaction";
@@ -10,11 +11,14 @@ import "./Marketplace.css";
 type Proceeds = { source: string; assets: { asset: PaymentAsset; decimals: number; amountAtomic: string }[] };
 function FillListing({ listing, onClose, onReview }: { listing: LiveListing; onClose: () => void; onReview: (command: InvestorCommand) => void }) {
   const [quantity, setQuantity] = useState("1"); const valid = validWhole(quantity);
-  const quote = useResource<Quote & LiveListing>(valid ? `marketplace/${listing.id}/quote?quantity=${quantity}` : null, 10000);
+  const quoteState = useResource<Quote & LiveListing>(valid ? `marketplace/${listing.id}/quote?quantity=${quantity}` : null, 10000);
+  const quote = { ...quoteState, data: quoteState.error ? undefined : currentListingQuote(quoteState.data, listing, quantity) };
   return <Modal title={`Buy from listing #${listing.id}`} onClose={onClose}><p>Seller price: {units(listing.unitPriceAtomic, decimals(listing.asset))} {assetLabel(listing.asset)} per fraction.</p><label className="iv-form-label" htmlFor="fill-quantity">Whole fraction quantity</label><input className="iv-input" inputMode="numeric" id="fill-quantity" value={quantity} onChange={e => setQuantity(e.target.value)} /><p>Available now: {units(quote.data?.availableQuantity || listing.availableQuantity, 0)}</p><div className="iv-live-quote"><small>Exact fill quote</small><strong>{quote.data ? `${units(quote.data.amountAtomic, decimals(listing.asset))} ${assetLabel(listing.asset)}` : "Unavailable"}</strong></div><DataState loading={quote.isLoading} error={quote.error} onRetry={() => void quote.mutate()} />{listing.asset === "USDT" && quote.data ? <button className="iv-button iv-full" onClick={() => onReview({ type: "APPROVE_USDT", listingId: listing.id, asset: "USDT", quantity: whole(quantity), amountAtomic: quote.data!.amountAtomic })}>Review exact USDT approval if needed</button> : null}<button className="iv-button iv-primary iv-full" disabled={!quote.data || !valid} onClick={() => onReview({ type: "FILL_LISTING", listingId: listing.id, quantity: whole(quantity), asset: listing.asset })}>Review partial purchase</button><p className="iv-muted">Available quantity can change when another buyer fills, the seller transfers tokens, or approval expires. The contract checks the final quote atomically.</p></Modal>;
 }
 export function InvestorMarketplace() {
-  const { user } = usePlatform(); const [cursor, setCursor] = useState<string | null>(null); const listings = useResource<Page<LiveListing>>(`marketplace${cursor ? `?cursor=${encodeURIComponent(cursor)}` : ""}`, 15000); const proceeds = useResource<Proceeds>("marketplace/proceeds"); const [mine, setMine] = useState(false); const [fill, setFill] = useState<LiveListing | null>(null); const [command, setCommand] = useState<InvestorCommand | null>(null);
+  const { user } = usePlatform(); const [cursor, setCursor] = useState<string | null>(null); const listingState = useResource<Page<LiveListing>>(`marketplace${cursor ? `?cursor=${encodeURIComponent(cursor)}` : ""}`, 15000); const proceedsState = useResource<Proceeds>("marketplace/proceeds"); const [mine, setMine] = useState(false); const [fill, setFill] = useState<LiveListing | null>(null); const [command, setCommand] = useState<InvestorCommand | null>(null);
+  const listings = { ...listingState, data: listingState.error ? undefined : listingState.data };
+  const proceeds = { ...proceedsState, data: proceedsState.error ? undefined : proceedsState.data };
   const rows = listings.data?.items.filter(l => !mine || l.seller.toLowerCase() === user.wallet.toLowerCase()) || [];
   return <InvestorShell page="marketplace" title="Marketplace" subtitle="Trade whole project fractions with other investors · zero platform fees">
     <div className="iv-live-columns">{proceeds.data?.assets.map(a => <Panel key={a.asset} title={`Resale proceeds · ${assetLabel(a.asset)}`}><strong className="iv-large-amount">{units(a.amountAtomic, a.decimals)}</strong><p className="iv-muted">Completed-sale income, held separately from project rewards.</p><button className="iv-button iv-primary" disabled={BigInt(a.amountAtomic) === 0n} onClick={() => setCommand({ type: "WITHDRAW_PROCEEDS", asset: a.asset })}>Review collection</button></Panel>)}</div><DataState error={proceeds.error} loading={proceeds.isLoading} onRetry={() => void proceeds.mutate()} />

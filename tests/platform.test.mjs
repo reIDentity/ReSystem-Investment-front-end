@@ -59,7 +59,7 @@ test('addresses and external approval URLs are constrained without any receiving
 
 test('wrong wallet/network or malformed prepared intent never becomes an approvable or settled action',()=>{
  const wallet='0x'+'a'.repeat(40),tx={to:'0x'+'b'.repeat(40),valueWei:'0',data:'0x',chainId:15324,gasEstimate:'21000',estimatedFeeWei:'100'};
- const intent={id:'real-intent',status:'CREATED',command:{type:'SEND'},walletAddress:wallet,chainId:15324,transaction:tx,approvalUrl:null,txHash:null,receipt:null,errorCode:null,expiresAt:'2026-10-16T12:00:00Z'};
+ const intent={id:'real-intent',status:'CREATED',command:{type:'SEND'},walletAddress:wallet,chainId:15324,transaction:tx,approvalUrl:null,txHash:null,receipt:null,errorCode:null,expiresAt:new Date(Date.now()+120000).toISOString()};
  assert.equal(transactionIssue(intent,wallet),null);assert.equal(isSettled(intent),false);
  assert.ok(transactionIssue({...intent,chainId:1},wallet));assert.ok(transactionIssue(intent,'0x'+'c'.repeat(40)));assert.ok(transactionIssue({...intent,transaction:{...tx,valueWei:'1.2'}},wallet));
  for(const status of ['REJECTED','FAILED','EXPIRED','BROADCAST','AWAITING_APPROVAL','RECONCILIATION_REQUIRED'])assert.equal(isSettled({...intent,status}),false);
@@ -73,10 +73,10 @@ test('generated interface bundle is pinned to the exact OpenAPI schema and inves
  const bytes=readFileSync(new URL('../artifacts/platform/openapi.json',import.meta.url)),manifest=JSON.parse(readFileSync(new URL('../artifacts/platform/api-manifest.json',import.meta.url),'utf8'));
  const hash=createHash('sha256').update(bytes).digest('hex');assert.equal(hash,manifest.openapiSha256);
  const client=readFileSync(new URL('../src/lib/platform/api.generated.ts',import.meta.url),'utf8');assert.ok(client.includes(hash));
- const api=JSON.parse(bytes);for(const path of ['/v1/auth/session','/v1/projects/{id}/chain','/v1/projects/{id}/revenue','/v1/projects/{id}/rewards','/v1/transactions','/v1/marketplace/{id}/quote','/v1/marketplace/proceeds','/v1/support/{id}/messages'])assert.ok(api.paths[path],path);
+ const api=JSON.parse(bytes);assert.equal(api.components.schemas.SupportAttachmentResponse.properties.sizeBytes.maximum,3*1024*1024);assert.equal(api.components.schemas.PortfolioHolding.properties.costBasis.$ref,'#/components/schemas/AcquisitionCostBasis');assert.equal(api.components.schemas.ProjectRevenueResponse.properties.series.$ref,'#/components/schemas/RevenueSeries');assert.deepEqual(api.components.schemas.WalletCashflowResponse.properties.includesNetworkFees.enum,[false]);for(const path of ['/v1/auth/session','/v1/wallet/cashflow','/v1/wallet/send-quote','/v1/projects/{id}/chain','/v1/projects/{id}/revenue','/v1/projects/{id}/rewards','/v1/transactions','/v1/marketplace/{id}/quote','/v1/marketplace/proceeds','/v1/support/{id}/messages'])assert.ok(api.paths[path],path);
 });
 test('USDT expense review requires the frozen canonical amount',()=>{
- const wallet='0x'+'a'.repeat(40),intent={id:'real',status:'CREATED',chainId:15324,walletAddress:wallet,command:{type:'BUY',asset:'USDT',quantity:'1'},transaction:{chainId:15324,to:'0x'+'b'.repeat(40),data:'0x',valueWei:'0',gasEstimate:'21000',estimatedFeeWei:'1'},approvalUrl:null,txHash:null,receipt:null,errorCode:null,expiresAt:'2026-10-16'};
+ const wallet='0x'+'a'.repeat(40),intent={id:'real',status:'CREATED',chainId:15324,walletAddress:wallet,command:{type:'BUY',asset:'USDT',quantity:'1'},transaction:{chainId:15324,to:'0x'+'b'.repeat(40),data:'0x',valueWei:'0',gasEstimate:'21000',estimatedFeeWei:'1'},approvalUrl:null,txHash:null,receipt:null,errorCode:null,expiresAt:new Date(Date.now()+120000).toISOString()};
  assert.ok(transactionIssue(intent,wallet));assert.equal(transactionIssue({...intent,review:{asset:'USDT',amountAtomic:'1000000',quantity:'1',recipient:wallet,spender:null}},wallet),null);
 });
 

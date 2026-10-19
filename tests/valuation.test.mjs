@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { formatUsdEquivalent, walletAssetTotals, sumRewardTotals } from '../src/lib/platform/valuation.ts';
+import { formatUsdEquivalent, walletAssetTotals, sumRewardTotals, formatRationalUsdEquivalent } from '../src/lib/platform/valuation.ts';
 
 test('fixed-rate display combines both assets without floating-point loss', () => {
   assert.equal(formatUsdEquivalent({ REAED: 3600000000000000000n, USDT: 1000000n }), '$2.00');
@@ -30,4 +30,18 @@ test('historical reward totals require complete ledgers and retain exact asset a
   assert.equal(sumRewardTotals([{ claimable: [] }]), null);
   assert.deepEqual(sumRewardTotals([]), { REAED: 0n, USDT: 0n });
   assert.equal(sumRewardTotals(undefined), null);
+});
+
+
+test('weighted-average basis retains cross-asset rational precision until the final cent', () => {
+  assert.equal(formatRationalUsdEquivalent({ REAED: { numerator: 3600000000000000000n, denominator: 3n }, USDT: { numerator: 2000000n, denominator: 3n } }), '$1.00');
+  assert.equal(formatRationalUsdEquivalent({ REAED: { numerator: 0n, denominator: 1n }, USDT: { numerator: 2702159776422297937037034n, denominator: 3n } }), '$900,719,925,474,099,312.34');
+  assert.equal(formatRationalUsdEquivalent({ REAED: { numerator: 1n, denominator: 3n }, USDT: { numerator: 0n, denominator: 1n } }), '< $0.01');
+});
+
+test('unknown, negative or malformed basis fractions remain unavailable instead of a zero or rounded estimate', () => {
+  assert.equal(formatRationalUsdEquivalent(null), '—');
+  const zero = { REAED: { numerator: 0n, denominator: 1n }, USDT: { numerator: 0n, denominator: 1n } };
+  assert.equal(formatRationalUsdEquivalent(zero), '$0.00');
+  for (const native of [{ numerator: 0n, denominator: 0n }, { numerator: -1n, denominator: 1n }, { numerator: 1n, denominator: -1n }, { numerator: '1', denominator: '1' }]) assert.equal(formatRationalUsdEquivalent({ ...zero, REAED: native }), '—');
 });

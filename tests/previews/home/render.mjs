@@ -4,6 +4,7 @@ import vm from 'node:vm';
 import { createRequire } from 'node:module';
 import { fileURLToPath } from 'node:url';
 import { createHash } from 'node:crypto';
+import { cashflowFixture } from '../../cashflow-fixtures.mjs';
 
 export const repository = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../..');
 export const fromRepository = createRequire(path.join(repository, 'package.json'));
@@ -25,7 +26,7 @@ const holding = () => ({
   claimable: assets('7164000000000000000', '1090000'), claimed: assets('0', '0'),
   costBasis: null, indicativeYieldBps: null,
 });
-const portfolio = items => ({ items, nextCursor: null, chainId: 15324, headBlock: '7337161', source: 'LOCAL SYNTHETIC FIXTURE', costBasisStatus: 'unavailable' });
+const portfolio = items => ({ items, nextCursor: null, complete: true, blockHash: `0x${'4'.repeat(64)}`, chainId: 15324, headBlock: '7337161', source: 'LOCAL SYNTHETIC FIXTURE', costBasisStatus: 'unavailable' });
 const wallet = (native = '3600000000000000000', usdt = '1000000') => ({
   chainId: 15324, address: walletAddress, wallet: walletAddress, headBlock: '7337161',
   source: 'LOCAL SYNTHETIC FIXTURE', bank: { available: false }, card: { available: false },
@@ -46,13 +47,18 @@ export const scenarios = {
   recovered: 'Fresh successful resource values after the error fixture; separate render, not a retry-click test.',
   'previous-holder': 'Zero current shares with previously allocated positive rewards.',
   'tiny-claim': 'One native atomic reward unit remains positive even below one display cent.',
+  'known-basis': 'Verified synthetic rational acquisition basis at the same canonical portfolio anchor.',
+  'gift-basis': 'Gift provenance makes remaining basis unknown even while rewards are verified.',
+  'malformed-basis': 'Basis quantity differs from the verified holding; no cost estimate is displayed.',
+  cashflow: 'Verified canonical synthetic gross cash flows, including a negative net after fixed FX.',
+  'cashflow-stale': 'Cached financial cash flow with a failed refresh must not be displayed.',
   offline: 'Service disabled and no resource data; no authentication or backend connection.',
 };
 
 export function fixture(name) {
   if (!Object.hasOwn(scenarios, name)) throw new Error(`Unknown local scenario: ${name}`);
   const resources = {
-    portfolio: response(portfolio([holding()])), wallet: response(wallet()),
+    portfolio: response(portfolio([holding()])), wallet: response(wallet()), 'wallet/cashflow': response(undefined),
     projects: response({ items: [], nextCursor: null }),
     notifications: response({ items: [], nextCursor: null }),
   };
@@ -72,6 +78,12 @@ export function fixture(name) {
     const h = resources.portfolio.data.items[0]; h.quantity = '0'; h.ownership.numerator = '0'; h.revenueParticipation.numerator = '0';
   }
   if (name === 'tiny-claim') resources.portfolio.data.items[0].claimable = assets('1', '0');
+  if (['known-basis', 'gift-basis', 'malformed-basis'].includes(name)) {
+    const h = resources.portfolio.data.items[0];
+    resources.portfolio.data.cashActivity = { status: 'known', reason: null, spent: assets('3600000000000000000', '2000000'), marketplaceProceedsReceived: assets('0', '0') };
+    h.costBasis = { status: name === 'gift-basis' ? 'unknown' : 'known', method: 'weighted_average', reason: name === 'gift-basis' ? 'gift_or_other_payer' : null, quantity: name === 'malformed-basis' ? '1175' : h.quantity, remaining: name === 'gift-basis' ? null : [{ asset: 'REAED', decimals: 18, numerator: '3600000000000000000', denominator: '3' }, { asset: 'USDT', decimals: 6, numerator: '2000000', denominator: '3' }], acquisitionOutlay: assets('3600000000000000000', '2000000') };
+  }
+  if (name === 'cashflow' || name === 'cashflow-stale') { resources['wallet/cashflow'] = response(cashflowFixture()); if (name === 'cashflow-stale') resources['wallet/cashflow'].error = unavailable(); }
   if (name === 'offline') for (const endpoint of ['portfolio', 'wallet', 'projects']) resources[endpoint] = response(undefined);
   return { name, live: name !== 'offline', resources };
 }
@@ -79,6 +91,7 @@ export function fixture(name) {
 const sourcePaths = [
   'src/components/invest/HomeExplore.tsx', 'src/components/invest/InvestorUI.tsx',
   'src/components/Logo.tsx', 'src/lib/platform/money.ts', 'src/lib/platform/media.ts',
+  'src/lib/platform/portfolio-values.ts', 'src/lib/platform/valuation.ts', 'src/lib/platform/cashflow-values.ts',
 ];
 export function hashFile(relative) { return createHash('sha256').update(fs.readFileSync(path.join(repository, relative))).digest('hex'); }
 export function sourceHashes() { return sourcePaths.map(file => ({ file, sha256: hashFile(file) })); }
