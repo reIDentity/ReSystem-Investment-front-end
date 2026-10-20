@@ -81,7 +81,7 @@ test('wrong wallet/network or malformed prepared intent never becomes an approva
 
 test('generated interface bundle is pinned to the exact OpenAPI schema and investor routes',()=>{
  const bytes=readFileSync(new URL('../artifacts/platform/openapi.json',import.meta.url)),manifest=JSON.parse(readFileSync(new URL('../artifacts/platform/api-manifest.json',import.meta.url),'utf8'));
- const hash=createHash('sha256').update(bytes).digest('hex');assert.equal(hash,manifest.openapiSha256);
+ const hash=createHash('sha256').update(bytes).digest('hex');assert.equal(hash,manifest.schemaSha256);
  const client=readFileSync(new URL('../src/lib/platform/api.generated.ts',import.meta.url),'utf8');assert.ok(client.includes(hash));
  const api=JSON.parse(bytes);assert.equal(api.components.schemas.SupportAttachmentResponse.properties.sizeBytes.maximum,3*1024*1024);assert.equal(api.components.schemas.PortfolioHolding.properties.costBasis.$ref,'#/components/schemas/AcquisitionCostBasis');assert.equal(api.components.schemas.ProjectRevenueResponse.properties.series.$ref,'#/components/schemas/RevenueSeries');assert.deepEqual(api.components.schemas.WalletCashflowResponse.properties.includesNetworkFees.enum,[false]);for(const path of ['/v1/auth/session','/v1/wallet/cashflow','/v1/wallet/send-quote','/v1/projects/{id}/chain','/v1/projects/{id}/revenue','/v1/projects/{id}/rewards','/v1/transactions','/v1/marketplace/{id}/quote','/v1/marketplace/proceeds','/v1/support/{id}/messages'])assert.ok(api.paths[path],path);
 });

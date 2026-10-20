@@ -14663,7 +14663,8 @@
             ]
           },
           "assignedToId": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           }
         },
         "required": [
@@ -15060,6 +15061,108 @@
         ],
         "additionalProperties": false
       },
+      "AdminIdentity": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "STAFF",
+              "INVESTOR"
+            ]
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "username": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "required": [
+          "id",
+          "kind",
+          "name",
+          "username"
+        ],
+        "additionalProperties": false
+      },
+      "AdminProject": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "contractAddress": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "contractAddress"
+        ],
+        "additionalProperties": false
+      },
+      "AdminProjectionContext": {
+        "type": "object",
+        "properties": {
+          "project": {
+            "$ref": "#/components/schemas/AdminProject",
+            "nullable": true
+          },
+          "identities": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "walletAddress": {
+                  "type": "string"
+                },
+                "user": {
+                  "$ref": "#/components/schemas/AdminIdentity"
+                }
+              },
+              "required": [
+                "walletAddress",
+                "user"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "project",
+          "identities"
+        ],
+        "additionalProperties": false
+      },
+      "AdminTransactionContext": {
+        "type": "object",
+        "properties": {
+          "requester": {
+            "$ref": "#/components/schemas/AdminIdentity",
+            "nullable": true
+          },
+          "project": {
+            "$ref": "#/components/schemas/AdminProject",
+            "nullable": true
+          }
+        },
+        "required": [
+          "requester",
+          "project"
+        ],
+        "additionalProperties": false
+      },
       "RoleResponse": {
         "type": "object",
         "properties": {
@@ -15101,6 +15204,10 @@
           },
           "role": {
             "$ref": "#/components/schemas/RoleResponse"
+          },
+          "project": {
+            "$ref": "#/components/schemas/AdminProject",
+            "nullable": true
           }
         },
         "required": [
@@ -15333,6 +15440,10 @@
           },
           "actorId": {
             "type": "string",
+            "nullable": true
+          },
+          "actor": {
+            "$ref": "#/components/schemas/AdminIdentity",
             "nullable": true
           },
           "action": {
@@ -17404,6 +17515,11 @@
           "user": {
             "$ref": "#/components/schemas/SessionUser",
             "nullable": true
+          },
+          "authorizationScope": {
+            "type": "string",
+            "description": "Non-secret staff membership cache context; never an authorization credential",
+            "nullable": true
           }
         },
         "required": [
@@ -17580,6 +17696,14 @@
           "updatedAt": {
             "type": "string",
             "format": "date-time"
+          },
+          "createdBy": {
+            "$ref": "#/components/schemas/AdminIdentity",
+            "nullable": true
+          },
+          "reviewedBy": {
+            "$ref": "#/components/schemas/AdminIdentity",
+            "nullable": true
           }
         },
         "required": [
@@ -18073,6 +18197,9 @@
             "type": "string",
             "pattern": "^(0|[1-9][0-9]*)$",
             "description": "Exact integer base units; never convert to a JavaScript number"
+          },
+          "context": {
+            "$ref": "#/components/schemas/AdminProjectionContext"
           }
         },
         "required": [
@@ -18168,6 +18295,9 @@
             "enum": [
               "INFRA RPC"
             ]
+          },
+          "context": {
+            "$ref": "#/components/schemas/AdminProjectionContext"
           }
         },
         "required": [
@@ -18404,6 +18534,9 @@
           "expiresAt": {
             "type": "string",
             "format": "date-time"
+          },
+          "context": {
+            "$ref": "#/components/schemas/AdminTransactionContext"
           }
         },
         "required": [
@@ -18618,6 +18751,10 @@
           "createdAt": {
             "type": "string",
             "format": "date-time"
+          },
+          "author": {
+            "$ref": "#/components/schemas/AdminIdentity",
+            "nullable": true
           }
         },
         "required": [
@@ -18667,6 +18804,14 @@
             "items": {
               "$ref": "#/components/schemas/TicketMessage"
             }
+          },
+          "requester": {
+            "$ref": "#/components/schemas/AdminIdentity",
+            "nullable": true
+          },
+          "assignee": {
+            "$ref": "#/components/schemas/AdminIdentity",
+            "nullable": true
           }
         },
         "required": [
