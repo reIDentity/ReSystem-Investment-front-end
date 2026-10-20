@@ -1,5 +1,13 @@
 # reSystem Investment - start here
 
+## 20 October 2026, 13:27 UTC — email confirmed; unsigned financial review expired
+
+The human completed email double opt-in; the hosted Notifications page shows Confirmed and both categories enabled. A support-email preference change saved and survived reload, then was restored and independently observed enabled after a second reload. Removal/reconfirmation acceptance remains open.
+
+The approved FP request window opened at13:18UTC on unchanged API/worker images. Its first one-fraction/0.0036reAED review expired unsigned at13:23:48UTC, with no provider request, no transaction hash and zero pending/provider requests. The guarded closure and a separate13:25:33UTC readback verified both reID flags false, platform signing off and no pending work. **Zero broadcasts and zero budget consumed** in this replacement four-action round. Wait for human readiness before preparing a fresh short review; never reuse the expired intent. Existing15reAED+0.001USDT/four-broadcast/no-topup/no-V2 boundaries remain unchanged.
+
+The source-only isolated acceptance harness is published in backend7221c57. Its21offline admission tests and redacted full-history scan pass; positive cold-start/restart/complete-driver acceptance after the last safety changes remains open. New source CI is distinct from deployed application source d6629ef. The prior rollout/documentation CI runs passed. Earlier dated checkpoints below are historical.
+
 ## 20 October 2026, 12:52 UTC — FP rollout verified; final acceptance remains
 
 The owner resumed completion from Claude's changes and requested testing on the restored FP server after local admin certificate trust failed. This supersedes historical stop instructions below. Keep all five repositories independent and preserve the approved investor UI and unrelated services.
