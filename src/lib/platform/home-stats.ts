@@ -25,7 +25,10 @@ async function read(base: string, path: string, signal: AbortSignal): Promise<un
   signal.throwIfAborted();
   const requestSignal = AbortSignal.any([signal, AbortSignal.timeout(READ_TIMEOUT_MS)]);
   const response = await fetch(`${base}${path}`, { headers: { Accept: "application/json" }, redirect: "error", signal: requestSignal });
-  if (!response.ok) throw new Error(`Platform read ${response.status}`);
+  if (!response.ok) {
+    try { await response.body?.cancel(); } catch { /* Preserve the read failure. */ }
+    throw new Error(`Platform read ${response.status}`);
+  }
   const body: unknown = await response.json();
   requestSignal.throwIfAborted();
   return body;

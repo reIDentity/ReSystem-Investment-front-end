@@ -163,6 +163,24 @@ test('a cursor requiring page eleven stops after ten list reads without fetching
   assert.equal(reads, 10);
 });
 
+test('unavailable revenue cancels unread error streams before workers advance without discarding valid stock figures', async () => {
+  let activeBodies = 0, peakBodies = 0, cancelled = 0;
+  const stats = loader(async url => {
+    const path = new URL(url).pathname;
+    if (path === '/v1/projects') return Response.json({ items: Array.from({ length: 50 }, (_, n) => project(n + 1)), nextCursor: null });
+    if (path.endsWith('/chain')) return Response.json(chain());
+    activeBodies++; peakBodies = Math.max(peakBodies, activeBodies);
+    return new Response(new ReadableStream({
+      start(controller) { controller.enqueue(new TextEncoder().encode('Unfinished error response')); },
+      cancel() { activeBodies--; cancelled++; },
+    }), { status: 503 });
+  });
+  assert.deepEqual(await stats.get(), { openProducts: 50, revenueLast30DaysUsd: null, soldPercent: 10, minimumInvestmentUsd: 2.5 });
+  assert.equal(cancelled, 50);
+  assert.equal(activeBodies, 0);
+  assert.ok(peakBodies <= 4);
+});
+
 function controlledDeadline() {
   const controller = new AbortController(), timeouts = [];
   return {
