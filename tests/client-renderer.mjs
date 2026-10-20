@@ -10,7 +10,7 @@ const ts = require('typescript');
 
 // Execute actual client components with real React hooks/DOM. Resource/transport
 // mocks are explicit per test; no server module or live connector may be loaded.
-export function clientRenderer(mocks = {}, expose = {}) {
+export function clientRenderer(mocks = {}, expose = {}, clock = {}) {
   const cache = new Map();
   function load(relative) {
     const file = path.resolve(repository, relative);
@@ -31,7 +31,7 @@ export function clientRenderer(mocks = {}, expose = {}) {
       return require(name);
     }
     const exposed = (expose[relative] || []).map(name => `module.exports.${name}=${name};`).join('\n');
-    vm.runInNewContext(code + '\n' + exposed, { module: localModule, exports: localModule.exports, require: imports, window: globalThis.window, document: globalThis.document, Event: globalThis.window?.Event || globalThis.Event, FormData: globalThis.FormData, File: globalThis.File, AbortSignal, fetch: (...args) => globalThis.fetch(...args), crypto: globalThis.crypto, URL, URLSearchParams, console, setTimeout, clearTimeout }, { filename: file });
+    vm.runInNewContext(code + '\n' + exposed, { module: localModule, exports: localModule.exports, require: imports, window: globalThis.window, document: globalThis.document, Event: globalThis.window?.Event || globalThis.Event, FormData: globalThis.FormData, File: globalThis.File, AbortSignal, fetch: (...args) => globalThis.fetch(...args), crypto: globalThis.crypto, URL, URLSearchParams, console, Date: clock.Date || Date, setTimeout: clock.setTimeout || setTimeout, clearTimeout: clock.clearTimeout || clearTimeout }, { filename: file });
     return localModule.exports;
   }
   return { load };

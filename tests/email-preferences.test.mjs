@@ -12,14 +12,14 @@ afterEach(cleanup);
 
 const prefs = { transactionUpdates: true, supportUpdates: true };
 const email = { transactionEmails: false, supportEmails: false };
-function fixture(status, transport = async () => ({}), extra = {}) {
+function fixture(status, transport = async () => ({}), extra = {}, clock = {}) {
   const calls = [], notices = [];
   const { EmailPreferences } = clientRenderer({
     './PlatformProvider': { usePlatform: () => ({ notify: text => notices.push(text) }) },
     '@/lib/platform/client': { api: (path, options) => { calls.push({ path, options }); return transport(path, options); } },
     './InvestorUI': { Tag: ({ children }) => React.createElement('span', null, children) },
     './platform/Transaction': {},
-  }, { 'src/components/invest/ActivitySupport.tsx': ['EmailPreferences'] }).load('src/components/invest/ActivitySupport.tsx');
+  }, { 'src/components/invest/ActivitySupport.tsx': ['EmailPreferences'] }, clock).load('src/components/invest/ActivitySupport.tsx');
   return { calls, notices, view: render(React.createElement(EmailPreferences, { status, inApp: prefs, chosen: email, change() {}, refresh: async () => {}, ...extra })) };
 }
 
@@ -35,9 +35,16 @@ test('duplicate confirmation requests have one in-flight mutation and report a r
 });
 
 test('a pending email changes to expired without requiring the page to be remounted', async () => {
-  const { view } = fixture({ deliveryEnabled: true, pendingEmail: 'l***@example.invalid', verificationExpiresAt: new Date(Date.now() + 150).toISOString() });
+  let now = Date.parse('2026-10-20T12:00:00.000Z');
+  const timers = new Map(); let nextTimer = 0;
+  class ClockDate extends Date { constructor(...args) { super(...(args.length ? args : [now])); } static now() { return now; } }
+  const clock = { Date: ClockDate, setTimeout(callback, delay) { const id = ++nextTimer; timers.set(id, { callback, at: now + delay }); return id; }, clearTimeout(id) { timers.delete(id); } };
+  const { view } = fixture({ deliveryEnabled: true, pendingEmail: 'l***@example.invalid', verificationExpiresAt: new Date(now + 150).toISOString() }, undefined, {}, clock);
   assert.match(view.container.textContent, /Open the link we sent/);
-  await waitFor(() => assert.match(view.container.textContent, /has expired/));
+  assert.equal(timers.size, 1);
+  await act(async () => { now += 151; for (const [id, timer] of [...timers]) if (timer.at <= now) { timers.delete(id); timer.callback(); } });
+  assert.match(view.container.textContent, /has expired/);
+  assert.equal(timers.size, 0);
 });
 
 test('cached settings cannot trigger email mutations while their source is unavailable', () => {
