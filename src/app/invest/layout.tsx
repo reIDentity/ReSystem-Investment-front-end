@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./investor.css";
+import "./motion.css";
 
 const display = localFont({
   src: [
