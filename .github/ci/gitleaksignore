@@ -18,3 +18,5 @@ b6532871f2c7336cb9c2a1d07421c8ef6a3f2f8f:artifacts/platform/api-manifest.json:ge
 7da95bae587044c8b75ca2774c9daec8939f8890:artifacts/platform/api-manifest.json:generic-api-key:3
 # Verified SHA-256 of the committed public OpenAPI schema; exact commit/file/rule/line only.
 86372eae5326925e450e782525edaea4ecfe871c:artifacts/platform/api-manifest.json:generic-api-key:3
+# Verified SHA-256 of the committed public OpenAPI schema; exact commit/file/rule/line only.
+f1e72f76e17dfc30e2dc0416f2ef96f35dfc772d:artifacts/platform/api-manifest.json:generic-api-key:3
