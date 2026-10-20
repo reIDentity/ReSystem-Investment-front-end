@@ -76,3 +76,11 @@ test('the open approval expires locally at its deadline even if no status poll c
   assert.match(f.view.getByRole('alert').textContent, /Do not approve.*Refresh this same intent/);
   assert.equal(f.refreshes(), 0); assert.equal(f.calls.length, 0);
 });
+test('a platform-signed intent awaiting its second approval stays pending with no investor approval action', () => {
+  const f = fixture({ ...intent('AWAITING_SECOND_APPROVAL'), signerMode: 'PLATFORM', approvalUrl: null });
+  assert.ok(f.view.getByText('Awaiting second approval'));
+  assert.equal(f.view.queryByRole('link', { name: /Open reID/ }), null);
+  assert.equal(f.view.queryByRole('button', { name: 'Request reID approval' }), null);
+  assert.equal(f.view.queryByText(/Confirmed/), null);
+  assert.equal(f.refreshes(), 0); assert.equal(f.calls.length, 0);
+});

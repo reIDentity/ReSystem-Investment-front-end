@@ -72,7 +72,7 @@ test('wrong wallet/network or malformed prepared intent never becomes an approva
  const intent={id:'real-intent',status:'CREATED',command:{type:'SEND'},walletAddress:wallet,chainId:15324,transaction:tx,approvalUrl:null,txHash:null,receipt:null,errorCode:null,expiresAt:new Date(Date.now()+120000).toISOString()};
  assert.equal(transactionIssue(intent,wallet),null);assert.equal(isSettled(intent),false);
  assert.ok(transactionIssue({...intent,chainId:1},wallet));assert.ok(transactionIssue(intent,'0x'+'c'.repeat(40)));assert.ok(transactionIssue({...intent,transaction:{...tx,valueWei:'1.2'}},wallet));
- for(const status of ['REJECTED','FAILED','EXPIRED','BROADCAST','AWAITING_APPROVAL','RECONCILIATION_REQUIRED'])assert.equal(isSettled({...intent,status}),false);
+ for(const status of ['REJECTED','FAILED','EXPIRED','BROADCAST','AWAITING_APPROVAL','AWAITING_SECOND_APPROVAL','RECONCILIATION_REQUIRED'])assert.equal(isSettled({...intent,status}),false);
  assert.ok(transactionIssue({...intent,status:'CONFIRMED'},wallet));
  assert.equal(isSettled({...intent,status:'CONFIRMED',receipt:{status:'reverted',transactionHash:'0x'+'1'.repeat(64)},txHash:'0x'+'1'.repeat(64)}),false);
  assert.equal(isSettled({...intent,status:'CONFIRMED',receipt:{status:'success',transactionHash:'0x'+'2'.repeat(64)},txHash:'0x'+'1'.repeat(64)}),false);

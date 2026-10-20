@@ -8,7 +8,7 @@ import { assetLabel, explorer, safeApproval, units } from "@/lib/platform/money"
 import { usePlatform, useResource } from "../PlatformProvider";
 import { Modal, Tag } from "../InvestorUI";
 export type InvestorCommand = CommandDto | { type: "CLAIM_BATCH"; projectIds: string[]; asset: "REAED" | "USDT" };
-const LABELS: Record<string, string> = { CREATED: "Ready for your review", SUBMITTING: "Submitting approval request", AWAITING_APPROVAL: "Awaiting your reID approval", BROADCAST: "Broadcast to INFRA", CONFIRMED: "Confirmed on INFRA · indexing pending", INDEXED: "Confirmed and indexed", REJECTED: "Approval rejected", FAILED: "Transaction failed", EXPIRED: "Approval expired", RECONCILIATION_REQUIRED: "Approval status requires reconciliation" };
+const LABELS: Record<string, string> = { CREATED: "Ready for your review", SUBMITTING: "Submitting approval request", AWAITING_APPROVAL: "Awaiting your reID approval", AWAITING_SECOND_APPROVAL: "Awaiting second approval", BROADCAST: "Broadcast to INFRA", CONFIRMED: "Confirmed on INFRA · indexing pending", INDEXED: "Confirmed and indexed", REJECTED: "Approval rejected", FAILED: "Transaction failed", EXPIRED: "Approval expired", RECONCILIATION_REQUIRED: "Approval status requires reconciliation" };
 export function TransactionReview({ command, onClose }: { command: InvestorCommand; onClose: () => void }) {
   const [prepared, setPrepared] = useState<TransactionResponse | null>(null); const [busy, setBusy] = useState(false); const [error, setError] = useState("");
   const key = useRef<string | null>(null);
