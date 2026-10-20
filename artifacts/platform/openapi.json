@@ -9989,6 +9989,141 @@
         ]
       }
     },
+    "/v1/transactions/platform-pending": {
+      "get": {
+        "operationId": "AccountController_platformPending",
+        "parameters": [
+          {
+            "name": "cursor",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TransactionPage"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "cookie": []
+          }
+        ],
+        "tags": [
+          "Account"
+        ]
+      }
+    },
     "/v1/transactions": {
       "get": {
         "operationId": "AccountController_transactions",
@@ -14571,7 +14706,9 @@
               "SET_METADATA",
               "FREEZE_METADATA",
               "WITHDRAW_TREASURY",
-              "PUBLISH_PROJECT"
+              "PUBLISH_PROJECT",
+              "ACCEPT_PROJECT_OWNERSHIP",
+              "RETURN_PROJECT_OWNERSHIP"
             ]
           },
           "projectId": {
@@ -17197,7 +17334,53 @@
                     "items": {
                       "type": "string",
                       "enum": [
-                        "PUBLISH_PROJECT"
+                        "PUBLISH_PROJECT",
+                        "OPEN_SALE",
+                        "CLOSE_SALE",
+                        "SET_YIELD",
+                        "SET_METADATA",
+                        "FREEZE_METADATA",
+                        "WITHDRAW_TREASURY",
+                        "APPROVE_USDT",
+                        "FUND_REVENUE",
+                        "ACCEPT_PROJECT_OWNERSHIP",
+                        "RETURN_PROJECT_OWNERSHIP"
+                      ]
+                    }
+                  }
+                },
+                "required": [
+                  "address",
+                  "actions"
+                ],
+                "additionalProperties": false,
+                "nullable": true
+              },
+              "walletSigning": {
+                "type": "boolean"
+              },
+              "platformSignerCosign": {
+                "type": "object",
+                "properties": {
+                  "address": {
+                    "type": "string"
+                  },
+                  "actions": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "enum": [
+                        "PUBLISH_PROJECT",
+                        "OPEN_SALE",
+                        "CLOSE_SALE",
+                        "SET_YIELD",
+                        "SET_METADATA",
+                        "FREEZE_METADATA",
+                        "WITHDRAW_TREASURY",
+                        "APPROVE_USDT",
+                        "FUND_REVENUE",
+                        "ACCEPT_PROJECT_OWNERSHIP",
+                        "RETURN_PROJECT_OWNERSHIP"
                       ]
                     }
                   }
@@ -17212,7 +17395,9 @@
             },
             "required": [
               "directProjectPublication",
-              "platformSigner"
+              "platformSigner",
+              "walletSigning",
+              "platformSignerCosign"
             ],
             "additionalProperties": false
           },
@@ -18181,6 +18366,13 @@
               },
               "metadataURI": {
                 "type": "string"
+              },
+              "implementationVersion": {
+                "type": "integer",
+                "enum": [
+                  1,
+                  2
+                ]
               }
             },
             "required": [
