@@ -1,5 +1,33 @@
 # reSystem Investment - start here
 
+## 20 October 2026, 18:23 UTC — audit complete; remaining acceptance recorded
+
+The latest actual FP versions are API/worker **6932349**, admin **ad729b4** and indexer **4810988**. The initial audit release passed17:54UTC; the admin-only real review-expiry correction passed18:12:33UTC with every other container preserved. Both financial request gates remain false, platform signing is off, and no real financial/mail action occurred in this audit. The investor UI is unchanged.
+
+The positive isolated harness now passes cold-start/restart, publication5, staff8 and independent financial7 checks with27 canonical exact-frozen synthetic transactions. Its source-only fixes are ad8a948/66ecc0c/cba044d; these do not imply a newer FP backend image or authorize real transactions. All newly owned fixtures are stopped and existing services are preserved. The portable backlog now mirrors all109 native Notion states/source references rather than its old initial To-do snapshot. Final helper CI39472498296 passes. RSI-108/109 are Done; native task states now total85 Done/21 In progress/3 To do. Read the audit report for exact remaining owner/external/operational acceptance. All earlier checkpoints below remain dated history.
+
+## 20 October 2026, 17:54 UTC — autonomous admin and logic audit deployed
+
+Read [`AUTONOMOUS_AUDIT_20261020.md`](docs/planning/AUTONOMOUS_AUDIT_20261020.md) for the findings, regression coverage, published commits and remaining owner-only acceptance. Actual FP API/worker source is **6932349**, admin **53565bd**, indexer **4810988**. Independent image/source proofs, scoped image-only rollout at **17:54:27 UTC**, separate readback at **17:54:50 UTC**, actual admin names/detail display and seven anonymous HTTPS boundary checks pass. No migration or financial action occurred; both reID gates stay false, platform signing stays off, and environment/limits/units/migrations/unrelated services were preserved. Investor UI is unchanged.
+
+RSI-108 is Done for its bounded information/UX criteria; broader owner/device/client acceptance remains open. RSI-109 also covers shared pagination/cache/review/portfolio/receipt defects and additional isolated-harness acceptance. Production code CI is green (backend119 unit passes/one host-conditional skip/234 PG integrations, admin179, investor102, indexer105+9 PG+2 isolated V1/V2 lifecycles). The source-only harness follow-up **ad8a948** adds early portable socket-path admission and fresh test transport across intentional API restarts, with no POST retries; its later CI/complete driver result is recorded in the audit report. Actual FP source remains6932349; a newer source-only helper commit does not imply redeployment. Existing16/17/19/20October checkpoints below remain history.
+
+## 20 October 2026, 15:06 UTC — email-only follow-up completed
+
+RSI-107 is Done. Original logo marks and blue/white branding now cover investor, staff and alert emails, deployed from backend `53600514f8411c692b7c20be062c6aeca93d4941`; code CI passed 114 unit/219 integration checks and the hosted image build passed. A harmless UAT test reached Gmail INBOX and its actual desktop rendering was visually verified. Other mail clients/mobile/forced-dark visual coverage is not claimed. The standalone alert renderer was updated with its existing SMTP-only dependencies/account/unit/timer/settings/state preserved. Backend `docs/EMAIL_BRANDING_20261020.md` at documentation commit `990f5f1` records source, rollout and delivery evidence.
+
+Independent final readback at 15:06:31 UTC verified API/worker gates false, platform signing off, zero pending financial requests and unchanged delivery history. No migration, app UI change or additional financial action occurred; all task-owned local servers remain stopped. Other platform acceptance remains pending. The old protected reID control helper pins backend d6629ef and must not be reused against the new source without fresh verified preparation and applicable financial authorization. Earlier dated checkpoints below remain history.
+
+## 20 October 2026, 14:20 UTC — four real reID transactions passed; gate closed
+
+The replacement four-action FP smoke test is complete: native purchase of one fraction, exact 0.001 USDT approval, one-fraction USDT purchase, then one-fraction transfer A to B. All four personally approved receipts are canonical and INDEXED; independent verification matched frozen calldata, deadlines, balances, mint/transfer events, accounting and nonces 32–35. The exact approved amounts, receipts and spending reconciliation remain in the private UAT evidence, with no top-up or V2 deployment. All four broadcast slots are consumed; no fifth action is authorized.
+
+Final holdings, balances, supply, allowance and nonce reconciliation were independently checked. Reward pools and prior funding/claim history were preserved. The report is backend `docs/UAT_SMOKE_20261020.md`; detailed account and receipt proofs remain private.
+
+The guarded closing restart preserved reviewed images, limits, SMTP and peers. A separate readback at **14:20:12 UTC** verified both reID request flags **false**, platform signing off, and zero pending intents/provider requests. Existing allowlisted email remains enabled; human confirmation and preference save/reload/restore/reload passed. Removal/reconfirmation remains open.
+
+The owner then requested that email colours and logo match the app. That correction is **RSI-107**, in progress locally, using the exact approved brand marks and blue/white palette. It does not authorize an investor UI change or new financial transaction. Optional V2, remaining negative/capacity/UI audit and independent release/client acceptance remain separate open scopes. All older sections below are dated historical snapshots.
+
 ## 20 October 2026, 13:27 UTC — email confirmed; unsigned financial review expired
 
 The human completed email double opt-in; the hosted Notifications page shows Confirmed and both categories enabled. A support-email preference change saved and survived reload, then was restored and independently observed enabled after a second reload. Removal/reconfirmation acceptance remains open.

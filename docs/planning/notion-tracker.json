@@ -564,16 +564,36 @@
       "page_id": "3fb3b21a-c925-814a-8f29-d78cb7a153d2",
       "url": "https://app.notion.com/p/3fb3b21ac925814a8f29d78cb7a153d2?pvs=204",
       "title": "Deliver operating runbooks, documentation and backlog evidence"
+    },
+    "RSI-106": {
+      "page_id": "3ff3b21a-c925-819b-aa90-f107da55c6b9",
+      "url": "https://app.notion.com/p/3ff3b21ac925819baa90f107da55c6b9",
+      "title": "Add investor email notification controls to Notifications preferences"
+    },
+    "RSI-107": {
+      "page_id": "3ff3b21a-c925-8107-a73f-d0ca1a80bf2b",
+      "url": "https://app.notion.com/p/3ff3b21ac9258107a73fd0ca1a80bf2b",
+      "title": "Match all email templates to the approved system colours and logo"
+    },
+    "RSI-108": {
+      "page_id": "3ff3b21a-c925-81e4-8814-c3127c37f269",
+      "url": "https://app.notion.com/p/3ff3b21ac92581e48814c3127c37f269",
+      "title": "Audit and improve admin information, names and actionable context"
+    },
+    "RSI-109": {
+      "page_id": "3ff3b21a-c925-81c3-945f-e27085454e89",
+      "url": "https://app.notion.com/p/3ff3b21ac92581c3945fe27085454e89",
+      "title": "Audit shared UI, pagination, review and asynchronous-state logic"
     }
   },
-  "task_count": 105,
+  "task_count": 109,
   "initial_status": "To do",
   "github_sync": "Codex-managed workflow; no automatic webhook or background automation configured",
   "plan_page_id": "3fb3b21a-c925-810b-9694-e2c99173f5f9",
   "plan_page_url": "https://app.notion.com/p/3fb3b21ac925810b9694e2c99173f5f9?pvs=204",
   "initial_sync_verified_at_utc": "2026-10-16 08:04:57 UTC",
   "initial_verified_task_count": 105,
-  "dependency_edges": 301,
+  "dependency_edges": 304,
   "dependency_relations_verified": true,
   "documents": {
     "database_id": "02d0e65d064b4316b6fbe3a9c466434f",
@@ -659,6 +679,21 @@
       "page_id": "3fb3b21a-c925-81a4-923f-f21995bd56eb",
       "url": "https://app.notion.com/p/3fb3b21ac92581a4923ff21995bd56eb",
       "title": "Implementation and recovery status"
+    },
+    "../ReSystem-Investment-backend/docs/FP_ROLLOUT_20261020.md": {
+      "page_id": "3ff3b21a-c925-816d-99d6-e1549e8c9599",
+      "url": "https://app.notion.com/p/3ff3b21ac925816d99d6e1549e8c9599",
+      "title": "FP UAT rollout and acceptance \u2014 20 October 2026"
+    },
+    "docs/planning/AUTONOMOUS_AUDIT_20261020.md": {
+      "title": "Autonomous platform audit \u2014 20 October 2026",
+      "page_id": "3ff3b21a-c925-81c7-8fa9-d11fb964d9c7",
+      "url": "https://app.notion.com/p/3ff3b21ac92581c78fa9d11fb964d9c7"
+    },
+    "docs/planning/END_OF_DAY_20261020.md": {
+      "title": "End-of-day checkpoint \u2014 20 October 2026",
+      "page_id": "3ff3b21a-c925-81e4-ab0c-c01bdbc22f64",
+      "url": "https://app.notion.com/p/3ff3b21ac92581e4ab0cc01bdbc22f64"
     }
   },
   "service_records": {
@@ -731,5 +766,12 @@
       "url": "https://app.notion.com/p/3fb3b21ac92581299557f8215be14852?pvs=204"
     }
   },
-  "operations_updated_at_utc": "2026-10-17 08:38:31 UTC"
+  "operations_updated_at_utc": "2026-10-20T18:24:46.426201+00:00",
+  "last_status_sync_at_utc": "2026-10-20T18:24:46.426201+00:00",
+  "last_status_sync_scope": "Native states and commit links only in public portable backlog; detailed account/financial/runtime task evidence remains in private Notion and protected local snapshot; no blanket independent recertification",
+  "status_counts": {
+    "Done": 85,
+    "In progress": 21,
+    "To do": 3
+  }
 }
