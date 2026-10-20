@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import Image from "next/image";
 import { cacheLife } from "next/cache";
 import { Container } from "./Container";
@@ -36,7 +37,7 @@ export function Footer() {
         <Reveal variant="fade">
         <div className="footer-panel rounded-[20px] bg-panel p-6 text-white sm:p-8">
           <div className="footer-columns grid gap-8 md:grid-cols-[1.6fr_0.7fr_0.7fr_1.1fr]">
-            <div>
+            <div data-cascade="up" style={{ "--i": 0 } as CSSProperties}>
               <Logo tone="light" className="text-[23.25px]" />
               <p className="mt-6 max-w-[290px] text-[11px] leading-snug text-white/80">
                 Desert Tech Cloud Services LLC, Dubai, UAE. Investing in product shares carries risk, including loss of the
@@ -44,8 +45,8 @@ export function Footer() {
                 on recent revenue and shares sold. [REGULATORY LICENCE AND DISCLOSURE TEXT]
               </p>
             </div>
-            {columns.map((c) => (
-              <div key={c.title}>
+            {columns.map((c, i) => (
+              <div key={c.title} data-cascade="up" style={{ "--i": i + 1 } as CSSProperties}>
                 <p className="font-display text-[12px] text-white/50">{c.title}</p>
                 <ul className="mt-2 space-y-1">
                   {c.links.map((l) => (
@@ -58,7 +59,7 @@ export function Footer() {
                 </ul>
               </div>
             ))}
-            <div>
+            <div data-cascade="up" style={{ "--i": columns.length + 1 } as CSSProperties}>
               <a href="https://resystem.org/ecosystem" className="footer-ecosystem-logo">
                 <Image src="/reECOSYSTEM_logo.svg" alt="reEcosystem" width={161} height={22} />
               </a>
@@ -68,7 +69,7 @@ export function Footer() {
               </p>
             </div>
           </div>
-          <div className="footer-bottom mt-8 flex flex-col items-start justify-between gap-4 border-t border-white/15 pt-5 text-[12px] sm:flex-row sm:items-center">
+          <div data-cascade="up" style={{ "--i": columns.length + 2 } as CSSProperties} className="footer-bottom mt-8 flex flex-col items-start justify-between gap-4 border-t border-white/15 pt-5 text-[12px] sm:flex-row sm:items-center">
             <p className="text-white/90">© <CopyrightYear /> Resystem.org</p>
             <ul className="flex flex-wrap gap-x-8 gap-y-2">
               {legal.map((l) => (

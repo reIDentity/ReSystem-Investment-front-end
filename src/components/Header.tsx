@@ -69,12 +69,13 @@ export function Header() {
                   className="group relative font-display text-[15px] font-medium whitespace-nowrap text-ink-soft transition-colors duration-300 hover:text-ink"
                 >
                   {l.label}
-                  <span className="absolute -bottom-1 left-0 h-[2px] w-full origin-right scale-x-0 rounded-full bg-lime transition-transform duration-500 ease-[var(--ease-smooth)] group-hover:origin-left group-hover:scale-x-100" />
+                  <span className="absolute -bottom-1 left-0 h-[2px] w-full origin-right scale-x-0 rounded-full bg-lime transition-transform duration-500 ease-[var(--ease-smooth)] group-hover:origin-left group-hover:scale-x-100 group-focus-visible:origin-left group-focus-visible:scale-x-100" />
                 </a>
               ))}
             </nav>
             <a
               href="/invest"
+              data-magnetic
               className="header-invest btn btn-shine rounded-full bg-brand px-5 py-2.5 font-display text-[14px] font-semibold whitespace-nowrap text-white hover:shadow-[0_8px_18px_-8px_rgba(59,130,246,0.8)]"
             >
               Invest with reID

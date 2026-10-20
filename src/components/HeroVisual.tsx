@@ -24,6 +24,67 @@ export function HeroVisual() {
     return () => observer.disconnect();
   }, [host]);
 
+  /**
+   * Depth. The cursor position (eased) and the scroll position drive --mx/--my/--sp on the artwork;
+   * HeroVisual.css moves each card and chip by its own depth. Both rest at 0, so the still image
+   * is exactly the Figma composition.
+   */
+  useEffect(() => {
+    const element = host.current;
+    if (!element || reducedMotion || paused) return;
+    const pointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+    let raf = 0;
+    let targetX = 0;
+    let targetY = 0;
+    let x = 0;
+    let y = 0;
+    let scroll = 0;
+
+    const frame = () => {
+      raf = 0;
+      x += (targetX - x) * 0.1;
+      y += (targetY - y) * 0.1;
+      element.style.setProperty("--mx", x.toFixed(3));
+      element.style.setProperty("--my", y.toFixed(3));
+      element.style.setProperty("--sp", scroll.toFixed(3));
+      if (Math.abs(targetX - x) > 0.002 || Math.abs(targetY - y) > 0.002) raf = requestAnimationFrame(frame);
+    };
+    const schedule = () => {
+      if (!raf) raf = requestAnimationFrame(frame);
+    };
+    const onMove = (event: PointerEvent) => {
+      const rect = element.getBoundingClientRect();
+      targetX = ((event.clientX - rect.left) / rect.width - 0.5) * 2;
+      targetY = ((event.clientY - rect.top) / rect.height - 0.5) * 2;
+      schedule();
+    };
+    const onLeave = () => {
+      targetX = 0;
+      targetY = 0;
+      schedule();
+    };
+    const onScroll = () => {
+      scroll = Math.min(window.scrollY / 800, 1);
+      schedule();
+    };
+
+    if (pointer) {
+      element.addEventListener("pointermove", onMove, { passive: true });
+      element.addEventListener("pointerleave", onLeave);
+    }
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+    return () => {
+      element.removeEventListener("pointermove", onMove);
+      element.removeEventListener("pointerleave", onLeave);
+      window.removeEventListener("scroll", onScroll);
+      if (raf) cancelAnimationFrame(raf);
+      element.style.removeProperty("--mx");
+      element.style.removeProperty("--my");
+      element.style.removeProperty("--sp");
+    };
+  }, [host, reducedMotion, paused]);
+
   const compact = width < 760;
   const canvas = compact ? { width: 470, height: 600 } : { width: 1348, height: 633 };
   const scale = width / canvas.width;
@@ -35,11 +96,11 @@ export function HeroVisual() {
       <div className="hero-canvas" style={{ width: canvas.width, height: canvas.height, transform: `scale(${scale})` }}>
         {!compact && (
           <>
-            <div className="hero-art-card hero-fractionaire-card" style={{ left: 208.027, top: 146.585, transform: "rotate(-10deg)" }}><div className="hero-card-float"><FigmaFractionaire /></div></div>
-            <div className="hero-art-card hero-infra-card" style={{ left: 715.424, top: 65.414, transform: "rotate(10deg)" }}><div className="hero-card-float"><FigmaInfra /></div></div>
+            <div className="hero-art-card hero-fractionaire-card" style={{ left: 208.027, top: 146.585, transform: "rotate(-10deg)" }}><div className="hero-card-depth"><div className="hero-card-float"><FigmaFractionaire /></div></div></div>
+            <div className="hero-art-card hero-infra-card" style={{ left: 715.424, top: 65.414, transform: "rotate(10deg)" }}><div className="hero-card-depth"><div className="hero-card-float"><FigmaInfra /></div></div></div>
           </>
         )}
-        <div className="hero-art-card hero-reid-card" style={{ left: compact ? 22 : 432.899, top: compact ? 92 : 57.574 }}><div className="hero-card-float"><FigmaReid /></div></div>
+        <div className="hero-art-card hero-reid-card" style={{ left: compact ? 22 : 432.899, top: compact ? 92 : 57.574 }}><div className="hero-card-depth"><div className="hero-card-float"><FigmaReid /></div></div></div>
         <div className="hero-revenue-chip" style={{ left: compact ? 18 : 223.045, top: compact ? 18 : 20.707 }}>
           <p><span />Fractionaire, revenue today</p>
           <strong>$353.06</strong>

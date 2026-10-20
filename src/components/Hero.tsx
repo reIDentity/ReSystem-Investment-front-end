@@ -34,12 +34,14 @@ export function Hero() {
         <div style={{ "--d": "420ms" } as CSSProperties} className="hero-actions enter mt-8 flex flex-wrap gap-3">
           <a
             href="#where"
+            data-magnetic
             className="hero-primary btn btn-shine group inline-flex items-center gap-2 rounded-full bg-lime px-7 py-3.5 font-display text-[17px] font-semibold text-ink hover:shadow-[0_12px_28px_-12px_rgba(0,145,255,0.75)]"
           >
             Explore products
           </a>
           <a
             href="#how-much"
+            data-magnetic
             className="hero-secondary btn rounded-full border-[1.5px] border-ink bg-white px-7 py-3.5 font-display text-[17px] font-semibold text-ink hover:bg-ink hover:text-white"
           >
             Calculate your earnings

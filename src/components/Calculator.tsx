@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState, type ReactNode } from "react";
+import { useEffect, useMemo, useRef, useState, type CSSProperties, type ReactNode } from "react";
 import { Container } from "./Container";
 import { Reveal } from "./Reveal";
 import { RollingNumber } from "./RollingNumber";
@@ -32,6 +32,16 @@ export function Calculator() {
 
   const fill = ((amount - MIN_AMOUNT) / (MAX_AMOUNT - MIN_AMOUNT)) * 100;
   const [ref, shown] = useInView<HTMLDivElement>({ threshold: 0.25 });
+
+  /** Bumps once the inputs settle (not on every slider step), so the results pulse and the bars ripple. */
+  const [settled, setSettled] = useState(0);
+  const inputs = `${productId}:${amount}`;
+  const initial = useRef(inputs);
+  useEffect(() => {
+    if (inputs === initial.current) return;
+    const timer = setTimeout(() => setSettled((n) => n + 1), 140);
+    return () => clearTimeout(timer);
+  }, [inputs]);
 
   return (
     <section id="how-much" className="mt-20 scroll-mt-24">
@@ -107,16 +117,16 @@ export function Calculator() {
 
           <div className="calculator-results flex flex-col rounded-2xl bg-[#1f1b19] p-4 text-white sm:p-5">
             <div className="grid grid-cols-2 gap-3">
-              <Stat label="You get">
+              <Stat label="You get" pulse={settled}>
                 <RollingNumber value={result.shares.toLocaleString("en-US")} ready={shown} /> shares
               </Stat>
-              <Stat label="Your share of the pool">
+              <Stat label="Your share of the pool" pulse={settled}>
                 <RollingNumber value={`${(result.poolShare * 100).toFixed(3)}%`} ready={shown} />
               </Stat>
-              <Stat label="Est. per month" accent>
+              <Stat label="Est. per month" accent pulse={settled}>
                 <RollingNumber value={usd(result.monthly, 2)} ready={shown} />
               </Stat>
-              <Stat label="Est. per year" accent>
+              <Stat label="Est. per year" accent pulse={settled}>
                 <RollingNumber value={usd(result.yearly, 2)} ready={shown} />
               </Stat>
             </div>
@@ -131,13 +141,15 @@ export function Calculator() {
               <div className="calculator-bars mt-3 flex min-h-[170px] flex-1 items-end gap-1.5" role="img" aria-label="Illustrative cumulative earnings over twelve months" aria-describedby="calculator-example-note">
                 {Array.from({ length: 12 }).map((_, i) => (
                   <span
-                    key={i}
-                    className="flex-1 origin-bottom rounded-t-md transition-[height,filter] duration-700 ease-[var(--ease-spring)] hover:brightness-90"
+                    key={settled ? `${i}-${settled}` : i}
+                    data-wave={settled ? "" : undefined}
+                    className="calc-bar flex-1 origin-bottom rounded-t-md transition-[height,filter] duration-700 ease-[var(--ease-spring)] hover:brightness-90"
                     style={{
+                      "--i": i,
                       height: shown ? `${[10,19,29,39,48,58,68,77,87,97,106,116][i]}px` : "0%",
                       transitionDelay: `${i * 25}ms`,
                       background: i === 11 ? "linear-gradient(#0091ff,#91d0ff)" : "rgba(0,145,255,0.37)",
-                    }}
+                    } as CSSProperties}
                     title={`Month ${i + 1}: ${usd(result.monthly * (i + 1), 2)} cumulative`}
                   />
                 ))}
@@ -152,6 +164,7 @@ export function Calculator() {
               href="/invest"
               title="Illustrative example. Open the investor app to review actual project prices."
               aria-describedby="calculator-example-note"
+              data-magnetic
               className="calculator-invest btn btn-shine mt-3 block rounded-full bg-lime py-3.5 text-center font-display text-[14px] font-bold text-ink hover:shadow-[0_10px_24px_-10px_rgba(0,145,255,0.9)]"
             >
               Invest {usd(amount)} in {product.name}
@@ -168,9 +181,10 @@ export function Calculator() {
   );
 }
 
-function Stat({ label, children, accent = false }: { label: string; children: ReactNode; accent?: boolean }) {
+function Stat({ label, children, accent = false, pulse = 0 }: { label: string; children: ReactNode; accent?: boolean; pulse?: number }) {
   return (
-    <div className={`calculator-stat rounded-2xl px-4 py-3 ${accent ? "bg-mint text-forest" : "bg-white text-ink"}`}>
+    <div className={`calculator-stat relative rounded-2xl px-4 py-3 ${accent ? "bg-mint text-forest" : "bg-white text-ink"}`}>
+      {pulse > 0 && <span key={pulse} className="stat-pulse" aria-hidden />}
       <p className={`text-[12px] ${accent ? "text-forest/80" : "text-muted"}`}>{label}</p>
       <p className="mt-0.5 font-display text-[22px] leading-tight font-extrabold tabular-nums">{children}</p>
     </div>

@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import { Container } from "./Container";
 import { Reveal } from "./Reveal";
 
@@ -35,8 +36,13 @@ export function Compare() {
                 </tr>
               </thead>
               <tbody>
-                {rows.map(([label, a, b, c]) => (
-                  <tr key={label} className="group border-b border-line transition-colors duration-500 last:border-0 hover:bg-[#fafafa]">
+                {rows.map(([label, a, b, c], i) => (
+                  <tr
+                    key={label}
+                    data-cascade
+                    style={{ "--i": i } as CSSProperties}
+                    className="group border-b border-line transition-colors duration-500 last:border-0 hover:bg-[#fafafa]"
+                  >
                     <th scope="row" className="px-4 py-4 font-display text-[14px] font-bold text-ink">
                       {label}
                     </th>

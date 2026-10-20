@@ -3,7 +3,7 @@
 import type { CSSProperties, ElementType, ReactNode } from "react";
 import { useInView } from "@/hooks/motion";
 
-type Variant = "up" | "blur" | "fade" | "scale" | "left" | "right";
+type Variant = "up" | "blur" | "fade" | "scale" | "left" | "right" | "wipe";
 
 interface RevealProps {
   children: ReactNode;

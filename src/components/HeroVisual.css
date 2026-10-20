@@ -51,3 +51,44 @@
   .hero-art-card, .hero-card-float, .hero-revenue-chip, .hero-claim-chip { animation: none; }
   .hero-motion-toggle { display: none; }
 }
+
+/* Depth: the cursor and the scroll position move each layer by its distance from the viewer.
+   HeroVisual writes --mx/--my (−1…1) and --sp (0…1) on the artwork; at rest they are all 0. */
+.hero-artwork { --mx: 0; --my: 0; --sp: 0; }
+.hero-card-depth {
+  width: 100%;
+  height: 100%;
+  translate: calc(var(--mx) * var(--depth, 10px)) calc(var(--my) * var(--depth, 10px) - var(--sp) * var(--rise, 40px));
+  will-change: translate;
+}
+.hero-fractionaire-card { --depth: 8px; --rise: 28px; }
+.hero-infra-card { --depth: 12px; --rise: 40px; }
+.hero-reid-card { --depth: 18px; --rise: 54px; }
+.hero-revenue-chip { transform: translate(calc(var(--mx) * 24px), calc(var(--my) * 24px - var(--sp) * 70px)); }
+.hero-claim-chip { transform: translate(calc(var(--mx) * 28px), calc(var(--my) * 28px - var(--sp) * 80px)); }
+.hero-revenue-chip, .hero-claim-chip { will-change: transform; }
+
+/* The chips tilt back a touch while the cursor rests on them. */
+.hero-revenue-chip, .hero-claim-chip { transition: scale 0.5s cubic-bezier(.16,1,.3,1); }
+.hero-revenue-chip:hover, .hero-claim-chip:hover { scale: 1.04; }
+
+/* The live dot breathes. */
+.hero-revenue-chip p span { position: relative; }
+.hero-revenue-chip p span::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: #12b76a;
+  animation: hero-ping 2.2s cubic-bezier(0, 0, 0.2, 1) 1.4s infinite;
+}
+@keyframes hero-ping {
+  0% { opacity: 0.8; scale: 1; }
+  70%, 100% { opacity: 0; scale: 3.2; }
+}
+.hero-artwork[data-motion="paused"] .hero-revenue-chip p span::after { animation-play-state: paused; }
+@media (prefers-reduced-motion: reduce) {
+  .hero-card-depth, .hero-revenue-chip, .hero-claim-chip { translate: none; transform: none; transition: none; }
+  .hero-revenue-chip:hover, .hero-claim-chip:hover { scale: none; }
+  .hero-revenue-chip p span::after { animation: none; }
+}

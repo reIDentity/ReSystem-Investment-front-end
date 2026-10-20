@@ -104,7 +104,8 @@
 .why-count span { color: #3d3d3d; }
 .why-dots { display: flex; justify-content: center; }
 .why-dot { display: flex; align-items: center; justify-content: center; width: 32px; height: 44px; cursor: pointer; border-radius: 8px; }
-.why-dot span { width: 6px; height: 6px; border-radius: 4px; background: #3d3d3d33; transition: width 250ms ease, background 250ms ease; }
+.why-dot span { width: 6px; height: 6px; border-radius: 4px; background: #3d3d3d33; transition: width 250ms ease, background 250ms ease, scale 350ms cubic-bezier(.34,1.56,.64,1); }
+.why-dot:active span { scale: .8; }
 .why-dot[aria-current="true"] span { width: 24px; background: #3d3d3d; }
 .why-dot:hover span { background: #3d3d3d80; }
 .why-arrows { display: flex; gap: 8px; justify-self: end; }
@@ -155,6 +156,27 @@
 @media (prefers-reduced-motion: reduce) {
   .why-reason-image, .why-dot span, .why-arrow { transition: none; }
   .why-reason-image { transform: none; }
+  .why-dot:active span { scale: none; }
 
 }
 
+
+/* The active slide's content arrives in order, and its painting keeps drifting while it is on stage. */
+.why-reason-icon, .why-reason-title, .why-reason-body {
+  transition: opacity 0.7s cubic-bezier(.16,1,.3,1), transform 0.9s cubic-bezier(.16,1,.3,1);
+}
+.why-slide[aria-hidden="true"] .why-reason-icon { opacity: 0; transform: translateY(14px) scale(0.9); }
+.why-slide[aria-hidden="true"] .why-reason-title { opacity: 0; transform: translateY(18px); }
+.why-slide[aria-hidden="true"] .why-reason-body { opacity: 0; transform: translateY(22px); }
+.why-slide[aria-hidden="false"] .why-reason-icon { transition-delay: 120ms; }
+.why-slide[aria-hidden="false"] .why-reason-title { transition-delay: 200ms; }
+.why-slide[aria-hidden="false"] .why-reason-body { transition-delay: 300ms; }
+@keyframes why-burns {
+  from { transform: scale(1); }
+  to { transform: scale(1.06); }
+}
+.why-slide[aria-hidden="false"] .why-reason-image { animation: why-burns 16s ease-in-out 1s infinite alternate; }
+@media (prefers-reduced-motion: reduce) {
+  .why-reason-icon, .why-reason-title, .why-reason-body { opacity: 1 !important; transform: none !important; transition: none; }
+  .why-slide[aria-hidden="false"] .why-reason-image { animation: none; }
+}

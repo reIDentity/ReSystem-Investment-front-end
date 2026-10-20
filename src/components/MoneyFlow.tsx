@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type CSSProperties, type RefObject } from "react";
 import { ArrowRight, ArrowUpRight, Box } from "lucide-react";
 import { Container } from "./Container";
 import { Reveal } from "./Reveal";
@@ -126,6 +126,7 @@ function PaymentsIn({ feed, count, shown }: { feed: Payment[]; count: number; sh
         {feed.map((p, i) => (
           <li
             key={p.id}
+            data-flow-from={i === 0 ? "" : undefined}
             className={`border-b transition-colors duration-700 ${i === 0 ? "border-transparent" : "border-line"} ${
               p.id > SEED_MAX_ID ? "row-in" : ""
             }`}
@@ -175,7 +176,7 @@ function ShareholderPool({ live, shown }: { live: LiveState; shown: boolean }) {
       <div className="mt-4 rounded-2xl bg-[#eaf5ff] p-4 text-ink">
         <p className="text-[12px] text-[#075a9c]">Pool · 100% to holders</p>
         <div className="mt-1 flex items-center justify-between">
-          <p className="font-display text-[40px] leading-none font-extrabold text-[#061b32]">
+          <p data-flow-to className="font-display text-[40px] leading-none font-extrabold text-[#061b32]">
             <RollingNumber value={money(live.pool)} ready={shown} />
           </p>
           <span
@@ -416,6 +417,7 @@ function Transparent() {
       </div>
       <a
         href="#"
+        data-magnetic
         className="btn btn-shine mt-6 flex items-center justify-center gap-2 rounded-2xl bg-brand py-3.5 font-display text-[14px] font-bold text-white"
       >
         View on INFRA
@@ -425,9 +427,54 @@ function Transparent() {
   );
 }
 
+interface Coin {
+  id: number;
+  style: CSSProperties;
+}
+
+/**
+ * Each new payment sends a coin from the top of the feed to the pool total. The launch is measured
+ * from the DOM when the feed ticks, so the coin starts where the newest row has just opened.
+ */
+function useCoin(root: RefObject<HTMLDivElement | null>, tick: number): Coin | null {
+  const reduced = usePrefersReducedMotion();
+  const [coin, setCoin] = useState<Coin | null>(null);
+
+  useEffect(() => {
+    const dashboard = root.current;
+    if (!tick || reduced || !dashboard) return;
+    let frame = requestAnimationFrame(() => {
+      frame = 0;
+      const from = dashboard.querySelector<HTMLElement>("[data-flow-from]");
+      const to = dashboard.querySelector<HTMLElement>("[data-flow-to]");
+      if (!from || !to) return;
+      const base = dashboard.getBoundingClientRect();
+      const a = from.getBoundingClientRect();
+      const b = to.getBoundingClientRect();
+      setCoin({
+        id: tick,
+        style: {
+          "--x0": `${a.right - base.left - 24}px`,
+          "--y0": `${a.top - base.top + 26}px`,
+          "--x1": `${b.left - base.left + b.width / 2}px`,
+          "--y1": `${b.top - base.top + b.height / 2}px`,
+        } as CSSProperties,
+      });
+    });
+    const timer = setTimeout(() => setCoin(null), 1200);
+    return () => {
+      if (frame) cancelAnimationFrame(frame);
+      clearTimeout(timer);
+    };
+  }, [root, tick, reduced]);
+
+  return coin;
+}
+
 export function MoneyFlow() {
   const [ref, shown] = useInView<HTMLDivElement>({ threshold: 0.15 });
   const live = useLiveFeed(shown);
+  const coin = useCoin(ref, live.tick);
 
   return (
     <section id="money-flow" className="mt-20 scroll-mt-24">
@@ -442,7 +489,7 @@ export function MoneyFlow() {
           </p>
         </Reveal>
 
-        <div ref={ref} className="money-dashboard mt-5 rounded-[24px] bg-[#ececec] p-3 sm:p-5">
+        <div ref={ref} className="money-dashboard relative mt-5 rounded-[24px] bg-[#ececec] p-3 sm:p-5">
           <div className="grid gap-4 lg:grid-cols-3">
             <Reveal variant="left" className="h-full min-w-0">
               <PaymentsIn feed={live.feed} count={live.count} shown={shown} />
@@ -465,6 +512,12 @@ export function MoneyFlow() {
               <Transparent />
             </Reveal>
           </div>
+          {/* Last child on purpose: design.css addresses the three rows above by child index. */}
+          {coin && (
+            <span key={coin.id} className="flow-coin" style={coin.style} aria-hidden>
+              <i />
+            </span>
+          )}
         </div>
       </Container>
     </section>

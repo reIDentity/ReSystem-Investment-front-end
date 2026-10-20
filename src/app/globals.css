@@ -532,3 +532,502 @@ input[type="range"].range-lime:focus-visible::-webkit-slider-thumb {
     transition: none;
   }
 }
+
+/* ---------- Motion, layer two: depth, touch and life ----------
+   Everything below is additive. At rest every element sits exactly where the design puts it;
+   the motion only lives in the arrival, the hover and the idle. */
+
+/* Wipe reveal: a curtain opens from one edge. Set --wipe to the inset that hides the element
+   (default: from the top edge down) and --wipe-r to the element's corner radius. */
+[data-reveal="wipe"] {
+  opacity: 1;
+  clip-path: inset(var(--wipe, 0 0 100% 0) round var(--wipe-r, 16px));
+  transform: scale(1.015);
+  transition:
+    clip-path 1.15s var(--ease-smooth) var(--d, 0ms),
+    transform 1.4s var(--ease-smooth) var(--d, 0ms);
+}
+[data-reveal="wipe"][data-in="true"] {
+  clip-path: inset(0 0 0 0 round var(--wipe-r, 16px));
+}
+
+/* Cascade: rows inside a revealed block arrive one after another (index from --i). */
+[data-cascade] {
+  opacity: 0;
+  transform: translate3d(-14px, 0, 0);
+  transition:
+    opacity 0.6s var(--ease-smooth) calc(220ms + var(--i, 0) * 70ms),
+    transform 0.9s var(--ease-smooth) calc(220ms + var(--i, 0) * 70ms),
+    background-color 0.5s ease;
+}
+[data-in="true"] [data-cascade] {
+  opacity: 1;
+  transform: none;
+}
+
+/* 3D tilt: MotionEffects feeds --rx/--ry while the cursor is over the card. */
+[data-tilt] {
+  transform: perspective(1100px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) translateY(var(--tilt-lift, 0px));
+  transition:
+    transform 0.7s var(--ease-smooth),
+    box-shadow 0.7s var(--ease-smooth);
+}
+[data-tilt][data-tilt-active] {
+  --tilt-lift: -4px;
+  box-shadow: 0 24px 48px -24px rgba(31, 27, 25, 0.3);
+  transition-duration: 0.18s, 0.7s;
+}
+
+/* Magnetic: the button leans towards the cursor (MotionEffects sets `translate`), then springs home. */
+[data-magnetic] {
+  transition:
+    translate 0.7s var(--ease-spring),
+    transform 0.25s var(--ease-smooth),
+    box-shadow 0.35s var(--ease-smooth),
+    background-color 0.25s ease,
+    color 0.25s ease;
+}
+[data-magnetic][data-magnet-active] {
+  transition-duration: 0.15s, 0.25s, 0.35s, 0.25s, 0.25s;
+  transition-timing-function: ease-out, var(--ease-smooth), var(--ease-smooth), ease, ease;
+}
+
+/* Logo mark takes a turn when the brand is hovered. */
+.header-brand .brand-logo-symbol img {
+  transition: rotate 1s var(--ease-spring);
+}
+.header-brand:hover .brand-logo-symbol img {
+  rotate: 360deg;
+}
+
+/* Ecosystem pills lift under the cursor while the marquee rests. */
+.ecosystem-pill {
+  transition:
+    transform 0.5s var(--ease-spring),
+    box-shadow 0.5s var(--ease-smooth);
+}
+.ecosystem-pill:hover {
+  transform: translateY(-4px) scale(1.03);
+  box-shadow: 0 16px 28px -18px rgba(0, 145, 255, 0.55);
+}
+
+/* Stats: one beam of light crosses the dark panel as the numbers count up. */
+.stats-panel::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 36%;
+  pointer-events: none;
+  background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.16), transparent);
+  transform: translateX(-140%) skewX(-18deg);
+}
+[data-in="true"] > .stats-panel::after {
+  animation: sweep 1.7s var(--ease-smooth) 0.4s both;
+}
+@keyframes sweep {
+  to {
+    transform: translateX(340%) skewX(-18deg);
+  }
+}
+
+/* Compare: the reSystem column glints row by row once the table has landed. */
+.comparison-panel tbody td:nth-child(2) {
+  position: relative;
+}
+.comparison-panel tbody td:nth-child(2)::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: rgba(255, 255, 255, 0.55);
+  opacity: 0;
+}
+[data-in="true"] .comparison-panel tbody td:nth-child(2)::after {
+  animation: glint 0.9s ease-out calc(620ms + var(--i, 0) * 70ms) both;
+}
+@keyframes glint {
+  0% {
+    opacity: 0;
+  }
+  35% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* FAQ: the plus turns into the minus by spinning half a turn. */
+.faq-icon {
+  display: flex;
+  transition: transform 0.6s var(--ease-spring);
+}
+[aria-expanded="true"] .faq-icon {
+  transform: rotate(180deg);
+}
+
+/* Glass tiles hover in place; the CTA artwork breathes under the cursor. */
+@keyframes glass-float {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-10px) rotate(-2deg);
+  }
+}
+.cta-glass {
+  animation: glass-float 6s var(--ease-io) infinite;
+}
+.faq-glass {
+  animation: glass-float 7s var(--ease-io) 0.8s infinite;
+}
+.cta-art img {
+  transition: transform 1.6s var(--ease-smooth);
+}
+.cta-panel:hover .cta-art img {
+  transform: scale(1.04);
+}
+
+/* How it works: the blurred backdrop slowly drifts, like light moving across a room. */
+@keyframes how-drift {
+  from {
+    transform: scale(1.05) translate(-1%, -1%);
+  }
+  to {
+    transform: scale(1.05) translate(1%, 1%);
+  }
+}
+.how-background {
+  animation: how-drift 18s var(--ease-io) infinite alternate;
+}
+.how-panel li > span {
+  transition:
+    background-color 0.3s ease,
+    transform 0.5s var(--ease-spring);
+}
+.how-panel li:hover > span {
+  transform: translateY(-2px);
+}
+
+/* Money flow: a coin leaves the newest payment and lands in the shareholder pool. */
+.flow-coin {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 5;
+  width: 12px;
+  height: 12px;
+  margin: -6px 0 0 -6px;
+  pointer-events: none;
+  animation: coin-fly 1.05s var(--ease-io) both;
+}
+.flow-coin > i {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: var(--color-brand);
+  box-shadow:
+    0 0 0 4px rgba(0, 145, 255, 0.22),
+    0 8px 16px rgba(0, 145, 255, 0.5);
+  animation: coin-arc 1.05s var(--ease-io) both;
+}
+@keyframes coin-fly {
+  0% {
+    translate: var(--x0) var(--y0);
+    opacity: 0;
+    scale: 0.5;
+  }
+  12% {
+    opacity: 1;
+    scale: 1;
+  }
+  88% {
+    opacity: 1;
+    scale: 1;
+  }
+  100% {
+    translate: var(--x1) var(--y1);
+    opacity: 0;
+    scale: 0.4;
+  }
+}
+@keyframes coin-arc {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-46px);
+  }
+}
+
+/* Calculator: a result settles with a soft pulse; the bars ripple when the inputs change. */
+.stat-pulse {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: radial-gradient(110% 110% at 50% 50%, rgba(0, 145, 255, 0.24), transparent 70%);
+  animation: stat-pulse 1s var(--ease-smooth) both;
+}
+.calculator-stat:nth-child(n + 3) .stat-pulse {
+  background: radial-gradient(110% 110% at 50% 50%, rgba(0, 154, 23, 0.22), transparent 70%);
+}
+@keyframes stat-pulse {
+  from {
+    opacity: 0.95;
+  }
+  to {
+    opacity: 0;
+  }
+}
+.calc-bar[data-wave] {
+  animation: bar-wave 0.8s var(--ease-spring) both;
+  animation-delay: calc(var(--i, 0) * 35ms);
+}
+@keyframes bar-wave {
+  0% {
+    transform: scaleY(1);
+  }
+  40% {
+    transform: scaleY(1.12);
+  }
+  100% {
+    transform: scaleY(1);
+  }
+}
+
+/* Footer links draw an underline towards the cursor. */
+.footer-columns ul a {
+  background: linear-gradient(currentColor, currentColor) no-repeat 0 100% / 0 1px;
+  transition:
+    background-size 0.5s var(--ease-smooth),
+    color 0.3s ease;
+}
+.footer-columns ul a:hover {
+  background-size: 100% 1px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal="wipe"],
+  [data-cascade] {
+    clip-path: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+  [data-tilt],
+  [data-tilt][data-tilt-active],
+  [data-magnetic] {
+    transform: none !important;
+    translate: none !important;
+    transition: none !important;
+  }
+  .header-brand:hover .brand-logo-symbol img {
+    rotate: none;
+    transition: none;
+  }
+  .ecosystem-pill,
+  .ecosystem-pill:hover,
+  .cta-art img,
+  .cta-panel:hover .cta-art img,
+  .how-panel li:hover > span {
+    transform: none;
+    transition: none;
+  }
+  .stats-panel::after,
+  .comparison-panel tbody td:nth-child(2)::after,
+  .cta-glass,
+  .faq-glass,
+  .how-background,
+  .flow-coin,
+  .flow-coin > i,
+  .stat-pulse,
+  .calc-bar[data-wave] {
+    animation: none !important;
+  }
+  .faq-icon,
+  .footer-columns ul a {
+    transition: none;
+  }
+}
+
+/* ---------- Motion, layer three: scroll-linked settle, keyboard parity and press feedback ----------
+   Scroll-linked effects only run where the browser has view timelines; elsewhere the page is simply
+   still. Each one ends exactly at the designed geometry once the block is on screen. */
+
+/* Footer columns rise one after another (index from --i) inside the footer's Reveal. */
+[data-cascade="up"] {
+  transform: translate3d(0, 14px, 0);
+}
+
+/* How it works: each STEP badge pops as its step arrives. */
+.how-panel li[data-in="true"] > span:first-child {
+  animation: pop 0.6s var(--ease-spring) both;
+  animation-delay: calc(var(--d, 0ms) + 180ms);
+}
+
+/* Keyboard users get the same lift, zoom and underline that the cursor gets. */
+.product-card:focus-within {
+  --tilt-lift: -4px;
+  box-shadow: 0 24px 48px -24px rgba(31, 27, 25, 0.3);
+}
+.footer-columns ul a:focus-visible {
+  background-size: 100% 1px;
+}
+
+/* Press feedback: the FAQ toggle gives under the finger. */
+.faq-icon img {
+  transition: scale 0.35s var(--ease-spring);
+}
+button:active > .faq-icon img {
+  scale: 0.9;
+  transition-duration: 0.1s;
+}
+
+@supports (animation-timeline: view()) {
+  /* Large panels settle from a hair smaller as their top edge scrolls in. */
+  @keyframes panel-settle {
+    from {
+      scale: 0.965;
+    }
+    to {
+      scale: 1;
+    }
+  }
+  .why-panel,
+  .calculator-panel,
+  .money-dashboard,
+  .how-panel {
+    animation: panel-settle linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 360px;
+  }
+
+  /* The ecosystem strip fades in and glides from the right as it enters. The glide moves the strip
+     inside its clipping window (never the window itself), so the page never grows sideways. */
+  @keyframes strip-fade {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  @keyframes strip-glide {
+    from {
+      translate: 64px 0;
+    }
+    to {
+      translate: 0 0;
+    }
+  }
+  .ecosystem-window {
+    view-timeline-name: --ecosystem;
+    animation: strip-fade linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 100%;
+  }
+  .ecosystem-strip {
+    animation-name: marquee, strip-glide;
+    animation-duration: 40s, auto;
+    animation-timing-function: linear, linear;
+    animation-iteration-count: infinite, 1;
+    animation-fill-mode: none, both;
+    animation-timeline: auto, --ecosystem;
+    animation-range: normal, entry 0% entry 100%;
+  }
+
+  /* Depth inside framed artwork: the glass tiles and the how-it-works backdrop move slower than the page.
+     The frames clip their content (overflow: hidden makes them scroll containers), so each frame names
+     its own view timeline against the page and the layer inside follows that. */
+  .cta-art {
+    view-timeline-name: --cta-art;
+  }
+  .faq-art {
+    view-timeline-name: --faq-art;
+  }
+  .how-panel {
+    view-timeline-name: --how-panel;
+  }
+  @keyframes glass-parallax {
+    from {
+      translate: 0 14px;
+    }
+    to {
+      translate: 0 -14px;
+    }
+  }
+  .cta-glass,
+  .faq-glass {
+    animation-name: glass-float, glass-parallax;
+    animation-timing-function: var(--ease-io), linear;
+    animation-iteration-count: infinite, 1;
+    animation-fill-mode: none, both;
+  }
+  .cta-glass {
+    animation-timeline: auto, --cta-art;
+    animation-duration: 6s, auto;
+    animation-delay: 0s, 0s;
+  }
+  .faq-glass {
+    animation-timeline: auto, --faq-art;
+    animation-duration: 7s, auto;
+    animation-delay: 0.8s, 0s;
+  }
+  @keyframes how-parallax {
+    from {
+      translate: 0 -1.2%;
+    }
+    to {
+      translate: 0 1.2%;
+    }
+  }
+  .how-background {
+    animation-name: how-drift, how-parallax;
+    animation-duration: 18s, auto;
+    animation-timing-function: var(--ease-io), linear;
+    animation-iteration-count: infinite, 1;
+    animation-direction: alternate, normal;
+    animation-fill-mode: none, both;
+    animation-timeline: auto, --how-panel;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .how-panel li[data-in="true"] > span:first-child,
+  .money-dashboard .animate-ping,
+  .money-dashboard .animate-spin,
+  .money-dashboard .animate-pulse,
+  .why-panel,
+  .calculator-panel,
+  .money-dashboard,
+  .how-panel,
+  .ecosystem-window {
+    animation: none !important;
+  }
+  .ecosystem-window {
+    opacity: 1;
+    translate: none;
+  }
+  .faq-icon img {
+    transition: none;
+  }
+  button:active > .faq-icon img {
+    scale: none;
+  }
+  .product-cover > div,
+  .product-link > span,
+  .header-nav a > span {
+    transition: none !important;
+  }
+  .product-cover > div,
+  .product-link > span {
+    scale: none !important;
+    translate: none !important;
+  }
+}

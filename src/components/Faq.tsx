@@ -39,7 +39,7 @@ export function Faq() {
     <section id="faq" className="mt-4 scroll-mt-24">
       <Container>
         <div className="faq-layout grid gap-3 lg:grid-cols-[0.9fr_1.5fr]">
-          <Reveal variant="left" className="h-full">
+          <Reveal variant="wipe" className="h-full [--wipe:0_100%_0_0] [--wipe-r:16px]">
             <div className="faq-art relative aspect-[612/687] w-full overflow-hidden rounded-[20px]">
               <Image
                 src="/images/figma/32-11520-ce374.png"
@@ -70,7 +70,9 @@ export function Faq() {
                           className="group/q flex w-full items-center justify-between gap-4 py-4 text-left font-display text-[15px] font-bold text-ink"
                         >
                           <span className={`transition-colors duration-300 ${isOpen ? "text-ink" : "text-ink-soft group-hover/q:text-ink"}`}>{f.q}</span>
-                          <Image src={isOpen ? "/images/figma/32-11520-98ea5.svg" : "/images/figma/32-11520-55040.svg"} alt="" width={45} height={45} className="shrink-0" />
+                          <span className="faq-icon shrink-0">
+                            <Image src={isOpen ? "/images/figma/32-11520-98ea5.svg" : "/images/figma/32-11520-55040.svg"} alt="" width={45} height={45} />
+                          </span>
                         </button>
                       </h3>
                       <div

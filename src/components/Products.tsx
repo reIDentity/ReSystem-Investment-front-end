@@ -12,11 +12,12 @@ function ProductCard({ product }: { product: Product }) {
   return (
     <article
       data-spotlight
-      className="product-card group lift relative flex h-full flex-col rounded-[22px] bg-white p-2.5 shadow-[0_1px_0_rgba(0,0,0,0.03)]"
+      data-tilt
+      className="product-card group relative flex h-full flex-col rounded-[22px] bg-white p-2.5 shadow-[0_1px_0_rgba(0,0,0,0.03)]"
     >
       <div className="product-cover relative h-[150px] overflow-hidden rounded-2xl">
         <div
-          className="absolute inset-0 transition-transform duration-[1200ms] ease-[var(--ease-smooth)] group-hover:scale-[1.06]"
+          className="absolute inset-0 transition-transform duration-[1200ms] ease-[var(--ease-smooth)] group-hover:scale-[1.06] group-focus-within:scale-[1.06]"
           style={{ background: product.art }}
         >
           {product.image && (
@@ -62,7 +63,7 @@ function ProductCard({ product }: { product: Product }) {
           className="product-link mt-5 flex items-center justify-between font-display text-[14px] font-bold text-brand underline-offset-4 hover:underline"
         >
           See where, why and how much{" "}
-          <span aria-hidden="true" className="transition-transform duration-500 ease-[var(--ease-spring)] group-hover:translate-x-1.5">→</span>
+          <span aria-hidden="true" className="transition-transform duration-500 ease-[var(--ease-spring)] group-hover:translate-x-1.5 group-focus-within:translate-x-1.5">→</span>
         </a>
       </div>
     </article>

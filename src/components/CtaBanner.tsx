@@ -6,7 +6,7 @@ export function CtaBanner() {
   return (
     <section className="cta-section mt-4">
       <Container>
-        <Reveal>
+        <Reveal variant="wipe" className="[--wipe-r:12px]">
         <div className="cta-panel grid gap-6 rounded-[20px] border border-line bg-[#f7f7f8] p-4 sm:p-5 lg:grid-cols-[1fr_1.15fr]">
           <div className="cta-copy flex flex-col justify-between gap-10 p-2 sm:p-4">
             <div>
@@ -21,6 +21,7 @@ export function CtaBanner() {
             </div>
             <a
               href="/invest"
+              data-magnetic
               className="cta-invest btn btn-shine w-fit rounded-full bg-lime px-5 py-3 font-display text-[13px] font-bold text-ink hover:shadow-[0_10px_24px_-10px_rgba(0,145,255,0.7)]"
             >
               Invest with reID

@@ -54,7 +54,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html lang="en" data-scroll-behavior="smooth" className={`${plex.variable} ${jakarta.variable} ${montserrat.variable}`}>
       <body>
         <noscript>
-          <style>{`[data-reveal]{opacity:1!important;transform:none!important}`}</style>
+          <style>{`[data-reveal],[data-cascade]{opacity:1!important;transform:none!important;clip-path:none!important}`}</style>
         </noscript>
         {children}
       </body>
