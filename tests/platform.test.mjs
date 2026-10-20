@@ -36,6 +36,16 @@ test('path traversal, admin routes, missing CSRF and oversized bodies cannot rea
  assert.equal((await proxyPlatform(request('transactions',{method:'POST',headers:{Origin:config.origin,'Content-Type':'application/json'},body:'{}'}),['transactions'],config,fetcher)).status,403);
  const huge=await proxyPlatform(request('transactions',{method:'POST',headers:{Origin:config.origin,'X-CSRF-Token':'csrf','Content-Type':'application/json'},body:'x'.repeat(65537)}),['transactions'],config,fetcher);assert.equal(huge.status,413);assert.equal(calls,0);
 });
+test('email notification routes allow only investor status, toggles, removal and confirmation requests',async()=>{
+ const seen=[];const fetcher=async(url,init)=>{seen.push(`${init.method} ${url}`);return Response.json({});};
+ const change=(method,body)=>({method,headers:{Origin:config.origin,'X-CSRF-Token':'csrf','Content-Type':'application/json'},...(body?{body}:{})});
+ for(const [method,path,body] of [['GET','email-notifications'],['PATCH','email-notifications','{"transactionEmails":true,"supportEmails":false}'],['DELETE','email-notifications'],['POST','email-notifications/verification','{}']])
+  assert.equal((await proxyPlatform(request(path,method==='GET'?{}:change(method,body)),path.split('/'),config,fetcher)).status,200);
+ assert.deepEqual(seen,['GET http://127.0.0.1:3005/v1/email-notifications','PATCH http://127.0.0.1:3005/v1/email-notifications','DELETE http://127.0.0.1:3005/v1/email-notifications','POST http://127.0.0.1:3005/v1/email-notifications/verification']);
+ for(const [method,path] of [['POST','email-notifications'],['POST','email-notifications/verification/confirm'],['GET','email-notifications/verify'],['GET','email-notifications/verification']])
+  assert.equal((await proxyPlatform(request(path,method==='GET'?{}:change(method,'{}')),path.split('/'),config,fetcher)).status,404);
+ assert.equal(seen.length,4);
+});
 test('OAuth uses manual trusted redirects; hostile Location never escapes to browser',async()=>{
  for(const [location,status] of [['https://app.reidentity.net/oauth/authorize',302],['https://localhost:3002/invest/home',302],['https://attacker.example/steal',502]]){
   const res=await proxyPlatform(request('auth/reid/start'),['auth','reid','start'],config,async()=>new Response(null,{status:302,headers:{Location:location}}));assert.equal(res.status,status);if(status===502)assert.equal(res.headers.get('Location'),null);

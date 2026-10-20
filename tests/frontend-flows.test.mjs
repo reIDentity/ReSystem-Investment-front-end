@@ -221,3 +221,52 @@ test('revenue-allocation activity displays only this wallet’s exact allocation
   fireEvent.click(view.getByRole('button', { name: 'Payouts', exact: true }));
   assert.equal(view.queryByText('Revenue allocation'), null);
 });
+function notificationsFixture(emailStatus) {
+  const calls = [], notices = [];
+  const data = { notifications: { items: [], nextCursor: null }, 'notification-preferences': { userId: 'synthetic-investor', transactionUpdates: true, supportUpdates: true }, 'email-notifications': emailStatus };
+  const { InvestorNotifications } = clientRenderer({
+    './PlatformProvider': { usePlatform: () => ({ user, live: true, notify: value => notices.push(value) }), useResource: endpoint => emailStatus instanceof Error && endpoint === 'email-notifications' ? { data: undefined, error: emailStatus, isLoading: false, mutate: async () => {} } : resource(data[endpoint]) },
+    '@/lib/platform/client': { api: async (endpoint, options) => { calls.push({ endpoint, method: options?.method, body: JSON.parse(JSON.stringify(options?.body ?? {})) }); return {}; } },
+    './InvestorUI': ui, './platform/Transaction': { IntentReview: () => null },
+  }).load('src/components/invest/ActivitySupport.tsx');
+  return { view: render(React.createElement(InvestorNotifications)), calls, notices };
+}
+const emailStatus = (fields = {}) => ({ deliveryEnabled: true, verifiedEmail: null, verifiedAt: null, pendingEmail: null, pendingSource: null, verificationExpiresAt: null, transactionEmails: true, supportEmails: true, ...fields });
+test('saving preferences sends only the editable fields, never the userId the backend rejects', async () => {
+  const { view, calls } = notificationsFixture(emailStatus({ deliveryEnabled: false }));
+  fireEvent.click(view.getByLabelText('Support replies'));
+  await act(async () => { fireEvent.click(view.getByRole('button', { name: 'Save preferences' })); });
+  assert.deepEqual(calls, [{ endpoint: 'notification-preferences', method: 'PATCH', body: { transactionUpdates: true, supportUpdates: false } }]);
+});
+test('the email block stays hidden while delivery is off or its status cannot be read', () => {
+  for (const status of [emailStatus({ deliveryEnabled: false, verifiedEmail: 'h•••••@example.org' }), new Error('Route unavailable.')]) {
+    const { view } = notificationsFixture(status);
+    assert.equal(view.queryByText('Email'), null);
+    assert.equal(view.queryByLabelText('Email address'), null);
+    cleanup();
+  }
+});
+test('an unconfirmed investor confirms the reID address by default or a typed address', async () => {
+  const { view, calls } = notificationsFixture(emailStatus({ pendingEmail: 'h•••••@example.org', pendingSource: 'REID_PROFILE' }));
+  assert.ok(view.getByText(/h•••••@example\.org from your reID profile/));
+  await act(async () => { fireEvent.click(view.getByRole('button', { name: 'Send confirmation email' })); });
+  fireEvent.change(view.getByLabelText('Email address'), { target: { value: ' other@example.org ' } });
+  await act(async () => { fireEvent.click(view.getByRole('button', { name: 'Send confirmation email' })); });
+  assert.deepEqual(calls, [{ endpoint: 'email-notifications/verification', method: 'POST', body: {} }, { endpoint: 'email-notifications/verification', method: 'POST', body: { email: 'other@example.org' } }]);
+});
+test('a pending confirmation can be resent or removed', async () => {
+  const { view, calls } = notificationsFixture(emailStatus({ pendingEmail: 'h•••••@example.org', pendingSource: 'INVESTOR_ENTERED', verificationExpiresAt: new Date(Date.now() + 3600000).toISOString() }));
+  assert.ok(view.getByText(/It expires/));
+  await act(async () => { fireEvent.click(view.getByRole('button', { name: 'Resend' })); });
+  await act(async () => { fireEvent.click(view.getByRole('button', { name: 'Remove' })); });
+  assert.deepEqual(calls.map(c => `${c.method} ${c.endpoint}`), ['POST email-notifications/verification', 'DELETE email-notifications']);
+});
+test('confirmed email toggles save through the existing button and follow the in-app category', async () => {
+  const { view, calls } = notificationsFixture(emailStatus({ verifiedEmail: 'h•••••@example.org', verifiedAt: '2026-10-20T00:00:00Z' }));
+  assert.equal(view.getByRole('button', { name: 'Save preferences' }).disabled, true);
+  fireEvent.click(view.getByLabelText('Transaction emails'));
+  fireEvent.click(view.getByLabelText('Support replies'));
+  assert.equal(view.getByLabelText('Support reply emails').disabled, true);
+  await act(async () => { fireEvent.click(view.getByRole('button', { name: 'Save preferences' })); });
+  assert.deepEqual(calls, [{ endpoint: 'notification-preferences', method: 'PATCH', body: { transactionUpdates: true, supportUpdates: false } }, { endpoint: 'email-notifications', method: 'PATCH', body: { transactionEmails: false, supportEmails: true } }]);
+});
