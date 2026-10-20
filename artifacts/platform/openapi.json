@@ -14548,6 +14548,10 @@
             "type": "string",
             "pattern": "^(0|[1-9][0-9]*)$"
           },
+          "last30DaysAtomic": {
+            "type": "string",
+            "pattern": "^(0|[1-9][0-9]*)$"
+          },
           "todayPerShareScaled": {
             "type": "string",
             "pattern": "^(0|[1-9][0-9]*)$"
@@ -14566,6 +14570,7 @@
           "decimals",
           "todayAtomic",
           "thisMonthAtomic",
+          "last30DaysAtomic",
           "todayPerShareScaled",
           "monthPerShareScaled",
           "cumulativePerShareScaled"
