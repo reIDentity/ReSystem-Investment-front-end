@@ -97,10 +97,10 @@ test('contract revenue enums retain the original asset and exact atomic decimals
  for(const value of [null,undefined,false,true,2,-1,'01','1.0','usdt',{},[]])assert.equal(contractAsset(value),null);
 });
 
-test('public project IPFS URLs keep the exact CID on the existing fixed gateway and reject URL injection',()=>{
+test('public project IPFS URLs preserve content identity on the public gateway and reject URL injection',()=>{
  const cid='QmZN1FFxB9dD8od2BoWQDR9b9cUnV63qCWsvhcthsTsDJz';
  const url=new URL(publicIpfsUrl(cid));
- assert.equal(url.origin,'https://gateway.pinata.cloud');assert.equal(url.pathname,`/ipfs/${cid}`);
+ assert.equal(url.origin,'https://ipfs.filebase.io');assert.equal(url.pathname,`/ipfs/${cid}`);
  assert.equal(url.search,'');assert.equal(url.hash,'');assert.equal(url.username,'');assert.equal(url.password,'');
  for(const value of [null,undefined,{},[],1,'','a'.repeat(31),'a'.repeat(121),`https://evil.invalid/${cid}`,`//evil.invalid/${cid}`,`../${cid}`,`${cid}?token=private`,`${cid}#fragment`,`${cid}/document`,`${cid}%2Fdocument`,`${cid} `,`${cid}\n`])assert.throws(()=>publicIpfsUrl(value),/Invalid public IPFS CID/);
 });
