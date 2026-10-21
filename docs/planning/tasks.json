@@ -1622,11 +1622,11 @@
   },
   {
     "id": "RSI-067",
-    "title": "Build MetaMask and reID signer connection flows",
+    "title": "Replace staff wallet connections with shared AWS-custodied admin wallet",
     "phase": "06 · Administrator application",
     "repository": "Admin frontend",
     "priority": "P0",
-    "objective": "Connect an authorized wallet after staff authentication.",
+    "objective": "Use one AWS-custodied admin wallet from FP while retaining individually authenticated and permissioned staff approvals.",
     "requirements": [
       "Support network validation/switch guidance, wallet proof binding, reconnect and disconnect/revocation.",
       "Display app permissions separately from on-chain authority and require approval for privileged commands."
@@ -1641,10 +1641,10 @@
       "RSI-047"
     ],
     "status": "In progress",
-    "commit_url": "https://github.com/reIDentity/ReSystem-Investment-backend/commit/f59eeaa0616d7f5fbfbd528dbd98ae10c8e4a5fe",
+    "commit_url": "https://github.com/reIDentity/ReSystem-Investment-admin/commit/1941fafa8df3502a0a6a1eebaf4a9c7c89df225e",
     "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
-    "verification_evidence": "Native private-tracker status and published source reference synchronized on2026-10-20. Detailed account/UAT/runtime evidence remains in the private Notion task; this import is not independent recertification.",
-    "remaining_acceptance": "AWS adapter/admin code published; local tests and FP machine authentication prepared. Persistent signer integration, exact on-chain rights/funding and live multi-admin acceptance remain incomplete. Detailed evidence and credentials stay private.",
+    "verification_evidence": "21Oct: signer/API51b, admin1941 and rootCDdbbd deployed; all6 individually approved migration actions canonical;2KMS acceptances indexed with exact nonce0/1, valid signer and platform audit chains, treasuries unchanged.48/50reAED gross,noUSDT,24reAED float. Shared switch enabled; policies ownership-acceptance-only, financecaps0; personal staffwallets disabled.202admin tests and source/release CI pass. Private evidence linked in Notion.",
+    "remaining_acceptance": "Broader admin action/target/cap policy, new-project shared-owner wizard defaults, live multi-staff/negative acceptance and production recovery/audit remain open. Migration6/6 complete; no further transaction authority inferred.",
     "current_requirement": "Owner revision21Oct: one shared AWS-KMS-custodied admin wallet; all application/signer workloads on FP. Individual staff authentication/MFA, scoped permissions and per-action audit attribution remain. Investor reID/UI unchanged."
   },
   {

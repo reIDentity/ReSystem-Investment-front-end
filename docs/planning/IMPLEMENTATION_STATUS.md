@@ -1,56 +1,59 @@
 # Implementation and recovery status — 16 October 2026
 
-## 21 October 2026 — shared AWS admin signer installed; human activation pending
+## 21 October 2026 — shared AWS wallet migration verified
 
 AWS holds only the new nonexportable wallet key and its access controls; all app,
-DB, indexer and signer workloads stay on FP. Each staff member retains individual
-password/MFA, scoped permissions and attributable approvals. Investor reID and
-approved investor UI are unchanged.
+DB, indexer and signer workloads stay on FP. Staff use individual password/MFA,
+scoped permissions and fresh per-action authenticator approvals. Investor reID
+and the approved investor UI are unchanged. Personal admin MetaMask/reID signing
+is server-disabled and its navigation is removed.
 
-Actual API/worker and isolated KMS signer are `51b1657`; indexer remains `6f35968`.
-Root deployment controls are separately installed from `dbbd6c5`. Their exact
-managed-signer policy and guarded same-source no-op passed, with durable owned
-pause/resume, no migration and preserved runtime/peer/service settings. Normal
-application releases cannot replace the signer identity, AWS credentials or key.
-Admin `1941faf` is deployed: 202 tests, CI and guarded release
-[39586095656](https://github.com/reIDentity/ReSystem-Investment-admin/actions/runs/39586095656)
-passed. Its signed-in project page displays confirmed owner/pending owner separately
-from historical publication addresses. The root release receipt verifies preserved
-protected state, no migration and signer pause/resume. Shared-wallet status and
-fresh MFA switch reviews are also live; personal wallet navigation is removed.
+Actual API/worker and isolated KMS signer are `51b1657`, admin `1941faf`, indexer
+`6f35968`. Separately installed root deployment controls are `dbbd6c5`.
+Backend CI [39580505553](https://github.com/reIDentity/ReSystem-Investment-backend/actions/runs/39580505553),
+controller CI [39585592962](https://github.com/reIDentity/ReSystem-Investment-backend/actions/runs/39585592962),
+and admin guarded release [39586095656](https://github.com/reIDentity/ReSystem-Investment-admin/actions/runs/39586095656)
+passed. Admin has 202 passing tests. All three FP deployment modes are restored
+and verified `auto`. Guarded no-op and actual admin release preserve the pinned
+signer identity, complete mounts/credentials, stores, schemas and unrelated peers,
+with owned durable pause/resume. Source and runtime images are separate evidence.
 
-Four individually approved UAT migration transactions are canonical: 30 reAED gas
-funding, factory creator grant and ownership proposals for both existing projects.
-The new wallet has 30 reAED; both project owners/treasuries remain the original
-cold wallet until the two separate acceptances. The approved plan is six actions,
-50 reAED gross maximum and no USDT; current conservative reservation is 42 reAED.
-Do not reuse any expired proposal review or infer authority for another action.
+All six individually approved migration actions are canonical: 30 reAED gas
+funding, factory creator grant, two ownership proposals and two acceptances.
+The human completed switch request/confirmation with distinct fresh MFA codes,
+then separately approved both exact platform-signed acceptances. Each acceptance
+is INDEXED, nonce0/1, `acceptOwnership()` only, native value0 and actual fee3 reAED:
 
-`REID_TRANSACTION_SUBMIT_ENABLED=false`; personal admin wallet connections are
-server-disabled. The platform environment setting is true, but its DATABASE
-signing switch remains false with no pending enable request. BOTH API and signer
-allow only `ACCEPT_PROJECT_OWNERSHIP`; funding/withdrawal caps are zero. Activation
-requires the human to request/confirm the switch with different fresh TOTP codes,
-then review/approve each acceptance separately. Broader admin action policy and
-live multi-staff/negative acceptance remain unfinished; do not claim full rollout.
+- [Publication Acceptance project receipt](https://uat.scan.infraworld.org/tx/0xad0f639f3b26f51615bd1d440f216511d75ce04321f73aee19e0ad3fc7214c6d).
+- [Lifecycle project receipt](https://uat.scan.infraworld.org/tx/0xf793c2b6d9f0e87b1956f7a85165a0c0382d71bd0db54a3b8f3fd00876e28bb1).
 
-All three own-repository FP CD modes were restored and read back as `auto` after
-controlled maintenance, final runtime verification and settled CI/release work.
-Backend `dbbd6c5` CI [39585592962](https://github.com/reIDentity/ReSystem-Investment-backend/actions/runs/39585592962)
-passed; its automatic deployment was intentionally skipped during maintenance.
-Changes after 51b are deploy-controller-only; source and running app/signer images
-are intentionally distinct. Protected ceremony, CAS snapshots,
-receipts and recovery evidence are in private runtime and the existing private
-Notion RSI-067/AWS wallet document. The new admin wallet private key never leaves
-AWS; FP holds only its separate machine-authentication identity.
+Both owners are now `0xc1ddc45cbc5f61793ab1eb1999136c4e27347531`; pending owners
+are zero. Both treasuries stay `0xcfc93fb43f17f99eaca411be595b727501987e95`.
+Conservative gross use is48/50 reAED, noUSDT, all6 slots consumed; newwallet
+balance24 reAED. These permissions authorize no seventh migration transaction.
 
-Two installer defects were corrected without loosening policy: legitimate
-systemd `@` filename validation and deterministic comparison of complete Docker
-mount descriptors. The complete actual archive and all 120 mount permutations,
-plus changed permission/source/count denials, are regression-tested. Failed
-attempts rolled back owned control files and their own pauses were independently
-reconciled; no KMS transaction was signed. The final controls installed and
-resumed successfully. All older sections below are dated history.
+Read-only runtime reconciliation verified two and only two signer-journal Sign
+records, both exact hashes/nonces with one attributed approval each; its full
+hash chain and 13-event platform audit validate. No pending transaction intent,
+queue or signature is in flight; the signer is unlocked, healthy and not draining.
+Admin Overview displays confirmed newowner/no pending proposal separately from
+historical publication addresses.
+
+The database shared-signing switch is enabled. `REID_TRANSACTION_SUBMIT_ENABLED=false`
+and personal admin wallet signing remains disabled. BOTH API and isolated signer
+still allow only `ACCEPT_PROJECT_OWNERSHIP`; funding and withdrawal caps remain zero.
+Broader admin action/target/cap policy, new-project shared-owner wizard defaults,
+live multi-staff/negative acceptance and wider platform QA remain open. Do not
+claim full admin transaction rollout, production readiness or unapproved V2 use.
+The new wallet private key never leaves AWS; FP's separate machine-authentication
+identity, recovery evidence and credential references stay protected/private.
+
+Two controller defects were corrected with regression tests: legitimate systemd
+`@` filenames and canonical comparison of complete Docker mount descriptors.
+Failed attempts restored owned controls; their own pauses were independently
+reconciled. All120 mount permutations and changed permission/source/count refusals
+are covered. Private Notion RSI-067/AWS wallet/security/credential records contain
+actual evidence. Earlier dated checkpoints below remain history.
 
 ## 21 October 2026 — stable QA candidate deployed; automatic server releases proven
 

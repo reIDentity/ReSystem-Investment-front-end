@@ -2,6 +2,28 @@
 
 This is the INFRA testnet QA candidate. Use the investor and admin applications below, preserve the approved Figma layouts, and report findings against the exact deployed revision. Production release, independent contract review and privileged custody handover are separate milestones.
 
+## Latest admin custody checkpoint — supersedes the morning versions below
+
+The shared AWS-custodied wallet is commissioned on INFRA15324. All six individually
+approved migration transactions passed canonical verification. Both existing UAT
+project owners are now `0xc1ddc45cbc5f61793ab1eb1999136c4e27347531`, pending owners
+are zero and both cold-wallet treasuries are unchanged. The two exact KMS-signed
+acceptances are INDEXED; total conservative gross48/50reAED, six slots consumed,
+noUSDT, remaining wallet float24reAED. No further migration transaction is approved.
+
+Actual API/worker/signer source is51b1657, admin1941faf and indexer6f35968. Root
+CD controls are independently versioned dbbd6c5; all three existing CD modes are auto.
+The shared database switch is enabled, while both API and isolated signer permit
+only ACCEPT_PROJECT_OWNERSHIP and all funding/withdrawal caps are zero. Investor
+reID requests and personal staff-wallet signing remain disabled. This is a bounded
+ownership commissioning checkpoint, not permission to run QA financial actions.
+Staff continue individual password/MFA and exact per-action approval; they do not
+connect individual wallets. Currentowner/pendingowner are shown separately from
+historical publication addresses. Broader admin policy and shared-owner defaults
+for new drafts remain open. See START_HERE.md and private Notion for final receipts,
+audit and current release evidence. The morning release register below is retained
+as historical evidence; use these latest versions when recording a new test.
+
 ## Entry points and access
 
 | Service | URL or network | Access |
@@ -16,7 +38,7 @@ Never share the super-admin password, authenticator enrollment key, wallet key o
 
 The owner will provide QA/client staff names, email addresses and roles later. No additional staff account or permission was created for this handover. Investor testers may connect their own reID UAT accounts. Staff invitations, test-recipient approval and any new financial test window remain explicit follow-ups.
 
-## Candidate state
+## Morning candidate state — historical
 
 The stable server candidate has completed successful automatic hosted builds, guarded releases and artifact cleanup. Source identity was checked in build inputs, root release receipts and actual containers; a workflow controller SHA alone is not the application version.
 
