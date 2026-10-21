@@ -2,7 +2,7 @@
   {
     "id": "RSI-001",
     "title": "Preserve and review the existing live deposit implementation",
-    "phase": "01 \u00b7 Specification and baseline",
+    "phase": "01 · Specification and baseline",
     "repository": "Investor frontend",
     "priority": "P0",
     "objective": "Establish a safe starting point without discarding the current uncommitted work.",
@@ -17,13 +17,13 @@
     "dependencies": [],
     "status": "Done",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-front-end/commit/39daec7d63ccf8100eba75e70b1de2a9efb5b09b",
-    "notion_status_observed_at_utc": "2026-10-20T18:10:11.753Z",
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
     "verification_evidence": "Native private-tracker status and published source reference synchronized on2026-10-20. Detailed account/UAT/runtime evidence remains in the private Notion task; this import is not independent recertification."
   },
   {
     "id": "RSI-002",
     "title": "Approve platform scope and economic decision register",
-    "phase": "01 \u00b7 Specification and baseline",
+    "phase": "01 · Specification and baseline",
     "repository": "Cross-project",
     "priority": "P0",
     "objective": "Turn the confirmed requirements and remaining proposals into an explicit implementation specification.",
@@ -40,14 +40,14 @@
     ],
     "status": "In progress",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-contracts/commit/19a8f8d8d2faa9bc300b2d79bfa4efd8be9915af",
-    "notion_status_observed_at_utc": "2026-10-20T18:10:11.753Z",
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
     "verification_evidence": "Native private-tracker status and published source reference synchronized on2026-10-20. Detailed account/UAT/runtime evidence remains in the private Notion task; this import is not independent recertification.",
     "remaining_acceptance": "Remaining acceptance is recorded in the private task; original requirements and dependencies below are preserved. No blanket completion was applied."
   },
   {
     "id": "RSI-003",
     "title": "Verify the INFRA target network and asset manifest",
-    "phase": "01 \u00b7 Specification and baseline",
+    "phase": "01 · Specification and baseline",
     "repository": "Cross-project",
     "priority": "P0",
     "objective": "Establish authoritative network settings before deploying anything.",
@@ -64,14 +64,14 @@
     ],
     "status": "In progress",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-contracts/commit/19a8f8d8d2faa9bc300b2d79bfa4efd8be9915af",
-    "notion_status_observed_at_utc": "2026-10-20T18:10:11.753Z",
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
     "verification_evidence": "Native private-tracker status and published source reference synchronized on2026-10-20. Detailed account/UAT/runtime evidence remains in the private Notion task; this import is not independent recertification.",
     "remaining_acceptance": "Remaining acceptance is recorded in the private task; original requirements and dependencies below are preserved. No blanket completion was applied."
   },
   {
     "id": "RSI-004",
     "title": "Specify integer pricing, ownership and sale accounting",
-    "phase": "01 \u00b7 Specification and baseline",
+    "phase": "01 · Specification and baseline",
     "repository": "Contracts",
     "priority": "P0",
     "objective": "Make all economic calculations exact and reviewable.",
@@ -89,13 +89,13 @@
     ],
     "status": "Done",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-contracts/commit/19a8f8d8d2faa9bc300b2d79bfa4efd8be9915af",
-    "notion_status_observed_at_utc": "2026-10-20T18:10:11.753Z",
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
     "verification_evidence": "Native private-tracker status and published source reference synchronized on2026-10-20. Detailed account/UAT/runtime evidence remains in the private Notion task; this import is not independent recertification."
   },
   {
     "id": "RSI-005",
     "title": "Specify reward allocation and rounding invariants",
-    "phase": "01 \u00b7 Specification and baseline",
+    "phase": "01 · Specification and baseline",
     "repository": "Contracts",
     "priority": "P0",
     "objective": "Prove historical entitlements survive purchases, direct transfers and resale.",
@@ -112,13 +112,13 @@
     ],
     "status": "Done",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-contracts/commit/19a8f8d8d2faa9bc300b2d79bfa4efd8be9915af",
-    "notion_status_observed_at_utc": "2026-10-20T18:10:11.753Z",
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
     "verification_evidence": "Native private-tracker status and published source reference synchronized on2026-10-20. Detailed account/UAT/runtime evidence remains in the private Notion task; this import is not independent recertification."
   },
   {
     "id": "RSI-006",
     "title": "Specify application and contract permissions",
-    "phase": "01 \u00b7 Specification and baseline",
+    "phase": "01 · Specification and baseline",
     "repository": "Cross-project",
     "priority": "P0",
     "objective": "Separate staff authentication from wallet authority and unrestricted investor ownership.",
@@ -135,14 +135,14 @@
     ],
     "status": "In progress",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-contracts/commit/19a8f8d8d2faa9bc300b2d79bfa4efd8be9915af",
-    "notion_status_observed_at_utc": "2026-10-20T18:10:11.753Z",
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
     "verification_evidence": "Native private-tracker status and published source reference synchronized on2026-10-20. Detailed account/UAT/runtime evidence remains in the private Notion task; this import is not independent recertification.",
     "remaining_acceptance": "Remaining acceptance is recorded in the private task; original requirements and dependencies below are preserved. No blanket completion was applied."
   },
   {
     "id": "RSI-007",
     "title": "Audit existing UI and Figma flows against live behavior",
-    "phase": "01 \u00b7 Specification and baseline",
+    "phase": "01 · Specification and baseline",
     "repository": "Cross-project",
     "priority": "P1",
     "objective": "Capture all minor UI requirements without preserving misleading demo behavior.",
@@ -159,13 +159,13 @@
     ],
     "status": "Done",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-front-end/commit/73483609ce20a6e73a91c1c30580c3ebca42fe7d",
-    "notion_status_observed_at_utc": "2026-10-20T18:10:11.753Z",
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
     "verification_evidence": "Native private-tracker status and published source reference synchronized on2026-10-20. Detailed account/UAT/runtime evidence remains in the private Notion task; this import is not independent recertification."
   },
   {
     "id": "RSI-008",
     "title": "Approve API, event and lifecycle acceptance contracts",
-    "phase": "01 \u00b7 Specification and baseline",
+    "phase": "01 · Specification and baseline",
     "repository": "Cross-project",
     "priority": "P0",
     "objective": "Provide shared testable interfaces for independent repositories.",
@@ -185,13 +185,13 @@
     ],
     "status": "Done",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-contracts/commit/19a8f8d8d2faa9bc300b2d79bfa4efd8be9915af",
-    "notion_status_observed_at_utc": "2026-10-20T18:10:11.753Z",
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
     "verification_evidence": "Native private-tracker status and published source reference synchronized on2026-10-20. Detailed account/UAT/runtime evidence remains in the private Notion task; this import is not independent recertification."
   },
   {
     "id": "RSI-009",
     "title": "Create and configure the five independent repositories",
-    "phase": "02 \u00b7 Repository and platform foundations",
+    "phase": "02 · Repository and platform foundations",
     "repository": "Cross-project",
     "priority": "P0",
     "objective": "Keep frontends, backend, contracts and indexer independently deployable.",
@@ -208,13 +208,13 @@
     ],
     "status": "Done",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-contracts/commit/19a8f8d8d2faa9bc300b2d79bfa4efd8be9915af",
-    "notion_status_observed_at_utc": "2026-10-20T18:10:11.753Z",
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
     "verification_evidence": "Native private-tracker status and published source reference synchronized on2026-10-20. Detailed account/UAT/runtime evidence remains in the private Notion task; this import is not independent recertification."
   },
   {
     "id": "RSI-010",
     "title": "Publish versioned shared interface artifacts",
-    "phase": "02 \u00b7 Repository and platform foundations",
+    "phase": "02 · Repository and platform foundations",
     "repository": "Cross-project",
     "priority": "P0",
     "objective": "Synchronize contract ABIs, deployment manifests and API clients across repositories.",
@@ -231,13 +231,13 @@
     ],
     "status": "Done",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-contracts/commit/19a8f8d8d2faa9bc300b2d79bfa4efd8be9915af",
-    "notion_status_observed_at_utc": "2026-10-20T18:10:11.753Z",
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
     "verification_evidence": "Native private-tracker status and published source reference synchronized on2026-10-20. Detailed account/UAT/runtime evidence remains in the private Notion task; this import is not independent recertification."
   },
   {
     "id": "RSI-011",
     "title": "Set up independent CI and quality gates",
-    "phase": "02 \u00b7 Repository and platform foundations",
+    "phase": "02 · Repository and platform foundations",
     "repository": "Cross-project",
     "priority": "P0",
     "objective": "Require repeatable checks before merging or deploying.",
@@ -254,13 +254,13 @@
     ],
     "status": "Done",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-front-end/commit/478abab6b64ec6fa8d0321d9e82f5bdd158ab750",
-    "notion_status_observed_at_utc": "2026-10-20T18:10:11.753Z",
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
     "verification_evidence": "Native private-tracker status and published source reference synchronized on2026-10-20. Detailed account/UAT/runtime evidence remains in the private Notion task; this import is not independent recertification."
   },
   {
     "id": "RSI-012",
     "title": "Define secure environment and credential provisioning",
-    "phase": "02 \u00b7 Repository and platform foundations",
+    "phase": "02 · Repository and platform foundations",
     "repository": "Cross-project",
     "priority": "P0",
     "objective": "Provision authorized development/testnet credentials and establish the private Notion register, runtime boundaries and production rotation gate.",
@@ -280,14 +280,14 @@
     ],
     "status": "In progress",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-backend/commit/afa862e7ea05a42f130f0dda9c2a7be7ddb208a0",
-    "notion_status_observed_at_utc": "2026-10-20T18:10:11.753Z",
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
     "verification_evidence": "Native private-tracker status and published source reference synchronized on2026-10-20. Detailed account/UAT/runtime evidence remains in the private Notion task; this import is not independent recertification.",
     "remaining_acceptance": "Remaining acceptance is recorded in the private task; original requirements and dependencies below are preserved. No blanket completion was applied."
   },
   {
     "id": "RSI-013",
     "title": "Scaffold the standalone backend service",
-    "phase": "02 \u00b7 Repository and platform foundations",
+    "phase": "02 · Repository and platform foundations",
     "repository": "Backend",
     "priority": "P0",
     "objective": "Provide the NestJS/TypeScript service and infrastructure foundation.",
@@ -305,13 +305,13 @@
     ],
     "status": "Done",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-backend/commit/65393fcf60cf54c7b13d93b21bfca45df2a1a75f",
-    "notion_status_observed_at_utc": "2026-10-20T18:10:11.753Z",
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
     "verification_evidence": "Native private-tracker status and published source reference synchronized on2026-10-20. Detailed account/UAT/runtime evidence remains in the private Notion task; this import is not independent recertification."
   },
   {
     "id": "RSI-014",
     "title": "Design and migrate authoritative off-chain data models",
-    "phase": "02 \u00b7 Repository and platform foundations",
+    "phase": "02 · Repository and platform foundations",
     "repository": "Backend",
     "priority": "P0",
     "objective": "Store private workflows and rebuildable chain projections with clear boundaries.",
@@ -329,13 +329,13 @@
     ],
     "status": "Done",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-backend/commit/65393fcf60cf54c7b13d93b21bfca45df2a1a75f",
-    "notion_status_observed_at_utc": "2026-10-20T18:10:11.753Z",
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
     "verification_evidence": "Native private-tracker status and published source reference synchronized on2026-10-20. Detailed account/UAT/runtime evidence remains in the private Notion task; this import is not independent recertification."
   },
   {
     "id": "RSI-015",
     "title": "Configure background jobs and retry policies",
-    "phase": "02 \u00b7 Repository and platform foundations",
+    "phase": "02 · Repository and platform foundations",
     "repository": "Backend",
     "priority": "P1",
     "objective": "Run durable non-interactive work outside frontend request lifetimes.",
@@ -353,13 +353,13 @@
     ],
     "status": "Done",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-backend/commit/62b9f9c4af478a6d2ef4b8dc47b1c582bf1db9ac",
-    "notion_status_observed_at_utc": "2026-10-20T18:10:11.753Z",
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
     "verification_evidence": "Native private-tracker status and published source reference synchronized on2026-10-20. Detailed account/UAT/runtime evidence remains in the private Notion task; this import is not independent recertification."
   },
   {
     "id": "RSI-016",
     "title": "Pin and scaffold the Solidity toolchain",
-    "phase": "02 \u00b7 Repository and platform foundations",
+    "phase": "02 · Repository and platform foundations",
     "repository": "Contracts",
     "priority": "P0",
     "objective": "Start with an INFRA-compatible, reproducible contract toolchain.",
@@ -378,14 +378,14 @@
     ],
     "status": "In progress",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-contracts/commit/19a8f8d8d2faa9bc300b2d79bfa4efd8be9915af",
-    "notion_status_observed_at_utc": "2026-10-20T18:10:11.753Z",
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
     "verification_evidence": "Native private-tracker status and published source reference synchronized on2026-10-20. Detailed account/UAT/runtime evidence remains in the private Notion task; this import is not independent recertification.",
     "remaining_acceptance": "Remaining acceptance is recorded in the private task; original requirements and dependencies below are preserved. No blanket completion was applied."
   },
   {
     "id": "RSI-017",
     "title": "Implement the master project registry and factory",
-    "phase": "03 \u00b7 Smart contracts",
+    "phase": "03 · Smart contracts",
     "repository": "Contracts",
     "priority": "P0",
     "objective": "Create and discover a distinct contract address for every project.",
@@ -404,13 +404,13 @@
     ],
     "status": "Done",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-contracts/commit/1eee1442c83ee037ee1564d0d3da64d36c370e76",
-    "notion_status_observed_at_utc": "2026-10-20T18:10:11.753Z",
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
     "verification_evidence": "Native private-tracker status and published source reference synchronized on2026-10-20. Detailed account/UAT/runtime evidence remains in the private Notion task; this import is not independent recertification."
   },
   {
     "id": "RSI-018",
     "title": "Implement fixed-version project deployment and initialization",
-    "phase": "03 \u00b7 Smart contracts",
+    "phase": "03 · Smart contracts",
     "repository": "Contracts",
     "priority": "P0",
     "objective": "Deploy gas-efficient project contracts without silent upgrades.",
@@ -428,13 +428,13 @@
     ],
     "status": "Done",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-contracts/commit/1eee1442c83ee037ee1564d0d3da64d36c370e76",
-    "notion_status_observed_at_utc": "2026-10-20T18:10:11.753Z",
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
     "verification_evidence": "Native private-tracker status and published source reference synchronized on2026-10-20. Detailed account/UAT/runtime evidence remains in the private Notion task; this import is not independent recertification."
   },
   {
     "id": "RSI-019",
     "title": "Implement ERC-1155 ownership and fixed supply",
-    "phase": "03 \u00b7 Smart contracts",
+    "phase": "03 · Smart contracts",
     "repository": "Contracts",
     "priority": "P0",
     "objective": "Represent whole transferable project fractions as token ID 1.",
@@ -452,13 +452,13 @@
     ],
     "status": "Done",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-contracts/commit/1eee1442c83ee037ee1564d0d3da64d36c370e76",
-    "notion_status_observed_at_utc": "2026-10-20T18:10:11.753Z",
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
     "verification_evidence": "Native private-tracker status and published source reference synchronized on2026-10-20. Detailed account/UAT/runtime evidence remains in the private Notion task; this import is not independent recertification."
   },
   {
     "id": "RSI-020",
     "title": "Implement exact quotes and economic getters",
-    "phase": "03 \u00b7 Smart contracts",
+    "phase": "03 · Smart contracts",
     "repository": "Contracts",
     "priority": "P0",
     "objective": "Return canonical prices without floating-point or exchange-rate ambiguity.",
@@ -476,13 +476,13 @@
     ],
     "status": "Done",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-contracts/commit/1eee1442c83ee037ee1564d0d3da64d36c370e76",
-    "notion_status_observed_at_utc": "2026-10-20T18:10:11.753Z",
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
     "verification_evidence": "Native private-tracker status and published source reference synchronized on2026-10-20. Detailed account/UAT/runtime evidence remains in the private Notion task; this import is not independent recertification."
   },
   {
     "id": "RSI-021",
     "title": "Implement primary-sale lifecycle and authorization",
-    "phase": "03 \u00b7 Smart contracts",
+    "phase": "03 · Smart contracts",
     "repository": "Contracts",
     "priority": "P0",
     "objective": "Control when new fractions can be purchased.",
@@ -500,13 +500,13 @@
     ],
     "status": "Done",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-contracts/commit/1eee1442c83ee037ee1564d0d3da64d36c370e76",
-    "notion_status_observed_at_utc": "2026-10-20T18:10:11.753Z",
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
     "verification_evidence": "Native private-tracker status and published source reference synchronized on2026-10-20. Detailed account/UAT/runtime evidence remains in the private Notion task; this import is not independent recertification."
   },
   {
     "id": "RSI-022",
     "title": "Implement native reAED purchases",
-    "phase": "03 \u00b7 Smart contracts",
+    "phase": "03 · Smart contracts",
     "repository": "Contracts",
     "priority": "P0",
     "objective": "Collect native payment and mint fractions atomically.",
@@ -524,13 +524,13 @@
     ],
     "status": "Done",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-contracts/commit/1eee1442c83ee037ee1564d0d3da64d36c370e76",
-    "notion_status_observed_at_utc": "2026-10-20T18:10:11.753Z",
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
     "verification_evidence": "Native private-tracker status and published source reference synchronized on2026-10-20. Detailed account/UAT/runtime evidence remains in the private Notion task; this import is not independent recertification."
   },
   {
     "id": "RSI-023",
     "title": "Implement verified USDT purchases",
-    "phase": "03 \u00b7 Smart contracts",
+    "phase": "03 · Smart contracts",
     "repository": "Contracts",
     "priority": "P0",
     "objective": "Support direct USDT payment without implicit swaps.",
@@ -548,13 +548,13 @@
     ],
     "status": "Done",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-contracts/commit/1eee1442c83ee037ee1564d0d3da64d36c370e76",
-    "notion_status_observed_at_utc": "2026-10-20T18:10:11.753Z",
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
     "verification_evidence": "Native private-tracker status and published source reference synchronized on2026-10-20. Detailed account/UAT/runtime evidence remains in the private Notion task; this import is not independent recertification."
   },
   {
     "id": "RSI-024",
     "title": "Implement isolated primary-sale proceeds",
-    "phase": "03 \u00b7 Smart contracts",
+    "phase": "03 · Smart contracts",
     "repository": "Contracts",
     "priority": "P0",
     "objective": "Let authorized treasuries collect investment principal without touching rewards.",
@@ -573,13 +573,13 @@
     ],
     "status": "Done",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-contracts/commit/1eee1442c83ee037ee1564d0d3da64d36c370e76",
-    "notion_status_observed_at_utc": "2026-10-20T18:10:11.753Z",
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
     "verification_evidence": "Native private-tracker status and published source reference synchronized on2026-10-20. Detailed account/UAT/runtime evidence remains in the private Notion task; this import is not independent recertification."
   },
   {
     "id": "RSI-025",
     "title": "Implement transfer-safe per-asset reward accounting",
-    "phase": "03 \u00b7 Smart contracts",
+    "phase": "03 · Smart contracts",
     "repository": "Contracts",
     "priority": "P0",
     "objective": "Keep allocated rewards with the historical holder.",
@@ -597,13 +597,13 @@
     ],
     "status": "Done",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-contracts/commit/1eee1442c83ee037ee1564d0d3da64d36c370e76",
-    "notion_status_observed_at_utc": "2026-10-20T18:10:11.753Z",
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
     "verification_evidence": "Native private-tracker status and published source reference synchronized on2026-10-20. Detailed account/UAT/runtime evidence remains in the private Notion task; this import is not independent recertification."
   },
   {
     "id": "RSI-026",
     "title": "Implement actual revenue deposits and references",
-    "phase": "03 \u00b7 Smart contracts",
+    "phase": "03 · Smart contracts",
     "repository": "Contracts",
     "priority": "P0",
     "objective": "Allocate only real received revenue to eligible issued fractions.",
@@ -621,13 +621,13 @@
     ],
     "status": "Done",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-contracts/commit/1eee1442c83ee037ee1564d0d3da64d36c370e76",
-    "notion_status_observed_at_utc": "2026-10-20T18:10:11.753Z",
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
     "verification_evidence": "Native private-tracker status and published source reference synchronized on2026-10-20. Detailed account/UAT/runtime evidence remains in the private Notion task; this import is not independent recertification."
   },
   {
     "id": "RSI-027",
     "title": "Implement individual reward reads and claims",
-    "phase": "03 \u00b7 Smart contracts",
+    "phase": "03 · Smart contracts",
     "repository": "Contracts",
     "priority": "P0",
     "objective": "Pay actual funded rewards in their original asset.",
@@ -644,13 +644,13 @@
     ],
     "status": "Done",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-contracts/commit/1eee1442c83ee037ee1564d0d3da64d36c370e76",
-    "notion_status_observed_at_utc": "2026-10-20T18:10:11.753Z",
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
     "verification_evidence": "Native private-tracker status and published source reference synchronized on2026-10-20. Detailed account/UAT/runtime evidence remains in the private Notion task; this import is not independent recertification."
   },
   {
     "id": "RSI-028",
     "title": "Implement bounded multi-project claims",
-    "phase": "03 \u00b7 Smart contracts",
+    "phase": "03 · Smart contracts",
     "repository": "Contracts",
     "priority": "P1",
     "objective": "Let investors collect multiple project rewards safely.",
@@ -660,7 +660,7 @@
     ],
     "acceptance": [
       "Batch size/gas bounds and mixed-success cases follow the approved API.",
-      "Caller cannot redirect another holder\u2019s rewards."
+      "Caller cannot redirect another holder’s rewards."
     ],
     "dependencies": [
       "RSI-027",
@@ -668,13 +668,13 @@
     ],
     "status": "Done",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-contracts/commit/1eee1442c83ee037ee1564d0d3da64d36c370e76",
-    "notion_status_observed_at_utc": "2026-10-20T18:10:11.753Z",
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
     "verification_evidence": "Native private-tracker status and published source reference synchronized on2026-10-20. Detailed account/UAT/runtime evidence remains in the private Notion task; this import is not independent recertification."
   },
   {
     "id": "RSI-029",
     "title": "Implement anchored metadata and manual yield revisions",
-    "phase": "03 \u00b7 Smart contracts",
+    "phase": "03 · Smart contracts",
     "repository": "Contracts",
     "priority": "P1",
     "objective": "Publish presentation data without changing economic rights.",
@@ -692,13 +692,13 @@
     ],
     "status": "Done",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-contracts/commit/1eee1442c83ee037ee1564d0d3da64d36c370e76",
-    "notion_status_observed_at_utc": "2026-10-20T18:10:11.753Z",
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
     "verification_evidence": "Native private-tracker status and published source reference synchronized on2026-10-20. Detailed account/UAT/runtime evidence remains in the private Notion task; this import is not independent recertification."
   },
   {
     "id": "RSI-030",
     "title": "Implement roles, two-step changes and scoped pauses",
-    "phase": "03 \u00b7 Smart contracts",
+    "phase": "03 · Smart contracts",
     "repository": "Contracts",
     "priority": "P0",
     "objective": "Bound privileged operations and preserve investor rights during incidents.",
@@ -718,13 +718,13 @@
     ],
     "status": "Done",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-contracts/commit/1eee1442c83ee037ee1564d0d3da64d36c370e76",
-    "notion_status_observed_at_utc": "2026-10-20T18:10:11.753Z",
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
     "verification_evidence": "Native private-tracker status and published source reference synchronized on2026-10-20. Detailed account/UAT/runtime evidence remains in the private Notion task; this import is not independent recertification."
   },
   {
     "id": "RSI-031",
     "title": "Implement on-chain resale listing lifecycle",
-    "phase": "03 \u00b7 Smart contracts",
+    "phase": "03 · Smart contracts",
     "repository": "Contracts",
     "priority": "P0",
     "objective": "Let holders offer a whole fraction quantity without custody escrow.",
@@ -743,13 +743,13 @@
     ],
     "status": "Done",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-contracts/commit/1eee1442c83ee037ee1564d0d3da64d36c370e76",
-    "notion_status_observed_at_utc": "2026-10-20T18:10:11.753Z",
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
     "verification_evidence": "Native private-tracker status and published source reference synchronized on2026-10-20. Detailed account/UAT/runtime evidence remains in the private Notion task; this import is not independent recertification."
   },
   {
     "id": "RSI-032",
     "title": "Implement partial-fill quote and listing availability",
-    "phase": "03 \u00b7 Smart contracts",
+    "phase": "03 · Smart contracts",
     "repository": "Contracts",
     "priority": "P0",
     "objective": "Give deterministic trade prices and available quantities.",
@@ -767,13 +767,13 @@
     ],
     "status": "Done",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-contracts/commit/1eee1442c83ee037ee1564d0d3da64d36c370e76",
-    "notion_status_observed_at_utc": "2026-10-20T18:10:11.753Z",
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
     "verification_evidence": "Native private-tracker status and published source reference synchronized on2026-10-20. Detailed account/UAT/runtime evidence remains in the private Notion task; this import is not independent recertification."
   },
   {
     "id": "RSI-033",
     "title": "Implement atomic reAED resale fills",
-    "phase": "03 \u00b7 Smart contracts",
+    "phase": "03 · Smart contracts",
     "repository": "Contracts",
     "priority": "P0",
     "objective": "Settle native trades and transfer the correct fraction quantity together.",
@@ -791,13 +791,13 @@
     ],
     "status": "Done",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-contracts/commit/1eee1442c83ee037ee1564d0d3da64d36c370e76",
-    "notion_status_observed_at_utc": "2026-10-20T18:10:11.753Z",
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
     "verification_evidence": "Native private-tracker status and published source reference synchronized on2026-10-20. Detailed account/UAT/runtime evidence remains in the private Notion task; this import is not independent recertification."
   },
   {
     "id": "RSI-034",
     "title": "Implement atomic USDT resale fills",
-    "phase": "03 \u00b7 Smart contracts",
+    "phase": "03 · Smart contracts",
     "repository": "Contracts",
     "priority": "P0",
     "objective": "Settle approved USDT trades with the same ownership guarantees.",
@@ -806,7 +806,7 @@
       "Validate buyer allowances, asset choice, deadlines and expected cost."
     ],
     "acceptance": [
-      "Successful trades collect exact USDT and credit the seller\u2019s correct proceeds.",
+      "Successful trades collect exact USDT and credit the seller’s correct proceeds.",
       "False/failed transfers and malicious callbacks cannot take fractions without payment."
     ],
     "dependencies": [
@@ -815,13 +815,13 @@
     ],
     "status": "Done",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-contracts/commit/1eee1442c83ee037ee1564d0d3da64d36c370e76",
-    "notion_status_observed_at_utc": "2026-10-20T18:10:11.753Z",
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
     "verification_evidence": "Native private-tracker status and published source reference synchronized on2026-10-20. Detailed account/UAT/runtime evidence remains in the private Notion task; this import is not independent recertification."
   },
   {
     "id": "RSI-035",
     "title": "Implement seller proceeds withdrawal",
-    "phase": "03 \u00b7 Smart contracts",
+    "phase": "03 · Smart contracts",
     "repository": "Contracts",
     "priority": "P0",
     "objective": "Keep resale income independently withdrawable on-chain.",
@@ -831,7 +831,7 @@
     ],
     "acceptance": [
       "Seller can collect completed-sale proceeds once only.",
-      "No project owner, buyer or marketplace admin can withdraw another seller\u2019s proceeds."
+      "No project owner, buyer or marketplace admin can withdraw another seller’s proceeds."
     ],
     "dependencies": [
       "RSI-033",
@@ -839,13 +839,13 @@
     ],
     "status": "Done",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-contracts/commit/1eee1442c83ee037ee1564d0d3da64d36c370e76",
-    "notion_status_observed_at_utc": "2026-10-20T18:10:11.753Z",
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
     "verification_evidence": "Native private-tracker status and published source reference synchronized on2026-10-20. Detailed account/UAT/runtime evidence remains in the private Notion task; this import is not independent recertification."
   },
   {
     "id": "RSI-036",
     "title": "Finalize ABI, event coverage and deployed-address artifacts",
-    "phase": "03 \u00b7 Smart contracts",
+    "phase": "03 · Smart contracts",
     "repository": "Contracts",
     "priority": "P1",
     "objective": "Make every important financial and administrative action observable.",
@@ -867,13 +867,13 @@
     ],
     "status": "Done",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-contracts/commit/19a8f8d8d2faa9bc300b2d79bfa4efd8be9915af",
-    "notion_status_observed_at_utc": "2026-10-20T18:10:11.753Z",
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
     "verification_evidence": "Native private-tracker status and published source reference synchronized on2026-10-20. Detailed account/UAT/runtime evidence remains in the private Notion task; this import is not independent recertification."
   },
   {
     "id": "RSI-037",
     "title": "Complete contract unit and adversarial integration tests",
-    "phase": "03 \u00b7 Smart contracts",
+    "phase": "03 · Smart contracts",
     "repository": "Contracts",
     "priority": "P0",
     "objective": "Validate successful and failed operations across all contract functions.",
@@ -890,13 +890,13 @@
     ],
     "status": "Done",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-contracts/commit/1eee1442c83ee037ee1564d0d3da64d36c370e76",
-    "notion_status_observed_at_utc": "2026-10-20T18:10:11.753Z",
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
     "verification_evidence": "Native private-tracker status and published source reference synchronized on2026-10-20. Detailed account/UAT/runtime evidence remains in the private Notion task; this import is not independent recertification."
   },
   {
     "id": "RSI-038",
     "title": "Complete reference-model, fuzz and invariant testing",
-    "phase": "03 \u00b7 Smart contracts",
+    "phase": "03 · Smart contracts",
     "repository": "Contracts",
     "priority": "P0",
     "objective": "Test economic safety over randomized sequences and precision boundaries.",
@@ -914,13 +914,13 @@
     ],
     "status": "Done",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-contracts/commit/1eee1442c83ee037ee1564d0d3da64d36c370e76",
-    "notion_status_observed_at_utc": "2026-10-20T18:10:11.753Z",
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
     "verification_evidence": "Native private-tracker status and published source reference synchronized on2026-10-20. Detailed account/UAT/runtime evidence remains in the private Notion task; this import is not independent recertification."
   },
   {
     "id": "RSI-039",
     "title": "Migrate real investor reID sessions to the standalone backend",
-    "phase": "04 \u00b7 Backend services",
+    "phase": "04 · Backend services",
     "repository": "Backend",
     "priority": "P0",
     "objective": "Preserve working login while removing business/auth persistence from the frontend.",
@@ -939,13 +939,13 @@
     ],
     "status": "Done",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-backend/commit/7dad3d90b3e09bf828a908715ea3f0e1138121d0",
-    "notion_status_observed_at_utc": "2026-10-20T18:10:11.753Z",
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
     "verification_evidence": "Native private-tracker status and published source reference synchronized on2026-10-20. Detailed account/UAT/runtime evidence remains in the private Notion task; this import is not independent recertification."
   },
   {
     "id": "RSI-040",
     "title": "Implement encrypted reID connection and transaction scopes",
-    "phase": "04 \u00b7 Backend services",
+    "phase": "04 · Backend services",
     "repository": "Backend",
     "priority": "P0",
     "objective": "Support actual wallet transaction approvals beyond read-only login.",
@@ -963,13 +963,13 @@
     ],
     "status": "Done",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-backend/commit/65393fcf60cf54c7b13d93b21bfca45df2a1a75f",
-    "notion_status_observed_at_utc": "2026-10-20T18:10:11.753Z",
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
     "verification_evidence": "Native private-tracker status and published source reference synchronized on2026-10-20. Detailed account/UAT/runtime evidence remains in the private Notion task; this import is not independent recertification."
   },
   {
     "id": "RSI-041",
     "title": "Implement administrator username/password and MFA",
-    "phase": "04 \u00b7 Backend services",
+    "phase": "04 · Backend services",
     "repository": "Backend",
     "priority": "P0",
     "objective": "Authenticate staff independently from wallet connections.",
@@ -987,13 +987,13 @@
     ],
     "status": "Done",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-backend/commit/65393fcf60cf54c7b13d93b21bfca45df2a1a75f",
-    "notion_status_observed_at_utc": "2026-10-20T18:10:11.753Z",
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
     "verification_evidence": "Native private-tracker status and published source reference synchronized on2026-10-20. Detailed account/UAT/runtime evidence remains in the private Notion task; this import is not independent recertification."
   },
   {
     "id": "RSI-042",
     "title": "Implement staff roles, permissions and project assignments",
-    "phase": "04 \u00b7 Backend services",
+    "phase": "04 · Backend services",
     "repository": "Backend",
     "priority": "P0",
     "objective": "Enforce authorization at every privileged API boundary.",
@@ -1011,13 +1011,13 @@
     ],
     "status": "Done",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-backend/commit/55ef28ff128585113f6bd832ba11c33f50910146",
-    "notion_status_observed_at_utc": "2026-10-20T18:10:11.753Z",
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
     "verification_evidence": "Native private-tracker status and published source reference synchronized on2026-10-20. Detailed account/UAT/runtime evidence remains in the private Notion task; this import is not independent recertification."
   },
   {
     "id": "RSI-043",
     "title": "Implement authenticated admin wallet binding",
-    "phase": "04 \u00b7 Backend services",
+    "phase": "04 · Backend services",
     "repository": "Backend",
     "priority": "P0",
     "objective": "Link MetaMask/reID signers to authorized staff records.",
@@ -1035,13 +1035,13 @@
     ],
     "status": "Done",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-backend/commit/55ef28ff128585113f6bd832ba11c33f50910146",
-    "notion_status_observed_at_utc": "2026-10-20T18:10:11.753Z",
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
     "verification_evidence": "Native private-tracker status and published source reference synchronized on2026-10-20. Detailed account/UAT/runtime evidence remains in the private Notion task; this import is not independent recertification."
   },
   {
     "id": "RSI-044",
     "title": "Implement Pinata/IPFS upload and media validation",
-    "phase": "04 \u00b7 Backend services",
+    "phase": "04 · Backend services",
     "repository": "Backend",
     "priority": "P1",
     "objective": "Publish safe public assets through server-controlled upload flows.",
@@ -1060,13 +1060,13 @@
     ],
     "status": "Done",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-backend/commit/00a329fa2a31d256f03a8740bfe90121163f69b6",
-    "notion_status_observed_at_utc": "2026-10-20T18:10:11.753Z",
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
     "verification_evidence": "Native private-tracker status and published source reference synchronized on2026-10-20. Detailed account/UAT/runtime evidence remains in the private Notion task; this import is not independent recertification."
   },
   {
     "id": "RSI-045",
     "title": "Implement project draft, review and publishing APIs",
-    "phase": "04 \u00b7 Backend services",
+    "phase": "04 · Backend services",
     "repository": "Backend",
     "priority": "P0",
     "objective": "Manage project creation without making the database the settlement authority.",
@@ -1086,13 +1086,13 @@
     ],
     "status": "Done",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-backend/commit/199c897bbf89f76e8c00d8ac631f42ac79610eb9",
-    "notion_status_observed_at_utc": "2026-10-20T18:10:11.753Z",
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
     "verification_evidence": "Native private-tracker status and published source reference synchronized on2026-10-20. Detailed account/UAT/runtime evidence remains in the private Notion task; this import is not independent recertification."
   },
   {
     "id": "RSI-046",
     "title": "Implement canonical transaction command orchestration",
-    "phase": "04 \u00b7 Backend services",
+    "phase": "04 · Backend services",
     "repository": "Backend",
     "priority": "P0",
     "objective": "Prepare safe, idempotent transactions from typed business actions.",
@@ -1112,13 +1112,13 @@
     ],
     "status": "Done",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-backend/commit/6e413e0d0b1a576de14be43ebc958650cd765bc3",
-    "notion_status_observed_at_utc": "2026-10-20T18:10:11.753Z",
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
     "verification_evidence": "Native private-tracker status and published source reference synchronized on2026-10-20. Detailed account/UAT/runtime evidence remains in the private Notion task; this import is not independent recertification."
   },
   {
     "id": "RSI-047",
     "title": "Implement approval, broadcast, receipt and confirmation tracking",
-    "phase": "04 \u00b7 Backend services",
+    "phase": "04 · Backend services",
     "repository": "Backend",
     "priority": "P0",
     "objective": "Display truthful transaction state through completion and indexing.",
@@ -1136,13 +1136,13 @@
     ],
     "status": "Done",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-indexer/commit/2232e9a48dcd731042d67aa2e026208802a5aaeb",
-    "notion_status_observed_at_utc": "2026-10-20T18:10:11.753Z",
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
     "verification_evidence": "Native private-tracker status and published source reference synchronized on2026-10-20. Detailed account/UAT/runtime evidence remains in the private Notion task; this import is not independent recertification."
   },
   {
     "id": "RSI-048",
     "title": "Implement actual portfolio and holdings APIs",
-    "phase": "04 \u00b7 Backend services",
+    "phase": "04 · Backend services",
     "repository": "Backend",
     "priority": "P1",
     "objective": "Replace simulated investment balances with on-chain projections.",
@@ -1160,13 +1160,13 @@
     ],
     "status": "Done",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-backend/commit/65393fcf60cf54c7b13d93b21bfca45df2a1a75f",
-    "notion_status_observed_at_utc": "2026-10-20T18:10:11.753Z",
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
     "verification_evidence": "Native private-tracker status and published source reference synchronized on2026-10-20. Detailed account/UAT/runtime evidence remains in the private Notion task; this import is not independent recertification."
   },
   {
     "id": "RSI-049",
     "title": "Implement revenue, claim and manual-yield APIs",
-    "phase": "04 \u00b7 Backend services",
+    "phase": "04 · Backend services",
     "repository": "Backend",
     "priority": "P1",
     "objective": "Expose funded income distinctly from presentation yield.",
@@ -1184,14 +1184,14 @@
     ],
     "status": "Done",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-backend/commit/65393fcf60cf54c7b13d93b21bfca45df2a1a75f",
-    "notion_status_observed_at_utc": "2026-10-20T18:10:11.753Z",
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
     "verification_evidence": "Native private-tracker status and published source reference synchronized on2026-10-20. Detailed account/UAT/runtime evidence remains in the private Notion task; this import is not independent recertification.",
     "remaining_acceptance": "Remaining acceptance is recorded in the private task; original requirements and dependencies below are preserved. No blanket completion was applied."
   },
   {
     "id": "RSI-050",
     "title": "Implement marketplace listings, trades and proceeds APIs",
-    "phase": "04 \u00b7 Backend services",
+    "phase": "04 · Backend services",
     "repository": "Backend",
     "priority": "P1",
     "objective": "Provide browsable resale views without overriding contract truth.",
@@ -1209,14 +1209,14 @@
     ],
     "status": "In progress",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-backend/commit/bc98f7fb4f9554f54094f4813dcea6d3a419d324",
-    "notion_status_observed_at_utc": "2026-10-20T18:10:11.753Z",
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
     "verification_evidence": "Native private-tracker status and published source reference synchronized on2026-10-20. Detailed account/UAT/runtime evidence remains in the private Notion task; this import is not independent recertification.",
     "remaining_acceptance": "Remaining acceptance is recorded in the private task; original requirements and dependencies below are preserved. No blanket completion was applied."
   },
   {
     "id": "RSI-051",
     "title": "Implement actual balances, wallet deposits and sending APIs",
-    "phase": "04 \u00b7 Backend services",
+    "phase": "04 · Backend services",
     "repository": "Backend",
     "priority": "P0",
     "objective": "Unify deposit ingestion and wallet operations for verified users.",
@@ -1236,14 +1236,14 @@
     ],
     "status": "In progress",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-backend/commit/bc98f7fb4f9554f54094f4813dcea6d3a419d324",
-    "notion_status_observed_at_utc": "2026-10-20T18:10:11.753Z",
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
     "verification_evidence": "Native private-tracker status and published source reference synchronized on2026-10-20. Detailed account/UAT/runtime evidence remains in the private Notion task; this import is not independent recertification.",
     "remaining_acceptance": "Remaining acceptance is recorded in the private task; original requirements and dependencies below are preserved. No blanket completion was applied."
   },
   {
     "id": "RSI-052",
     "title": "Implement user-scoped activity and reporting endpoints",
-    "phase": "04 \u00b7 Backend services",
+    "phase": "04 · Backend services",
     "repository": "Backend",
     "priority": "P1",
     "objective": "Make all confirmed financial history searchable and exportable.",
@@ -1252,7 +1252,7 @@
       "Include transaction links, confirmation/indexing state, asset units and idempotent record identity."
     ],
     "acceptance": [
-      "User scoping and pagination do not leak another account\u2019s private activity context.",
+      "User scoping and pagination do not leak another account’s private activity context.",
       "Records trace to chain receipts/events and exports retain exact amounts."
     ],
     "dependencies": [
@@ -1263,13 +1263,13 @@
     ],
     "status": "Done",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-backend/commit/c8f9089",
-    "notion_status_observed_at_utc": "2026-10-20T18:10:11.753Z",
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
     "verification_evidence": "Native private-tracker status and published source reference synchronized on2026-10-20. Detailed account/UAT/runtime evidence remains in the private Notion task; this import is not independent recertification."
   },
   {
     "id": "RSI-053",
     "title": "Implement persistent support tickets and replies",
-    "phase": "04 \u00b7 Backend services",
+    "phase": "04 · Backend services",
     "repository": "Backend",
     "priority": "P1",
     "objective": "Replace demo-only support interactions with durable service workflows.",
@@ -1279,7 +1279,7 @@
     ],
     "acceptance": [
       "A ticket survives sessions and service restarts with complete conversation history.",
-      "Investors cannot read or modify another investor\u2019s tickets."
+      "Investors cannot read or modify another investor’s tickets."
     ],
     "dependencies": [
       "RSI-014",
@@ -1288,14 +1288,14 @@
     ],
     "status": "In progress",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-backend/commit/bc98f7fb4f9554f54094f4813dcea6d3a419d324",
-    "notion_status_observed_at_utc": "2026-10-20T18:10:11.753Z",
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
     "verification_evidence": "Native private-tracker status and published source reference synchronized on2026-10-20. Detailed account/UAT/runtime evidence remains in the private Notion task; this import is not independent recertification.",
     "remaining_acceptance": "Remaining acceptance is recorded in the private task; original requirements and dependencies below are preserved. No blanket completion was applied."
   },
   {
     "id": "RSI-054",
     "title": "Implement actual notifications and preferences",
-    "phase": "04 \u00b7 Backend services",
+    "phase": "04 · Backend services",
     "repository": "Backend",
     "priority": "P1",
     "objective": "Deliver actionable account/transaction events instead of sample alerts.",
@@ -1315,13 +1315,13 @@
     ],
     "status": "Done",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-backend/commit/bc98f7fb4f9554f54094f4813dcea6d3a419d324",
-    "notion_status_observed_at_utc": "2026-10-20T18:10:11.753Z",
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
     "verification_evidence": "Native private-tracker status and published source reference synchronized on2026-10-20. Detailed account/UAT/runtime evidence remains in the private Notion task; this import is not independent recertification."
   },
   {
     "id": "RSI-055",
     "title": "Implement operational audit and monitoring APIs",
-    "phase": "04 \u00b7 Backend services",
+    "phase": "04 · Backend services",
     "repository": "Backend",
     "priority": "P1",
     "objective": "Make privileged actions, failures and recovery observable.",
@@ -1340,13 +1340,13 @@
     ],
     "status": "Done",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-backend/commit/bc98f7fb4f9554f54094f4813dcea6d3a419d324",
-    "notion_status_observed_at_utc": "2026-10-20T18:10:11.753Z",
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
     "verification_evidence": "Native private-tracker status and published source reference synchronized on2026-10-20. Detailed account/UAT/runtime evidence remains in the private Notion task; this import is not independent recertification."
   },
   {
     "id": "RSI-056",
     "title": "Publish and verify the complete REST/OpenAPI contract",
-    "phase": "04 \u00b7 Backend services",
+    "phase": "04 · Backend services",
     "repository": "Backend",
     "priority": "P1",
     "objective": "Give both frontends generated, stable and documented API clients.",
@@ -1372,13 +1372,13 @@
     ],
     "status": "Done",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-backend/commit/62d31f1",
-    "notion_status_observed_at_utc": "2026-10-20T18:10:11.753Z",
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
     "verification_evidence": "Native private-tracker status and published source reference synchronized on2026-10-20. Detailed account/UAT/runtime evidence remains in the private Notion task; this import is not independent recertification."
   },
   {
     "id": "RSI-057",
     "title": "Scaffold standalone INFRA ingestion and provider resilience",
-    "phase": "05 \u00b7 INFRA indexer",
+    "phase": "05 · INFRA indexer",
     "repository": "Indexer",
     "priority": "P0",
     "objective": "Run a durable chain reader independently of frontend deployments.",
@@ -1398,13 +1398,13 @@
     ],
     "status": "Done",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-indexer/commit/7e5068a08cfdfb79699da8f0bebbc1984c75c0b1",
-    "notion_status_observed_at_utc": "2026-10-20T18:10:11.753Z",
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
     "verification_evidence": "Native private-tracker status and published source reference synchronized on2026-10-20. Detailed account/UAT/runtime evidence remains in the private Notion task; this import is not independent recertification."
   },
   {
     "id": "RSI-058",
     "title": "Implement durable cursors and event identity",
-    "phase": "05 \u00b7 INFRA indexer",
+    "phase": "05 · INFRA indexer",
     "repository": "Indexer",
     "priority": "P0",
     "objective": "Process every relevant event exactly once in projections.",
@@ -1421,13 +1421,13 @@
     ],
     "status": "Done",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-indexer/commit/e722afd3835a5335ad7b2d7583c64ccb7827f632",
-    "notion_status_observed_at_utc": "2026-10-20T18:10:11.753Z",
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
     "verification_evidence": "Native private-tracker status and published source reference synchronized on2026-10-20. Detailed account/UAT/runtime evidence remains in the private Notion task; this import is not independent recertification."
   },
   {
     "id": "RSI-059",
     "title": "Implement confirmation and reorganization recovery",
-    "phase": "05 \u00b7 INFRA indexer",
+    "phase": "05 · INFRA indexer",
     "repository": "Indexer",
     "priority": "P0",
     "objective": "Prevent orphaned data from appearing permanently confirmed.",
@@ -1445,13 +1445,13 @@
     ],
     "status": "Done",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-indexer/commit/7e5068a08cfdfb79699da8f0bebbc1984c75c0b1",
-    "notion_status_observed_at_utc": "2026-10-20T18:10:11.753Z",
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
     "verification_evidence": "Native private-tracker status and published source reference synchronized on2026-10-20. Detailed account/UAT/runtime evidence remains in the private Notion task; this import is not independent recertification."
   },
   {
     "id": "RSI-060",
     "title": "Project registry, sale and metadata projections",
-    "phase": "05 \u00b7 INFRA indexer",
+    "phase": "05 · INFRA indexer",
     "repository": "Indexer",
     "priority": "P1",
     "objective": "Discover factory-created projects and their current public data.",
@@ -1468,13 +1468,13 @@
     ],
     "status": "Done",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-indexer/commit/7e5068a08cfdfb79699da8f0bebbc1984c75c0b1",
-    "notion_status_observed_at_utc": "2026-10-20T18:10:11.753Z",
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
     "verification_evidence": "Native private-tracker status and published source reference synchronized on2026-10-20. Detailed account/UAT/runtime evidence remains in the private Notion task; this import is not independent recertification."
   },
   {
     "id": "RSI-061",
     "title": "Index ownership, purchases and fraction transfers",
-    "phase": "05 \u00b7 INFRA indexer",
+    "phase": "05 · INFRA indexer",
     "repository": "Indexer",
     "priority": "P0",
     "objective": "Build portfolios from canonical ERC-1155 events.",
@@ -1491,13 +1491,13 @@
     ],
     "status": "Done",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-indexer/commit/5227157dd2c35df3efd71ee1ca6aea12c8a37eb3",
-    "notion_status_observed_at_utc": "2026-10-20T18:10:11.753Z",
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
     "verification_evidence": "Native private-tracker status and published source reference synchronized on2026-10-20. Detailed account/UAT/runtime evidence remains in the private Notion task; this import is not independent recertification."
   },
   {
     "id": "RSI-062",
     "title": "Index revenue funding, claims and indicative yield",
-    "phase": "05 \u00b7 INFRA indexer",
+    "phase": "05 · INFRA indexer",
     "repository": "Indexer",
     "priority": "P0",
     "objective": "Expose actual funded and paid amounts by project, asset and wallet.",
@@ -1516,13 +1516,13 @@
     ],
     "status": "Done",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-indexer/commit/5227157dd2c35df3efd71ee1ca6aea12c8a37eb3",
-    "notion_status_observed_at_utc": "2026-10-20T18:10:11.753Z",
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
     "verification_evidence": "Native private-tracker status and published source reference synchronized on2026-10-20. Detailed account/UAT/runtime evidence remains in the private Notion task; this import is not independent recertification."
   },
   {
     "id": "RSI-063",
     "title": "Index resale lifecycle, trades and proceeds",
-    "phase": "05 \u00b7 INFRA indexer",
+    "phase": "05 · INFRA indexer",
     "repository": "Indexer",
     "priority": "P0",
     "objective": "Serve marketplace history with correct partial quantities.",
@@ -1540,13 +1540,13 @@
     ],
     "status": "Done",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-indexer/commit/5227157dd2c35df3efd71ee1ca6aea12c8a37eb3",
-    "notion_status_observed_at_utc": "2026-10-20T18:10:11.753Z",
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
     "verification_evidence": "Native private-tracker status and published source reference synchronized on2026-10-20. Detailed account/UAT/runtime evidence remains in the private Notion task; this import is not independent recertification."
   },
   {
     "id": "RSI-064",
     "title": "Index direct native and USDT wallet activity",
-    "phase": "05 \u00b7 INFRA indexer",
+    "phase": "05 · INFRA indexer",
     "repository": "Indexer",
     "priority": "P0",
     "objective": "Supply complete actual deposit and withdrawal history for connected wallets.",
@@ -1564,13 +1564,13 @@
     ],
     "status": "Done",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-indexer/commit/e722afd3835a5335ad7b2d7583c64ccb7827f632",
-    "notion_status_observed_at_utc": "2026-10-20T18:10:11.753Z",
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
     "verification_evidence": "Native private-tracker status and published source reference synchronized on2026-10-20. Detailed account/UAT/runtime evidence remains in the private Notion task; this import is not independent recertification."
   },
   {
     "id": "RSI-065",
     "title": "Implement reconciliation, backfill and recovery controls",
-    "phase": "05 \u00b7 INFRA indexer",
+    "phase": "05 · INFRA indexer",
     "repository": "Indexer",
     "priority": "P0",
     "objective": "Rebuild projections and detect silent accounting drift.",
@@ -1591,13 +1591,13 @@
     ],
     "status": "Done",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-indexer/commit/5227157dd2c35df3efd71ee1ca6aea12c8a37eb3",
-    "notion_status_observed_at_utc": "2026-10-20T18:10:11.753Z",
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
     "verification_evidence": "Native private-tracker status and published source reference synchronized on2026-10-20. Detailed account/UAT/runtime evidence remains in the private Notion task; this import is not independent recertification."
   },
   {
     "id": "RSI-066",
     "title": "Build independent admin app shell and authenticated navigation",
-    "phase": "06 \u00b7 Administrator application",
+    "phase": "06 · Administrator application",
     "repository": "Admin frontend",
     "priority": "P1",
     "objective": "Provide a branded, accessible admin application with its own FP-server deployment accessed through Teleport.",
@@ -1617,13 +1617,13 @@
     ],
     "status": "Done",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-admin/commit/3dfd61bc940db0b048f743fd2a104b28a23f666a",
-    "notion_status_observed_at_utc": "2026-10-20T18:10:11.753Z",
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
     "verification_evidence": "Native private-tracker status and published source reference synchronized on2026-10-20. Detailed account/UAT/runtime evidence remains in the private Notion task; this import is not independent recertification."
   },
   {
     "id": "RSI-067",
     "title": "Build MetaMask and reID signer connection flows",
-    "phase": "06 \u00b7 Administrator application",
+    "phase": "06 · Administrator application",
     "repository": "Admin frontend",
     "priority": "P0",
     "objective": "Connect an authorized wallet after staff authentication.",
@@ -1642,14 +1642,14 @@
     ],
     "status": "In progress",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-admin/commit/98e645e579fdee07c55d6b57a67f726c5819d12d",
-    "notion_status_observed_at_utc": "2026-10-20T18:10:11.753Z",
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
     "verification_evidence": "Native private-tracker status and published source reference synchronized on2026-10-20. Detailed account/UAT/runtime evidence remains in the private Notion task; this import is not independent recertification.",
     "remaining_acceptance": "Remaining acceptance is recorded in the private task; original requirements and dependencies below are preserved. No blanket completion was applied."
   },
   {
     "id": "RSI-068",
     "title": "Build complete project draft and economic configuration wizard",
-    "phase": "06 \u00b7 Administrator application",
+    "phase": "06 · Administrator application",
     "repository": "Admin frontend",
     "priority": "P1",
     "objective": "Let staff prepare accurate projects and fraction prices.",
@@ -1668,13 +1668,13 @@
     ],
     "status": "Done",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-admin/commit/543822badad1d3afbef81d68f5e003b9097f6830",
-    "notion_status_observed_at_utc": "2026-10-20T18:10:11.753Z",
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
     "verification_evidence": "Native private-tracker status and published source reference synchronized on2026-10-20. Detailed account/UAT/runtime evidence remains in the private Notion task; this import is not independent recertification."
   },
   {
     "id": "RSI-069",
     "title": "Build review, publish and contract lifecycle management",
-    "phase": "06 \u00b7 Administrator application",
+    "phase": "06 · Administrator application",
     "repository": "Admin frontend",
     "priority": "P0",
     "objective": "Move a reviewed draft to a confirmed on-chain project.",
@@ -1694,13 +1694,13 @@
     ],
     "status": "Done",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-admin/commit/42f9023cc73b33666e3b488b5d70e575e3d4cd1d",
-    "notion_status_observed_at_utc": "2026-10-20T18:10:11.753Z",
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
     "verification_evidence": "Native private-tracker status and published source reference synchronized on2026-10-20. Detailed account/UAT/runtime evidence remains in the private Notion task; this import is not independent recertification."
   },
   {
     "id": "RSI-070",
     "title": "Build project media, metadata and document revision management",
-    "phase": "06 \u00b7 Administrator application",
+    "phase": "06 · Administrator application",
     "repository": "Admin frontend",
     "priority": "P1",
     "objective": "Manage public assets with traceable IPFS references.",
@@ -1719,13 +1719,13 @@
     ],
     "status": "Done",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-backend/commit/fd539f8",
-    "notion_status_observed_at_utc": "2026-10-20T18:10:11.753Z",
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
     "verification_evidence": "Native private-tracker status and published source reference synchronized on2026-10-20. Detailed account/UAT/runtime evidence remains in the private Notion task; this import is not independent recertification."
   },
   {
     "id": "RSI-071",
     "title": "Build manual indicative yield controls",
-    "phase": "06 \u00b7 Administrator application",
+    "phase": "06 · Administrator application",
     "repository": "Admin frontend",
     "priority": "P1",
     "objective": "Let project owners update labelled estimates without creating rewards.",
@@ -1743,13 +1743,13 @@
     ],
     "status": "Done",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-admin/commit/98e645e579fdee07c55d6b57a67f726c5819d12d",
-    "notion_status_observed_at_utc": "2026-10-20T18:10:11.753Z",
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
     "verification_evidence": "Native private-tracker status and published source reference synchronized on2026-10-20. Detailed account/UAT/runtime evidence remains in the private Notion task; this import is not independent recertification."
   },
   {
     "id": "RSI-072",
     "title": "Build revenue funding and primary treasury workflows",
-    "phase": "06 \u00b7 Administrator application",
+    "phase": "06 · Administrator application",
     "repository": "Admin frontend",
     "priority": "P0",
     "objective": "Let authorized finance staff prepare and sign actual project funding and withdrawals.",
@@ -1769,13 +1769,13 @@
     ],
     "status": "Done",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-admin/commit/543822badad1d3afbef81d68f5e003b9097f6830",
-    "notion_status_observed_at_utc": "2026-10-20T18:10:11.753Z",
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
     "verification_evidence": "Native private-tracker status and published source reference synchronized on2026-10-20. Detailed account/UAT/runtime evidence remains in the private Notion task; this import is not independent recertification."
   },
   {
     "id": "RSI-073",
     "title": "Build sales, holders, claims and marketplace reports",
-    "phase": "06 \u00b7 Administrator application",
+    "phase": "06 · Administrator application",
     "repository": "Admin frontend",
     "priority": "P1",
     "objective": "Give operators and auditors accurate project oversight.",
@@ -1795,13 +1795,13 @@
     ],
     "status": "Done",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-admin/commit/98e645e579fdee07c55d6b57a67f726c5819d12d",
-    "notion_status_observed_at_utc": "2026-10-20T18:10:11.753Z",
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
     "verification_evidence": "Native private-tracker status and published source reference synchronized on2026-10-20. Detailed account/UAT/runtime evidence remains in the private Notion task; this import is not independent recertification."
   },
   {
     "id": "RSI-074",
     "title": "Build investor directory and staff/role management",
-    "phase": "06 \u00b7 Administrator application",
+    "phase": "06 · Administrator application",
     "repository": "Admin frontend",
     "priority": "P0",
     "objective": "Manage staff authority without restricting public token ownership.",
@@ -1821,13 +1821,13 @@
     ],
     "status": "Done",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-admin/commit/8faaca26a6aa55c9cf64e4da4f62d955b8bdb8f6",
-    "notion_status_observed_at_utc": "2026-10-20T18:10:11.753Z",
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
     "verification_evidence": "Native private-tracker status and published source reference synchronized on2026-10-20. Detailed account/UAT/runtime evidence remains in the private Notion task; this import is not independent recertification."
   },
   {
     "id": "RSI-075",
     "title": "Build persistent support inbox and case workflow",
-    "phase": "06 \u00b7 Administrator application",
+    "phase": "06 · Administrator application",
     "repository": "Admin frontend",
     "priority": "P1",
     "objective": "Allow staff to service actual investor requests.",
@@ -1836,7 +1836,7 @@
       "Enforce scoped visibility and preserve conversation/audit history."
     ],
     "acceptance": [
-      "A staff reply appears in the investor\u2019s correct ticket after reload.",
+      "A staff reply appears in the investor’s correct ticket after reload.",
       "Unauthorized access and attachment leakage are prevented."
     ],
     "dependencies": [
@@ -1845,13 +1845,13 @@
     ],
     "status": "Done",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-admin/commit/98e645e579fdee07c55d6b57a67f726c5819d12d",
-    "notion_status_observed_at_utc": "2026-10-20T18:10:11.753Z",
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
     "verification_evidence": "Native private-tracker status and published source reference synchronized on2026-10-20. Detailed account/UAT/runtime evidence remains in the private Notion task; this import is not independent recertification."
   },
   {
     "id": "RSI-076",
     "title": "Build notifications, audit and chain-health operations views",
-    "phase": "06 \u00b7 Administrator application",
+    "phase": "06 · Administrator application",
     "repository": "Admin frontend",
     "priority": "P1",
     "objective": "Expose actionable operational status and recovery controls.",
@@ -1870,13 +1870,13 @@
     ],
     "status": "Done",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-admin/commit/98e645e579fdee07c55d6b57a67f726c5819d12d",
-    "notion_status_observed_at_utc": "2026-10-20T18:10:11.753Z",
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
     "verification_evidence": "Native private-tracker status and published source reference synchronized on2026-10-20. Detailed account/UAT/runtime evidence remains in the private Notion task; this import is not independent recertification."
   },
   {
     "id": "RSI-077",
     "title": "Verify complete admin workflows and accessibility",
-    "phase": "06 \u00b7 Administrator application",
+    "phase": "06 · Administrator application",
     "repository": "Admin frontend",
     "priority": "P1",
     "objective": "Confirm administrators can operate the platform without unsafe hidden assumptions.",
@@ -1900,13 +1900,13 @@
     ],
     "status": "Done",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-admin/commit/98e645e579fdee07c55d6b57a67f726c5819d12d",
-    "notion_status_observed_at_utc": "2026-10-20T18:10:11.753Z",
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
     "verification_evidence": "Native private-tracker status and published source reference synchronized on2026-10-20. Detailed account/UAT/runtime evidence remains in the private Notion task; this import is not independent recertification."
   },
   {
     "id": "RSI-078",
     "title": "Integrate generated clients and real account/session state",
-    "phase": "07 \u00b7 Investor application",
+    "phase": "07 · Investor application",
     "repository": "Investor frontend",
     "priority": "P0",
     "objective": "Replace the demo provider with actual identity and server-backed data.",
@@ -1925,13 +1925,13 @@
     ],
     "status": "Done",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-front-end/commit/73483609ce20a6e73a91c1c30580c3ebca42fe7d",
-    "notion_status_observed_at_utc": "2026-10-20T18:10:11.753Z",
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
     "verification_evidence": "Native private-tracker status and published source reference synchronized on2026-10-20. Detailed account/UAT/runtime evidence remains in the private Notion task; this import is not independent recertification."
   },
   {
     "id": "RSI-079",
     "title": "Replace homepage and explore projects with published data",
-    "phase": "07 \u00b7 Investor application",
+    "phase": "07 · Investor application",
     "repository": "Investor frontend",
     "priority": "P1",
     "objective": "Show only actual published projects and truthful availability.",
@@ -1950,14 +1950,14 @@
     ],
     "status": "In progress",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-front-end/commit/3d4a706cfdcbb2a3a49710c1e96c874e93d875b0",
-    "notion_status_observed_at_utc": "2026-10-20T18:10:11.753Z",
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
     "verification_evidence": "Native private-tracker status and published source reference synchronized on2026-10-20. Detailed account/UAT/runtime evidence remains in the private Notion task; this import is not independent recertification.",
     "remaining_acceptance": "Remaining acceptance is recorded in the private task; original requirements and dependencies below are preserved. No blanket completion was applied."
   },
   {
     "id": "RSI-080",
     "title": "Build complete live project details",
-    "phase": "07 \u00b7 Investor application",
+    "phase": "07 · Investor application",
     "repository": "Investor frontend",
     "priority": "P1",
     "objective": "Explain economics, documents, ownership and revenue clearly.",
@@ -1976,13 +1976,13 @@
     ],
     "status": "Done",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-front-end/commit/6b33f50c3b6ccc99a00ff5c6aec21c0b3df835ce",
-    "notion_status_observed_at_utc": "2026-10-20T18:10:11.753Z",
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
     "verification_evidence": "Native private-tracker status and published source reference synchronized on2026-10-20. Detailed account/UAT/runtime evidence remains in the private Notion task; this import is not independent recertification."
   },
   {
     "id": "RSI-081",
     "title": "Implement primary buy/rebuy flows in both assets",
-    "phase": "07 \u00b7 Investor application",
+    "phase": "07 · Investor application",
     "repository": "Investor frontend",
     "priority": "P0",
     "objective": "Let investors purchase whole fractions with approved wallet transactions.",
@@ -2003,14 +2003,14 @@
     ],
     "status": "Done",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-front-end/commit/86885287d679aba86aea1bc50c8a8ab553eb3625",
-    "notion_status_observed_at_utc": "2026-10-20T18:10:11.753Z",
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
     "verification_evidence": "Native private-tracker status and published source reference synchronized on2026-10-20. Detailed account/UAT/runtime evidence remains in the private Notion task; this import is not independent recertification.",
     "remaining_acceptance": "Remaining acceptance is recorded in the private task; original requirements and dependencies below are preserved. No blanket completion was applied."
   },
   {
     "id": "RSI-082",
     "title": "Replace dashboard with actual portfolio and balances",
-    "phase": "07 \u00b7 Investor application",
+    "phase": "07 · Investor application",
     "repository": "Investor frontend",
     "priority": "P1",
     "objective": "Provide a truthful account overview.",
@@ -2031,13 +2031,13 @@
     ],
     "status": "Done",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-front-end/commit/8812c2cdea755926201562ef524310a71ad312b2",
-    "notion_status_observed_at_utc": "2026-10-20T18:10:11.753Z",
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
     "verification_evidence": "Native private-tracker status and published source reference synchronized on2026-10-20. Detailed account/UAT/runtime evidence remains in the private Notion task; this import is not independent recertification."
   },
   {
     "id": "RSI-083",
     "title": "Build holdings details and fraction transfer UI",
-    "phase": "07 \u00b7 Investor application",
+    "phase": "07 · Investor application",
     "repository": "Investor frontend",
     "priority": "P0",
     "objective": "Allow arbitrary whole-quantity transfers to any valid INFRA wallet.",
@@ -2058,14 +2058,14 @@
     ],
     "status": "In progress",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-front-end/commit/3d4a706cfdcbb2a3a49710c1e96c874e93d875b0",
-    "notion_status_observed_at_utc": "2026-10-20T18:10:11.753Z",
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
     "verification_evidence": "Native private-tracker status and published source reference synchronized on2026-10-20. Detailed account/UAT/runtime evidence remains in the private Notion task; this import is not independent recertification.",
     "remaining_acceptance": "Remaining acceptance is recorded in the private task; original requirements and dependencies below are preserved. No blanket completion was applied."
   },
   {
     "id": "RSI-084",
     "title": "Build actual earnings, funding history and reward claims",
-    "phase": "07 \u00b7 Investor application",
+    "phase": "07 · Investor application",
     "repository": "Investor frontend",
     "priority": "P0",
     "objective": "Let current and former holders collect funded rewards.",
@@ -2086,13 +2086,13 @@
     ],
     "status": "Done",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-front-end/commit/3d4a706cfdcbb2a3a49710c1e96c874e93d875b0",
-    "notion_status_observed_at_utc": "2026-10-20T18:10:11.753Z",
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
     "verification_evidence": "Native private-tracker status and published source reference synchronized on2026-10-20. Detailed account/UAT/runtime evidence remains in the private Notion task; this import is not independent recertification."
   },
   {
     "id": "RSI-085",
     "title": "Replace wallet balances and assets with INFRA reads",
-    "phase": "07 \u00b7 Investor application",
+    "phase": "07 · Investor application",
     "repository": "Investor frontend",
     "priority": "P0",
     "objective": "Display actual native reAED, verified USDT and ownership tokens.",
@@ -2102,7 +2102,7 @@
     ],
     "acceptance": [
       "Wallet amounts reconcile to independent chain reads.",
-      "Unknown/spoof tokens are not presented as the platform\u2019s verified USDT."
+      "Unknown/spoof tokens are not presented as the platform’s verified USDT."
     ],
     "dependencies": [
       "RSI-078",
@@ -2110,14 +2110,14 @@
     ],
     "status": "In progress",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-front-end/commit/3d4a706cfdcbb2a3a49710c1e96c874e93d875b0",
-    "notion_status_observed_at_utc": "2026-10-20T18:10:11.753Z",
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
     "verification_evidence": "Native private-tracker status and published source reference synchronized on2026-10-20. Detailed account/UAT/runtime evidence remains in the private Notion task; this import is not independent recertification.",
     "remaining_acceptance": "Remaining acceptance is recorded in the private task; original requirements and dependencies below are preserved. No blanket completion was applied."
   },
   {
     "id": "RSI-086",
     "title": "Complete live deposit migration and eliminate sample data",
-    "phase": "07 \u00b7 Investor application",
+    "phase": "07 · Investor application",
     "repository": "Investor frontend",
     "priority": "P0",
     "objective": "Preserve the current real deposit behavior on the standalone backend/indexer.",
@@ -2136,14 +2136,14 @@
     ],
     "status": "In progress",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-front-end/commit/3d4a706cfdcbb2a3a49710c1e96c874e93d875b0",
-    "notion_status_observed_at_utc": "2026-10-20T18:10:11.753Z",
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
     "verification_evidence": "Native private-tracker status and published source reference synchronized on2026-10-20. Detailed account/UAT/runtime evidence remains in the private Notion task; this import is not independent recertification.",
     "remaining_acceptance": "Remaining acceptance is recorded in the private task; original requirements and dependencies below are preserved. No blanket completion was applied."
   },
   {
     "id": "RSI-087",
     "title": "Implement real outgoing wallet transfers",
-    "phase": "07 \u00b7 Investor application",
+    "phase": "07 · Investor application",
     "repository": "Investor frontend",
     "priority": "P0",
     "objective": "Send assets to another INFRA address with explicit wallet approval.",
@@ -2162,13 +2162,13 @@
     ],
     "status": "Done",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-front-end/commit/3d4a706cfdcbb2a3a49710c1e96c874e93d875b0",
-    "notion_status_observed_at_utc": "2026-10-20T18:10:11.753Z",
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
     "verification_evidence": "Native private-tracker status and published source reference synchronized on2026-10-20. Detailed account/UAT/runtime evidence remains in the private Notion task; this import is not independent recertification."
   },
   {
     "id": "RSI-088",
     "title": "Build investor resale browsing and partial buying",
-    "phase": "07 \u00b7 Investor application",
+    "phase": "07 · Investor application",
     "repository": "Investor frontend",
     "priority": "P0",
     "objective": "Make the v1 marketplace usable with real on-chain listings.",
@@ -2190,13 +2190,13 @@
     ],
     "status": "Done",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-front-end/commit/3d4a706cfdcbb2a3a49710c1e96c874e93d875b0",
-    "notion_status_observed_at_utc": "2026-10-20T18:10:11.753Z",
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
     "verification_evidence": "Native private-tracker status and published source reference synchronized on2026-10-20. Detailed account/UAT/runtime evidence remains in the private Notion task; this import is not independent recertification."
   },
   {
     "id": "RSI-089",
     "title": "Build listing creation, cancellation and seller proceeds UI",
-    "phase": "07 \u00b7 Investor application",
+    "phase": "07 · Investor application",
     "repository": "Investor frontend",
     "priority": "P0",
     "objective": "Let investors resell held fractions and collect completed-sale proceeds.",
@@ -2216,13 +2216,13 @@
     ],
     "status": "Done",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-front-end/commit/3d4a706cfdcbb2a3a49710c1e96c874e93d875b0",
-    "notion_status_observed_at_utc": "2026-10-20T18:10:11.753Z",
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
     "verification_evidence": "Native private-tracker status and published source reference synchronized on2026-10-20. Detailed account/UAT/runtime evidence remains in the private Notion task; this import is not independent recertification."
   },
   {
     "id": "RSI-090",
     "title": "Replace activity with actual filtered transaction history",
-    "phase": "07 \u00b7 Investor application",
+    "phase": "07 · Investor application",
     "repository": "Investor frontend",
     "priority": "P1",
     "objective": "Explain all account actions with source evidence.",
@@ -2240,13 +2240,13 @@
     ],
     "status": "Done",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-backend/commit/657315fd940f694f7e9ff2eef888d6da6912a7ee",
-    "notion_status_observed_at_utc": "2026-10-20T18:10:11.753Z",
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
     "verification_evidence": "Native private-tracker status and published source reference synchronized on2026-10-20. Detailed account/UAT/runtime evidence remains in the private Notion task; this import is not independent recertification."
   },
   {
     "id": "RSI-091",
     "title": "Implement durable investor support tickets",
-    "phase": "07 \u00b7 Investor application",
+    "phase": "07 · Investor application",
     "repository": "Investor frontend",
     "priority": "P1",
     "objective": "Replace local/demo support with actual conversations.",
@@ -2256,7 +2256,7 @@
     ],
     "acceptance": [
       "Tickets survive logout/reconnect and show the correct staff replies.",
-      "An investor cannot open another account\u2019s support record."
+      "An investor cannot open another account’s support record."
     ],
     "dependencies": [
       "RSI-078",
@@ -2264,14 +2264,14 @@
     ],
     "status": "In progress",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-front-end/commit/3d4a706cfdcbb2a3a49710c1e96c874e93d875b0",
-    "notion_status_observed_at_utc": "2026-10-20T18:10:11.753Z",
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
     "verification_evidence": "Native private-tracker status and published source reference synchronized on2026-10-20. Detailed account/UAT/runtime evidence remains in the private Notion task; this import is not independent recertification.",
     "remaining_acceptance": "Remaining acceptance is recorded in the private task; original requirements and dependencies below are preserved. No blanket completion was applied."
   },
   {
     "id": "RSI-092",
     "title": "Implement real investor notifications",
-    "phase": "07 \u00b7 Investor application",
+    "phase": "07 · Investor application",
     "repository": "Investor frontend",
     "priority": "P1",
     "objective": "Show meaningful updates from account activity.",
@@ -2289,13 +2289,13 @@
     ],
     "status": "Done",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-front-end/commit/3d4a706cfdcbb2a3a49710c1e96c874e93d875b0",
-    "notion_status_observed_at_utc": "2026-10-20T18:10:11.753Z",
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
     "verification_evidence": "Native private-tracker status and published source reference synchronized on2026-10-20. Detailed account/UAT/runtime evidence remains in the private Notion task; this import is not independent recertification."
   },
   {
     "id": "RSI-093",
     "title": "Complete responsive, accessibility and data-provenance UI audit",
-    "phase": "07 \u00b7 Investor application",
+    "phase": "07 · Investor application",
     "repository": "Investor frontend",
     "priority": "P1",
     "objective": "Finish all designed investor flows with honest states and consistent branding.",
@@ -2324,14 +2324,14 @@
     ],
     "status": "In progress",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-front-end/commit/c61d34efcb6c27e6609c8cc56c636b41b71b0a58",
-    "notion_status_observed_at_utc": "2026-10-20T18:10:11.753Z",
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
     "verification_evidence": "Native private-tracker status and published source reference synchronized on2026-10-20. Detailed account/UAT/runtime evidence remains in the private Notion task; this import is not independent recertification.",
     "remaining_acceptance": "Remaining acceptance is recorded in the private task; original requirements and dependencies below are preserved. No blanket completion was applied."
   },
   {
     "id": "RSI-094",
     "title": "Complete cross-service threat model and security checks",
-    "phase": "08 \u00b7 Verification, release and operations",
+    "phase": "08 · Verification, release and operations",
     "repository": "Cross-project",
     "priority": "P0",
     "objective": "Review economic, identity, contract and operational attack paths.",
@@ -2352,13 +2352,13 @@
     ],
     "status": "In progress",
     "commit_url": null,
-    "notion_status_observed_at_utc": "2026-10-20T18:10:11.753Z",
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
     "verification_evidence": "Native private-tracker status and published source reference synchronized on2026-10-20. Detailed account/UAT/runtime evidence remains in the private Notion task; this import is not independent recertification."
   },
   {
     "id": "RSI-095",
     "title": "Complete backend/API/database integration suite",
-    "phase": "08 \u00b7 Verification, release and operations",
+    "phase": "08 · Verification, release and operations",
     "repository": "Backend",
     "priority": "P0",
     "objective": "Verify real service boundaries and failure recovery.",
@@ -2376,13 +2376,13 @@
     ],
     "status": "Done",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-backend/commit/2084d9f85836e84fd6944b7a6847f10e0f3173bc",
-    "notion_status_observed_at_utc": "2026-10-20T18:10:11.753Z",
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
     "verification_evidence": "Native private-tracker status and published source reference synchronized on2026-10-20. Detailed account/UAT/runtime evidence remains in the private Notion task; this import is not independent recertification."
   },
   {
     "id": "RSI-096",
     "title": "Run complete multi-wallet platform lifecycle tests",
-    "phase": "08 \u00b7 Verification, release and operations",
+    "phase": "08 · Verification, release and operations",
     "repository": "Cross-project",
     "priority": "P0",
     "objective": "Prove the intended business journey end to end.",
@@ -2403,13 +2403,13 @@
     ],
     "status": "Done",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-front-end/commit/06406e736fc1ba29bdf9f2a33b1ae3fe3f9c5452",
-    "notion_status_observed_at_utc": "2026-10-20T18:10:11.753Z",
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
     "verification_evidence": "Native private-tracker status and published source reference synchronized on2026-10-20. Detailed account/UAT/runtime evidence remains in the private Notion task; this import is not independent recertification."
   },
   {
     "id": "RSI-097",
     "title": "Verify gas, throughput, pagination and operational bounds",
-    "phase": "08 \u00b7 Verification, release and operations",
+    "phase": "08 · Verification, release and operations",
     "repository": "Cross-project",
     "priority": "P1",
     "objective": "Keep production flows usable within INFRA and service limits.",
@@ -2426,13 +2426,13 @@
     ],
     "status": "In progress",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-indexer/commit/4abc7e9e4e5ccf476b3b7b9dea09641e544165d4",
-    "notion_status_observed_at_utc": "2026-10-20T18:10:11.753Z",
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
     "verification_evidence": "Native private-tracker status and published source reference synchronized on2026-10-20. Detailed account/UAT/runtime evidence remains in the private Notion task; this import is not independent recertification."
   },
   {
     "id": "RSI-098",
     "title": "Complete independent contract review and release remediation",
-    "phase": "08 \u00b7 Verification, release and operations",
+    "phase": "08 · Verification, release and operations",
     "repository": "Contracts",
     "priority": "P0",
     "objective": "Obtain a focused independent check before valuable deployments.",
@@ -2451,13 +2451,13 @@
     ],
     "status": "To do",
     "commit_url": null,
-    "notion_status_observed_at_utc": "2026-10-20T18:10:11.753Z",
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
     "verification_evidence": "Native private-tracker status and published source reference synchronized on2026-10-20. Detailed account/UAT/runtime evidence remains in the private Notion task; this import is not independent recertification."
   },
   {
     "id": "RSI-099",
     "title": "Implement reproducible deployment and verification scripts",
-    "phase": "08 \u00b7 Verification, release and operations",
+    "phase": "08 · Verification, release and operations",
     "repository": "Contracts",
     "priority": "P0",
     "objective": "Deploy approved contracts without manual undocumented state.",
@@ -2476,14 +2476,14 @@
     ],
     "status": "In progress",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-contracts/commit/19a8f8d8d2faa9bc300b2d79bfa4efd8be9915af",
-    "notion_status_observed_at_utc": "2026-10-20T18:10:11.753Z",
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
     "verification_evidence": "Native private-tracker status and published source reference synchronized on2026-10-20. Detailed account/UAT/runtime evidence remains in the private Notion task; this import is not independent recertification.",
     "remaining_acceptance": "Remaining acceptance is recorded in the private task; original requirements and dependencies below are preserved. No blanket completion was applied."
   },
   {
     "id": "RSI-100",
     "title": "Configure backend, indexer and database hosting",
-    "phase": "08 \u00b7 Verification, release and operations",
+    "phase": "08 · Verification, release and operations",
     "repository": "Cross-project",
     "priority": "P0",
     "objective": "Run durable platform services on the FP server accessed through Teleport, independently of the Vercel investor frontend.",
@@ -2504,13 +2504,13 @@
     ],
     "status": "Done",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-backend/commit/543d4dc1423af338e6a305365e168156ca8b59e2",
-    "notion_status_observed_at_utc": "2026-10-20T18:10:11.753Z",
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
     "verification_evidence": "Native private-tracker status and published source reference synchronized on2026-10-20. Detailed account/UAT/runtime evidence remains in the private Notion task; this import is not independent recertification."
   },
   {
     "id": "RSI-101",
     "title": "Configure separate investor and admin frontend deployments",
-    "phase": "08 \u00b7 Verification, release and operations",
+    "phase": "08 · Verification, release and operations",
     "repository": "Cross-project",
     "priority": "P1",
     "objective": "Publish the investor frontend on Vercel and the admin frontend on FP with correct APIs, origins and callbacks.",
@@ -2530,13 +2530,13 @@
     ],
     "status": "Done",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-admin/commit/ad729b418dca0559fd1437d09bd3f4da88c508a6",
-    "notion_status_observed_at_utc": "2026-10-20T18:10:11.753Z",
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
     "verification_evidence": "Native private-tracker status and published source reference synchronized on2026-10-20. Detailed account/UAT/runtime evidence remains in the private Notion task; this import is not independent recertification."
   },
   {
     "id": "RSI-102",
     "title": "Configure alerts, monitoring and reconciliation operations",
-    "phase": "08 \u00b7 Verification, release and operations",
+    "phase": "08 · Verification, release and operations",
     "repository": "Cross-project",
     "priority": "P1",
     "objective": "Detect and recover from actual service/chain failures.",
@@ -2555,14 +2555,14 @@
     ],
     "status": "In progress",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-backend/commit/65393fcf60cf54c7b13d93b21bfca45df2a1a75f",
-    "notion_status_observed_at_utc": "2026-10-20T18:10:11.753Z",
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
     "verification_evidence": "Native private-tracker status and published source reference synchronized on2026-10-20. Detailed account/UAT/runtime evidence remains in the private Notion task; this import is not independent recertification.",
     "remaining_acceptance": "Remaining acceptance is recorded in the private task; original requirements and dependencies below are preserved. No blanket completion was applied."
   },
   {
     "id": "RSI-103",
     "title": "Run client acceptance and deployment rehearsal on INFRA",
-    "phase": "08 \u00b7 Verification, release and operations",
+    "phase": "08 · Verification, release and operations",
     "repository": "Cross-project",
     "priority": "P0",
     "objective": "Get explicit sign-off on the complete working platform.",
@@ -2581,13 +2581,13 @@
     ],
     "status": "To do",
     "commit_url": null,
-    "notion_status_observed_at_utc": "2026-10-20T18:10:11.753Z",
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
     "verification_evidence": "Native private-tracker status and published source reference synchronized on2026-10-20. Detailed account/UAT/runtime evidence remains in the private Notion task; this import is not independent recertification."
   },
   {
     "id": "RSI-104",
     "title": "Perform approved release and privileged-role handover",
-    "phase": "08 \u00b7 Verification, release and operations",
+    "phase": "08 · Verification, release and operations",
     "repository": "Cross-project",
     "priority": "P0",
     "objective": "Release only after explicit deployment authorization and completed gates.",
@@ -2606,13 +2606,13 @@
     ],
     "status": "To do",
     "commit_url": null,
-    "notion_status_observed_at_utc": "2026-10-20T18:10:11.753Z",
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
     "verification_evidence": "Native private-tracker status and published source reference synchronized on2026-10-20. Detailed account/UAT/runtime evidence remains in the private Notion task; this import is not independent recertification."
   },
   {
     "id": "RSI-105",
     "title": "Deliver operating runbooks, documentation and backlog evidence",
-    "phase": "08 \u00b7 Verification, release and operations",
+    "phase": "08 · Verification, release and operations",
     "repository": "Cross-project",
     "priority": "P1",
     "objective": "Make the platform maintainable across sessions and operators.",
@@ -2630,13 +2630,13 @@
     ],
     "status": "In progress",
     "commit_url": null,
-    "notion_status_observed_at_utc": "2026-10-20T18:10:11.753Z",
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
     "verification_evidence": "Native private-tracker status and published source reference synchronized on2026-10-20. Detailed account/UAT/runtime evidence remains in the private Notion task; this import is not independent recertification."
   },
   {
     "id": "RSI-106",
     "title": "Add investor email notification controls to Notifications preferences",
-    "phase": "07 \u00b7 Investor application",
+    "phase": "07 · Investor application",
     "repository": "Investor frontend",
     "priority": "P1",
     "objective": "Provide confirmed, recipient-bound investor email preferences in the existing Notifications screen.",
@@ -2654,14 +2654,14 @@
     ],
     "status": "In progress",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-front-end/commit/245e230f7e11b7384dffd2e1ac5598d4e3843829",
-    "notion_status_observed_at_utc": "2026-10-20T18:10:11.753Z",
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
     "verification_evidence": "Published notification controls and generated API integration passed CI and synthetic UI checks. Approved-recipient confirmation and preference persistence were verified separately. Removal/reconfirmation and broader failure-state acceptance remain open in the private task.",
     "remaining_acceptance": "Remaining acceptance is recorded in the private task; original requirements and dependencies below are preserved. No blanket completion was applied."
   },
   {
     "id": "RSI-107",
     "title": "Match all email templates to the approved system colours and logo",
-    "phase": "07 \u00b7 Investor application",
+    "phase": "07 · Investor application",
     "repository": "Backend",
     "priority": "P1",
     "objective": "Use the approved investor logo and blue/white branding consistently across investor, staff and operations email.",
@@ -2680,12 +2680,12 @@
     "status": "Done",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-backend/commit/53600514f8411c692b7c20be062c6aeca93d4941",
     "verification_evidence": "Reviewed email branding source, CI, hosted build and scoped runtime deployment passed. Actual delivered original logo and blue/white branding were verified in Gmail desktop. Broader email-client visual acceptance remains separate; detailed delivery and runtime records stay private.",
-    "notion_status_observed_at_utc": "2026-10-20T18:10:11.753Z"
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00"
   },
   {
     "id": "RSI-108",
     "title": "Audit and improve admin information, names and actionable context",
-    "phase": "08 \u00b7 Admin application",
+    "phase": "08 · Admin application",
     "repository": "Cross-project",
     "priority": "P1",
     "objective": "Make authorized admin records understandable without guessing identity or exposing restricted account data.",
@@ -2702,12 +2702,12 @@
     "status": "Done",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-admin/commit/ad729b418dca0559fd1437d09bd3f4da88c508a6",
     "verification_evidence": "Bounded admin information audit complete: admin179 tests/types/lint/16route build; backend119 unit pass+one host-conditional skip/234 real PG integrations; adminCI39463943411/backendCI39467443801 passed. Authorized project/account summaries, copyable exact references, truthful scope/timestamps, richer detail and mutation/refresh distinctions deployed from admin53565bd/backend6932349. Hosted archives independently byte/tree/layer verified; image-only FP rollout17:54:27 UTC and separate17:54:50 readback passed. Live Chrome treasury names/detail, audit actors and transaction project/requester names verified. Seven anonymous TLS checks passed200/401. Investor UI unchanged; gates closed/no financial action. Wider device/client acceptance, inbox/financial approvals and ambiguous polymorphic target names remain separate and explicitly documented. Admin-only actual expiry binding ad729b4: CI39471533877/build39472017462 and18:12:33UTC rollout pass; live recorded dates/times verified. Production API/indexer peers unchanged.",
-    "notion_status_observed_at_utc": "2026-10-20T18:10:11.753Z"
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00"
   },
   {
     "id": "RSI-109",
     "title": "Audit shared UI, pagination, review and asynchronous-state logic",
-    "phase": "11 \u00b7 Testing and release",
+    "phase": "11 · Testing and release",
     "repository": "Cross-project",
     "priority": "P1",
     "objective": "Fix reproduced aggregate, stale state, review lifecycle and canonical history defects without new financial authority.",
@@ -2722,14 +2722,14 @@
     ],
     "dependencies": [],
     "status": "Done",
-    "notion_status_observed_at_utc": "2026-10-20T18:24:46.424772+00:00",
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
     "verification_evidence": "Deployed core audit source/CI/archive/runtime proof passes. Backend119 unit+one host-conditional skip/234 integrations, admin179, investor102, indexer105+9 PG+2 Anvil lifecycles; source-only helper27 local-policy tests and finalCI39472498296 SUCCESS. Fresh isolated cold-start/restart, publication5/staff8/financial7 and27 frozen canonical INDEXED synthetic transactions pass with matched proof hashes. All owned fixtures stopped; investor UI unchanged, real gates closed, no financial action. Wider owner/external/operational acceptance stays open.",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-backend/commit/cba044d5fa8b636947661448e0d1dd42367cef01"
   },
   {
     "id": "RSI-110",
     "title": "Automate guarded dev deployments to FP without personal Teleport sessions",
-    "phase": "11 \u00b7 Testing and release",
+    "phase": "11 · Testing and release",
     "repository": "Cross-project",
     "priority": "P0",
     "objective": "Deploy exact successful dev commits through hosted builds and a narrow service-specific machine identity, without personal Teleport tokens.",
@@ -2743,12 +2743,15 @@
       "Each runner can deploy only its own service; failures leave a verified stable release or explicitly require operator recovery."
     ],
     "dependencies": [],
-    "status": "In progress"
+    "status": "Done",
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
+    "commit_url": "https://github.com/reIDentity/ReSystem-Investment-backend/commit/4db55a731115cef62f36fac8251ccb85d86aea27",
+    "verification_evidence": "Exact successful dev CI, hosted builds and actual restricted automatic releases verified for backend/admin/indexer. Final independent bounded runtime checks passed; closed gates and existing schemas preserved. Detailed private runtime evidence remains in Notion. Root/workflow trust boundaries are explicit in the published QA handover."
   },
   {
     "id": "RSI-111",
     "title": "Verify stable QA release and public NFT media delivery",
-    "phase": "11 \u00b7 Testing and release",
+    "phase": "11 · Testing and release",
     "repository": "Cross-project",
     "priority": "P0",
     "objective": "Provide a reproducible INFRA testnet QA candidate and explicit known limitations, preserving the approved UI.",
@@ -2763,6 +2766,9 @@
       "QA access, coverage gaps and operational limits are explicit; no unfinished broad acceptance is marked complete."
     ],
     "dependencies": [],
-    "status": "In progress"
+    "status": "Done",
+    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
+    "commit_url": "https://github.com/reIDentity/ReSystem-Investment-front-end/commit/0aba6590e8c8e752f0af44cdd09ed44324723e71",
+    "verification_evidence": "Published stable read-path QA release register, original-CID application media proof, coverage/access boundaries and 26-case QA matrix. External explorer gateway remains explicitly operator-dependent. Completion covers handover preparation and bounded checks, not broad QA/client/production acceptance or new financial authority."
   }
 ]

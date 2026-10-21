@@ -693,15 +693,15 @@
     "../ReSystem-Investment-backend/docs/FP_ROLLOUT_20261020.md": {
       "page_id": "3ff3b21a-c925-816d-99d6-e1549e8c9599",
       "url": "https://app.notion.com/p/3ff3b21ac925816d99d6e1549e8c9599",
-      "title": "FP UAT rollout and acceptance \u2014 20 October 2026"
+      "title": "FP UAT rollout and acceptance — 20 October 2026"
     },
     "docs/planning/AUTONOMOUS_AUDIT_20261020.md": {
-      "title": "Autonomous platform audit \u2014 20 October 2026",
+      "title": "Autonomous platform audit — 20 October 2026",
       "page_id": "3ff3b21a-c925-81c7-8fa9-d11fb964d9c7",
       "url": "https://app.notion.com/p/3ff3b21ac92581c78fa9d11fb964d9c7"
     },
     "docs/planning/END_OF_DAY_20261020.md": {
-      "title": "End-of-day checkpoint \u2014 20 October 2026",
+      "title": "End-of-day checkpoint — 20 October 2026",
       "page_id": "3ff3b21a-c925-81e4-ab0c-c01bdbc22f64",
       "url": "https://app.notion.com/p/3ff3b21ac92581e4ab0cc01bdbc22f64"
     },
@@ -781,12 +781,12 @@
       "url": "https://app.notion.com/p/3fb3b21ac92581299557f8215be14852?pvs=204"
     }
   },
-  "operations_updated_at_utc": "2026-10-21T06:36:00Z",
-  "last_status_sync_at_utc": "2026-10-20T18:24:46.426201+00:00",
-  "last_status_sync_scope": "Native states and commit links only in public portable backlog; detailed account/financial/runtime task evidence remains in private Notion and protected local snapshot; no blanket independent recertification",
+  "operations_updated_at_utc": "2026-10-21T07:46:47.509449+00:00",
+  "last_status_sync_at_utc": "2026-10-21T07:46:47.509449+00:00",
+  "last_status_sync_scope": "All111 native task states re-read; existing original source references retained, new RSI-110/111 published links independently verified. Detailed private acceptance bodies remain in Notion; status synchronization is not independent recertification.",
   "status_counts": {
-    "Done": 85,
-    "In progress": 23,
+    "Done": 87,
+    "In progress": 21,
     "To do": 3
   }
 }
