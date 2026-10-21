@@ -2725,5 +2725,44 @@
     "notion_status_observed_at_utc": "2026-10-20T18:24:46.424772+00:00",
     "verification_evidence": "Deployed core audit source/CI/archive/runtime proof passes. Backend119 unit+one host-conditional skip/234 integrations, admin179, investor102, indexer105+9 PG+2 Anvil lifecycles; source-only helper27 local-policy tests and finalCI39472498296 SUCCESS. Fresh isolated cold-start/restart, publication5/staff8/financial7 and27 frozen canonical INDEXED synthetic transactions pass with matched proof hashes. All owned fixtures stopped; investor UI unchanged, real gates closed, no financial action. Wider owner/external/operational acceptance stays open.",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-backend/commit/cba044d5fa8b636947661448e0d1dd42367cef01"
+  },
+  {
+    "id": "RSI-110",
+    "title": "Automate guarded dev deployments to FP without personal Teleport sessions",
+    "phase": "11 \u00b7 Testing and release",
+    "repository": "Cross-project",
+    "priority": "P0",
+    "objective": "Deploy exact successful dev commits through hosted builds and a narrow service-specific machine identity, without personal Teleport tokens.",
+    "requirements": [
+      "Keep builds off FP; avoid personal access tokens and cross-repository signing/deployment authority.",
+      "Verify immutable source/archive provenance, preserve data/env/limits/peers and rollback on failed postflight.",
+      "Keep migrations, contract deployments, financial gate changes and privileged signer activation outside automatic image releases."
+    ],
+    "acceptance": [
+      "Actual push-triggered CI/build/release and runtime source are independently verified.",
+      "Each runner can deploy only its own service; failures leave a verified stable release or explicitly require operator recovery."
+    ],
+    "dependencies": [],
+    "status": "In progress"
+  },
+  {
+    "id": "RSI-111",
+    "title": "Verify stable QA release and public NFT media delivery",
+    "phase": "11 \u00b7 Testing and release",
+    "repository": "Cross-project",
+    "priority": "P0",
+    "objective": "Provide a reproducible INFRA testnet QA candidate and explicit known limitations, preserving the approved UI.",
+    "requirements": [
+      "Verify actual runtime, signed-in views, session isolation and current deployment evidence.",
+      "Public images retain exact CIDs/content; private support attachments remain authenticated.",
+      "Publish QA matrix/access instructions/bug-reporting and distinguish external explorer operations and financial authorizations."
+    ],
+    "acceptance": [
+      "Tested source, CI and runtime are recorded separately with exact commit links.",
+      "Actual NFT metadata/image retrieval is verified and explorer rendering is either observed or explicitly recorded as operator-dependent.",
+      "QA access, coverage gaps and operational limits are explicit; no unfinished broad acceptance is marked complete."
+    ],
+    "dependencies": [],
+    "status": "In progress"
   }
 ]

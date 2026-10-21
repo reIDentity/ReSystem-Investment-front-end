@@ -1,5 +1,15 @@
 # reSystem Investment - start here
 
+## 21 October 2026 — stable read-path QA candidate and automatic deployment verified
+
+Read the [QA handover](docs/testing/QA_HANDOVER_20261021.md) for the exact release register, 26-case test matrix, access rules and known limits. Actual FP API/worker **4db55a7**, admin **768e487** and indexer **6f35968** match successful automatic GitHub hosted-build/release receipts. All three own-repository `dev` CI → build → restricted FP deployment paths passed without personal Teleport credentials in CI. Incompatible schema/root-policy/signing changes remain deliberate operator work.
+
+The final independent 07:37 UTC read-only audit passed **29 bounded checks**. Both financial request gates stay false, platform signing stays off, pending financial/provider requests are zero, ten backend/four indexer migrations and original stores are preserved. A strict transient-RPC incident recovery fixed the stale alerts blocking portfolio/admin totals, and actual signed-in investor Home/Earnings/Wallet plus admin totals/charts recovered. Runtime preservation history is root-receipt-attested where the initial independent snapshot did not retain complete raw hashes; the handover states that boundary.
+
+Catalogue images and admin public asset links now use the original immutable CIDs through a working public gateway. The external INFRA explorer still rewrites artwork to its failing Pinata gateway. The owner will ask that operator and instructed leaving the explorer configuration unchanged. No contract/token URI, ownership, financial action or schema was changed today. Investor layout/branding is preserved.
+
+QA/client staff names/emails/roles will be supplied later; no account or permission was invented. Full device/Figma, negative/multi-account and client acceptance remain explicit test-round work. Prior financial allowances are exhausted; do not reopen a gate or submit a transaction without fresh applicable authorization. All local project servers remain stopped; the new persistent repository deployment runners are intentional FP services. Earlier dated checkpoints below are history.
+
 ## 20 October 2026, 18:23 UTC — audit complete; remaining acceptance recorded
 
 The latest actual FP versions are API/worker **6932349**, admin **ad729b4** and indexer **4810988**. The initial audit release passed17:54UTC; the admin-only real review-expiry correction passed18:12:33UTC with every other container preserved. Both financial request gates remain false, platform signing is off, and no real financial/mail action occurred in this audit. The investor UI is unchanged.

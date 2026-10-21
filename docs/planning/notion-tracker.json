@@ -584,9 +584,19 @@
       "page_id": "3ff3b21a-c925-81c3-945f-e27085454e89",
       "url": "https://app.notion.com/p/3ff3b21ac92581c3945fe27085454e89",
       "title": "Audit shared UI, pagination, review and asynchronous-state logic"
+    },
+    "RSI-110": {
+      "page_id": "4003b21a-c925-8147-9ff6-eef15abeeae1",
+      "url": "https://app.notion.com/p/4003b21ac92581479ff6eef15abeeae1",
+      "title": "Automate guarded dev deployments to FP without personal Teleport sessions"
+    },
+    "RSI-111": {
+      "page_id": "4003b21a-c925-8115-8a91-dabcb00ab080",
+      "url": "https://app.notion.com/p/4003b21ac92581158a91dabcb00ab080",
+      "title": "Verify stable QA release and public NFT media delivery"
     }
   },
-  "task_count": 109,
+  "task_count": 111,
   "initial_status": "To do",
   "github_sync": "Codex-managed workflow; no automatic webhook or background automation configured",
   "plan_page_id": "3fb3b21a-c925-810b-9694-e2c99173f5f9",
@@ -694,6 +704,11 @@
       "title": "End-of-day checkpoint \u2014 20 October 2026",
       "page_id": "3ff3b21a-c925-81e4-ab0c-c01bdbc22f64",
       "url": "https://app.notion.com/p/3ff3b21ac92581e4ab0cc01bdbc22f64"
+    },
+    "docs/testing/QA_HANDOVER_20261021.md": {
+      "title": "reSystem Investment QA handover 21 October 2026",
+      "page_id": "4003b21a-c925-81a3-8d01-c64bcb6fd76b",
+      "url": "https://app.notion.com/p/4003b21ac92581a38d01c64bcb6fd76b"
     }
   },
   "service_records": {
@@ -766,12 +781,12 @@
       "url": "https://app.notion.com/p/3fb3b21ac92581299557f8215be14852?pvs=204"
     }
   },
-  "operations_updated_at_utc": "2026-10-20T18:24:46.426201+00:00",
+  "operations_updated_at_utc": "2026-10-21T06:36:00Z",
   "last_status_sync_at_utc": "2026-10-20T18:24:46.426201+00:00",
   "last_status_sync_scope": "Native states and commit links only in public portable backlog; detailed account/financial/runtime task evidence remains in private Notion and protected local snapshot; no blanket independent recertification",
   "status_counts": {
     "Done": 85,
-    "In progress": 21,
+    "In progress": 23,
     "To do": 3
   }
 }

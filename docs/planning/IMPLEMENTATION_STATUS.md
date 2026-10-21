@@ -1,5 +1,17 @@
 # Implementation and recovery status — 16 October 2026
 
+## 21 October 2026 — stable QA candidate deployed; automatic server releases proven
+
+Actual API/worker **4db55a7**, admin **768e487**, indexer **6f35968** match the final successful own-repository automatic CI/build/release jobs and root receipts. The [QA handover](../testing/QA_HANDOVER_20261021.md) contains exact links, tested coverage and 26 acceptance cases. Investor media fix **3df7fcf** reached the existing Vercel production deployment and the catalogue loaded both original project images; admin **fe58070** is included in the running admin source. Approved investor UI remains unchanged.
+
+The independent final audit at **07:37 UTC** passed **29 bounded checks**: exact application/image identities, closed gates/platform signer off, zero pending financial/provider work, unchanged 10/4 schemas/stores, source/canonical/accounting and anonymous TLS/auth boundaries, actual runner PID cgroups and private homes. The root controller and immutable ops match published reviewed source. Successful root receipts attest historical environment/peer preservation; a complete contemporaneous snapshot also verifies the final runner-only cgroup correction. No new financial transaction or migration was performed.
+
+The deployed indexer now resolves an exact classified transient RPC incident only after complete bounded reconciliation/canonical proof and atomic unchanged-incident checks. Both stale incident rows remain retained/resolved, no alerts remain, and actual portfolio/admin aggregate reads recovered. Unknown, accounting, integrity and reorg alerts remain blocking. Source fix **6a597c2** passed 109 unit tests, ten PostgreSQL groups and two isolated V1/V2 lifecycle checks; its descendant **6f35968** is running.
+
+`FP_CD_MODE=auto` is enabled for backend/admin/indexer. Builds run on hosted GitHub; own-repository FP runners have separate OS identities and narrow root service boundaries, without Docker/root group membership or personal Teleport/PAT/cross-repo App credentials in CI. Unique transient units queue through the global release lock. Actual runner membership is within the shared 1.5 GiB/no extra swap/half-CPU/256-task envelope. Root ops, schemas, signer activation, gates and contracts remain operator-managed. The security register documents the trusted workflow/maintainer/FP-host boundary.
+
+Owner-deferred items remain explicit: external explorer gateway artwork repair, QA/client staff identities/access details, off-host backup storage, production and independent review. The 26-case QA round still includes full device/Figma/accessibility, negative/multi-account, notification removal/reconfirmation and capacity/client acceptance; this bounded release does not mark those broad tasks Done. Wallet requests remain disabled and previous broadcast budgets are exhausted. No new staff or financial authority is implied by QA handover. All older checkpoints below are dated history.
+
 ## 20 October 2026, 18:23 UTC — audit complete; remaining acceptance recorded
 
 The latest actual FP versions are API/worker **6932349**, admin **ad729b4** and indexer **4810988**. The initial audit release passed17:54UTC; the admin-only real review-expiry correction passed18:12:33UTC with every other container preserved. Both financial request gates remain false, platform signing is off, and no real financial/mail action occurred in this audit. The investor UI is unchanged.
