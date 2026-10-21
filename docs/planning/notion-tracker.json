@@ -594,9 +594,14 @@
       "page_id": "4003b21a-c925-8115-8a91-dabcb00ab080",
       "url": "https://app.notion.com/p/4003b21ac92581158a91dabcb00ab080",
       "title": "Verify stable QA release and public NFT media delivery"
+    },
+    "RSI-112": {
+      "page_id": "4003b21a-c925-8181-af0f-f39dd992f490",
+      "url": "https://app.notion.com/p/4003b21ac9258181af0ff39dd992f490",
+      "title": "Create the first four landing projects and integrate their live public data"
     }
   },
-  "task_count": 111,
+  "task_count": 112,
   "initial_status": "To do",
   "github_sync": "Codex-managed workflow; no automatic webhook or background automation configured",
   "plan_page_id": "3fb3b21a-c925-810b-9694-e2c99173f5f9",
@@ -786,7 +791,7 @@
   "last_status_sync_scope": "All111 native task states re-read; existing original source references retained, new RSI-110/111 published links independently verified. Detailed private acceptance bodies remain in Notion; status synchronization is not independent recertification.",
   "status_counts": {
     "Done": 87,
-    "In progress": 21,
+    "In progress": 22,
     "To do": 3
   }
 }

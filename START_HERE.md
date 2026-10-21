@@ -1,5 +1,11 @@
 # reSystem Investment - start here
 
+## 21 October 2026 — first four landing projects prepared; publication pending
+
+[Landing projects](docs/planning/LANDING_PROJECTS_20261021.md) records four actual admin drafts, approved sample economics (10 USDT / 10,000 fractions each), original public artwork/metadata and explicit landing-card project IDs. The live integration preserves the existing UI and uses only current public project/chain/revenue endpoints. Source tests pass 107; lint, TypeScript and production build pass. Local desktop/phone unavailable-state layout is verified; actual publication/deployed financial acceptance remains pending.
+
+Each new project still needs its own exact human MFA publication and sale-opening approval. No new transaction, signing authority, agent budget or top-up is implied. Drafts stay private and landing stats stay unavailable until confirmed publication. Keep ongoing investor QA enabled until the owner asks to close it. RSI-112 remains In progress.
+
 ## 21 October 2026 — shared admin, ongoing investor QA and deployment workflows verified
 
 Read [Shared admin wallet](docs/planning/SHARED_ADMIN_WALLET_20261021.md) before admin or QA work. Every admin contract transaction now has one shared AWS KMS wallet; all application/signer workloads stay on FP. Personal staff MetaMask/reID connections are permanently removed, including fallback from old bindings/flags. Staff password/MFA, project scope, exact per-action approval and configured independent cosign remain. Investor reID and approved investor UI are unchanged.

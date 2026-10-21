@@ -3,12 +3,30 @@
 import { useLayoutEffect, useRef, useState, type CSSProperties } from "react";
 import { flushSync } from "react-dom";
 import Image from "next/image";
+import useSWR from "swr";
 import { Container } from "./Container";
 import { Reveal } from "./Reveal";
 import { useInView } from "@/hooks/motion";
 import { categories, products, type Product } from "@/data/products";
+import { api } from "@/lib/platform/client";
+import type { Project, RewardView } from "@/lib/platform/types";
+import type { ProjectChainResponse } from "@/lib/platform/api.generated";
+import { landingProjectStats, publishedLandingProject } from "@/lib/platform/landing-project";
+import { publicIpfsUrl } from "@/lib/platform/media";
+
+const publicOptions = { refreshInterval: 60000, shouldRetryOnError: false, revalidateOnFocus: true };
 
 function ProductCard({ product }: { product: Product }) {
+  const [failedArtwork, setFailedArtwork] = useState<string | null>(null);
+  const record = useSWR<Project>(product.projectId ? `projects/${product.projectId}` : null, api, publicOptions);
+  const project = record.error ? null : publishedLandingProject(product.projectId, record.data);
+  const chain = useSWR<ProjectChainResponse>(project ? `projects/${project.id}/chain` : null, api, publicOptions);
+  const revenue = useSWR<RewardView>(project ? `projects/${project.id}/revenue` : null, api, publicOptions);
+  const stats = landingProjectStats(project, chain.error ? null : chain.data, revenue.error ? null : revenue.data);
+  const image = record.data?.media?.find(m => project && m.mimeType.startsWith("image/") && /^[a-zA-Z0-9]{32,120}$/.test(m.cid));
+  const publicArtwork = image ? publicIpfsUrl(image.cid) : null;
+  const artwork = publicArtwork && publicArtwork !== failedArtwork ? publicArtwork : product.image;
+  const badge = project ? stats.sale === "Open" ? "Live" : "Published" : product.status === "Coming" ? "Coming soon" : "—";
   return (
     <article
       data-spotlight
@@ -20,9 +38,11 @@ function ProductCard({ product }: { product: Product }) {
           className="absolute inset-0 transition-transform duration-[1200ms] ease-[var(--ease-smooth)] group-hover:scale-[1.06] group-focus-within:scale-[1.06]"
           style={{ background: product.art }}
         >
-          {product.image && (
+          {artwork && (
             <Image
-              src={product.image}
+              src={artwork}
+              unoptimized={artwork === publicArtwork}
+              onError={publicArtwork ? () => setFailedArtwork(publicArtwork) : undefined}
               alt=""
               fill
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
@@ -33,33 +53,33 @@ function ProductCard({ product }: { product: Product }) {
         {product.status && (
           <span
             className="product-badge absolute top-2 right-2 flex items-center gap-1.5 rounded-full bg-white px-2.5 py-1 font-display text-[11px] font-semibold text-forest"
-            title={product.status === "Coming" ? undefined : "Published investment status is unavailable."}
-            aria-label={product.status === "Coming" ? undefined : "Published investment status unavailable"}
+            title={project ? stats.sale === "Open" ? "Primary sale is open on INFRA." : "Published project; review current purchase availability." : product.status === "Coming" ? undefined : "Published investment status is unavailable."}
+            aria-label={badge === "—" ? "Published investment status unavailable" : badge}
           >
-            {product.status === "Coming" ? "Coming soon" : "—"}
+            {badge}
           </span>
         )}
       </div>
       <div className="product-content flex flex-1 flex-col px-2 pt-3 pb-2">
-        <h3 className="font-display text-[20px] leading-tight font-extrabold text-ink">{product.name}</h3>
+        <h3 className="font-display text-[20px] leading-tight font-extrabold text-ink">{project?.title || product.name}</h3>
         <p className="product-category mt-0.5 text-[14px] text-muted">{product.category}</p>
-        <p className="product-description mt-3 min-h-[68px] text-[17px] leading-snug text-ink-soft">{product.description}</p>
+        <p className="product-description mt-3 min-h-[68px] text-[17px] leading-snug text-ink-soft">{project?.description || product.description}</p>
         <dl className="product-stats mt-3 grid grid-cols-3 gap-1.5 rounded-xl bg-[#f1f4f9] px-3 py-3">
           <div>
             <dt className="text-[11px] whitespace-nowrap text-muted">Revenue/mo</dt>
-            <dd className="font-display text-[15px] font-bold text-ink" title="Verified monthly revenue is unavailable." aria-label="Unavailable">—</dd>
+            <dd className="font-display text-[15px] font-bold text-ink" title={stats.revenueTitle} aria-label={stats.revenue === "—" ? "Unavailable" : undefined}>{stats.revenue}</dd>
           </div>
           <div>
             <dt className="text-[11px] whitespace-nowrap text-muted">Yield pace</dt>
-            <dd className="font-display text-[15px] font-bold text-forest" title="Verified yield pace is unavailable." aria-label="Unavailable">—</dd>
+            <dd className="font-display text-[15px] font-bold text-forest" title={stats.yieldTitle} aria-label={stats.yieldPace === "—" ? "Unavailable" : undefined}>{stats.yieldPace}</dd>
           </div>
           <div>
             <dt className="text-[11px] whitespace-nowrap text-muted">Sold</dt>
-            <dd className="font-display text-[15px] font-bold text-ink" title="Verified fractions sold are unavailable." aria-label="Unavailable">—</dd>
+            <dd className="font-display text-[15px] font-bold text-ink" title={stats.soldTitle} aria-label={stats.sold === "—" ? "Unavailable" : undefined}>{stats.sold}</dd>
           </div>
         </dl>
         <a
-          href="#how-much"
+          href={project ? `/invest/products/${project.id}` : product.projectId ? "/invest/explore" : "#how-much"}
           className="product-link mt-5 flex items-center justify-between font-display text-[14px] font-bold text-brand underline-offset-4 hover:underline"
         >
           See where, why and how much{" "}

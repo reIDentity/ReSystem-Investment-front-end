@@ -2,6 +2,8 @@ export type Category = "Finance" | "Real-world assets" | "Identity" | "Services"
 
 export interface Product {
   id: string;
+  /** Explicit platform record, independent of the marketing slug or project title. */
+  projectId?: string;
   name: string;
   category: Category;
   description: string;
@@ -30,6 +32,7 @@ export const categories: Array<"All" | Category> = [
 export const products: Product[] = [
   {
     id: "infra-global",
+    projectId: "3995355b-8601-49cb-84bf-06bea42db23e",
     name: "INFRA Global",
     category: "Finance",
     description: "Multi-currency stablecoins pegged to USD, EUR, GBP and more.",
@@ -41,6 +44,7 @@ export const products: Product[] = [
   },
   {
     id: "infra-reaed",
+    projectId: "b6604ab7-7557-48f4-a7ca-9c83abe02347",
     name: "INFRA reAED",
     category: "Finance",
     description: "UAE Dirham stablecoin, live for real-world payments.",
@@ -53,6 +57,7 @@ export const products: Product[] = [
   },
   {
     id: "reid",
+    projectId: "4fe22a83-2b4e-44ee-9bbb-c43168baf465",
     name: "reID",
     category: "Identity",
     description: "Digital identity and merchant passport for the ecosystem.",
@@ -65,6 +70,7 @@ export const products: Product[] = [
   },
   {
     id: "remarketplace",
+    projectId: "1a0b121f-198f-43ab-af16-681559c61dcd",
     name: "reMARKETPLACE",
     category: "Services",
     description: "White-label marketplace, ready to launch in weeks.",

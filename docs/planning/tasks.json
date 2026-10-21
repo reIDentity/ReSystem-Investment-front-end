@@ -2793,5 +2793,28 @@
     "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-front-end/commit/0aba6590e8c8e752f0af44cdd09ed44324723e71",
     "verification_evidence": "Published stable read-path QA release register, original-CID application media proof, coverage/access boundaries and 26-case QA matrix. External explorer gateway remains explicitly operator-dependent. Completion covers handover preparation and bounded checks, not broad QA/client/production acceptance or new financial authority."
+  },
+  {
+    "id": "RSI-112",
+    "title": "Create the first four landing projects and integrate their live public data",
+    "phase": "07 · Investor application",
+    "repository": "Cross-project",
+    "priority": "P1",
+    "objective": "Create four UAT sample projects for the first landing cards and bind the approved cards to their real published records and chain/indexer values.",
+    "requirements": [
+      "Preserve original names, descriptions, artwork and investor layout.",
+      "Use approved sample economics, shared KMS owner and approved cold treasury.",
+      "Publish through exact human MFA approvals; never expose draft-only project records or invent finance."
+    ],
+    "acceptance": [
+      "Four drafts, public artwork and complete metadata are saved via normal audited application endpoints.",
+      "Cards bind explicit project IDs; real supply/yield/revenue and availability survive independent failures truthfully.",
+      "Source checks and desktop/phone visual checks preserve the design; publication and deployed/runtime evidence are recorded separately.",
+      "Human-approved publication and sale-opening receipts are confirmed/indexed for all four projects."
+    ],
+    "dependencies": [],
+    "status": "In progress",
+    "notion_page_id": "4003b21a-c925-8181-af0f-f39dd992f490",
+    "verification_evidence": "Four drafts created in the authenticated admin. Source integration underway; publication and sale-opening require fresh human authenticator approval."
   }
 ]
