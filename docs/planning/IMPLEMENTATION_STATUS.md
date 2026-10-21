@@ -1,5 +1,57 @@
 # Implementation and recovery status — 16 October 2026
 
+## 21 October 2026 — shared AWS admin signer installed; human activation pending
+
+AWS holds only the new nonexportable wallet key and its access controls; all app,
+DB, indexer and signer workloads stay on FP. Each staff member retains individual
+password/MFA, scoped permissions and attributable approvals. Investor reID and
+approved investor UI are unchanged.
+
+Actual API/worker and isolated KMS signer are `51b1657`; indexer remains `6f35968`.
+Root deployment controls are separately installed from `dbbd6c5`. Their exact
+managed-signer policy and guarded same-source no-op passed, with durable owned
+pause/resume, no migration and preserved runtime/peer/service settings. Normal
+application releases cannot replace the signer identity, AWS credentials or key.
+Admin `1941faf` is deployed: 202 tests, CI and guarded release
+[39586095656](https://github.com/reIDentity/ReSystem-Investment-admin/actions/runs/39586095656)
+passed. Its signed-in project page displays confirmed owner/pending owner separately
+from historical publication addresses. The root release receipt verifies preserved
+protected state, no migration and signer pause/resume. Shared-wallet status and
+fresh MFA switch reviews are also live; personal wallet navigation is removed.
+
+Four individually approved UAT migration transactions are canonical: 30 reAED gas
+funding, factory creator grant and ownership proposals for both existing projects.
+The new wallet has 30 reAED; both project owners/treasuries remain the original
+cold wallet until the two separate acceptances. The approved plan is six actions,
+50 reAED gross maximum and no USDT; current conservative reservation is 42 reAED.
+Do not reuse any expired proposal review or infer authority for another action.
+
+`REID_TRANSACTION_SUBMIT_ENABLED=false`; personal admin wallet connections are
+server-disabled. The platform environment setting is true, but its DATABASE
+signing switch remains false with no pending enable request. BOTH API and signer
+allow only `ACCEPT_PROJECT_OWNERSHIP`; funding/withdrawal caps are zero. Activation
+requires the human to request/confirm the switch with different fresh TOTP codes,
+then review/approve each acceptance separately. Broader admin action policy and
+live multi-staff/negative acceptance remain unfinished; do not claim full rollout.
+
+All three own-repository FP CD modes were restored and read back as `auto` after
+controlled maintenance, final runtime verification and settled CI/release work.
+Backend `dbbd6c5` CI [39585592962](https://github.com/reIDentity/ReSystem-Investment-backend/actions/runs/39585592962)
+passed; its automatic deployment was intentionally skipped during maintenance.
+Changes after 51b are deploy-controller-only; source and running app/signer images
+are intentionally distinct. Protected ceremony, CAS snapshots,
+receipts and recovery evidence are in private runtime and the existing private
+Notion RSI-067/AWS wallet document. The new admin wallet private key never leaves
+AWS; FP holds only its separate machine-authentication identity.
+
+Two installer defects were corrected without loosening policy: legitimate
+systemd `@` filename validation and deterministic comparison of complete Docker
+mount descriptors. The complete actual archive and all 120 mount permutations,
+plus changed permission/source/count denials, are regression-tested. Failed
+attempts rolled back owned control files and their own pauses were independently
+reconciled; no KMS transaction was signed. The final controls installed and
+resumed successfully. All older sections below are dated history.
+
 ## 21 October 2026 — stable QA candidate deployed; automatic server releases proven
 
 Actual API/worker **4db55a7**, admin **768e487**, indexer **6f35968** match the final successful own-repository automatic CI/build/release jobs and root receipts. The [QA handover](../testing/QA_HANDOVER_20261021.md) contains exact links, tested coverage and 26 acceptance cases. Investor media fix **3df7fcf** reached the existing Vercel production deployment and the catalogue loaded both original project images; admin **fe58070** is included in the running admin source. Approved investor UI remains unchanged.

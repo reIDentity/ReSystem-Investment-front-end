@@ -373,7 +373,7 @@
     "RSI-067": {
       "page_id": "3fb3b21a-c925-81dc-b846-d99602bd0d3b",
       "url": "https://app.notion.com/p/3fb3b21ac92581dcb846d99602bd0d3b?pvs=204",
-      "title": "Build MetaMask and reID signer connection flows"
+      "title": "Replace staff wallet connections with shared AWS-custodied admin wallet"
     },
     "RSI-068": {
       "page_id": "3fb3b21a-c925-81cf-85c9-c108aa9df814",
