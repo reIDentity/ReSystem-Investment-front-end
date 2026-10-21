@@ -1,5 +1,24 @@
 # reSystem Investment - start here
 
+## 21 October 2026 — shared admin wallet revision in progress
+
+The owner now requires a separate shared admin wallet with its key in AWS KMS,
+while **all application and signer workloads remain on FP**. This supersedes the
+prior FP-only key-custody decision. Individual staff passwords, MFA, scoped action
+permissions and attributable frozen transaction approvals remain; investor reID
+and the approved investor UI are unchanged.
+
+Backend implementation `f59eeaa` and admin `7d35aac` are published on their own
+`dev` branches. Read the backend's `docs/AWS_ADMIN_WALLET.md` and private Notion
+RSI-067 for the rollout and current evidence. AWS key/FP machine authentication
+are prepared, but persistent signer installation, contract rights, funding and
+live KMS-backed transaction acceptance remain incomplete. Do not reuse an old
+financial budget or equate new source with activated signing. Resource identifiers
+and recovery credentials belong only in protected runtime/private Credentials.
+
+The stable QA register below is the previous verified runtime checkpoint;
+independently check the newer automatic deployments before reporting live versions.
+
 ## 21 October 2026 — stable read-path QA candidate and automatic deployment verified
 
 Read the [QA handover](docs/testing/QA_HANDOVER_20261021.md) for the exact release register, 26-case test matrix, access rules and known limits. Actual FP API/worker **4db55a7**, admin **768e487** and indexer **6f35968** match successful automatic GitHub hosted-build/release receipts. All three own-repository `dev` CI → build → restricted FP deployment paths passed without personal Teleport credentials in CI. Incompatible schema/root-policy/signing changes remain deliberate operator work.
