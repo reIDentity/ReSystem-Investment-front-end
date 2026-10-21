@@ -1,5 +1,6 @@
 "use client";
 import type { SessionResponse } from "./api.generated";
+import { platformErrorMessage } from "./errors";
 export const SESSION_EXPIRED_EVENT = "resystem:investor-session-expired";
 function expireSession() { if (typeof window !== "undefined") window.dispatchEvent(new Event(SESSION_EXPIRED_EVENT)); }
 export class PlatformError extends Error { status: number; constructor(message: string, status: number) { super(message); this.status = status; } }
@@ -10,7 +11,7 @@ async function read<T>(path: string, options: RequestInit = {}): Promise<T> {
   if (response.status === 401) expireSession();
   if (response.ok && response.status === 204) return undefined as T;
   let body; try { body = await response.json(); } catch { throw new PlatformError("The platform returned an unreadable response.", response.status); }
-  if (!response.ok) throw new PlatformError(response.status >= 500 ? "The platform service is temporarily unavailable. Please retry shortly." : typeof body?.error?.message === "string" ? body.error.message : response.status === 401 ? "Your session expired. Connect with reID again." : "The request could not be completed. Refresh and try again.", response.status);
+  if (!response.ok) throw new PlatformError(platformErrorMessage(body, response.status), response.status);
   return body as T;
 }
 export async function api<T>(path: string, options: { method?: "POST" | "PATCH" | "DELETE"; body?: unknown; idempotencyKey?: string } = {}): Promise<T> {

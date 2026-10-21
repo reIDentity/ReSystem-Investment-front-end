@@ -1,5 +1,10 @@
 # reSystem Investment - start here
 
+## 21 October 2026 — purchase error diagnosis and actionable messages
+
+[Purchase errors](docs/testing/PURCHASE_ERRORS_20261021.md) records an actual400preparation rejection: the wallet could not cover the native payment plus current INFRA network fee. The project is open and the ongoing QA gate remains enabled. A nested Nest error message was hidden by the client; the prepared frontend correction passes112tests/lint/TypeScript/build, handles vetted reasons safely and preserves the original dialog and idempotency key. RSI-113 remains In progress pending publication/deployed verification. No funds moved, signature requested or gate changed.
+
+
 ## 21 October 2026 — four landing projects published, sales open and live cards verified
 
 [Landing projects](docs/planning/LANDING_PROJECTS_20261021.md) records **INFRA Global, INFRA reAED, reID and reMARKETPLACE** with confirmed contracts, all eight human-MFA-approved receipts, public metadata/artwork and deployed acceptance. Each uses the approved UAT sample value **10 USDT / 10,000 fractions**: **0.001 USDT / 0.0036 reAED per fraction**. All four are Published with sales Open on INFRA15324, shared KMS owner and original cold treasury. At acceptance each has zero issued fractions/revenue and unset yield; these values are actual, not fixtures.

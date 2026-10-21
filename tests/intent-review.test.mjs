@@ -8,7 +8,8 @@ for (const [key, value] of Object.entries({ window: dom.window, self: dom.window
 globalThis.IS_REACT_ACT_ENVIRONMENT = true;
 const { render, fireEvent, cleanup, waitFor } = await import('@testing-library/react');
 const { SWRConfig } = await import('swr');
-afterEach(cleanup);
+const originalFetch = globalThis.fetch;
+afterEach(() => { cleanup(); globalThis.fetch = originalFetch; });
 const wallet = `0x${'1'.repeat(40)}`, hash = `0x${'4'.repeat(64)}`;
 function intent(status = 'CREATED', expiresAt = new Date(Date.now() + 60000).toISOString()) {
   return { id: 'synthetic-existing-intent', status, command: { type: 'SEND', asset: 'REAED', amountAtomic: '1', recipient: `0x${'2'.repeat(40)}` }, walletAddress: wallet, chainId: 15324, expiresAt, approvalUrl: 'https://app.reidentity.net/approval/synthetic-existing-intent', txHash: null, receipt: null, errorCode: null, transaction: { chainId: 15324, to: `0x${'2'.repeat(40)}`, data: '0x', valueWei: '1', gasEstimate: '21000', estimatedFeeWei: '1' } };
@@ -83,4 +84,28 @@ test('a platform-signed intent awaiting its second approval stays pending with n
   assert.equal(f.view.queryByRole('button', { name: 'Request reID approval' }), null);
   assert.equal(f.view.queryByText(/Confirmed/), null);
   assert.equal(f.refreshes(), 0); assert.equal(f.calls.length, 0);
+});
+
+test('a real preparation rejection explains the gas shortage and retries only the same unsubmitted command', async () => {
+  const calls = [];
+  globalThis.fetch = async (path, options) => {
+    if (String(path).endsWith('/auth/session')) return Response.json({ authenticated: true, kind: 'investor', csrfToken: 'synthetic-csrf' });
+    calls.push({ path, options });
+    return Response.json({ error: { code: 'HTTP_400', message: { message: 'Insufficient native balance including gas reserve', error: 'Bad Request', statusCode: 400 } } }, { status: 400 });
+  };
+  const { TransactionReview } = clientRenderer({ '../InvestorUI': { Modal: ({ title, children }) => React.createElement('section', { role: 'dialog', 'aria-label': title }, children) } }).load('src/components/invest/platform/Transaction.tsx');
+  const command = { type: 'BUY', projectId: 'synthetic-project', asset: 'REAED', quantity: '10' };
+  const view = render(React.createElement(TransactionReview, { command, onClose() {} }));
+  fireEvent.click(view.getByRole('button', { name: 'Prepare transaction' }));
+  await view.findByRole('alert');
+  assert.match(view.getByRole('alert').textContent, /Not enough reAED.*Add reAED/);
+  assert.doesNotMatch(view.getByRole('alert').textContent, /Reuse this review|Refresh and try again|HTTP_400/);
+  assert.equal(view.queryByRole('button', { name: 'Request reID approval' }), null);
+  assert.equal(view.queryByRole('link', { name: /Open reID/ }), null);
+  fireEvent.click(view.getByRole('button', { name: 'Prepare transaction' }));
+  await waitFor(() => assert.equal(calls.length, 2));
+  await view.findByRole('alert');
+  assert.equal(calls[0].options.headers['Idempotency-Key'], calls[1].options.headers['Idempotency-Key']);
+  assert.deepEqual(JSON.parse(calls[1].options.body), command);
+  assert.ok(calls.every(call => call.path === '/api/platform/transactions' && call.options.method === 'POST'));
 });

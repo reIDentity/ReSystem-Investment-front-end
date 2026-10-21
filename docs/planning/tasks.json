@@ -2818,5 +2818,28 @@
     "verification_evidence": "Four projects Published and sales Open; eight human-MFA-approved canonical receipts verified beyond12 blocks; ERC1155/implementation/owner/treasury/economics/metadata exact. Public metadata and images4/4 HTTP200, both asset quotes exact, real zero supply/revenue and unset yield. Published ec20272, CI39614120989 successful,107tests/lint/types/build/secrets pass. Actual deployed desktop and phone390x844 cards/images/links/stats verified, no CSS/class changes or overflow. One explicitly authorized9reAED top-up plus3fee confirmed once; no additional transaction authority. See LANDING_PROJECTS_20261021.md.",
     "completed_date": "2026-10-21",
     "github_commit": "https://github.com/reIDentity/ReSystem-Investment-front-end/commit/ec2027234a2d56ca2e45d2257711989f057fe3d9"
+  },
+  {
+    "id": "RSI-113",
+    "title": "Fix purchase preparation failure and display actionable investor errors",
+    "phase": "07 · Investor application",
+    "repository": "Investor frontend",
+    "priority": "P1",
+    "objective": "Identify the live purchase rejection and show safe, specific error reasons and next steps without changing the approved design or financial controls.",
+    "requirements": [
+      "Preserve native balance and gas reserves, session/CSRF checks and individual transaction approvals.",
+      "Support the deployed nested Nest error envelope as well as flat BFF errors.",
+      "Never expose raw server/provider diagnostics or automatically submit/retry an approval."
+    ],
+    "acceptance": [
+      "Actual live rejection identified with browser and read-only FP evidence.",
+      "Known business errors show actionable copy in the existing slot; unknown/private diagnostics remain masked.",
+      "Regression checks cover the actual HTTP client and review retry/idempotency behavior.",
+      "Reviewed source published, required checks pass and deployed negative/error behavior verified."
+    ],
+    "dependencies": [],
+    "status": "In progress",
+    "notion_page_id": "4003b21a-c925-819f-ba82-f3b3343ebd80",
+    "verification_evidence": "Live400 was insufficient native funds including fee; server/request gate healthy. Frontend nested-envelope and actionable-copy fix passes112tests/lint/types/build. No funds moved or gate changed. Publication/deployed browser check pending."
   }
 ]

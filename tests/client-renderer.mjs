@@ -31,7 +31,9 @@ export function clientRenderer(mocks = {}, expose = {}, clock = {}) {
       return require(name);
     }
     const exposed = (expose[relative] || []).map(name => `module.exports.${name}=${name};`).join('\n');
-    vm.runInNewContext(code + '\n' + exposed, { module: localModule, exports: localModule.exports, require: imports, window: globalThis.window, document: globalThis.document, Event: globalThis.window?.Event || globalThis.Event, FormData: globalThis.FormData, File: globalThis.File, AbortSignal, fetch: (...args) => globalThis.fetch(...args), crypto: globalThis.crypto, URL, URLSearchParams, console, Date: clock.Date || Date, setTimeout: clock.setTimeout || setTimeout, clearTimeout: clock.clearTimeout || clearTimeout }, { filename: file });
+    // Browser modules share an Error constructor; separate VM modules must too,
+    // otherwise `error instanceof Error` incorrectly discards real client errors.
+    vm.runInNewContext(code + '\n' + exposed, { module: localModule, exports: localModule.exports, require: imports, Error, window: globalThis.window, document: globalThis.document, Event: globalThis.window?.Event || globalThis.Event, FormData: globalThis.FormData, File: globalThis.File, AbortSignal, fetch: (...args) => globalThis.fetch(...args), crypto: globalThis.crypto, URL, URLSearchParams, console, Date: clock.Date || Date, setTimeout: clock.setTimeout || setTimeout, clearTimeout: clock.clearTimeout || clearTimeout }, { filename: file });
     return localModule.exports;
   }
   return { load };

@@ -599,9 +599,14 @@
       "page_id": "4003b21a-c925-8181-af0f-f39dd992f490",
       "url": "https://app.notion.com/p/4003b21ac9258181af0ff39dd992f490",
       "title": "Create the first four landing projects and integrate their live public data"
+    },
+    "RSI-113": {
+      "page_id": "4003b21a-c925-819f-ba82-f3b3343ebd80",
+      "url": "https://app.notion.com/p/4003b21ac925819fba82f3b3343ebd80",
+      "title": "Fix purchase preparation failure and display actionable investor errors"
     }
   },
-  "task_count": 112,
+  "task_count": 113,
   "initial_status": "To do",
   "github_sync": "Codex-managed workflow; no automatic webhook or background automation configured",
   "plan_page_id": "3fb3b21a-c925-810b-9694-e2c99173f5f9",
@@ -796,7 +801,7 @@
   "last_status_sync_scope": "RSI-112 completion reconciled with four public Published/open contracts, exact canonical receipts and deployed desktop/phone readback; prior111 task states retained without broader recertification.",
   "status_counts": {
     "Done": 88,
-    "In progress": 21,
+    "In progress": 22,
     "To do": 3
   }
 }
