@@ -3118,6 +3118,141 @@
         ]
       }
     },
+    "/v1/admin/project-wallet-policy": {
+      "get": {
+        "operationId": "AdminController_projectWalletPolicy",
+        "parameters": [
+          {
+            "name": "projectId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProjectWalletPolicyResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "cookie": []
+          }
+        ],
+        "tags": [
+          "Administration"
+        ]
+      }
+    },
     "/v1/admin/projects/{id}": {
       "get": {
         "operationId": "AdminController_get",
@@ -14505,7 +14640,6 @@
           "description",
           "totalValueUsdtAtomic",
           "maxFractions",
-          "ownerWallet",
           "treasuryWallet"
         ]
       },
@@ -17080,6 +17214,30 @@
           "qrDataUrl",
           "bank",
           "card"
+        ],
+        "additionalProperties": false
+      },
+      "ProjectWalletPolicyResponse": {
+        "type": "object",
+        "properties": {
+          "ownerWallet": {
+            "type": "string",
+            "pattern": "^0x[0-9a-f]{40}$"
+          },
+          "treasuryWallets": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^0x[0-9a-f]{40}$"
+            },
+            "minItems": 1,
+            "maxItems": 50,
+            "uniqueItems": true
+          }
+        },
+        "required": [
+          "ownerWallet",
+          "treasuryWallets"
         ],
         "additionalProperties": false
       },
