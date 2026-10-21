@@ -2,7 +2,37 @@
 
 This is the INFRA testnet QA candidate. Use the investor and admin applications below, preserve the approved Figma layouts, and report findings against the exact deployed revision. Production release, independent contract review and privileged custody handover are separate milestones.
 
-## Latest admin custody checkpoint — supersedes the morning versions below
+## Latest application release — all eleven shared admin actions and ongoing investor QA verified
+
+Use [the shared admin record](../planning/SHARED_ADMIN_WALLET_20261021.md) for exact source/image/receipt boundaries. Root release receipts and separate runtime readback verify API/worker **e950fd91** (image `sha256:2f3a31f5738252efa088236b0127e9ea278588caa096081d96cb5776ee213afb`) and admin **de9dcd5f** (image `sha256:8f4af9b1d84b8810e1afa957f6d7b4cb0571f2432c51718df3535ef8bfbd0687`), with successful admin [guarded release 39598208165](https://github.com/reIDentity/ReSystem-Investment-admin/actions/runs/39598208165). Source checks passed backend **141** units/one host-conditional skip + **241** integrations, admin **183** and investor **102**.
+
+All admin actions use the shared AWS KMS wallet with individual staff password/MFA and exact fresh-code approval. No personal MetaMask/reID connection or provider fallback is available. New projects read their configured shared owner and separate cold treasury policy; existing draft editor policy reads retain exact project scope. Historical WALLET requests remain read-only. Do not test obsolete personal staff-provider acceptance as a current requirement.
+
+The isolated signer is now **e950fd91** on the same verified backend image as API/worker. Root upgrade `upgrade-c81fd76ff7bd4d918db633ddabb8d8a6` reports `verified_upgrade`; both policies enable all **11** admin actions, dynamic registered-factory discovery and required shared ownership. Funding/withdrawal ceilings are **10 reAED / 1 USDT per call**, with previous daily/per-key/rate limits preserved. Independent audit remains valid at **13 events**, exactly the same two old Sign records nonce **0/1**, zero pending work, enabled database switch and personal signing false. No new signature/broadcast occurred. All six migration slots remain consumed; operational caps grant no extra transaction budget or V2 authority.
+
+Guarded backend no-op `release-backend-e950fd91f403-8426134786ff` passed source/image/identity/credential/journal/switch/store/schema/peer preservation under owned pause/resume. Four bounded registry checks and **24** private upgrader regression checks passed. The actual unsaved wizard shows a read-only shared owner and cold treasury dropdown; no draft was saved. Verified automatic CD modes and the separate deployment workflow follow-up are described below; actual application source is unchanged.
+
+The ongoing investor QA request window is **enabled and independently verified**. Root receipt `ongoing-qa-506c0363f3214b49863c46adecb9cc73` succeeded; separate readback shows API **and worker** `REID_TRANSACTION_SUBMIT_ENABLED=true`, personal staff signing false, actual source **e950fd91** and API readiness **200**. Shared database switch and KMS custody/policy were preserved. The final private activation helper passes **nine** checks and contains **no automatic closure**. A separate post-activation audit confirms all eleven actions, the same two Sign records nonce **0/1**, a valid **13-event** audit, zero pending work, investor requests enabled and personal staff signing disabled.
+
+The owner's latest instruction to keep it enabled supersedes historical end-of-session closure directions for this ongoing QA window: **keep it true until the owner asks to close**. Availability does not grant an agent a new signature, broadcast, funding, contract deployment or spending allowance. All six migration slots remain consumed. Each investor approves their own exact transaction; admin approvals remain shared-wallet/authenticator-only.
+
+QA should close an expired, unused purchase review and open a fresh purchase review. An old review/link does not renew its deadline. If a prior request may have been broadcast or has uncertain status, reconcile that same intent before preparing a replacement.
+
+All three deployment-workflow follow-ups are published to `dev`, with successful final source CI and automatic deployment jobs:
+
+| Repository / published commit | Source CI | Automatic deployment | Deferred output time (UTC) |
+| --- | --- | --- | --- |
+| [Backend 0b7c457](https://github.com/reIDentity/ReSystem-Investment-backend/commit/0b7c457e94b0df23a3bc422f1380fc707186e5de) | [39601370526](https://github.com/reIDentity/ReSystem-Investment-backend/actions/runs/39601370526) | [39602841317](https://github.com/reIDentity/ReSystem-Investment-backend/actions/runs/39602841317) | 12:54:56 |
+| [Admin 9df8b02](https://github.com/reIDentity/ReSystem-Investment-admin/commit/9df8b02ab6b94136db5bff6f794cba91be199a55) | [39601476694](https://github.com/reIDentity/ReSystem-Investment-admin/actions/runs/39601476694) | [39601878785](https://github.com/reIDentity/ReSystem-Investment-admin/actions/runs/39601878785) | 12:45:20 |
+| [Indexer 6580a72](https://github.com/reIDentity/ReSystem-Investment-indexer/commit/6580a727ce29d9a37baa3617dedd1175810c5427) | [39601512106](https://github.com/reIDentity/ReSystem-Investment-indexer/actions/runs/39601512106) | [39601702099](https://github.com/reIDentity/ReSystem-Investment-indexer/actions/runs/39601702099) | 12:43:28 |
+
+Every final deployment job succeeded with explicit **deferred**, **`deployed=false`** and **`gateChanged=false`** while ongoing QA was open. These are successful workflow/defer proofs, not newer image releases. Independent root readback at **12:56:46 UTC** confirms the candidate remains backend **e950fd91**, admin **de9dcd5f**, indexer **6f35968**, the investor request gate is open, and API/indexer are healthy. Backend operator regressions pass **111** checks with **one Linux-conditional skip**; wrapper helpers pass **43 / 43 / 40**. Earlier failed helper/format revisions were corrected before these final passing runs.
+
+The wrappers defer **before any root release attempt** while ongoing QA is open, returning `deployed=false` and preserving the stable candidate. A refusal after an attempted root release still fails and requires verified recovery; the root closed-gate deployment policy is unchanged. All three `FP_CD_MODE` settings are independently restored and read back as **`auto`**. Source CI success, deferred deployment and a completed image release are different results: running applications remain **e950fd91 / de9dcd5f / 6f35968**.
+
+Broader browser, multi-staff, negative, cosign and client acceptance remains open. The actual shared-wallet banner shows AWS custody with no personal connection control, and the unsaved project wizard shows its configured owner read-only; no draft or new transaction was created by those browser checks.
+
+## Historical admin custody commissioning checkpoint
 
 The shared AWS-custodied wallet is commissioned on INFRA15324. All six individually
 approved migration transactions passed canonical verification. Both existing UAT
@@ -21,8 +51,7 @@ Staff continue individual password/MFA and exact per-action approval; they do no
 connect individual wallets. Currentowner/pendingowner are shown separately from
 historical publication addresses. Broader admin policy and shared-owner defaults
 for new drafts remain open. See START_HERE.md and private Notion for final receipts,
-audit and current release evidence. The morning release register below is retained
-as historical evidence; use these latest versions when recording a new test.
+audit and current release evidence. This commissioning register is retained as historical evidence; use the newer application release register and final runtime activation proof when recording a new test.
 
 ## Entry points and access
 
@@ -36,7 +65,7 @@ as historical evidence; use these latest versions when recording a new test.
 
 Never share the super-admin password, authenticator enrollment key, wallet key or another tester's session. Request separately approved accounts and the required project-scoped role. The private Notion project contains credential references, restricted evidence and the Services register; it is not a public QA credential export.
 
-The owner will provide QA/client staff names, email addresses and roles later. No additional staff account or permission was created for this handover. Investor testers may connect their own reID UAT accounts. Staff invitations, test-recipient approval and any new financial test window remain explicit follow-ups.
+The owner will provide QA/client staff names, email addresses and roles later. No additional staff account or permission was created for this handover. Investor testers may connect their own reID UAT accounts. Staff invitations, test-recipient approval and any new funding or agent-transaction allowance remain explicit follow-ups. The approved ongoing QA request-availability policy is recorded above.
 
 ## Morning candidate state — historical
 
@@ -58,7 +87,7 @@ The existing investor layout, image geometry, icons and colours are unchanged. O
 
 ## Deployment operation
 
-`FP_CD_MODE=auto` is enabled in each server repository. A successful own-repository `dev` push CI triggers its hosted image build and repository-specific FP release. No personal Teleport login is required for normal compatible image releases. The three runner accounts have separate private homes and own-service permissions; the combined kernel envelope is 1.5 GiB, no extra swap, half a CPU and 256 tasks. Actual backend process membership was corrected and verified after the independent audit found an old listener outside that envelope.
+`FP_CD_MODE=auto` is enabled in each server repository. A successful own-repository `dev` push CI triggers its hosted image build and repository-specific guarded FP workflow. While the ongoing QA request window is open, the reviewed follow-up wrappers defer before any root release attempt and report `deployed=false`; they do not replace the candidate. A compatible image release can proceed only after the owner requests closure and operator checks establish the required closed state. No personal Teleport login is required for normal compatible image releases. The three runner accounts have separate private homes and own-service permissions; the combined kernel envelope is 1.5 GiB, no extra swap, half a CPU and 256 tasks. Actual backend process membership was corrected and verified after the independent audit found an old listener outside that envelope.
 
 Hosted preparation and the repository artifact verifier enforce source-CI and same-run artifact identity. The root controller enforces its service/UID, immutable operations and runtime-preservation boundaries; it does not independently authenticate GitHub build attestations. Repository maintainers, reviewed workflows and the FP machine remain trusted. See the [security register](../security/SECURITY_ARCHITECTURE.md).
 
@@ -77,7 +106,7 @@ Seven strict-TLS anonymous checks confirmed that staff, support and transaction 
 ## Test execution rules
 
 - Read-only, navigation, accessibility and authorized account-management checks may proceed on the stable candidate. Use clearly labelled UAT records and avoid changing the client's intended content.
-- Wallet transactions require a fresh approved test window, fee/funding bounds and the tester's own exact approval. Previous UAT broadcast allowances are exhausted. Do not enable a gate, deploy contracts, top up a wallet or reuse an expired review just to complete this checklist.
+- The ongoing investor reID QA request window is verified enabled and stays enabled until the owner asks to close. This availability decision grants no new agent transaction allowance. Previous bounded UAT/migration budgets are exhausted. Each financial transaction still needs its tester's exact approval and applicable fee/funding bounds; never reuse expired reviews, deploy contracts or top up wallets just to complete this checklist. Admin actions use the shared signer and human authenticator approval only.
 - Before approving, compare chain, signing wallet, receiving wallet, contract, token/asset, atomic amount, quantity, allowance, fee and deadline. Reject unlimited allowances or any discrepancy.
 - A provider acknowledgment or transaction hash is not settlement. Require a successful canonical receipt and confirmed indexed state; retain pending/unknown states honestly and reconcile before retrying.
 - Use independent accounts for isolation tests. Do not use a query parameter or another account's cookie to select the acting identity.
@@ -92,7 +121,7 @@ These are QA test cases, not a claim that each has already passed on the final c
 | QA-02 | Published catalogue versus draft/unpublished project | Only published records are discoverable; restricted draft remains unavailable publicly |
 | QA-03 | Connect reID, cancel consent, logout and reconnect | Verified session wallet; honest cancellation; protected data unavailable after logout |
 | QA-04 | Staff password, MFA, expired challenge and replay | No privileged session before MFA; expired/replayed codes fail |
-| QA-05 | Ordinary publisher versus GLOBAL super-admin | Ordinary staff need independent review; authorized super-admin may publish directly with all other safeguards |
+| QA-05 | Ordinary publisher versus GLOBAL super-admin using shared admin wallet | Ordinary staff need independent review; authorized super-admin may publish directly; both retain shared owner, cold treasury, frozen transaction and MFA safeguards |
 | QA-06 | Scoped staff roles, retry, revocation and concurrent sessions | Fresh permissions govern every action; one grant on safe retry; stale private caches clear |
 | QA-07 | Project economics and metadata | Whole fractions, exact divisible pricing and fixed 1 USDT = 3.6 reAED; no floating-point changes |
 | QA-08 | Buy and rebuy with native reAED | Exact payment and receipt; same project token ID 1 balance increases only after settlement |
@@ -114,6 +143,10 @@ These are QA test cases, not a claim that each has already passed on the final c
 | QA-24 | Errors, empty history, indexing delay and interrupted refresh | Honest states; committed write distinguished from failed refresh; no duplicate write on retry |
 | QA-25 | Keyboard, focus, dialog labels and reduced motion | Usable native controls, visible focus and correctly associated errors without redesign |
 | QA-26 | CI release and rollback rehearsal | Exact successful dev CI and verified hosted artifact; one-service update, preserved data/settings/peers, automatic rollback on failed postflight |
+| QA-27 | Admin old personal binding/flag, missing/disabled shared signer and historical WALLET intent | No provider connect/sign/broadcast fallback; unavailable action stays blocked and historical receipts remain readable |
+| QA-28 | Draft-only/scoped editor wallet policy, shared owner, cold treasury and legacy draft migration | Exact read scope; shared owner read-only; only approved cold treasury; explicit migration invalidates prior metadata/review; no silent rewrite |
+| QA-29 | Shared signer lock/unavailable/address or audit mismatch, expired code/session and cosigner revocation | Honest unavailable/denial, no new signature, no stale-code/role reuse; current independent cosign policy enforced |
+| QA-30 | Dynamic factory project discovery and ongoing QA activation | Verify final deployed policy first; unregistered/wrong-version/owner/treasury/stale RPC proof rejected without fallback; no inferred spending allowance |
 
 ## NFT artwork and explorer limitation
 

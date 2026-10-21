@@ -1628,12 +1628,20 @@
     "priority": "P0",
     "objective": "Use one AWS-custodied admin wallet from FP while retaining individually authenticated and permissioned staff approvals.",
     "requirements": [
-      "Support network validation/switch guidance, wallet proof binding, reconnect and disconnect/revocation.",
-      "Display app permissions separately from on-chain authority and require approval for privileged commands."
+      "Use one configured nonexportable AWS KMS admin wallet; all application, signer, indexer and database workloads remain on FP.",
+      "Permanently remove personal staff-provider connection, proof, signing and broadcast paths, including fallback from old session bindings or flags; investor reID remains unchanged.",
+      "Preserve individual staff password/MFA, current role/project scope, exact frozen per-action review, fresh authenticator approval, configured independent transaction cosign, switch/health/audit and policy/cap checks.",
+      "Read configured shared owner and separate approved cold treasury choices through project-write-scoped policy; lock new draft owner, re-read before save and require explicit legacy draft migration.",
+      "Display confirmed current owner separately from recorded publication addresses; keep historical WALLET intents read-only and reconcile existing receipts honestly.",
+      "Verify controlled dynamic factory-project and all-eleven-action signer rollout independently of newer API/admin images; no extra transaction allowance or signature is inferred."
     ],
     "acceptance": [
-      "Both approved providers can sign a verified UAT intent.",
-      "Wrong chain, wrong wallet and revoked binding block the action with useful feedback."
+      "No admin browser-provider request or personal approval/broadcast is reachable, even with an old bound wallet or missing/legacy capability flag.",
+      "Draft-only and exact-project scoped editors can obtain valid owner/cold-treasury policy without signer.use or enabled signing; unauthorized scopes, hot/invalid treasury, changed policy or expired session cannot write.",
+      "Only explicit current shared-wallet action capabilities can prepare PLATFORM intents; changed frozen values, revoked authority, invalid/expired codes and signer/audit failures block approval.",
+      "Historical WALLET records retain actual read-only status/receipt recovery; historical publication owner never substitutes for unavailable current confirmed authority.",
+      "Final runtime proof verifies the separately deployed signer, dynamic targets, all intended actions/caps, audit/queue state and intended QA request gate without a new signature.",
+      "Live multi-staff/project-scope, negative/revocation/cosign and client QA are executed with separately appropriate access and exact human transaction approvals."
     ],
     "dependencies": [
       "RSI-066",
@@ -1641,11 +1649,25 @@
       "RSI-047"
     ],
     "status": "In progress",
-    "commit_url": "https://github.com/reIDentity/ReSystem-Investment-admin/commit/1941fafa8df3502a0a6a1eebaf4a9c7c89df225e",
-    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
-    "verification_evidence": "21Oct: signer/API51b, admin1941 and rootCDdbbd deployed; all6 individually approved migration actions canonical;2KMS acceptances indexed with exact nonce0/1, valid signer and platform audit chains, treasuries unchanged.48/50reAED gross,noUSDT,24reAED float. Shared switch enabled; policies ownership-acceptance-only, financecaps0; personal staffwallets disabled.202admin tests and source/release CI pass. Private evidence linked in Notion.",
-    "remaining_acceptance": "Broader admin action/target/cap policy, new-project shared-owner wizard defaults, live multi-staff/negative acceptance and production recovery/audit remain open. Migration6/6 complete; no further transaction authority inferred.",
-    "current_requirement": "Owner revision21Oct: one shared AWS-KMS-custodied admin wallet; all application/signer workloads on FP. Individual staff authentication/MFA, scoped permissions and per-action audit attribution remain. Investor reID/UI unchanged."
+    "commit_url": "https://github.com/reIDentity/ReSystem-Investment-admin/commit/de9dcd5ffd22004f33586d6ee6f6161dec870683",
+    "notion_status_observed_at_utc": "2026-10-21T12:41:08.522Z",
+    "verification_evidence": "21 October root release receipts and separate runtime readback verify actual API/worker/admin e950fd91/de9dcd5f; backend 141 unit passes plus one host-conditional skip and 241 integrations, admin 183, investor 102. Root upgrade upgrade-c81fd76ff7bd4d918db633ddabb8d8a6 reports verified_upgrade: isolated KMS signer now e950fd91, both policies enable all 11 actions, dynamic registered-factory discovery/shared-owner enforcement, 10 reAED/1 USDT funding and withdrawal ceilings per call with old limits retained. Independent audit valid at 13 events, exactly the same two old Sign records nonce 0/1, zero pending work, DB switch enabled, personal signing false. Guarded backend no-op release-backend-e950fd91f403-8426134786ff verifies identity/credentials/journal/switch/stores/schemas/peers under owned pause/resume. Four bounded registry checks and 24 private upgrader checks passed. Live unsaved wizard owner/cold treasury controls verified without saving a draft. No new signature/broadcast or migration allowance. Local task state does not prove a new Notion synchronization. Ongoing QA activation is now verified: root receipt ongoing-qa-506c0363f3214b49863c46adecb9cc73 and separate readback show API/worker reID flags true, personal staff signing false, source e950fd91, readiness 200 and unchanged shared switch/custody; nine helper checks pass with no automatic closure. Actual shared AWS wallet banner and unsaved read-only owner/cold treasury controls were observed. No new signature or financial broadcast occurred. A separate post-activation read-only audit verifies all eleven actions, the same two Sign records nonce 0/1, a valid thirteen-event audit, zero pending work, investor reID requests true and personal staff signing false. All three deployment modes are independently restored and read back as auto.",
+    "remaining_acceptance": "Broader deployed browser and live multi-staff/project-scope/negative/cosign/client acceptance, and production recovery/audit remain open. Ongoing investor reID requests are verified true and must remain true until the owner asks to close. No additional signature, funded round, seventh migration action or V2 authority is inferred.",
+    "current_requirement": "Owner permanent revision on 21 October: every admin contract transaction and project publication uses one shared nonexportable AWS KMS wallet, with all application/signer workloads on FP and no individual staff-provider path ever. Individual staff identity/MFA, scoped permissions, frozen approval/audit and configured transaction cosign remain. New draft shared owner is read-only and cold treasury is separate. Investor reID/UI are unchanged; ongoing investor request gate is verified true and must remain so until the owner asks to close; historical automatic session-end closure instructions are superseded.",
+    "superseded_provider_acceptance": {
+      "superseded_on": "2026-10-21",
+      "reason": "Owner permanently replaced individual staff MetaMask/reID signing with shared AWS KMS wallet; preserve as history only.",
+      "requirements": [
+        "Support network validation/switch guidance, wallet proof binding, reconnect and disconnect/revocation.",
+        "Display app permissions separately from on-chain authority and require approval for privileged commands."
+      ],
+      "acceptance": [
+        "Both approved providers can sign a verified UAT intent.",
+        "Wrong chain, wrong wallet and revoked binding block the action with useful feedback."
+      ]
+    },
+    "local_checkpoint_document": "docs/planning/SHARED_ADMIN_WALLET_20261021.md",
+    "deployment_workflow_evidence": "All three follow-ups are published to dev with final source CI success: backend 0b7c457e94b0df23a3bc422f1380fc707186e5de / https://github.com/reIDentity/ReSystem-Investment-backend/actions/runs/39601370526; admin 9df8b02ab6b94136db5bff6f794cba91be199a55 / https://github.com/reIDentity/ReSystem-Investment-admin/actions/runs/39601476694; indexer 6580a727ce29d9a37baa3617dedd1175810c5427 / https://github.com/reIDentity/ReSystem-Investment-indexer/actions/runs/39601512106. Final automatic deployment jobs backend 39602841317 (12:54:56Z), admin 39601878785 (12:45:20Z), indexer 39601702099 (12:43:28Z) all succeeded with explicit deferred/deployed=false/gateChanged=false while ongoing QA was open. All three FP_CD_MODE settings independently restored/read back auto. Root readback at 12:56:46 UTC confirms actual backend e950fd91/admin de9dcd5f/indexer 6f35968, gate open, API/indexer healthy; no new app image release is claimed. Root closed-gate policy is unchanged and post-attempt failure still requires verified recovery. Backend operator checks: 111 pass/one Linux-conditional skip; wrapper helpers: 43/43/40 pass."
   },
   {
     "id": "RSI-068",

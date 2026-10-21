@@ -1,6 +1,36 @@
 # reSystem Investment - start here
 
-## 21 October 2026 — shared AWS wallet migration verified
+## 21 October 2026 — shared admin, ongoing investor QA and deployment workflows verified
+
+Read [Shared admin wallet](docs/planning/SHARED_ADMIN_WALLET_20261021.md) before admin or QA work. Every admin contract transaction now has one shared AWS KMS wallet; all application/signer workloads stay on FP. Personal staff MetaMask/reID connections are permanently removed, including fallback from old bindings/flags. Staff password/MFA, project scope, exact per-action approval and configured independent cosign remain. Investor reID and approved investor UI are unchanged.
+
+Root release receipts and separate runtime readback verify deployed API/worker [e950fd91](https://github.com/reIDentity/ReSystem-Investment-backend/commit/e950fd91f403b84ba7e68e7957b57a96843d3a41) and admin [de9dcd5f](https://github.com/reIDentity/ReSystem-Investment-admin/commit/de9dcd5ffd22004f33586d6ee6f6161dec870683), including successful admin [guarded release 39598208165](https://github.com/reIDentity/ReSystem-Investment-admin/actions/runs/39598208165). Backend **141** unit passes/one host-conditional skip and **241** integrations, admin **183** and investor **102** pass. New drafts use the configured read-only shared owner and separate cold treasury policy; scoped editors use their exact project ID. Legacy draft migration is explicit; historical WALLET intents are read-only. Confirmed current owner is distinct from the retained publication owner.
+
+The isolated signer is now **e950fd91** on the same verified backend image as API/worker. Root upgrade `upgrade-c81fd76ff7bd4d918db633ddabb8d8a6` reports `verified_upgrade`; both policies enable all **11** admin actions, dynamic registered-factory discovery and required shared ownership. Funding/withdrawal ceilings are **10 reAED / 1 USDT per call**, with previous daily/per-key/rate limits preserved. Independent audit remains valid at **13 events**, exactly the same two old Sign records nonce **0/1**, zero pending work, enabled database switch and personal signing false. No new signature/broadcast occurred. All six migration slots remain consumed; operational caps grant no extra transaction budget or V2 authority.
+
+Guarded backend no-op `release-backend-e950fd91f403-8426134786ff` passed source/image/identity/credential/journal/switch/store/schema/peer preservation under owned pause/resume. Four bounded registry checks and **24** private upgrader regression checks passed. The actual unsaved wizard shows a read-only shared owner and cold treasury dropdown; no draft was saved. Verified automatic CD modes and the separate defer-on-open workflow follow-up are recorded below; application source remains distinct from workflow-only commits.
+
+The ongoing investor QA request window is **enabled and independently verified**. Root receipt `ongoing-qa-506c0363f3214b49863c46adecb9cc73` succeeded; separate readback shows API **and worker** `REID_TRANSACTION_SUBMIT_ENABLED=true`, personal staff signing false, actual source **e950fd91** and API readiness **200**. Shared database switch and KMS custody/policy were preserved. The final private activation helper passes **nine** checks and contains **no automatic closure**. A separate post-activation audit confirms all eleven actions, the same two Sign records nonce **0/1**, a valid **13-event** audit, zero pending work, investor requests enabled and personal staff signing disabled.
+
+The owner's latest instruction to keep it enabled supersedes historical end-of-session closure directions for this ongoing QA window: **keep it true until the owner asks to close**. Availability does not grant an agent a new signature, broadcast, funding, contract deployment or spending allowance. All six migration slots remain consumed. Each investor approves their own exact transaction; admin approvals remain shared-wallet/authenticator-only.
+
+QA should close an expired, unused purchase review and open a fresh purchase review. An old review/link does not renew its deadline. If a prior request may have been broadcast or has uncertain status, reconcile that same intent before preparing a replacement.
+
+All three deployment-workflow follow-ups are published to `dev`, with successful final source CI and automatic deployment jobs:
+
+| Repository / published commit | Source CI | Automatic deployment | Deferred output time (UTC) |
+| --- | --- | --- | --- |
+| [Backend 0b7c457](https://github.com/reIDentity/ReSystem-Investment-backend/commit/0b7c457e94b0df23a3bc422f1380fc707186e5de) | [39601370526](https://github.com/reIDentity/ReSystem-Investment-backend/actions/runs/39601370526) | [39602841317](https://github.com/reIDentity/ReSystem-Investment-backend/actions/runs/39602841317) | 12:54:56 |
+| [Admin 9df8b02](https://github.com/reIDentity/ReSystem-Investment-admin/commit/9df8b02ab6b94136db5bff6f794cba91be199a55) | [39601476694](https://github.com/reIDentity/ReSystem-Investment-admin/actions/runs/39601476694) | [39601878785](https://github.com/reIDentity/ReSystem-Investment-admin/actions/runs/39601878785) | 12:45:20 |
+| [Indexer 6580a72](https://github.com/reIDentity/ReSystem-Investment-indexer/commit/6580a727ce29d9a37baa3617dedd1175810c5427) | [39601512106](https://github.com/reIDentity/ReSystem-Investment-indexer/actions/runs/39601512106) | [39601702099](https://github.com/reIDentity/ReSystem-Investment-indexer/actions/runs/39601702099) | 12:43:28 |
+
+Every final deployment job succeeded with explicit **deferred**, **`deployed=false`** and **`gateChanged=false`** while ongoing QA was open. These are successful workflow/defer proofs, not newer image releases. Independent root readback at **12:56:46 UTC** confirms the candidate remains backend **e950fd91**, admin **de9dcd5f**, indexer **6f35968**, the investor request gate is open, and API/indexer are healthy. Backend operator regressions pass **111** checks with **one Linux-conditional skip**; wrapper helpers pass **43 / 43 / 40**. Earlier failed helper/format revisions were corrected before these final passing runs.
+
+The wrappers defer **before any root release attempt** while ongoing QA is open, returning `deployed=false` and preserving the stable candidate. A refusal after an attempted root release still fails and requires verified recovery; the root closed-gate deployment policy is unchanged. All three `FP_CD_MODE` settings are independently restored and read back as **`auto`**. Source CI success, deferred deployment and a completed image release are different results: running applications remain **e950fd91 / de9dcd5f / 6f35968**.
+
+Broader deployed browser/multi-staff/negative/client acceptance remains open; RSI-067 remains In progress. Earlier checkpoints below are historical and do not override the ongoing QA request instruction. Exact images, receipts, limits and remaining work are in the focused document.
+
+## Historical 21 October 2026 — shared AWS wallet migration verified
 
 AWS holds only the new nonexportable wallet key and its access controls; all app,
 DB, indexer and signer workloads stay on FP. Staff use individual password/MFA,
@@ -55,7 +85,7 @@ reconciled. All120 mount permutations and changed permission/source/count refusa
 are covered. Private Notion RSI-067/AWS wallet/security/credential records contain
 actual evidence. Earlier dated checkpoints below remain history.
 
-## 21 October 2026 — stable read-path QA candidate and automatic deployment verified
+## Historical 21 October 2026 — stable read-path QA candidate and automatic deployment verified
 
 Read the [QA handover](docs/testing/QA_HANDOVER_20261021.md) for the exact release register, 26-case test matrix, access rules and known limits. Actual FP API/worker **4db55a7**, admin **768e487** and indexer **6f35968** match successful automatic GitHub hosted-build/release receipts. All three own-repository `dev` CI → build → restricted FP deployment paths passed without personal Teleport credentials in CI. Incompatible schema/root-policy/signing changes remain deliberate operator work.
 
