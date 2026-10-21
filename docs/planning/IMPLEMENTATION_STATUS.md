@@ -2,7 +2,7 @@
 
 ## 21 October 2026 — purchase error diagnosis and actionable messages
 
-[Purchase errors](../testing/PURCHASE_ERRORS_20261021.md) records an actual400preparation rejection: the wallet could not cover the native payment plus current INFRA network fee. The project is open and the ongoing QA gate remains enabled. A nested Nest error message was hidden by the client; the prepared frontend correction passes112tests/lint/TypeScript/build, handles vetted reasons safely and preserves the original dialog and idempotency key. RSI-113 remains In progress pending publication/deployed verification. No funds moved, signature requested or gate changed.
+[Purchase errors](../testing/PURCHASE_ERRORS_20261021.md) records an actual400preparation rejection: the wallet could not cover the native payment plus current INFRA network fee. The project is open and the ongoing QA gate remains enabled. A nested Nest error message was hidden by the client; published fixes ec981f3/c6710c3 pass112tests/lint/TypeScript/build and CI39655876444/39656571936. Vercel deployment and actual desktop/phone error copy/restored red styling are verified. Vetted reasons and the same idempotency key are preserved. RSI-113 is Done for the error correction; a purchase still requires sufficient investor reAED and personal approval. No funds moved, signature requested or gate changed.
 
 
 ## 21 October 2026 — four landing projects published, sales open and live cards verified

@@ -724,6 +724,11 @@
       "page_id": "4003b21a-c925-81f3-a671-fcea593e6779",
       "url": "https://app.notion.com/p/4003b21ac92581f3a671fcea593e6779",
       "title": "First four landing projects — creation and live data integration"
+    },
+    "docs/testing/PURCHASE_ERRORS_20261021.md": {
+      "page_id": "4003b21a-c925-812c-b731-dcbdacaa27f7",
+      "url": "https://app.notion.com/p/4003b21ac925812cb731dcbdacaa27f7",
+      "title": "Purchase preparation errors — diagnosis and actionable messages"
     }
   },
   "service_records": {
@@ -797,11 +802,11 @@
     }
   },
   "operations_updated_at_utc": "2026-10-21T07:46:47.509449+00:00",
-  "last_status_sync_at_utc": "2026-10-21T14:42:04.670486+00:00",
-  "last_status_sync_scope": "RSI-112 completion reconciled with four public Published/open contracts, exact canonical receipts and deployed desktop/phone readback; prior111 task states retained without broader recertification.",
+  "last_status_sync_at_utc": "2026-10-21T18:54:34.163862+00:00",
+  "last_status_sync_scope": "RSI-113 completed from actual live400 diagnosis, published fixes, passing CI and deployed desktop/phone negative-path/error-style proof. Earlier112 task states retained without broader recertification.",
   "status_counts": {
-    "Done": 88,
-    "In progress": 22,
+    "Done": 89,
+    "In progress": 21,
     "To do": 3
   }
 }

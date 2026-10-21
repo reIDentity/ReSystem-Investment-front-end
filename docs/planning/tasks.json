@@ -2838,8 +2838,10 @@
       "Reviewed source published, required checks pass and deployed negative/error behavior verified."
     ],
     "dependencies": [],
-    "status": "In progress",
+    "status": "Done",
     "notion_page_id": "4003b21a-c925-819f-ba82-f3b3343ebd80",
-    "verification_evidence": "Live400 was insufficient native funds including fee; server/request gate healthy. Frontend nested-envelope and actionable-copy fix passes112tests/lint/types/build. No funds moved or gate changed. Publication/deployed browser check pending."
+    "verification_evidence": "Actual live400 diagnosed as insufficient native payment+gas; nested Nest reason was ignored. Published ec981f3 and c6710c3; CI39655876444/39656571936 and Vercel deployment succeeded.112tests/lint/types/build/dependency gates/full-history secret scan pass. Actual10-fraction review shows actionable deposit message in restored existing red error style(rgb180,35,24;13px). Desktop1800x892/phone390x844 verified no overflow. Same-key non-submitting retries tested; no approval request/funds moved/gate change/restart. See docs/testing/PURCHASE_ERRORS_20261021.md.",
+    "completed_date": "2026-10-21",
+    "github_commit": "https://github.com/reIDentity/ReSystem-Investment-front-end/commit/c6710c32f4a4d8740b283727f67709b4bcd36db5"
   }
 ]
