@@ -18,6 +18,8 @@ Insufficient gas/payment now reads: “Not enough reAED to cover this payment an
 
 The preparation dialog retains the original layout/classes/button placement and exact command. Its unconditional “Reuse this review to retry safely” suffix is removed; recovery instructions now depend on the actual reason. Failed preparation keeps the same idempotency key, never opens a provider approval link and never submits a transaction automatically. No contract, API payload or schema change is required; this is a frontend compatibility correction.
 
+Deployed visual review also identified an existing specificity defect: `.iv-modal > p` overrode the already-designed `.iv-form-error` red colour and font size. Normal paragraph styling now excludes error paragraphs, restoring the original red error styling without adding a new component, colour, layout or spacing rule. This is the owner's explicitly requested error-presentation correction.
+
 ## Verification
 
 112tests passed, including the actual HTTP client reading the deployed400envelope and the actual React review displaying the deposit instruction. The regression retries the same10-fraction command with the same idempotency key and asserts no submit/approval path. Additional cases cover flat/nested errors, validation arrays, expiry, availability,401/403/404/409/413/429/server responses and private-diagnostic suppression. The browser test harness now shares the Error constructor between VM modules, as browser modules do, so instanceof checks do not discard genuine client errors in tests.

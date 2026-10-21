@@ -343,7 +343,7 @@
 .iv-modal-heading { display:flex; justify-content:space-between; align-items:center; gap:16px; margin-bottom:18px; }
 .iv-modal-heading h2 { font-size:21px; font-weight:700; }
 .iv-modal-heading button { font-size:25px; line-height:1; padding:3px 7px; border-radius:50%; background:#f3f4f7; }
-.iv-modal > p { margin:12px 0; color:#64748b; font-size:14px; }
+.iv-modal > p:not(.iv-form-error) { margin:12px 0; color:#64748b; font-size:14px; }
 .iv-modal > .iv-button { margin-top:18px; }
 .iv-signin-card { display:grid; grid-template-columns:1fr 1fr; max-width:1180px; min-height:852px; margin:0 auto; overflow:hidden; border-radius:28px; background:white; }
 .iv-signin-story { display:flex; flex-direction:column; align-items:flex-start; gap:28px; padding:48px; background:#0a0a0a; color:white; }
