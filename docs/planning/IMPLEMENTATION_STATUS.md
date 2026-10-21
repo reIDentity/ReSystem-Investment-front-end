@@ -1,10 +1,12 @@
 # Implementation and recovery status — 16 October 2026
 
-## 21 October 2026 — first four landing projects prepared; publication pending
+## 21 October 2026 — four landing projects published, sales open and live cards verified
 
-[Landing projects](LANDING_PROJECTS_20261021.md) records four actual admin drafts, approved sample economics (10 USDT / 10,000 fractions each), original public artwork/metadata and explicit landing-card project IDs. The live integration preserves the existing UI and uses only current public project/chain/revenue endpoints. Source tests pass 107; lint, TypeScript and production build pass. Local desktop/phone unavailable-state layout is verified; actual publication/deployed financial acceptance remains pending.
+[Landing projects](LANDING_PROJECTS_20261021.md) records **INFRA Global, INFRA reAED, reID and reMARKETPLACE** with confirmed contracts, all eight human-MFA-approved receipts, public metadata/artwork and deployed acceptance. Each uses the approved UAT sample value **10 USDT / 10,000 fractions**: **0.001 USDT / 0.0036 reAED per fraction**. All four are Published with sales Open on INFRA15324, shared KMS owner and original cold treasury. At acceptance each has zero issued fractions/revenue and unset yield; these values are actual, not fixtures.
 
-Each new project still needs its own exact human MFA publication and sale-opening approval. No new transaction, signing authority, agent budget or top-up is implied. Drafts stay private and landing stats stay unavailable until confirmed publication. Keep ongoing investor QA enabled until the owner asks to close it. RSI-112 remains In progress.
+Investor [ec20272](https://github.com/reIDentity/ReSystem-Investment-front-end/commit/ec2027234a2d56ca2e45d2257711989f057fe3d9) is published with [passing CI](https://github.com/reIDentity/ReSystem-Investment-front-end/actions/runs/39614120989), **107 tests**, lint, TypeScript/build/secret scanning. The actual deployed cards show loaded public images, matching project links and live chain/indexer values. Desktop and phone390×844 checks preserve the approved layout and no horizontal overflow. RSI-112 is Done; broader independent QA acceptance remains separate.
+
+The owner personally approved each admin action. The separately authorized single **9 reAED + 3 fee** deployer top-up is confirmed and its allowance consumed; no further spending or V2 deployment is implied. Shared balance was **6 reAED** after the last action. Keep ongoing investor reID QA enabled until the owner asks to close it. No backend/server deployment was required for this frontend integration; prior runtime/source distinctions below remain applicable.
 
 ## 21 October 2026 — shared admin, ongoing investor QA and deployment workflows verified
 

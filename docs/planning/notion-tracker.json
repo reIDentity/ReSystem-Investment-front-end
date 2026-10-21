@@ -714,6 +714,11 @@
       "title": "reSystem Investment QA handover 21 October 2026",
       "page_id": "4003b21a-c925-81a3-8d01-c64bcb6fd76b",
       "url": "https://app.notion.com/p/4003b21ac92581a38d01c64bcb6fd76b"
+    },
+    "docs/planning/LANDING_PROJECTS_20261021.md": {
+      "page_id": "4003b21a-c925-81f3-a671-fcea593e6779",
+      "url": "https://app.notion.com/p/4003b21ac92581f3a671fcea593e6779",
+      "title": "First four landing projects — creation and live data integration"
     }
   },
   "service_records": {
@@ -787,11 +792,11 @@
     }
   },
   "operations_updated_at_utc": "2026-10-21T07:46:47.509449+00:00",
-  "last_status_sync_at_utc": "2026-10-21T07:46:47.509449+00:00",
-  "last_status_sync_scope": "All111 native task states re-read; existing original source references retained, new RSI-110/111 published links independently verified. Detailed private acceptance bodies remain in Notion; status synchronization is not independent recertification.",
+  "last_status_sync_at_utc": "2026-10-21T14:42:04.670486+00:00",
+  "last_status_sync_scope": "RSI-112 completion reconciled with four public Published/open contracts, exact canonical receipts and deployed desktop/phone readback; prior111 task states retained without broader recertification.",
   "status_counts": {
-    "Done": 87,
-    "In progress": 22,
+    "Done": 88,
+    "In progress": 21,
     "To do": 3
   }
 }

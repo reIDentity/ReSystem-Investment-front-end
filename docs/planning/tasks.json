@@ -2813,8 +2813,10 @@
       "Human-approved publication and sale-opening receipts are confirmed/indexed for all four projects."
     ],
     "dependencies": [],
-    "status": "In progress",
+    "status": "Done",
     "notion_page_id": "4003b21a-c925-8181-af0f-f39dd992f490",
-    "verification_evidence": "Four drafts created in the authenticated admin. Source integration underway; publication and sale-opening require fresh human authenticator approval."
+    "verification_evidence": "Four projects Published and sales Open; eight human-MFA-approved canonical receipts verified beyond12 blocks; ERC1155/implementation/owner/treasury/economics/metadata exact. Public metadata and images4/4 HTTP200, both asset quotes exact, real zero supply/revenue and unset yield. Published ec20272, CI39614120989 successful,107tests/lint/types/build/secrets pass. Actual deployed desktop and phone390x844 cards/images/links/stats verified, no CSS/class changes or overflow. One explicitly authorized9reAED top-up plus3fee confirmed once; no additional transaction authority. See LANDING_PROJECTS_20261021.md.",
+    "completed_date": "2026-10-21",
+    "github_commit": "https://github.com/reIDentity/ReSystem-Investment-front-end/commit/ec2027234a2d56ca2e45d2257711989f057fe3d9"
   }
 ]
