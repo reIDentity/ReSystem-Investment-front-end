@@ -1,5 +1,10 @@
 # Implementation and recovery status — 16 October 2026
 
+## 22 October 2026 — five recent deposits and full Activity history
+
+RSI-114 is Done. Deposit displays the five newest canonical incoming records and a See more link to `/invest/activity?filter=deposits`. Activity selects Deposits and uses the existing complete deposit feed with older-page navigation; filter changes reset pagination. Existing row/form styling, wallet identity and failure safeguards are preserved. [04ff066](https://github.com/reIDentity/ReSystem-Investment-front-end/commit/04ff066b0d3847a820612c1791b7d542fa0910c1) has [passing CI39745110475](https://github.com/reIDentity/ReSystem-Investment-front-end/actions/runs/39745110475), Vercel success,129 application tests/lint/types/build and actual signed-in desktop/phone390 acceptance. The live sidebar has five rows and Activity includes all10 existing deposits. The [private Notion task](https://app.notion.com/p/4013b21ac9258139b339fd904366d2b2) records evidence. No local server, FP release, financial action or gate change was needed. Backlog114:91 Done/20 In progress/3 To do; other tasks were not recertified.
+
+
 ## 22 October 2026 — complete landing-page live data and verified release
 
 [Landing live-data audit](LANDING_LIVE_DATA_20261022.md) records RSI-079 completion: all published projects, exact prices/supply, confirmed funded/claimed revenue, actual payment records and transaction links, real historical charts, dynamic minimum and whole-fraction calculator. All frontend financial fixtures and simulated incoming payments are removed; unavailable fields stay honest. Original Figma layout, images, branding and node classes are preserved. No wallet action, FP deployment or QA gate change occurred.
