@@ -305,3 +305,6 @@
     font-size: 23px;
   }
 }
+
+.iv-project-icon { overflow:hidden; flex-shrink:0; }
+.iv-project-icon img { display:block; width:100%; height:100%; object-fit:cover; border-radius:inherit; }

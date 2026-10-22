@@ -3,65 +3,32 @@ import assert from 'node:assert/strict';
 import { JSDOM } from 'jsdom';
 import React from 'react';
 import { clientRenderer } from './client-renderer.mjs';
-
-const dom = new JSDOM('<!doctype html><html><body></body></html>', { url: 'https://investor.example.invalid' });
-for (const [key, value] of Object.entries({ window: dom.window, self: dom.window, document: dom.window.document, navigator: dom.window.navigator, HTMLElement: dom.window.HTMLElement, FormData: dom.window.FormData, File: dom.window.File })) Object.defineProperty(globalThis, key, { value, configurable: true });
-globalThis.IS_REACT_ACT_ENVIRONMENT = true;
-const { act, cleanup, fireEvent, render, waitFor } = await import('@testing-library/react');
+const dom = new JSDOM('<!doctype html><html><body></body></html>', { url:'https://investor.example.invalid' });
+for (const [key,value] of Object.entries({window:dom.window,self:dom.window,document:dom.window.document,navigator:dom.window.navigator,HTMLElement:dom.window.HTMLElement})) Object.defineProperty(globalThis,key,{value,configurable:true});
+globalThis.IS_REACT_ACT_ENVIRONMENT=true;
+const {cleanup,fireEvent,render}=await import('@testing-library/react');
 afterEach(cleanup);
-
-const prefs = { transactionUpdates: true, supportUpdates: true };
-const email = { transactionEmails: false, supportEmails: false };
-function fixture(status, transport = async () => ({}), extra = {}, clock = {}) {
-  const calls = [], notices = [];
-  const { EmailPreferences } = clientRenderer({
-    './PlatformProvider': { usePlatform: () => ({ notify: text => notices.push(text) }) },
-    '@/lib/platform/client': { api: (path, options) => { calls.push({ path, options }); return transport(path, options); } },
-    './InvestorUI': { Tag: ({ children }) => React.createElement('span', null, children) },
-    './platform/Transaction': {},
-  }, { 'src/components/invest/ActivitySupport.tsx': ['EmailPreferences'] }, clock).load('src/components/invest/ActivitySupport.tsx');
-  return { calls, notices, view: render(React.createElement(EmailPreferences, { status, inApp: prefs, chosen: email, change() {}, refresh: async () => {}, ...extra })) };
+function fixture(status,extra={}) {
+ const changes=[];
+ const {EmailPreferences}=clientRenderer({'./InvestorUI':{Tag:({children})=>React.createElement('span',null,children)},'./platform/Transaction':{}},{'src/components/invest/ActivitySupport.tsx':['EmailPreferences']}).load('src/components/invest/ActivitySupport.tsx');
+ return {changes,view:render(React.createElement(EmailPreferences,{status,inApp:{transactionUpdates:true,supportUpdates:true},chosen:{transactionEmails:true,supportEmails:true},change:value=>changes.push(JSON.parse(JSON.stringify(value))),...extra}))};
 }
-
-test('duplicate confirmation requests have one in-flight mutation and report a request rather than delivery', async () => {
-  let resolve;
-  const { view, calls, notices } = fixture({ deliveryEnabled: true, pendingEmail: 'l***@example.invalid' }, () => new Promise(done => { resolve = done; }));
-  const form = view.getByRole('button', { name: 'Send confirmation email' }).closest('form');
-  fireEvent.submit(form); fireEvent.submit(form);
-  assert.equal(calls.length, 1);
-  assert.equal(calls[0].path, 'email-notifications/verification');
-  await act(async () => resolve({ queued: true }));
-  assert.deepEqual(notices, ['Confirmation email requested.']);
+test('connected provider email renders only masked address and delivery preferences, with no second confirmation step',()=>{
+ const {view,changes}=fixture({verifiedEmail:'h•••••@example.org'});
+ assert.ok(view.getByText('Connected'));assert.ok(view.getByText('h•••••@example.org'));assert.equal(view.queryByRole('form'),null);assert.equal(view.queryByRole('button'),null);
+ fireEvent.click(view.getByLabelText('Transaction emails'));assert.deepEqual(changes,[{transactionEmails:false,supportEmails:true}]);
 });
-
-test('a pending email changes to expired without requiring the page to be remounted', async () => {
-  let now = Date.parse('2026-10-20T12:00:00.000Z');
-  const timers = new Map(); let nextTimer = 0;
-  class ClockDate extends Date { constructor(...args) { super(...(args.length ? args : [now])); } static now() { return now; } }
-  const clock = { Date: ClockDate, setTimeout(callback, delay) { const id = ++nextTimer; timers.set(id, { callback, at: now + delay }); return id; }, clearTimeout(id) { timers.delete(id); } };
-  const { view } = fixture({ deliveryEnabled: true, pendingEmail: 'l***@example.invalid', verificationExpiresAt: new Date(now + 150).toISOString() }, undefined, {}, clock);
-  assert.match(view.container.textContent, /Open the link we sent/);
-  assert.equal(timers.size, 1);
-  await act(async () => { now += 151; for (const [id, timer] of [...timers]) if (timer.at <= now) { timers.delete(id); timer.callback(); } });
-  assert.match(view.container.textContent, /has expired/);
-  assert.equal(timers.size, 0);
+test('missing and legacy pending emails explain how to update reID without exposing another email entry or resend flow',()=>{
+ for (const status of [{verifiedEmail:null},{verifiedEmail:null,pendingEmail:'h•••••@example.org',pendingSource:'REID_PROFILE'},{verifiedEmail:null,pendingEmail:'h•••••@example.org',pendingSource:'INVESTOR_ENTERED',verificationExpiresAt:'2026-01-01T00:00:00Z'}]) {
+  const {view,changes}=fixture(status);assert.ok(view.getByText(/Add an email address to your reID account/));assert.equal(view.queryByRole('textbox'),null);assert.equal(view.queryByRole('button'),null);assert.deepEqual(changes,[]);view.unmount();
+ }
 });
-
-test('cached settings cannot trigger email mutations while their source is unavailable', () => {
-  const { view, calls } = fixture({ deliveryEnabled: true, verifiedEmail: 'l***@example.invalid' }, undefined, { unavailable: true });
-  assert.equal(view.getByRole('checkbox', { name: 'Transaction emails' }).disabled, true);
-  assert.equal(view.getByRole('checkbox', { name: 'Support reply emails' }).disabled, true);
-  const remove = view.getByRole('button', { name: 'Remove email' });
-  assert.equal(remove.disabled, true);
-  fireEvent.click(remove);
-  assert.equal(calls.length, 0);
+test('an unavailable preferences source disables both email controls and cannot change cached settings',()=>{
+ const {view,changes}=fixture({verifiedEmail:'h•••••@example.org'},{unavailable:true});
+ for (const input of view.getAllByRole('checkbox')) {assert.equal(input.disabled,true);fireEvent.click(input);}
+ assert.deepEqual(changes,[]);
 });
-
-test('a failed request retains the address and shows no successful request notice', async () => {
-  const { view, calls, notices } = fixture({ deliveryEnabled: true, pendingEmail: null }, async () => { throw Error('Controlled unavailable'); });
-  fireEvent.change(view.getByRole('textbox', { name: 'Email address' }), { target: { value: 'local@example.invalid' } });
-  fireEvent.submit(view.getByRole('button', { name: 'Send confirmation email' }).closest('form'));
-  await waitFor(() => assert.deepEqual(notices, ['Controlled unavailable']));
-  assert.equal(calls.length, 1);
-  assert.equal(view.getByRole('textbox', { name: 'Email address' }).value, 'local@example.invalid');
+test('in-app category opt-outs keep the corresponding email controls disabled',()=>{
+ const {view}=fixture({verifiedEmail:'h•••••@example.org'},{inApp:{transactionUpdates:false,supportUpdates:true}});
+ assert.equal(view.getByLabelText('Transaction emails').disabled,true);assert.equal(view.getByLabelText('Support reply emails').disabled,false);
 });

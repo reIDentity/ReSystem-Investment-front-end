@@ -89,7 +89,7 @@ export function fixture(name) {
 }
 
 const sourcePaths = [
-  'src/components/invest/HomeExplore.tsx', 'src/components/invest/InvestorUI.tsx',
+  'src/components/invest/HomeExplore.tsx', 'src/components/invest/InvestorUI.tsx', 'src/components/invest/platform/ProjectIcon.tsx',
   'src/components/Logo.tsx', 'src/lib/platform/money.ts', 'src/lib/platform/media.ts',
   'src/lib/platform/portfolio-values.ts', 'src/lib/platform/valuation.ts', 'src/lib/platform/cashflow-values.ts',
 ];
@@ -103,6 +103,8 @@ export function createHomeRenderer() {
   const provider = {
     usePlatform: () => ({ user: { id: 'local-fixture-only', name: 'Fixture Preview', wallet: walletAddress, kycStatus: 'not_requested' }, live: current.live, notice: '', notify() {}, session: null, approvalOrigin: '' }),
     useResource: endpoint => {
+      if (endpoint === null) return {data:undefined,error:undefined,isLoading:false};
+      if (endpoint.startsWith('projects/')) return {data:current.resources.projects?.data?.items.find(project=>project.id===endpoint.slice(9)),error:undefined,isLoading:false};
       stats.resourceReads.push(endpoint);
       if (!Object.hasOwn(current.resources, endpoint)) throw new Error(`Unexpected fixture resource: ${endpoint}`);
       return { ...current.resources[endpoint], mutate: async () => { throw new Error('Static fixture preview has no retry transport'); } };

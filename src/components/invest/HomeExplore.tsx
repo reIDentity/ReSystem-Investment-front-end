@@ -10,12 +10,13 @@ import { holdingCostBasis, portfolioCostBasis, portfolioAcquisitionOutlay } from
 import { formatRationalUsdEquivalent, formatSignedUsdEquivalent } from "@/lib/platform/valuation";
 import { readWalletCashflow, cashflowWidths } from "@/lib/platform/cashflow-values";
 import { usePlatform, useResource } from "./PlatformProvider";
-import { Asset, DataState, Initials, InvestorShell, Modal, Panel, Tag } from "./InvestorUI";
+import { Asset, DataState, InvestorShell, Modal, Panel, Tag } from "./InvestorUI";
+import { ProjectIcon } from "./platform/ProjectIcon";
 import { TransactionReview, type InvestorCommand } from "./platform/Transaction";
 import "./HomeExplore.css";
 import "./Explore.css";
 export function HoldingCard({ holding }: { holding: Holding }) {
-  return <article className="iv-holding-card"><div className="iv-holding-title"><Initials name={holding.title.slice(0, 2).toUpperCase()} /><div><h3>{holding.title}</h3><small>{BigInt(holding.quantity) === 0n ? "Historical rewards retained" : "Issued fractions"}</small></div></div><dl><div><dt>Fractions</dt><dd>{units(holding.quantity, 0)}</dd></div><div><dt>Project entitlement · h/N</dt><dd>{percentage(holding.ownership.numerator, holding.ownership.denominator)}</dd></div><div><dt>Next allocation participation · h/S</dt><dd>{percentage(holding.revenueParticipation.numerator, holding.revenueParticipation.denominator)}</dd></div>{holding.claimable.map(a => <div key={a.asset}><dt>Claimable {assetLabel(a.asset)}</dt><dd>{units(a.amountAtomic, a.decimals)}</dd></div>)}</dl><div className="iv-two-buttons"><Link className="iv-button iv-blue" href="/invest/earnings">Rewards</Link><Link className="iv-button iv-primary" href={`/invest/products/${holding.projectId}`}>Manage fractions</Link></div></article>;
+  return <article className="iv-holding-card"><div className="iv-holding-title"><ProjectIcon id={holding.projectId} title={holding.title} /><div><h3>{holding.title}</h3><small>{BigInt(holding.quantity) === 0n ? "Historical rewards retained" : "Issued fractions"}</small></div></div><dl><div><dt>Fractions</dt><dd>{units(holding.quantity, 0)}</dd></div><div><dt>Project entitlement · h/N</dt><dd>{percentage(holding.ownership.numerator, holding.ownership.denominator)}</dd></div><div><dt>Next allocation participation · h/S</dt><dd>{percentage(holding.revenueParticipation.numerator, holding.revenueParticipation.denominator)}</dd></div>{holding.claimable.map(a => <div key={a.asset}><dt>Claimable {assetLabel(a.asset)}</dt><dd>{units(a.amountAtomic, a.decimals)}</dd></div>)}</dl><div className="iv-two-buttons"><Link className="iv-button iv-blue" href="/invest/earnings">Rewards</Link><Link className="iv-button iv-primary" href={`/invest/products/${holding.projectId}`}>Manage fractions</Link></div></article>;
 }
 type HomeAmounts = Record<PaymentAsset, bigint>;
 const HOME_ASSETS = ["REAED", "USDT"] as const;
@@ -55,11 +56,11 @@ function homeCurrency(amounts: HomeAmounts | null): string {
   return `$${units((cents / 100n).toString(), 0)}.${(cents % 100n).toString().padStart(2, "0")}`;
 }
 
-function HomeHoldingCard({ holding }: { holding: Holding }) {
+function HomeHoldingCard({ holding, media }: { holding: Holding; media?: Project["media"] }) {
   const claimable = holdingAmounts(holding, "claimable");
   const hasRewards = claimable && (claimable.REAED > 0n || claimable.USDT > 0n);
   return <article className="iv-holding-card iv-home-holding-card">
-    <div className="iv-holding-title"><Initials name={holding.title.slice(0, 2).toUpperCase()} /><div><h3>{holding.title}</h3><small>{holding.quantity === "0" ? "Previous holding" : "Project shares"}</small></div><Tag tone={hasRewards ? "green" : "neutral"}>{hasRewards ? "To claim" : holding.quantity === "0" ? "Previous" : "Holding"}</Tag></div>
+    <div className="iv-holding-title"><ProjectIcon id={holding.projectId} title={holding.title} media={media} /><div><h3>{holding.title}</h3><small>{holding.quantity === "0" ? "Previous holding" : "Project shares"}</small></div><Tag tone={hasRewards ? "green" : "neutral"}>{hasRewards ? "To claim" : holding.quantity === "0" ? "Previous" : "Holding"}</Tag></div>
     <dl><div><dt>Shares</dt><dd>{isAtomic(holding.quantity) ? units(holding.quantity, 0) : "—"}</dd></div><div><dt>Invested</dt><dd>{formatRationalUsdEquivalent(holdingCostBasis(holding))}</dd></div><div><dt>To claim</dt><dd className="iv-home-claim-amount">{homeCurrency(claimable)}</dd></div></dl>
     <div className="iv-two-buttons"><Link className="iv-button iv-blue" href="/invest/earnings">My earnings</Link><Link className="iv-button iv-primary" href={`/invest/products/${holding.projectId}`}>Buy more</Link></div>
   </article>;
@@ -140,7 +141,7 @@ export function InvestorHome() {
         </Panel>
         <Panel title="Recommended for you" subtitle="Discover published projects you don’t own yet." className="iv-recommended iv-home-recommended">
           <div className="iv-home-recommendation-list">
-            {recommendations.map(project => <Link href={`/invest/products/${project.id}`} key={project.id}><Initials name={project.title.slice(0, 2).toUpperCase()} /><span><strong>{project.title}</strong><small>{project.location || project.description}</small></span></Link>)}
+            {recommendations.map(project => <Link href={`/invest/products/${project.id}`} key={project.id}><ProjectIcon id={project.id} title={project.title} media={project.media} /><span><strong>{project.title}</strong><small>{project.location || project.description}</small></span></Link>)}
             {!recommendations.length ? <div className="iv-home-recommendation-empty" role="status"><strong>{projects.isLoading || portfolio.isLoading ? "Finding opportunities…" : projects.error || portfolio.error || !live ? "Recommendations unavailable" : "New opportunities start here"}</strong><p>{projects.error || portfolio.error ? "Please try again in a moment." : "Published projects will appear here."}</p>{projects.error || portfolio.error ? <button className="iv-home-retry" onClick={() => { void projects.mutate(); void portfolio.mutate(); }}>Try again</button> : null}</div> : null}
           </div>
           <Link className="iv-button iv-primary iv-full" href="/invest/explore">Explore all projects</Link>
@@ -150,7 +151,7 @@ export function InvestorHome() {
 
       <Panel className="iv-holdings iv-home-holdings">
         <div className="iv-panel-toolbar"><h2>Your holdings</h2><label className="iv-search"><Asset name="44e06" width={16} /><input value={query} onChange={event => setQuery(event.target.value)} aria-label="Search holdings" placeholder="Search holdings" /></label><label className="iv-sort"><Asset name="734ad" width={16} /><span className="sr-only">Sort holdings</span><select value={sort} onChange={event => setSort(event.target.value)}><option value="claimable">Sort: claimable</option><option value="shares">Sort: shares</option><option value="name">Sort: name</option></select></label></div>
-        {holdings.length ? <div className="iv-holding-grid">{holdings.map(holding => <HomeHoldingCard key={holding.projectId} holding={holding} />)}</div> : <div className="iv-home-holdings-empty" role="status" aria-busy={portfolio.isLoading}>
+        {holdings.length ? <div className="iv-holding-grid">{holdings.map(holding => <HomeHoldingCard key={holding.projectId} holding={holding} media={projects.error ? undefined : projects.data?.items.find(project => project.id === holding.projectId)?.media} />)}</div> : <div className="iv-home-holdings-empty" role="status" aria-busy={portfolio.isLoading}>
           <strong>{portfolio.isLoading ? "Loading your holdings…" : portfolio.error || !live ? "Your holdings are unavailable" : query.trim() ? "No holdings match your search" : "Your first investment starts here"}</strong>
           <p>{portfolio.error || !live ? "Please try again in a moment." : query.trim() ? "Try another name or clear your search." : "Explore projects and build your portfolio at your own pace."}</p>
           {portfolio.error ? <button className="iv-button" onClick={() => void portfolio.mutate()}>Try again</button> : query.trim() ? <button className="iv-button" onClick={() => setQuery("")}>Clear search</button> : <Link className="iv-button" href="/invest/explore">Explore projects →</Link>}

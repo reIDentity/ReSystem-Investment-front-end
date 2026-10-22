@@ -16,7 +16,7 @@ const ROUTES: [RegExp, string[]][] = [
   [/^support\/[a-zA-Z0-9_-]+\/messages\/[a-zA-Z0-9_-]+\/attachments$/, ["POST"]],
   [/^support\/[a-zA-Z0-9_-]+\/attachments\/[a-zA-Z0-9_-]+$/, ["DELETE"]],
   [/^support\/[a-zA-Z0-9_-]+\/attachments\/[a-zA-Z0-9_-]+\/content$/, ["GET"]],
-  [/^notifications$/, ["GET"]], [/^notifications\/[a-zA-Z0-9_-]+\/read$/, ["PATCH"]],
+  [/^notifications$/, ["GET"]], [/^notifications\/read-all$/, ["PATCH"]], [/^notifications\/[a-zA-Z0-9_-]+\/read$/, ["PATCH"]],
   [/^notification-preferences$/, ["GET", "PATCH"]],
   // Confirmation (verification/confirm, verify) is a backend-hosted page reached from the email link, never proxied.
   [/^email-notifications$/, ["GET", "PATCH", "DELETE"]], [/^email-notifications\/verification$/, ["POST"]],

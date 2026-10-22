@@ -246,20 +246,13 @@ test('the email block stays hidden while delivery is off or its status cannot be
     cleanup();
   }
 });
-test('an unconfirmed investor confirms the reID address by default or a typed address', async () => {
-  const { view, calls } = notificationsFixture(emailStatus({ pendingEmail: 'h•••••@example.org', pendingSource: 'REID_PROFILE' }));
-  assert.ok(view.getByText(/h•••••@example\.org from your reID profile/));
-  await act(async () => { fireEvent.click(view.getByRole('button', { name: 'Send confirmation email' })); });
-  fireEvent.change(view.getByLabelText('Email address'), { target: { value: ' other@example.org ' } });
-  await act(async () => { fireEvent.click(view.getByRole('button', { name: 'Send confirmation email' })); });
-  assert.deepEqual(calls, [{ endpoint: 'email-notifications/verification', method: 'POST', body: {} }, { endpoint: 'email-notifications/verification', method: 'POST', body: { email: 'other@example.org' } }]);
-});
-test('a pending confirmation can be resent or removed', async () => {
-  const { view, calls } = notificationsFixture(emailStatus({ pendingEmail: 'h•••••@example.org', pendingSource: 'INVESTOR_ENTERED', verificationExpiresAt: new Date(Date.now() + 3600000).toISOString() }));
-  assert.ok(view.getByText(/It expires/));
-  await act(async () => { fireEvent.click(view.getByRole('button', { name: 'Resend' })); });
-  await act(async () => { fireEvent.click(view.getByRole('button', { name: 'Remove' })); });
-  assert.deepEqual(calls.map(c => `${c.method} ${c.endpoint}`), ['POST email-notifications/verification', 'DELETE email-notifications']);
+test('email from reID never presents duplicate confirmation, resend, removal or a typed-address form', () => {
+  for (const status of [emailStatus(),emailStatus({ pendingEmail:'h•••••@example.org',pendingSource:'REID_PROFILE' }),emailStatus({pendingEmail:'h•••••@example.org',pendingSource:'INVESTOR_ENTERED',verificationExpiresAt:new Date().toISOString()}),emailStatus({verifiedEmail:'h•••••@example.org'})]) {
+    const {view,calls}=notificationsFixture(status);
+    assert.equal(view.queryByRole('button',{name:/confirmation|Resend|Remove/}),null);
+    assert.equal(view.queryByLabelText('Email address'),null);
+    assert.deepEqual(calls,[]);view.unmount();
+  }
 });
 test('confirmed email toggles save through the existing button and follow the in-app category', async () => {
   const { view, calls } = notificationsFixture(emailStatus({ verifiedEmail: 'h•••••@example.org', verifiedAt: '2026-10-20T00:00:00Z' }));
@@ -358,4 +351,59 @@ test('numbered pagination handles zero results, one page, loading and bounded pa
   fireEvent.click(view.getByRole('button',{name:'Page 100',exact:true}));assert.deepEqual(calls,[100]);view.unmount();
   view=render(React.createElement(ActivityPagination,{pagination:{...base,total:2,totalPages:1},busy:true,onPage:()=>assert.fail('busy pages must not navigate')}));
   assert.ok([...view.container.querySelectorAll('button')].every(button=>button.disabled));
+});
+
+test('project icons use validated public project art, preserve identity and recover from broken or missing images', () => {
+  const reads=[],cid='bafy'+'a'.repeat(50);
+  const {ProjectIcon}=clientRenderer({
+    'next/image': props=>React.createElement('img',props),
+    '../PlatformProvider':{useResource:path=>{reads.push(path);return resource({media:[{cid,mimeType:'image/png'}]});}},'../InvestorUI':ui,
+  }).load('src/components/invest/platform/ProjectIcon.tsx');
+  let view=render(React.createElement(ProjectIcon,{id:'project-a',title:'Actual project',media:[{cid,mimeType:'image/png'}]}));
+  assert.equal(view.container.querySelector('img').getAttribute('src'),`https://ipfs.filebase.io/ipfs/${cid}`);
+  assert.equal(reads[0],null);fireEvent.error(view.container.querySelector('img'));assert.ok(view.getByText('AC'));view.unmount();
+  view=render(React.createElement(ProjectIcon,{id:'project-b',title:'Another project'}));
+  assert.ok(reads.includes('projects/project-b'));assert.ok(view.container.querySelector('img'));view.unmount();
+  view=render(React.createElement(ProjectIcon,{id:'project-c',title:'Missing project',media:[{cid:'https://private.invalid',mimeType:'image/png'}]}));
+  assert.equal(view.container.querySelector('img'),null);assert.ok(view.getByText('MI'));
+});
+test('Mark all as read sends one scoped request, refreshes after success and never reports a failed operation as done', async () => {
+  for (const fail of [false,true]) {
+    const calls=[],notices=[],refreshes=[];let finish;
+    const {InvestorNotifications}=clientRenderer({
+      './PlatformProvider':{usePlatform:()=>({user,notify:message=>notices.push(message)}),useResource:path=>({...resource(path==='notifications'?{items:[{id:'one',title:'Actual update',body:'Body',createdAt:'2026-10-22T00:00:00Z',href:'/invest/activity',readAt:null}],nextCursor:'older'}:path==='notification-preferences'?{transactionUpdates:true,supportUpdates:true}:emailStatus({deliveryEnabled:false})),mutate:async()=>{refreshes.push(path);}})},
+      '@/lib/platform/client':{api:async(endpoint,options)=>{calls.push({endpoint,options});return new Promise((resolve,reject)=>{finish={resolve,reject};});}},'./InvestorUI':ui,'./platform/Transaction':{IntentReview:()=>null},
+    }).load('src/components/invest/ActivitySupport.tsx');
+    const view=render(React.createElement(InvestorNotifications));
+    fireEvent.click(view.getByRole('button',{name:'Mark all as read'}));fireEvent.click(view.getByRole('button',{name:'Marking as read…'}));
+    assert.equal(calls.length,1);assert.equal(calls[0].endpoint,'notifications/read-all');assert.equal(calls[0].options.method,'PATCH');assert.equal(calls[0].options.body,undefined);
+    await act(async()=>fail?finish.reject(new Error('unavailable')):finish.resolve({updated:70}));
+    assert.equal(notices.length,1);assert.match(notices[0],fail?/Could not/:/All notifications marked/);assert.deepEqual(refreshes,fail?[]:['notifications']);view.unmount();
+  }
+});
+
+test('share totals update immediately in exact units while stale or loading quotes cannot enable a purchase', () => {
+  const projectId='project-a';let ready=false;
+  const {InvestorProduct}=clientRenderer({
+    'next/image': props=>React.createElement('img',props),
+    './PlatformProvider':{useResource:path=>{
+      if (path===`projects/${projectId}`) return resource({id:projectId,title:'Actual project',description:'Public data',maxFractions:'10000',unitPriceReaedAtomic:'3600000000000000',unitPriceUsdtAtomic:'1000',media:[]});
+      if (path===`projects/${projectId}/chain`) return resource({totalSupply:'0',remainingSupply:'10000',saleOpen:true,purchasePaused:false});
+      if (path==='portfolio') return resource({items:[]});
+      if (path==='wallet') return resource({assets:[]});
+      if (path?.includes('/quote?')) {
+        const p=new URLSearchParams(path.split('?')[1]),asset=p.get('asset'),quantity=p.get('quantity');
+        return {...resource(ready?{projectId,asset,quantity,chainId:15324,decimals:asset==='USDT'?6:18,amountAtomic:(BigInt(quantity)*(asset==='USDT'?1000n:3600000000000000n)).toString()}:undefined),isLoading:!ready};
+      }
+      return resource(undefined);
+    }},'./InvestorUI':{...ui,Asset:()=>null,CopyButton:()=>null},'./platform/Transaction':{TransactionReview:()=>null},'./platform/AssetSelect':{AssetSelect:()=>null},
+  }).load('src/components/invest/ProductDetail.tsx');
+  const view=render(React.createElement(InvestorProduct,{id:projectId}));
+  const total=()=>view.container.querySelector('.iv-order-total strong').textContent;
+  assert.equal(total(),'0.0036 reAED');assert.equal(view.getByRole('button',{name:'Review purchase',exact:true}).disabled,true);
+  fireEvent.click(view.getByRole('button',{name:'50',exact:true}));assert.equal(total(),'0.18 reAED');
+  fireEvent.change(view.getByLabelText('Share quantity'),{target:{value:'51'}});assert.equal(total(),'0.1836 reAED');assert.doesNotMatch(total(),/Unavailable/);
+  fireEvent.click(view.getByRole('radio',{name:/USDT/}));assert.equal(total(),'0.051 USDT');assert.equal(view.getByRole('button',{name:'Review purchase',exact:true}).disabled,true);
+  ready=true;view.rerender(React.createElement(InvestorProduct,{id:projectId}));assert.equal(view.getByRole('button',{name:'Review purchase',exact:true}).disabled,false);
+  fireEvent.change(view.getByLabelText('Share quantity'),{target:{value:'0'}});assert.equal(total(),'—');assert.equal(view.getByRole('button',{name:'Review purchase',exact:true}).disabled,true);
 });
