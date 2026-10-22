@@ -3,30 +3,22 @@
 import { useLayoutEffect, useRef, useState, type CSSProperties } from "react";
 import { flushSync } from "react-dom";
 import Image from "next/image";
-import useSWR from "swr";
+import { useLanding } from "./LandingData";
+import type { LandingProject } from "@/lib/platform/landing-data";
 import { Container } from "./Container";
 import { Reveal } from "./Reveal";
 import { useInView } from "@/hooks/motion";
-import { categories, products, type Product } from "@/data/products";
-import { api } from "@/lib/platform/client";
-import type { Project, RewardView } from "@/lib/platform/types";
-import type { ProjectChainResponse } from "@/lib/platform/api.generated";
-import { landingProjectStats, publishedLandingProject } from "@/lib/platform/landing-project";
+import { categories, products } from "@/data/products";
 import { publicIpfsUrl } from "@/lib/platform/media";
 
-const publicOptions = { refreshInterval: 60000, shouldRetryOnError: false, revalidateOnFocus: true };
-
-function ProductCard({ product }: { product: Product }) {
+function ProductCard({ row }: { row: LandingProject }) {
   const [failedArtwork, setFailedArtwork] = useState<string | null>(null);
-  const record = useSWR<Project>(product.projectId ? `projects/${product.projectId}` : null, api, publicOptions);
-  const project = record.error ? null : publishedLandingProject(product.projectId, record.data);
-  const chain = useSWR<ProjectChainResponse>(project ? `projects/${project.id}/chain` : null, api, publicOptions);
-  const revenue = useSWR<RewardView>(project ? `projects/${project.id}/revenue` : null, api, publicOptions);
-  const stats = landingProjectStats(project, chain.error ? null : chain.data, revenue.error ? null : revenue.data);
-  const image = record.data?.media?.find(m => project && m.mimeType.startsWith("image/") && /^[a-zA-Z0-9]{32,120}$/.test(m.cid));
+  const { project, stats } = row;
+  const product = products.find(p => p.projectId === project.id);
+  const image = project.media?.find(m => m.mimeType.startsWith("image/") && /^[a-zA-Z0-9]{32,120}$/.test(m.cid));
   const publicArtwork = image ? publicIpfsUrl(image.cid) : null;
-  const artwork = publicArtwork && publicArtwork !== failedArtwork ? publicArtwork : product.image;
-  const badge = project ? stats.sale === "Open" ? "Live" : "Published" : product.status === "Coming" ? "Coming soon" : "—";
+  const artwork = publicArtwork && publicArtwork !== failedArtwork ? publicArtwork : product?.image;
+  const badge = stats.sale === "Open" ? "Live" : stats.sale === "Closed" ? "Published" : "—";
   return (
     <article
       data-spotlight
@@ -36,7 +28,7 @@ function ProductCard({ product }: { product: Product }) {
       <div className="product-cover relative h-[150px] overflow-hidden rounded-2xl">
         <div
           className="absolute inset-0 transition-transform duration-[1200ms] ease-[var(--ease-smooth)] group-hover:scale-[1.06] group-focus-within:scale-[1.06]"
-          style={{ background: product.art }}
+          style={{ background: product?.art ?? "#eef0f4" }}
         >
           {artwork && (
             <Image
@@ -50,10 +42,10 @@ function ProductCard({ product }: { product: Product }) {
             />
           )}
         </div>
-        {product.status && (
+        {(product?.status || !product) && (
           <span
             className="product-badge absolute top-2 right-2 flex items-center gap-1.5 rounded-full bg-white px-2.5 py-1 font-display text-[11px] font-semibold text-forest"
-            title={project ? stats.sale === "Open" ? "Primary sale is open on INFRA." : "Published project; review current purchase availability." : product.status === "Coming" ? undefined : "Published investment status is unavailable."}
+            title={stats.sale === "Open" ? "Primary sale is open on INFRA." : stats.sale === "Closed" ? "Published project; the primary sale is currently closed." : "Purchase availability is unavailable."}
             aria-label={badge === "—" ? "Published investment status unavailable" : badge}
           >
             {badge}
@@ -61,9 +53,9 @@ function ProductCard({ product }: { product: Product }) {
         )}
       </div>
       <div className="product-content flex flex-1 flex-col px-2 pt-3 pb-2">
-        <h3 className="font-display text-[20px] leading-tight font-extrabold text-ink">{project?.title || product.name}</h3>
-        <p className="product-category mt-0.5 text-[14px] text-muted">{product.category}</p>
-        <p className="product-description mt-3 min-h-[68px] text-[17px] leading-snug text-ink-soft">{project?.description || product.description}</p>
+        <h3 className="font-display text-[20px] leading-tight font-extrabold text-ink">{project.title}</h3>
+        <p className="product-category mt-0.5 text-[14px] text-muted">{product?.category ?? "Project"}</p>
+        <p title={project.description} className="product-description line-clamp-2 mt-3 min-h-[68px] text-[17px] leading-snug text-ink-soft">{project.description}</p>
         <dl className="product-stats mt-3 grid grid-cols-3 gap-1.5 rounded-xl bg-[#f1f4f9] px-3 py-3">
           <div>
             <dt className="text-[11px] whitespace-nowrap text-muted">Revenue/mo</dt>
@@ -79,7 +71,7 @@ function ProductCard({ product }: { product: Product }) {
           </div>
         </dl>
         <a
-          href={project ? `/invest/products/${project.id}` : product.projectId ? "/invest/explore" : "#how-much"}
+          href={`/invest/products/${project.id}`}
           className="product-link mt-5 flex items-center justify-between font-display text-[14px] font-bold text-brand underline-offset-4 hover:underline"
         >
           See where, why and how much{" "}
@@ -118,13 +110,21 @@ function useTabPill(active: string) {
 
 export function Products() {
   const [active, setActive] = useState<(typeof categories)[number]>("All");
-  const visible = active === "All" ? products : products.filter((p) => p.category === active);
+  const { projects, loading, error, retry } = useLanding();
+  // Brand artwork/categories are presentation metadata only; catalogue membership comes exclusively from published records.
+  const ordered = projects ? [...projects].sort((a, b) => {
+    const rank = (id: string) => { const i = products.findIndex(p => p.projectId === id); return i < 0 ? products.length : i; };
+    return rank(a.project.id) - rank(b.project.id);
+  }) : [];
+  const visible = active === "All" ? ordered : ordered.filter(p => products.find(a => a.projectId === p.project.id)?.category === active);
+  const requestedCategory = useRef<(typeof categories)[number]>("All");
   const [list, pill] = useTabPill(active);
   const [grid, gridIn] = useInView<HTMLDivElement>();
 
   /** Cards that stay glide to their new slots, the rest fade through (View Transitions where supported). */
   const choose = (c: (typeof categories)[number]) => {
-    if (c === active) return;
+    if (c === requestedCategory.current) return;
+    requestedCategory.current = c;
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (!document.startViewTransition || reduced) return setActive(c);
     // A skipped transition (hidden tab, rapid clicks) still applies the update; it just rejects `ready`.
@@ -139,7 +139,7 @@ export function Products() {
         </Reveal>
         <Reveal variant="blur" delay={80}>
           <p className="section-description mt-4 max-w-[820px] text-[21px] leading-snug text-ink-soft">
-            Twelve products across finance, real-world assets, identity and services. Review published projects on INFRA to
+            Review published projects on INFRA across finance, real-world assets, identity and services to
             see their confirmed revenue before you buy.
           </p>
         </Reveal>
@@ -175,20 +175,21 @@ export function Products() {
         </Reveal>
 
         <div ref={grid} className="product-grid mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          {!visible.length && <p role="status" className="text-[17px] text-ink-soft sm:col-span-2 lg:col-span-3 xl:col-span-4">{loading ? "Loading published projects…" : error ? <>Published projects are unavailable. <button type="button" className="text-brand underline" onClick={retry}>Try again</button></> : "No published projects in this category yet."}</p>}
           {visible.map((p, i) => (
             <div
-              key={p.id}
+              key={p.project.id}
               data-reveal="up"
               data-in={gridIn}
               style={
                 {
                   "--d": `${Math.min(i, 7) * 60}ms`,
-                  viewTransitionName: `product-${p.id}`,
+                  viewTransitionName: `product-${p.project.id}`,
                   viewTransitionClass: "product-card",
                 } as CSSProperties
               }
             >
-              <ProductCard product={p} />
+              <ProductCard row={p} />
             </div>
           ))}
         </div>

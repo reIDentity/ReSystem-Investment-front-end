@@ -1,3 +1,4 @@
+import { LandingData } from "@/components/LandingData";
 import { Calculator } from "@/components/Calculator";
 import { Compare } from "@/components/Compare";
 import { CtaBanner } from "@/components/CtaBanner";
@@ -17,6 +18,7 @@ export default function Home() {
   return (
     <>
       <Header />
+      <LandingData>
       <main>
         <Hero />
         <Ecosystem />
@@ -30,6 +32,7 @@ export default function Home() {
         <Faq />
         <CtaBanner />
       </main>
+      </LandingData>
       <Footer />
       <MotionEffects />
     </>

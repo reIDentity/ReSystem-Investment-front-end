@@ -59,27 +59,18 @@ test('monthly revenue requires complete fresh canonical history, preserves verif
   assert.equal(landingProjectStats(project(), null, { series: big }, Date.parse(big.asOf)).revenue, '$9.00e17');
 });
 
-test('actual landing card links its published project and immediately removes stale financial values on read failure', () => {
-  let failing = false;
-  const keys = [];
+test('actual landing card renders the shared verified snapshot and removes unavailable financial fields', () => {
+  const { verifiedLandingProject } = clientRenderer().load('src/lib/platform/landing-data.ts');
   const renderer = clientRenderer({
     'react-dom': ReactDOM,
     'next/image': { __esModule: true, default: ({ src, alt }) => React.createElement('img', { src, alt }) },
-    swr: { __esModule: true, default: key => {
-      keys.push(key);
-      const data = key?.endsWith('/chain') ? chain() : key?.endsWith('/revenue') ? { series: revenueSeries() } : project();
-      return { data, error: failing ? new Error('Unavailable') : undefined };
-    } },
-    '@/lib/platform/client': { api() { throw Error('No real API calls in a synthetic render'); } },
   }, { 'src/components/Products.tsx': ['ProductCard'] });
   const { ProductCard } = renderer.load('src/components/Products.tsx');
-  const product = { id: 'infra-global', projectId: id, name: 'INFRA Global', category: 'Finance', description: 'Marketing description', art: '#fff', image: '/images/original.png', revenue: 11200, yieldPace: 7.3, sold: 37 };
-  const render = () => renderToStaticMarkup(React.createElement(ProductCard, { product }));
-  const live = render();
+  const render = row => renderToStaticMarkup(React.createElement(ProductCard, { row }));
+  const series = revenueSeries();
+  const live = render(verifiedLandingProject(project(), chain(), { series }, Date.parse(series.asOf)));
   assert.ok(live.includes(`/invest/products/${id}`)); assert.ok(live.includes('12.34%')); assert.ok(live.includes('6.50%')); assert.ok(!live.includes('11.2k')); assert.ok(!live.includes('37%'));
-  failing = true;
-  const unavailable = render();
-  assert.ok(unavailable.includes('/invest/explore')); assert.ok(!unavailable.includes('12.34%')); assert.ok(!unavailable.includes('6.50%')); assert.ok(!unavailable.includes('Public description'));
+  const unavailable = render(verifiedLandingProject(project(), null, null, Date.parse(series.asOf)));
+  assert.ok(unavailable.includes(`/invest/products/${id}`)); assert.ok(!unavailable.includes('12.34%')); assert.ok(!unavailable.includes('6.50%'));
   assert.equal((unavailable.match(/aria-label="Unavailable"/g) || []).length, 3);
-  assert.equal(keys.filter(Boolean).length, 4); // three live public reads, then only the failed record read
 });

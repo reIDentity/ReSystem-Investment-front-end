@@ -1,0 +1,52 @@
+import test, { afterEach } from 'node:test';
+import assert from 'node:assert/strict';
+import { JSDOM } from 'jsdom';
+import React from 'react';
+import { clientRenderer } from './client-renderer.mjs';
+const dom = new JSDOM('<!doctype html><html><body></body></html>', { url: 'https://investor.example.invalid' });
+for (const [key, value] of Object.entries({ window: dom.window, self: dom.window, document: dom.window.document, navigator: dom.window.navigator, HTMLElement: dom.window.HTMLElement })) Object.defineProperty(globalThis, key, { value, configurable: true });
+globalThis.IS_REACT_ACT_ENVIRONMENT = true;
+const { cleanup, render, fireEvent } = await import('@testing-library/react');
+afterEach(cleanup);
+const { verifiedLandingProject, landingTotals } = clientRenderer().load('src/lib/platform/landing-data.ts');
+const make = (id, title, issued = '0') => verifiedLandingProject({ id, title, description: 'Public project content', status: 'PUBLISHED', contractAddress: `0x${'3'.repeat(40)}`, publicationBlock: '100', publicationTxHash: `0x${'4'.repeat(64)}`, maxFractions: '10000', totalValueUsdtAtomic: '10000000', unitPriceUsdtAtomic: '1000', unitPriceReaedAtomic: '3600000000000000' }, { chainId: 15324, source: 'INFRA RPC', headBlock: '200', totalSupply: issued, remainingSupply: (10000n - BigInt(issued)).toString(), maxFractions: '10000', totalValueUSDT: '10000000', unitPriceUSDT: '1000', saleOpen: true, purchasePaused: false }, null, Date.now());
+const known = make('4fe22a83-2b4e-44ee-9bbb-c43168baf465', 'reID');
+const other = make('00000000-0000-4000-8000-000000000001', 'New published project', '9900');
+const motion = { useInView: () => [React.useRef(null), true], usePrefersReducedMotion: () => true };
+
+test('calculator project selection, quantity, presets and refreshed supply use the selected published record', () => {
+  let projects = [known, other];
+  const context = { useLanding: () => ({ projects, totals: landingTotals(projects) }) };
+  const { Calculator } = clientRenderer({ './LandingData': context, '@/hooks/motion': motion }).load('src/components/Calculator.tsx');
+  const view = render(React.createElement(Calculator));
+  fireEvent.click(view.getByRole('radio', { name: 'New published project' }));
+  assert.equal(view.getByRole('radio', { name: 'New published project' }).getAttribute('aria-checked'), 'true');
+  const slider = view.getByRole('slider', { name: 'Fractions' });
+  assert.equal(slider.max, '100');
+  fireEvent.change(slider, { target: { value: '50' } });
+  assert.match(slider.getAttribute('aria-valuetext'), /50 fractions for \$0.05 USDT/);
+  assert.equal(view.container.querySelector('.calculator-invest').getAttribute('href'), `/invest/products/${other.project.id}`);
+  fireEvent.click(view.getByRole('button', { name: '$0.01', exact: true }));
+  assert.equal(slider.value, '10');
+  projects = [known, make(other.project.id, other.project.title, '9999')];
+  view.rerender(React.createElement(Calculator)); assert.equal(slider.value, '1'); assert.equal(slider.max, '1');
+  projects = null; view.rerender(React.createElement(Calculator)); assert.equal(slider.disabled, true);
+  assert.match(view.container.querySelector('.calculator-invest').textContent, /Explore published projects/);
+});
+test('a failed shared refresh removes stale data in all consumers and expires automatically even without a refresh', () => {
+  let snapshot = { data: { projects: [known], fetchedAt: Date.now() }, isLoading: false, mutate() {} };
+  const timers = new Map(); let key = 0;
+  const clock = { setTimeout(cb) { const id = ++key; timers.set(id, cb); return id; }, clearTimeout(id) { timers.delete(id); } };
+  const renderer = clientRenderer({ swr: { __esModule: true, default: () => snapshot } }, {}, clock);
+  const { LandingData, useLanding } = renderer.load('src/components/LandingData.tsx');
+  function Consumer() { const { totals, projects } = useLanding(); return React.createElement('p', null, `${projects?.length ?? 'unknown'}:${totals.minimum}`); }
+  const element = React.createElement(LandingData, null, React.createElement(Consumer));
+  const view = render(element); assert.equal(view.container.textContent, '1:$0.001');
+  snapshot = { ...snapshot, error: new Error('Do not expose upstream contents') };
+  view.rerender(React.createElement(LandingData, null, React.createElement(Consumer))); assert.equal(view.container.textContent, 'unknown:—');
+  snapshot = { ...snapshot, error: undefined, data: { ...snapshot.data, fetchedAt: snapshot.data.fetchedAt + 1 } };
+  view.rerender(React.createElement(LandingData, null, React.createElement(Consumer))); assert.equal(view.container.textContent, '1:$0.001');
+  const { act } = React;
+  act(() => { for (const cb of timers.values()) cb(); });
+  assert.equal(view.container.textContent, 'unknown:—');
+});

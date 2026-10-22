@@ -24,9 +24,9 @@ async function CopyrightYear() {
 
 function Social({ label, children }: { label: string; children: React.ReactNode }) {
   return (
-    <a href="#" aria-label={label} className="grid h-5 w-5 place-items-center rounded-[5px] border border-white/60 text-white/80 transition-[transform,color,border-color] duration-500 ease-[var(--ease-spring)] hover:-translate-y-0.5 hover:border-[#7cc8ff] hover:text-[#7cc8ff]">
+    <span role="link" aria-disabled="true" aria-label={`${label} — official link not supplied`} title="Official social link not supplied" className="grid h-5 w-5 place-items-center rounded-[5px] border border-white/60 text-white/80 transition-[transform,color,border-color] duration-500 ease-[var(--ease-spring)] hover:-translate-y-0.5 hover:border-[#7cc8ff] hover:text-[#7cc8ff]">
       {children}
-    </a>
+    </span>
   );
 }
 
@@ -41,8 +41,7 @@ export function Footer() {
               <Logo tone="light" className="text-[23.25px]" />
               <p className="mt-6 max-w-[290px] text-[11px] leading-snug text-white/80">
                 Desert Tech Cloud Services LLC, Dubai, UAE. Investing in product shares carries risk, including loss of the
-                amount invested. Past or current revenue does not guarantee future earnings. Yield figures are estimates based
-                on recent revenue and shares sold. [REGULATORY LICENCE AND DISCLOSURE TEXT]
+                amount invested. Past or current revenue does not guarantee future earnings. Indicative yield is entered by the project operator and is not a guaranteed return. This platform currently uses INFRA UAT testnet.
               </p>
             </div>
             {columns.map((c, i) => (
@@ -51,7 +50,7 @@ export function Footer() {
                 <ul className="mt-2 space-y-1">
                   {c.links.map((l) => (
                     <li key={l}>
-                      <a href={c.title === "Products" ? "https://resystem.org/ecosystem" : l === "Resystem" ? "https://resystem.org/" : "#"} className="inline-block text-[13px] text-white/90 transition-colors duration-300 hover:text-[#7cc8ff]">
+                      <a href={c.title === "Products" ? "https://resystem.org/ecosystem" : l === "Resystem" ? "https://resystem.org/" : "https://resystem.org/"} className="inline-block text-[13px] text-white/90 transition-colors duration-300 hover:text-[#7cc8ff]">
                         {l}
                       </a>
                     </li>

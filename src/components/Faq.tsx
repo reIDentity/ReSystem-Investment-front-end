@@ -3,20 +3,21 @@
 import { useState } from "react";
 import Image from "next/image";
 import { Container } from "./Container";
+import { useLanding } from "./LandingData";
 import { Reveal } from "./Reveal";
 
 const faqs = [
   {
     q: "How are my earnings calculated?",
-    a: "Authorized project operators deposit actual revenue on INFRA. Each new allocation is shared by the issued fractions held at funding time. For example, a funded pool of 1,000 USDT and 1% participation allocates 10 USDT before atomic-unit rounding. Historical allocations stay with their original holder after a transfer.",
+    a: "Authorized project operators deposit actual revenue on INFRA. Each new allocation is shared by the issued fractions held at funding time. Historical allocations stay with their original holder after a transfer.",
   },
   {
     q: "What is the minimum and maximum?",
-    a: "The minimum is $2,000 per product, which is 20 shares at $100 each. There is no fixed maximum, but a product's available shares are limited and may sell out.",
+    a: "Buy at least one whole fraction at the project’s current price. The maximum is its remaining primary-sale supply. Prices and availability are checked again before approval.",
   },
   {
     q: "Can I take my money out?",
-    a: "There is no lock period. You can claim earnings to your wallet at any time and withdraw to any INFRA address.",
+    a: "Fractions have no transfer lock. Claim allocated rewards to your wallet when available. Recovering your investment through resale requires a willing buyer; there is no guaranteed cash-out.",
   },
   {
     q: "How do I pay?",
@@ -24,7 +25,7 @@ const faqs = [
   },
   {
     q: "Are returns guaranteed?",
-    a: "No. Earnings depend on what each product's customers pay. Revenue changes month to month, so actual earnings can be higher or lower than any estimate.",
+    a: "No. Earnings depend on actual revenue funded into the project contract. Revenue changes month to month, so actual earnings can be higher or lower than any estimate.",
   },
   {
     q: "Why do I need reID?",
@@ -33,6 +34,7 @@ const faqs = [
 ];
 
 export function Faq() {
+  const { totals } = useLanding();
   const [open, setOpen] = useState<number | null>(0);
 
   return (
@@ -88,7 +90,7 @@ export function Faq() {
                               isOpen ? "translate-y-0 blur-0" : "-translate-y-2 blur-[3px]"
                             }`}
                           >
-                            {f.a}
+                            {i === 1 && totals.minimum !== "—" ? `The lowest currently open price is ${totals.minimum} USDT for one fraction. ${f.a}` : f.a}
                           </p>
                         </div>
                       </div>

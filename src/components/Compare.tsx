@@ -1,17 +1,22 @@
+"use client";
 import type { CSSProperties } from "react";
 import { Container } from "./Container";
 import { Reveal } from "./Reveal";
 
-const rows = [
+import { useLanding } from "./LandingData";
+
+const comparisonRows = [
   ["Where returns come from", "Actual project revenue deposits", "Dividends or a future exit", "Price changes"],
   ["What you can see", "On-chain funding and claims", "Quarterly or yearly reports", "Price chart"],
-  ["Minimum ticket", "$2,000", "Usually $25,000+", "Any"],
-  ["Getting money out", "Any time, no lock period", "Often locked for years", "Any time, at market price"],
-  ["Income while you hold", "Yes, claim whenever you like", "Sometimes", "Rarely"],
+  ["Minimum ticket", "—", "Varies by offering", "Varies by token"],
+  ["Getting money out", "Transfer or resale to a willing buyer", "Often locked for years", "Any time, at market price"],
+  ["Income while you hold", "Claim allocated, funded rewards", "Sometimes", "Rarely"],
   ["Identity and custody", "reID, shares in your own wallet", "Paper certificates or registry", "Exchange or own wallet"],
 ];
 
 export function Compare() {
+  const { totals } = useLanding();
+  const rows = comparisonRows.map(row => row[0] === "Minimum ticket" ? [row[0], totals.minimum === "—" ? "—" : `${totals.minimum} USDT`, row[2], row[3]] : row);
   return (
     <section id="advantages" className="mt-20 scroll-mt-24">
       <Container>

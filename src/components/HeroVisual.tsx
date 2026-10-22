@@ -6,9 +6,12 @@ import { FigmaFractionaire } from "./hero/FigmaFractionaire";
 import { FigmaInfra } from "./hero/FigmaInfra";
 import { FigmaReid } from "./hero/FigmaReid";
 import "./HeroVisual.css";
+import { useLanding } from "./LandingData";
+import { displayMoney } from "@/lib/platform/landing-data";
 
 /** The illustration uses the original artwork and native Figma card layers. */
 export function HeroVisual() {
+  const { totals } = useLanding();
   const [host, inView] = useInView<HTMLDivElement>({ threshold: 0.05, rootMargin: "0px", once: false });
   const [paused, setPaused] = useState(false);
   const reducedMotion = usePrefersReducedMotion();
@@ -102,10 +105,10 @@ export function HeroVisual() {
         )}
         <div className="hero-art-card hero-reid-card" style={{ left: compact ? 22 : 432.899, top: compact ? 92 : 57.574 }}><div className="hero-card-depth"><div className="hero-card-float"><FigmaReid /></div></div></div>
         <div className="hero-revenue-chip" style={{ left: compact ? 18 : 223.045, top: compact ? 18 : 20.707 }}>
-          <p><span />Fractionaire, revenue today</p>
-          <strong>$353.06</strong>
+          <p><span />Projects · revenue today</p>
+          <strong>{displayMoney(totals.today)}</strong>
         </div>
-        {!compact && <div className="hero-claim-chip"><p>A holder with 25 shares just claimed</p><strong>$4.36</strong></div>}
+        {!compact && <div className="hero-claim-chip"><p>Rewards claimed · all projects</p><strong>{displayMoney(totals.claimed)}</strong></div>}
       </div>
       {!reducedMotion && (
         <button

@@ -1,8 +1,12 @@
+"use client";
 import Image from "next/image";
 import { Container } from "./Container";
 import { Reveal } from "./Reveal";
 
+import { useLanding } from "./LandingData";
+
 export function CtaBanner() {
+  const { totals } = useLanding();
   return (
     <section className="cta-section mt-4">
       <Container>
@@ -11,9 +15,9 @@ export function CtaBanner() {
           <div className="cta-copy flex flex-col justify-between gap-10 p-2 sm:p-4">
             <div>
               <h2 className="font-display text-[34px] leading-[1.1] font-extrabold text-ink">
-                Start with $2,000.
+                {totals.minimum === "—" ? "Explore published projects." : `Start with ${totals.minimum} USDT.`}
                 <br />
-                Earn from day one.
+                Own project fractions.
               </h2>
               <p className="mt-6 max-w-[330px] text-[22px] leading-[1.25] text-[#8a8a8a]">
                 Sign in with reID, deposit reAED or USDT, and pick the products you believe in.

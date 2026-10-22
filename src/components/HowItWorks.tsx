@@ -11,17 +11,17 @@ const steps = [
   {
     n: "02",
     title: "Deposit reAED or USDT",
-    body: "Send stablecoins to your wallet address on INFRA. Funds are ready to invest within seconds.",
+    body: "Send stablecoins to your wallet address on INFRA. Funds become available after network confirmation.",
   },
   {
     n: "03",
     title: "Buy product shares",
-    body: "Pick products, choose how many shares, and confirm with reID. Shares land in your wallet and start earning straight away.",
+    body: "Pick products, choose how many shares, and confirm with reID. Confirmed fractions arrive in your wallet and participate in future funded revenue allocations.",
   },
   {
     n: "04",
     title: "Claim or withdraw",
-    body: "Watch earnings grow as revenue comes in. Claim to your wallet, buy more, or withdraw to any INFRA address.",
+    body: "Review rewards allocated from confirmed revenue deposits. Claim to your wallet, buy more, or withdraw to any INFRA address.",
   },
 ];
 

@@ -1,115 +1,22 @@
 "use client";
 
-import { useEffect, useRef, useState, type CSSProperties, type RefObject } from "react";
+import { useState } from "react";
 import { ArrowRight, ArrowUpRight, Box } from "lucide-react";
 import { Container } from "./Container";
 import { Reveal } from "./Reveal";
 import { RollingNumber } from "./RollingNumber";
-import { useInView, usePrefersReducedMotion } from "@/hooks/motion";
+import { useInView } from "@/hooks/motion";
 
-interface Payment {
-  id: number;
-  name: string;
-  hash: string;
-  amount: number;
-}
+import { useLanding } from "./LandingData";
+import { displayMoney, valuation, publicExplorer, type LandingPayment, type LandingProject, type landingTotals } from "@/lib/platform/landing-data";
+import type { AssetTotals } from "@/lib/platform/valuation";
 
-const seedPayments: Payment[] = [
-  { id: 6, name: "Fractionaire", hash: "0x611c…6871", amount: 218 },
-  { id: 5, name: "INFRA reAED", hash: "0xd7cc…f4b7", amount: 249 },
-  { id: 4, name: "Fractionaire", hash: "0xe203…f8ef", amount: 166 },
-  { id: 3, name: "reID", hash: "0xade2…60d9", amount: 82 },
-  { id: 2, name: "INFRA Global", hash: "0x5741…a8bd", amount: 62 },
-  { id: 1, name: "reINVEST", hash: "0xdb91…db11", amount: 87 },
-];
-
-/** Simulated incoming payments that cycle through the feed. */
-const incoming: Omit<Payment, "id">[] = [
-  { name: "INFRA reAED", hash: "0x9a3f…12c4", amount: 134 },
-  { name: "reID", hash: "0x41be…77d0", amount: 58 },
-  { name: "Fractionaire", hash: "0xc08d…e5a1", amount: 203 },
-  { name: "CET", hash: "0x73f2…0b9e", amount: 96 },
-  { name: "INFRA Global", hash: "0x2e6a…c3f8", amount: 71 },
-  { name: "reDOMAIN", hash: "0xf1d9…48aa", amount: 44 },
-];
-
-const paidOut = [
-  { name: "INFRA reAED", value: 22.4 },
-  { name: "Fractionaire", value: 19.9 },
-  { name: "reID", value: 12.3 },
-  { name: "INFRA Global", value: 11.2 },
-  { name: "reINVEST", value: 7.8 },
-  { name: "CET", value: 5.5 },
-  { name: "reDOMA", value: 5.0 },
-];
-
-const breakdown = [
-  { name: "INFRA reAED", value: "$22.4k", pct: 23, color: "#123e70" },
-  { name: "Fractionaire", value: "$19.9k", pct: 21, color: "#006ec8" },
-  { name: "reID", value: "$12.3k", pct: 13, color: "#0091ff" },
-  { name: "INFRA Global", value: "$11.2k", pct: 12, color: "#56b6ff" },
-  { name: "reINVEST", value: "$7.8k", pct: 8, color: "#a8d9ff" },
-  { name: "CET", value: "$5.5k", pct: 6, color: "#6685a3" },
-  { name: "reDOMA", value: "$5.0k", pct: 5, color: "#aac0d5" },
-  { name: "Others", value: "$12.3k", pct: 13, color: "#e2e8f0" },
-];
-
-const poolFills = ["#6685a3", "#a8d9ff", "#0091ff", "#6685a3", "#a8d9ff", "#0091ff", "#6685a3", "#a8d9ff", "#0091ff", "#6685a3", "#a8d9ff", "#0091ff"];
-
-const FEED_MS = 3600;
-const BASE_POOL = 96400;
-const BASE_COUNT = 1285;
-
+type Totals = ReturnType<typeof landingTotals>;
 const card = "h-full min-w-0 rounded-[20px] bg-white p-5";
-const money = (n: number) => `$${Math.round(n).toLocaleString("en-US")}`;
-const AGO = ["now", "4s ago", "12s ago", "46s ago", "2 min ago", "6 min ago", "9 min ago"];
-const SEED_MAX_ID = seedPayments[0].id;
+const colors = ["#123e70", "#006ec8", "#0091ff", "#56b6ff", "#a8d9ff", "#6685a3", "#aac0d5", "#e2e8f0"];
+function relative(value: AssetTotals | null, max: bigint) { return value && max > 0n ? Number(valuation(value) * 10000n / max) / 100 : 0; }
 
-interface LiveState {
-  feed: Payment[];
-  pool: number;
-  count: number;
-  filled: number;
-  lastDelta: number;
-  tick: number;
-}
-
-function useLiveFeed(active: boolean): LiveState {
-  const reduced = usePrefersReducedMotion();
-  const [state, setState] = useState<LiveState>({
-    feed: seedPayments,
-    pool: BASE_POOL,
-    count: BASE_COUNT,
-    filled: 9,
-    lastDelta: 0,
-    tick: 0,
-  });
-  const cursor = useRef(0);
-
-  useEffect(() => {
-    if (!active || reduced) return;
-    const id = setInterval(() => {
-      const next = incoming[cursor.current % incoming.length];
-      cursor.current += 1;
-      setState((s) => {
-        const payment: Payment = { ...next, id: s.feed[0].id + 1 };
-        return {
-          feed: [payment, ...s.feed].slice(0, 7),
-          pool: s.pool + payment.amount,
-          count: s.count + 1,
-          filled: s.filled >= 12 ? 1 : s.filled + 1,
-          lastDelta: payment.amount,
-          tick: s.tick + 1,
-        };
-      });
-    }, FEED_MS);
-    return () => clearInterval(id);
-  }, [active, reduced]);
-
-  return state;
-}
-
-function PaymentsIn({ feed, count, shown }: { feed: Payment[]; count: number; shown: boolean }) {
+function PaymentsIn({ feed, count, shown }: { feed: LandingPayment[] | null; count: number | null; shown: boolean }) {
   return (
     <div className={`${card} flex flex-col`}>
       <div className="flex items-center justify-between">
@@ -119,17 +26,15 @@ function PaymentsIn({ feed, count, shown }: { feed: Payment[]; count: number; sh
             <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-brand opacity-70" />
             <span className="relative inline-flex h-2 w-2 rounded-full bg-brand" />
           </span>
-          <RollingNumber value={count.toLocaleString("en-US")} ready={shown} /> today
+          <RollingNumber value={count === null ? "—" : count.toLocaleString("en-US")} ready={shown} /> records
         </span>
       </div>
       <ul className="-mx-2 mt-3 h-[342px] overflow-hidden px-2 [mask-image:linear-gradient(#000_85%,transparent)] lg:h-0 lg:min-h-[342px] lg:flex-1">
-        {feed.map((p, i) => (
+        {feed === null ? <li className="py-3 text-[13px] text-muted">Confirmed payment history is unavailable.</li> : feed.length === 0 ? <li className="py-3 text-[13px] text-muted">No confirmed revenue payments yet.</li> : feed.slice(0, 7).map((p, i) => (
           <li
             key={p.id}
             data-flow-from={i === 0 ? "" : undefined}
-            className={`border-b transition-colors duration-700 ${i === 0 ? "border-transparent" : "border-line"} ${
-              p.id > SEED_MAX_ID ? "row-in" : ""
-            }`}
+            className={`border-b transition-colors duration-700 ${i === 0 ? "border-transparent" : "border-line"} `}
           >
             <div
               className={`-mx-2 flex items-center gap-3 rounded-xl px-2 py-2.5 transition-colors duration-700 ease-[var(--ease-smooth)] ${
@@ -141,28 +46,29 @@ function PaymentsIn({ feed, count, shown }: { feed: Payment[]; count: number; sh
               </span>
               <div className="min-w-0 flex-1">
                 <p className="truncate font-display text-[13px] font-semibold text-ink">{p.name}</p>
-                <p className="font-mono text-[10px] text-muted">{p.hash}</p>
+                <p className="font-mono text-[10px] text-muted"><a href={`${publicExplorer}/tx/${p.hash}`} title={p.hash} className="underline-offset-2 hover:underline">{p.hash.slice(0, 8)}…{p.hash.slice(-4)}</a></p>
               </div>
               <div className="text-right">
-                <p className="font-display text-[14px] font-bold text-[#061b32]">+${p.amount}</p>
-                <p className="text-[10px] text-muted">{AGO[i]}</p>
+                <p className="font-display text-[14px] font-bold text-[#061b32]">+{p.display}</p>
+                <p className="text-[10px] text-muted">Block {p.block}</p>
               </div>
             </div>
           </li>
         ))}
       </ul>
       <a
-        href="#"
+        href={`${publicExplorer}/address/0x2dbd7500cc9899c9a5bba6c96f09c086502c5661`}
         className="group mt-3 flex items-center justify-between rounded-xl bg-[#f1f1f1] px-4 py-3 font-display text-[13px] font-semibold text-ink transition-colors hover:bg-[#e0f1ff]"
       >
-        View all payments <ArrowRight size={16} className="transition-transform duration-300 group-hover:translate-x-1" />
+        View project contracts <ArrowRight size={16} className="transition-transform duration-300 group-hover:translate-x-1" />
       </a>
     </div>
   );
 }
 
-function ShareholderPool({ live, shown }: { live: LiveState; shown: boolean }) {
+function ShareholderPool({ live, shown, loading }: { live: Totals; shown: boolean; loading: boolean }) {
   const rows = 8;
+  const filled = live.claimedPercent === null ? 0 : Math.floor(live.claimedPercent / 100 * 96);
   const cols = 12;
   return (
     <div className="flex h-full min-w-0 flex-col rounded-[20px] bg-[#071b32] p-5 text-white">
@@ -170,40 +76,34 @@ function ShareholderPool({ live, shown }: { live: LiveState; shown: boolean }) {
         <h3 className="font-display text-[15px] font-bold">Shareholder pool</h3>
         <span className="flex items-center gap-1.5 rounded-full border border-white/20 px-2.5 py-1 text-[11px] text-white/80">
           <span className="h-3 w-3 animate-spin rounded-full border-2 border-brand border-t-transparent [animation-duration:1.4s]" />
-          <span className="text-shimmer">Syncing INFRA</span>
+          <span className="text-shimmer">{loading ? "Syncing INFRA" : live.reserve ? "INFRA verified" : "Unavailable"}</span>
         </span>
       </div>
       <div className="mt-4 rounded-2xl bg-[#eaf5ff] p-4 text-ink">
-        <p className="text-[12px] text-[#075a9c]">Pool · 100% to holders</p>
+        <p className="text-[12px] text-[#075a9c]">Unclaimed funded rewards</p>
         <div className="mt-1 flex items-center justify-between">
           <p data-flow-to className="font-display text-[40px] leading-none font-extrabold text-[#061b32]">
-            <RollingNumber value={money(live.pool)} ready={shown} />
+            <RollingNumber value={displayMoney(live.reserve)} ready={shown} />
           </p>
           <span
-            key={live.tick}
-            className={`rounded-full bg-brand px-2 py-1 font-display text-[11px] font-bold text-white tabular-nums ${live.tick ? "badge-pop" : ""}`}
+            key="reserve"
+            className={`rounded-full bg-brand px-2 py-1 font-display text-[11px] font-bold text-white tabular-nums `}
           >
-            +${live.lastDelta}
+            {live.claimedPercent === null ? "—" : `${live.claimedPercent}% paid`}
           </span>
         </div>
       </div>
       <div className="mt-4 grid flex-1 content-center gap-1.5 rounded-2xl bg-black/25 p-3" style={{ gridTemplateColumns: `repeat(${cols}, 1fr)` }}>
         {Array.from({ length: rows * cols }).map((_, i) => {
-          const row = Math.floor(i / cols);
-          const col = i % cols;
-          const last = row === rows - 1;
-          const filled = last && col < live.filled;
-          const current = last && col === live.filled - 1;
-          // Rows above fill in as a diagonal wave the first time the card scrolls into view.
-          const wave = shown ? 0 : -1;
+          const active = i < filled;
           return (
             <span
               key={i}
-              className={`aspect-square rounded-[3px] transition-[background-color,transform] duration-500 ease-[var(--ease-spring)] ${current && live.tick ? "cell-live" : ""}`}
+              className={`aspect-square rounded-[3px] transition-[background-color,transform] duration-500 ease-[var(--ease-spring)] `}
               style={{
-                background: filled ? poolFills[col] : "rgba(255,255,255,0.06)",
-                transform: filled ? "scale(1)" : "scale(0.86)",
-                transitionDelay: wave === 0 && last ? `${col * 60}ms` : "0ms",
+                background: active ? "#0091ff" : "rgba(255,255,255,0.06)",
+                transform: active ? "scale(1)" : "scale(0.86)",
+                transitionDelay: "0ms",
               }}
             />
           );
@@ -211,46 +111,48 @@ function ShareholderPool({ live, shown }: { live: LiveState; shown: boolean }) {
       </div>
       <div className="mt-3 flex items-center justify-between text-[11px] text-white/60">
         <span className="flex items-center gap-1.5">
-          <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-white/60" /> Filling next row
+          <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-white/60" /> Funded rewards claimed
         </span>
-        <span className="font-display font-semibold text-white tabular-nums">{live.filled} / 12</span>
+        <span className="font-display font-semibold text-white tabular-nums">{live.claimedPercent === null ? "—" : `${live.claimedPercent}%`}</span>
       </div>
       <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-white/10">
         <div
           className="h-full rounded-full bg-brand transition-[width] duration-700 ease-[var(--ease-spring)]"
-          style={{ width: `${shown ? (live.filled / 12) * 100 : 0}%` }}
+          style={{ width: `${shown ? live.claimedPercent ?? 0 : 0}%` }}
         />
       </div>
     </div>
   );
 }
 
-function PaidOut({ shown }: { shown: boolean }) {
-  const max = paidOut[0].value;
+function PaidOut({ shown, projects }: { shown: boolean; projects: LandingProject[] | null }) {
+  const paidOut = projects ?? [];
+  const max = paidOut.reduce((a, p) => p.claimed && valuation(p.claimed) > a ? valuation(p.claimed) : a, 0n);
   return (
     <div className={`${card} flex flex-col`}>
       <div className="flex items-center justify-between">
         <h3 className="font-display text-[15px] font-bold text-ink">Paid out by product</h3>
-        <span className="text-[11px] text-muted">Last 30 days</span>
+        <span className="text-[11px] text-muted">All time</span>
       </div>
       <div className="mt-4 flex flex-1 items-end gap-2">
+        {!paidOut.length && <p className="text-[13px] text-muted">Project payouts unavailable.</p>}
         {paidOut.map((b, i) => (
-          <div key={b.name} className="group flex min-w-0 flex-1 flex-col items-center justify-end">
+          <div key={b.project.id} className="group flex min-w-0 flex-1 flex-col items-center justify-end">
             <p
               className="mb-1 font-display text-[11px] font-bold text-ink transition-[opacity,transform] duration-700 ease-[var(--ease-smooth)]"
               style={{ opacity: shown ? 1 : 0, transform: shown ? "none" : "translateY(10px)", transitionDelay: `${300 + i * 90}ms` }}
             >
-              ${b.value}k
+              {displayMoney(b.claimed)}
             </p>
             <div
               className="w-full origin-bottom rounded-t-lg transition-[height,filter] duration-[1200ms] ease-[var(--ease-spring)] group-hover:brightness-95"
               style={{
-                height: shown ? `${Math.max((b.value / max) * 230, 24)}px` : "0px",
+                height: shown ? `${relative(b.claimed, max) * 2.3}px` : "0px",
                 transitionDelay: `${i * 90}ms`,
                 background: i === 0 ? "#0091ff" : "#b8dfff",
               }}
             />
-            <p className="mt-2 h-7 max-w-full text-center text-[9px] leading-tight break-words text-ink-soft sm:text-[10px]">{b.name}</p>
+            <p title={b.project.title} className="mt-2 h-7 max-w-full line-clamp-2 text-center text-[9px] leading-tight break-words text-ink-soft sm:text-[10px]">{b.project.title}</p>
           </div>
         ))}
       </div>
@@ -258,7 +160,10 @@ function PaidOut({ shown }: { shown: boolean }) {
   );
 }
 
-function Kpis({ shown, pool }: { shown: boolean; pool: number }) {
+function Kpis({ shown, live }: { shown: boolean; live: Totals }) {
+  const values = live.days.map(d => valuation(d.revenue));
+  const peak = values.reduce((a, v) => v > a ? v : a, 0n);
+  const points = values.map((v, i) => `${values.length > 1 ? i / (values.length - 1) * 90 : 0} ${40 - (peak ? Number(v * 3600n / peak) / 100 : 0)}`).join(" L");
   const kpi = "lift group flex h-full items-center justify-between rounded-[20px] bg-[#eaf5ff] p-5";
   return (
     <>
@@ -267,18 +172,18 @@ function Kpis({ shown, pool }: { shown: boolean; pool: number }) {
         <div>
           <p className="text-[12px] text-[#075a9c]/80">Revenue · 30d</p>
           <p className="mt-1 font-display text-[28px] leading-none font-extrabold text-[#061b32]">
-            <RollingNumber value={money(pool)} ready={shown} />
+            <RollingNumber value={displayMoney(live.last30)} ready={shown} />
           </p>
         </div>
         <svg width="90" height="40" viewBox="0 0 90 40" fill="none" aria-hidden>
           <path
-            d="M0 34 L18 26 L32 30 L50 18 L66 22 L90 4 V40 H0Z"
+            d={points ? `M${points} V40 H0Z` : ""}
             fill="#0091ff"
             fillOpacity="0.2"
             style={{ opacity: shown ? 1 : 0, transition: "opacity 1s ease 0.8s" }}
           />
           <path
-            d="M0 34 L18 26 L32 30 L50 18 L66 22 L90 4"
+            d={points ? `M${points}` : ""}
             stroke="#0074cc"
             strokeWidth="2"
             strokeLinejoin="round"
@@ -293,18 +198,18 @@ function Kpis({ shown, pool }: { shown: boolean; pool: number }) {
       <Reveal delay={70} className="h-full">
         <div className={kpi}>
         <div>
-          <p className="text-[12px] text-[#075a9c]/80">Rows paid out</p>
+          <p className="text-[12px] text-[#075a9c]/80">Confirmed funding records</p>
           <p className="mt-1 font-display text-[28px] leading-none font-extrabold text-[#061b32]">
-            <RollingNumber value="38" ready={shown} />
+            <RollingNumber value={live.payments?.length.toString() ?? "—"} ready={shown} />
           </p>
         </div>
         <div className="flex h-9 items-end gap-1" aria-hidden>
-          {[40, 55, 35, 70, 50, 85, 100].map((h, i) => (
+          {values.slice(-7).map((value, i) => (
             <span
               key={i}
               className="w-2 origin-bottom rounded-sm bg-brand transition-[height,filter] duration-700 ease-[var(--ease-spring)] group-hover:brightness-90"
               style={{
-                height: shown ? `${h}%` : "0%",
+                height: shown ? `${peak ? Number(value * 10000n / peak) / 100 : 0}%` : "0%",
                 opacity: 0.45 + i * 0.08,
                 transitionDelay: `${i * 80}ms`,
               }}
@@ -316,11 +221,11 @@ function Kpis({ shown, pool }: { shown: boolean; pool: number }) {
       <Reveal delay={140} className="h-full">
         <div className={kpi}>
         <div>
-          <p className="text-[12px] text-[#075a9c]/80">Deductions</p>
-          <p className="mt-1 font-display text-[28px] leading-none font-extrabold text-[#061b32]">$0</p>
+          <p className="text-[12px] text-[#075a9c]/80">Minimum fraction · USDT</p>
+          <p className="mt-1 font-display text-[28px] leading-none font-extrabold text-[#061b32]">{live.minimum}</p>
         </div>
         <span className="rounded-full bg-brand px-3 py-1 font-display text-[11px] font-bold text-white transition-transform duration-500 ease-[var(--ease-spring)] group-hover:scale-110">
-          No fees
+          + gas
         </span>
         </div>
       </Reveal>
@@ -329,7 +234,7 @@ function Kpis({ shown, pool }: { shown: boolean; pool: number }) {
         <div>
           <p className="text-[12px] text-[#075a9c]/80">Paid to holders</p>
           <p className="mt-1 font-display text-[28px] leading-none font-extrabold text-[#061b32]">
-            <RollingNumber value="100%" ready={shown} />
+            <RollingNumber value={live.claimedPercent === null ? "—" : `${live.claimedPercent}%`} ready={shown} />
           </p>
         </div>
         <svg width="40" height="40" viewBox="0 0 40 40" aria-hidden className="-rotate-90">
@@ -344,7 +249,7 @@ function Kpis({ shown, pool }: { shown: boolean; pool: number }) {
             strokeLinecap="round"
             pathLength={1}
             strokeDasharray={1}
-            strokeDashoffset={shown ? 0 : 1}
+            strokeDashoffset={shown ? 1 - (live.claimedPercent ?? 0) / 100 : 1}
             style={{ transition: "stroke-dashoffset 1.6s var(--ease-smooth) 0.3s" }}
           />
         </svg>
@@ -354,13 +259,15 @@ function Kpis({ shown, pool }: { shown: boolean; pool: number }) {
   );
 }
 
-function Breakdown({ shown }: { shown: boolean }) {
+function Breakdown({ shown, projects, live }: { shown: boolean; projects: LandingProject[] | null; live: Totals }) {
+  const total = live.funded ? valuation(live.funded) : 0n;
+  const breakdown = (projects ?? []).map((p, i) => ({ id: p.project.id, name: p.project.title, value: displayMoney(p.funded), pct: total && p.funded ? Number(valuation(p.funded) * 10000n / total) / 100 : null, color: colors[i % colors.length] }));
   const [hover, setHover] = useState<string | null>(null);
   return (
     <div className={`${card} lg:col-span-3`}>
       <div className="flex items-center justify-between">
         <h3 className="font-display text-[15px] font-bold text-ink">Revenue breakdown</h3>
-        <span className="text-[11px] text-muted">Updates with every payment</span>
+        <span className="text-[11px] text-muted">Confirmed funding · all time</span>
       </div>
       <div className="mt-4 flex h-[26px] overflow-hidden rounded-md" role="img" aria-label="Revenue share by product">
         {breakdown.map((b, i) => (
@@ -369,7 +276,7 @@ function Breakdown({ shown }: { shown: boolean }) {
             onMouseEnter={() => setHover(b.name)}
             onMouseLeave={() => setHover(null)}
             style={{
-              width: shown ? `${b.pct}%` : "0%",
+              width: shown ? `${b.pct ?? 0}%` : "0%",
               background: b.color,
               transitionDelay: `${i * 90}ms`,
               opacity: hover && hover !== b.name ? 0.35 : 1,
@@ -395,7 +302,7 @@ function Breakdown({ shown }: { shown: boolean }) {
               <span className="h-2 w-2 rounded-[2px]" style={{ background: b.color }} /> {b.name}
             </p>
             <p className="mt-0.5 font-display text-[13px] font-bold text-ink">
-              {b.value} <span className="font-normal text-muted">· {b.pct}%</span>
+              {b.value} <span className="font-normal text-muted">· {b.pct === null ? "—" : `${b.pct}%`}</span>
             </p>
           </li>
         ))}
@@ -404,7 +311,7 @@ function Breakdown({ shown }: { shown: boolean }) {
   );
 }
 
-function Transparent() {
+function Transparent({ payment }: { payment: LandingPayment | null }) {
   return (
     <div
       data-spotlight
@@ -413,10 +320,10 @@ function Transparent() {
       <div>
         <p className="font-display text-[11px] font-semibold text-[#7cc8ff]">Transparent by design</p>
         <h3 className="mt-3 font-display text-[28px] leading-[1.1] font-extrabold">See every payment on-chain.</h3>
-        <p className="mt-3 font-mono text-[10px] text-white/50">Latest tx 0x611c…6871</p>
+        <p className="mt-3 font-mono text-[10px] text-white/50">{payment ? `Latest tx ${payment.hash.slice(0, 8)}…${payment.hash.slice(-4)}` : "No verified revenue transaction available"}</p>
       </div>
       <a
-        href="#"
+        href={payment ? `${publicExplorer}/tx/${payment.hash}` : publicExplorer}
         data-magnetic
         className="btn btn-shine mt-6 flex items-center justify-center gap-2 rounded-2xl bg-brand py-3.5 font-display text-[14px] font-bold text-white"
       >
@@ -427,54 +334,9 @@ function Transparent() {
   );
 }
 
-interface Coin {
-  id: number;
-  style: CSSProperties;
-}
-
-/**
- * Each new payment sends a coin from the top of the feed to the pool total. The launch is measured
- * from the DOM when the feed ticks, so the coin starts where the newest row has just opened.
- */
-function useCoin(root: RefObject<HTMLDivElement | null>, tick: number): Coin | null {
-  const reduced = usePrefersReducedMotion();
-  const [coin, setCoin] = useState<Coin | null>(null);
-
-  useEffect(() => {
-    const dashboard = root.current;
-    if (!tick || reduced || !dashboard) return;
-    let frame = requestAnimationFrame(() => {
-      frame = 0;
-      const from = dashboard.querySelector<HTMLElement>("[data-flow-from]");
-      const to = dashboard.querySelector<HTMLElement>("[data-flow-to]");
-      if (!from || !to) return;
-      const base = dashboard.getBoundingClientRect();
-      const a = from.getBoundingClientRect();
-      const b = to.getBoundingClientRect();
-      setCoin({
-        id: tick,
-        style: {
-          "--x0": `${a.right - base.left - 24}px`,
-          "--y0": `${a.top - base.top + 26}px`,
-          "--x1": `${b.left - base.left + b.width / 2}px`,
-          "--y1": `${b.top - base.top + b.height / 2}px`,
-        } as CSSProperties,
-      });
-    });
-    const timer = setTimeout(() => setCoin(null), 1200);
-    return () => {
-      if (frame) cancelAnimationFrame(frame);
-      clearTimeout(timer);
-    };
-  }, [root, tick, reduced]);
-
-  return coin;
-}
-
 export function MoneyFlow() {
   const [ref, shown] = useInView<HTMLDivElement>({ threshold: 0.15 });
-  const live = useLiveFeed(shown);
-  const coin = useCoin(ref, live.tick);
+  const { projects, totals: live, loading } = useLanding();
 
   return (
     <section id="money-flow" className="mt-20 scroll-mt-24">
@@ -484,40 +346,34 @@ export function MoneyFlow() {
         </Reveal>
         <Reveal variant="blur" delay={80}>
           <p className="mt-3 max-w-[820px] text-[19px] leading-snug text-ink-soft">
-            This illustration shows the revenue-allocation model. Authorized operators deposit actual revenue on INFRA, and each funded allocation is
-            split by blocks held. Nothing is taken out on the way.
+            Confirmed project revenue on INFRA is allocated to the fractions held at funding time. Follow actual deposits, unclaimed rewards and holder payouts below. Values combine USDT and reAED at 1 USDT = 3.6 reAED.
           </p>
         </Reveal>
 
         <div ref={ref} className="money-dashboard relative mt-5 rounded-[24px] bg-[#ececec] p-3 sm:p-5">
           <div className="grid gap-4 lg:grid-cols-3">
             <Reveal variant="left" className="h-full min-w-0">
-              <PaymentsIn feed={live.feed} count={live.count} shown={shown} />
+              <PaymentsIn feed={live.payments} count={live.payments?.length ?? null} shown={shown} />
             </Reveal>
             <Reveal variant="up" delay={120} className="h-full min-w-0">
-              <ShareholderPool live={live} shown={shown} />
+              <ShareholderPool live={live} shown={shown} loading={loading} />
             </Reveal>
             <Reveal variant="right" delay={240} className="h-full min-w-0">
-              <PaidOut shown={shown} />
+              <PaidOut shown={shown} projects={projects} />
             </Reveal>
           </div>
           <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            <Kpis shown={shown} pool={live.pool} />
+            <Kpis shown={shown} live={live} />
           </div>
           <div className="mt-4 grid gap-4 lg:grid-cols-4">
             <Reveal className="h-full lg:col-span-3">
-              <Breakdown shown={shown} />
+              <Breakdown shown={shown} projects={projects} live={live} />
             </Reveal>
             <Reveal delay={120} className="h-full">
-              <Transparent />
+              <Transparent payment={live.payments?.[0] ?? null} />
             </Reveal>
           </div>
-          {/* Last child on purpose: design.css addresses the three rows above by child index. */}
-          {coin && (
-            <span key={coin.id} className="flow-coin" style={coin.style} aria-hidden>
-              <i />
-            </span>
-          )}
+
         </div>
       </Container>
     </section>

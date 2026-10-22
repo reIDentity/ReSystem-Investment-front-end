@@ -1,12 +1,15 @@
+"use client";
 import type { CSSProperties } from "react";
 import Image from "next/image";
 import { Container } from "./Container";
 import { HeroVisual } from "./HeroVisual";
 import { SplitWords } from "./SplitWords";
 
-const perks = ["From $2,000", "No lock period", "Revenue visible on-chain"];
+import { useLanding } from "./LandingData";
 
 export function Hero() {
+  const { totals } = useLanding();
+  const perks = [totals.minimum === "—" ? "Minimum investment —" : `From ${totals.minimum} USDT`, "No fraction transfer lock", "Revenue visible on-chain"];
   return (
     <section className="hero-section pt-10 sm:pt-14">
       <Container>
@@ -17,8 +20,7 @@ export function Hero() {
           </span>
         </h1>
         <p style={{ "--d": "220ms" } as CSSProperties} className="hero-description enter mt-6 max-w-[930px] text-lg leading-[1.45] text-ink-soft sm:text-[22px]">
-          Buy shares in reSystem products like Fractionaire, reID and INFRA reAED. Every dollar each product earns goes
-          to its shareholders, in proportion to the shares they hold. Watch it live on-chain and claim whenever you like.
+          Buy fractions in published reSystem projects. Revenue deposited into each project’s pool is allocated to its current fraction holders. Review confirmed funding on-chain and claim your allocated rewards.
         </p>
         <ul className="hero-perks mt-5 flex flex-wrap gap-x-8 gap-y-2 text-[15px] text-ink-soft">
           {perks.map((p, i) => (
@@ -44,7 +46,7 @@ export function Hero() {
             data-magnetic
             className="hero-secondary btn rounded-full border-[1.5px] border-ink bg-white px-7 py-3.5 font-display text-[17px] font-semibold text-ink hover:bg-ink hover:text-white"
           >
-            Calculate your earnings
+            Calculate your investment
           </a>
         </div>
       </Container>
