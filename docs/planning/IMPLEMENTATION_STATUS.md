@@ -1,5 +1,9 @@
 # Implementation and recovery status — 16 October 2026
 
+## 22 October 2026 — automatic admin revenue references deployed
+
+RSI-121 is Done. The admin revenue form creates its own funding reference and fingerprints optional local PDF/CSV/XLSX reports; staff no longer enter bytes32 values. [Admin70a569d](https://github.com/reIDentity/ReSystem-Investment-admin/commit/70a569d25bbe8387a8698bce9a3441191dff9869) passes191 tests, lint, types, build and CI39764805668. Root receipt `release-admin-70a569d25bbe-57c12fc0cc98` and actual desktop/phone acceptance verify deployment. The owner-approved brief pause is complete and ongoing investor QA is enabled again. No report content was uploaded, financial request prepared, wallet signed or funds moved. Backend/indexer/signer, schema, permissions, resources and installed controller policy remain unchanged. See `docs/testing/ADMIN_REVENUE_REFERENCES_20261022.md` for exact source/image/runtime evidence. Backlog121:98 Done/20 In progress/3 To do.
+
 ## 22 October 2026 — investor performance improvements deployed
 
 RSI-120 is Done. Activity preloads adjacent confirmed-snapshot pages, retains real rows/ranges during an uncached same-filter request and keeps cached pages interactive through background revalidation. Shared navigation/link read-ahead is per signed-in provider, limited to two warm workers/eight paths, and excludes quotes/transactions/auth actions. Forced refreshes stay fresh; late old-session responses cannot repopulate the current cache. The server-validated session seeds hydration without a duplicate immediate browser session GET. Hidden approval-history polling stops until expanded. Artificial200–400ms row delays/500ms fades are removed; page/card arrivals use160ms with no stagger. The Figma layout/branding, backend authorization, CSRF, session invalidation and financial review remain.

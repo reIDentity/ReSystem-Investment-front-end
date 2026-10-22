@@ -2998,5 +2998,28 @@
     "status": "Done",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-front-end/commit/463f4ea03bcdb34eb33da34226ef5b33ca1ba20f",
     "verification_evidence": "143 tests/types/lint/build/secret scan and CI39760886610/39761720206 pass; Vercel and actual desktop1440/phone390 acceptance. Cached keyboard111/35/39ms, mobile41ms, route shells27–143ms; mouse306/307/302ms includes stability overhead. No FP restart, financial action or QA gate change. See docs/testing/INVESTOR_PERFORMANCE_20261022.md."
+  },
+  {
+    "id": "RSI-121",
+    "title": "Generate revenue references automatically and fingerprint optional reports",
+    "phase": "10 · Admin UX follow-ups",
+    "repository": "Admin frontend",
+    "priority": "P1",
+    "objective": "Remove manual blockchain hash entry from project revenue funding.",
+    "requirements": [
+      "Generate a secure nonzero funding reference for each new request and retain it through review retries.",
+      "Fingerprint optional local reports with SHA-256 without uploading their contents.",
+      "Preserve exact values, backend validation and staff MFA approval."
+    ],
+    "acceptance": [
+      "No editable bytes32 inputs remain in funding form.",
+      "Bounded reports, pending/error state and stale replace/remove results handled safely.",
+      "Tests, genuine published commit and deployed UI acceptance recorded."
+    ],
+    "dependencies": [],
+    "status": "Done",
+    "commit_url": "https://github.com/reIDentity/ReSystem-Investment-admin/commit/70a569d25bbe8387a8698bce9a3441191dff9869",
+    "verification_evidence": "Admin70a569d published;191 tests/types/lint/build and CI39764805668 passed. Hosted image39765094160 verified; auto release explicitly deferred for open QA. Root receipt release-admin-70a569d25bbe-57c12fc0cc98 verifies scoped deployment, protected peers/schema/resources and signer resume. Gate restored verified_open; actual desktop/phone390 form has no manual hashes, synthetic local CSV fingerprint ready and removable, no overflow/console errors. No financial intent, signature or broadcast.",
+    "notion_status_observed_at_utc": "2026-10-22T10:53:52.885712+00:00"
   }
 ]

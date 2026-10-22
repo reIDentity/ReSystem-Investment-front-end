@@ -639,9 +639,14 @@
       "page_id": "4013b21a-c925-8136-b6d7-e2d1407ea642",
       "url": "https://app.notion.com/p/4013b21ac9258136b6d7e2d1407ea642",
       "title": "Measure and improve investor navigation and Activity pagination performance"
+    },
+    "RSI-121": {
+      "page_id": "4013b21a-c925-8138-be71-f966f6024caa",
+      "url": "https://app.notion.com/p/4013b21ac9258138be71f966f6024caa",
+      "title": "Generate revenue references automatically and fingerprint optional reports"
     }
   },
-  "task_count": 119,
+  "task_count": 121,
   "initial_status": "To do",
   "github_sync": "Codex-managed workflow; no automatic webhook or background automation configured",
   "plan_page_id": "3fb3b21a-c925-810b-9694-e2c99173f5f9",
@@ -658,6 +663,11 @@
       "page_id": "4013b21a-c925-818d-bee1-cafbc62d069a",
       "url": "https://app.notion.com/p/4013b21ac925818dbee1cafbc62d069a",
       "title": "Investor performance measurement and navigation improvements —22October2026"
+    },
+    "docs/testing/ADMIN_REVENUE_REFERENCES_20261022.md": {
+      "page_id": "4013b21a-c925-8109-aaed-fbab95f320d9",
+      "url": "https://app.notion.com/p/4013b21ac9258109aaedfbab95f320d9",
+      "title": "Automatic project revenue references"
     }
   },
   "services": {
@@ -857,10 +867,10 @@
     }
   },
   "operations_updated_at_utc": "2026-10-21T07:46:47.509449+00:00",
-  "last_status_sync_at_utc": "2026-10-22T10:23:51.096561+00:00",
-  "last_status_sync_scope": "RSI-120 complete:143 tests/CI, Vercel and actual bounded desktop/phone performance/functional acceptance. Ongoing QA unchanged; no FP restart or financial action.",
+  "last_status_sync_at_utc": "2026-10-22T10:53:52.887051+00:00",
+  "last_status_sync_scope": "RSI-121 Done:191 tests/source CI, guarded FP admin rollout and actual desktop/phone report controls verified. Ongoing QA restored; no financial actions.",
   "status_counts": {
-    "Done": 97,
+    "Done": 98,
     "In progress": 20,
     "To do": 3
   }
