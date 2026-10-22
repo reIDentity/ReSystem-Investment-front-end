@@ -2,13 +2,14 @@ import test, { afterEach } from 'node:test';
 import assert from 'node:assert/strict';
 import { JSDOM } from 'jsdom';
 import React from 'react';
+import {createRequire} from 'node:module';
 import { clientRenderer } from './client-renderer.mjs';
 
 const dom = new JSDOM('<!doctype html><html><body></body></html>', { url: 'https://investor.example.invalid' });
 for (const [key, value] of Object.entries({ window: dom.window, self: dom.window, document: dom.window.document, navigator: dom.window.navigator, HTMLElement: dom.window.HTMLElement, FormData: dom.window.FormData, File: dom.window.File })) Object.defineProperty(globalThis, key, { value, configurable: true });
 globalThis.IS_REACT_ACT_ENVIRONMENT = true;
 const { act, cleanup, fireEvent, render, waitFor } = await import('@testing-library/react');
-const { SWRConfig } = await import('swr');
+const { SWRConfig, useSWRConfig } = createRequire(import.meta.url)('swr');
 const originalFetch = globalThis.fetch;
 afterEach(() => { cleanup(); globalThis.fetch = originalFetch; });
 const children = ({ children }) => React.createElement(React.Fragment, null, children);
@@ -126,10 +127,9 @@ test('a protected 401 immediately removes private children and clears their cach
   const runtime = clientRenderer();
   const { PlatformProvider, useResource } = runtime.load('src/components/invest/PlatformProvider.tsx');
   const { api } = runtime.load('src/lib/platform/client.ts');
-  const { useSWRConfig } = await import('swr');
   let capturedCache, late;
   globalThis.fetch = async url => {
-    if (String(url).endsWith('/auth/session')) return Response.json({ authenticated: true, kind: 'investor', user: { walletAddress: wallet }, csrfToken: 'synthetic' });
+    if (String(url).endsWith('/auth/session')) return Response.json({ authenticated: true, kind: 'investor', user: { id: user.id, walletAddress: wallet }, csrfToken: 'synthetic' });
     if (String(url).endsWith('/slow')) return new Promise(resolve => { late = resolve; });
     if (String(url).endsWith('/wallet')) return Response.json({}, { status: 401 });
     return Response.json({ label: 'Private synthetic holding' });
@@ -141,6 +141,7 @@ test('a protected 401 immediately removes private children and clears their cach
   }
   const view = render(React.createElement(PlatformProvider, { user, live: true, approvalOrigin: 'https://app.reidentity.net' }, React.createElement(Private)));
   await view.findByText('Private synthetic holding');
+  assert.ok([...capturedCache.values()].some(value => value.data?.label === 'Private synthetic holding'));
   await act(async () => { await assert.rejects(api('wallet')); });
   await view.findByRole('heading', { name: 'Your session has ended' });
   assert.equal(view.queryByText('Private synthetic holding'), null);
@@ -151,7 +152,7 @@ test('a temporary service outage does not falsely expire an authenticated invest
   const runtime = clientRenderer();
   const { PlatformProvider } = runtime.load('src/components/invest/PlatformProvider.tsx');
   const { api } = runtime.load('src/lib/platform/client.ts');
-  globalThis.fetch = async url => String(url).endsWith('/auth/session') ? Response.json({ authenticated: true, kind: 'investor', user: { walletAddress: wallet }, csrfToken: 'synthetic' }) : Response.json({}, { status: 503 });
+  globalThis.fetch = async url => String(url).endsWith('/auth/session') ? Response.json({ authenticated: true, kind: 'investor', user: { id: user.id, walletAddress: wallet }, csrfToken: 'synthetic' }) : Response.json({}, { status: 503 });
   const view = render(React.createElement(PlatformProvider, { user, live: true, approvalOrigin: 'https://app.reidentity.net' }, React.createElement('p', null, 'Private workspace')));
   await act(async () => { await assert.rejects(api('wallet')); });
   assert.ok(view.getByText('Private workspace'));

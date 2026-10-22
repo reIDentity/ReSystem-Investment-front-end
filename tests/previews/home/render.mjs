@@ -90,7 +90,7 @@ export function fixture(name) {
 
 const sourcePaths = [
   'src/components/invest/HomeExplore.tsx', 'src/components/invest/InvestorUI.tsx', 'src/components/invest/platform/ProjectIcon.tsx',
-  'src/components/Logo.tsx', 'src/lib/platform/money.ts', 'src/lib/platform/media.ts',
+  'src/components/Logo.tsx', 'src/lib/platform/read-ahead.ts', 'src/lib/platform/money.ts', 'src/lib/platform/media.ts',
   'src/lib/platform/portfolio-values.ts', 'src/lib/platform/valuation.ts', 'src/lib/platform/cashflow-values.ts',
 ];
 export function hashFile(relative) { return createHash('sha256').update(fs.readFileSync(path.join(repository, relative))).digest('hex'); }

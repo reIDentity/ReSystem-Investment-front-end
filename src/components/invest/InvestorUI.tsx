@@ -5,6 +5,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useId, useRef, useState, type ReactNode } from "react";
 import { Logo } from "@/components/Logo";
 import { usePlatform, useResource } from "./PlatformProvider";
+import { routeResources } from "@/lib/platform/read-ahead";
 import { api } from "@/lib/platform/client";
 import type { NotificationPage } from "@/lib/platform/api.generated";
 import type { HistoryCoverage } from "@/lib/platform/types";
@@ -22,12 +23,20 @@ export function InvestorShell({ title, subtitle, children, page = "", networkBlo
   const path = usePathname(); const router = useRouter(); const platform = usePlatform();
   const [account, setAccount] = useState(false); const [notifications, setNotifications] = useState(false);
   const updates = useResource<NotificationPage>("notifications", 60000);
+  function warmLink(target: EventTarget | null) {
+    const anchor = (target as Element | null)?.closest?.("a[href]");
+    if (!anchor) return;
+    try {
+      const url = new URL(anchor.getAttribute("href") || "", window.location.href);
+      if (url.origin === window.location.origin) platform.prefetch?.(routeResources(url.pathname + url.search));
+    } catch { /* A malformed link cannot interrupt navigation or the current view. */ }
+  }
   const initials = platform.user.name.split(/\s+/).filter(Boolean).slice(0, 2).map(x => x[0]).join("").toUpperCase();
   const nav = [["Home", "home"], ["Explore", "explore"], ["My earnings", "earnings"], ["Wallet", "wallet"], ["Activity", "activity"], ["Support", "support"]];
   const active = path.includes("/products/") ? "explore" : ["deposit", "withdraw", "marketplace"].includes(page) ? "wallet" : page;
   async function logout() { try { if (platform.live) { await api("auth/logout", { method: "POST" }); router.replace("/invest"); router.refresh(); } else { const form = document.createElement("form"); form.method = "post"; form.action = "/api/auth/reid/logout"; document.body.append(form); form.submit(); } } catch { platform.notify("Sign out could not be confirmed. Please retry."); } }
-  return <div className={`investor-app iv-${page}`}><div className="iv-frame">
-    <header className="iv-header"><Link href="/invest/home" aria-label="reSystem Investment dashboard"><InvestorLogo /></Link><nav aria-label="Investor navigation">{nav.map(([label, slug]) => <Link key={slug} href={`/invest/${slug}`} aria-current={active === slug ? "page" : undefined}>{label}</Link>)}</nav><div className="iv-account-area">
+  return <div className={`investor-app iv-${page}`} onPointerOver={event => warmLink(event.target)} onFocusCapture={event => warmLink(event.target)}><div className="iv-frame">
+    <header className="iv-header"><Link href="/invest/home" aria-label="reSystem Investment dashboard"><InvestorLogo /></Link><nav aria-label="Investor navigation">{nav.map(([label, slug]) => <Link key={slug} href={`/invest/${slug}`} prefetch={true} aria-current={active === slug ? "page" : undefined}>{label}</Link>)}</nav><div className="iv-account-area">
       <button className="iv-notification" aria-label="Notifications" aria-expanded={notifications} onClick={() => { setNotifications(!notifications); setAccount(false); }}><Asset name="5bcd1" width={18} />{updates.data?.items.some(n => !n.readAt) ? <i /> : null}</button>
       <button className="iv-account" aria-expanded={account} onClick={() => { setAccount(!account); setNotifications(false); }}><span className="iv-avatar">{initials}</span><span><strong>{platform.user.name}</strong><small><Asset name="4489b" width={12} />Connected with reID</small></span><Asset name="6b211" width={14} /></button>
       {account ? <div className="iv-popover"><strong>{platform.user.name}</strong><p>INFRA testnet/UAT</p><p className="iv-connected-wallet">{platform.user.wallet}</p><p>Verification: {platform.user.kycStatus === "not_requested" ? "Not requested" : platform.user.kycStatus}</p><Link href="/invest/marketplace" onClick={() => setAccount(false)}>Resale marketplace</Link><button className="iv-button iv-primary iv-full" onClick={() => void logout()}>Sign out</button><Link href="/">Back to website</Link></div> : null}

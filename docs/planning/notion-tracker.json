@@ -634,6 +634,11 @@
       "page_id": "4013b21a-c925-81f0-817b-c9f6b17305a4",
       "url": "https://app.notion.com/p/4013b21ac92581f0817bc9f6b17305a4",
       "title": "Update share purchase totals smoothly while revalidating the quote"
+    },
+    "RSI-120": {
+      "page_id": "4013b21a-c925-8136-b6d7-e2d1407ea642",
+      "url": "https://app.notion.com/p/4013b21ac9258136b6d7e2d1407ea642",
+      "title": "Measure and improve investor navigation and Activity pagination performance"
     }
   },
   "task_count": 119,
@@ -847,11 +852,11 @@
     }
   },
   "operations_updated_at_utc": "2026-10-21T07:46:47.509449+00:00",
-  "last_status_sync_at_utc": "2026-10-22T09:32:21.299389+00:00",
-  "last_status_sync_scope": "RSI-115 to RSI-119 complete: published source/CI, actual FP/Vercel release and focused signed-in desktop/phone acceptance verified; QA requests restored true in API/worker; email recipient policy verified; no financial action.",
+  "last_status_sync_at_utc": "2026-10-22T10:08:34.300173+00:00",
+  "last_status_sync_scope": "RSI-120 started for owner performance request; local142 checks and build pass, deployed before/after acceptance pending. Ongoing QA remains enabled.",
   "status_counts": {
     "Done": 96,
-    "In progress": 20,
+    "In progress": 21,
     "To do": 3
   }
 }

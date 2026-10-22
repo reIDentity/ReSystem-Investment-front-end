@@ -61,3 +61,7 @@
 .iv-activity-pagination .iv-button { border:1px solid #eef0f4; min-height:36px; }
 .iv-page-gap { padding:0 4px; color:#64748b; }
 @media(max-width:767px) { .iv-activity-pagination .iv-button { min-width:44px; min-height:44px; padding:8px 10px; } }
+
+/* Keep existing rows/geometry visible during a real page request. Background polls never dim or disable navigation. */
+.iv-activity-table[aria-busy="true"] tbody { opacity: .55; transition: opacity .12s ease; }
+@media (prefers-reduced-motion: reduce) { .iv-activity-table[aria-busy="true"] tbody { transition: none; } }

@@ -321,3 +321,32 @@
     translate: 0 -1px;
   }
 }
+
+/* Responsive data arrival: do not hide confirmed rows behind staggered entrances.
+   Static geometry/colours and hover/press/chart treatments remain unchanged. */
+@media (prefers-reduced-motion: no-preference) {
+  .investor-app .iv-page-heading > div:first-child,
+  .investor-app .iv-heading-actions > *,
+  .investor-app .iv-service-banner,
+  .investor-app .iv-content > *,
+  .investor-app .iv-kpis > *,
+  .investor-app .iv-holding-grid > *,
+  .investor-app .iv-products > *,
+  .investor-app .iv-explore-grid > *,
+  .investor-app .iv-live-columns > *,
+  .investor-app .iv-bento-halves > *,
+  .investor-app .iv-bento-thirds > *,
+  .investor-app .iv-mini-stats > *,
+  .investor-app .iv-flow-totals > *,
+  .investor-app .iv-product-hero > div:first-child > *,
+  .investor-app .iv-product-poster {
+    animation-duration: 160ms;
+    animation-delay: 0ms;
+  }
+  .investor-app :is(.iv-record, .iv-recent-row, .iv-ticket, .iv-notice-row,
+      .iv-table tbody tr, .iv-recommended > div:first-of-type > a,
+      .iv-quick-actions > a, .iv-quick-actions > button, .iv-message,
+      .iv-live-conversation article) {
+    animation: none;
+  }
+}
