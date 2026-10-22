@@ -653,7 +653,12 @@
   "documents": {
     "database_id": "02d0e65d064b4316b6fbe3a9c466434f",
     "data_source_id": "18dc1501-7faa-4823-89f1-c98c9c530ac9",
-    "url": "https://app.notion.com/p/02d0e65d064b4316b6fbe3a9c466434f"
+    "url": "https://app.notion.com/p/02d0e65d064b4316b6fbe3a9c466434f",
+    "docs/testing/INVESTOR_PERFORMANCE_20261022.md": {
+      "page_id": "4013b21a-c925-818d-bee1-cafbc62d069a",
+      "url": "https://app.notion.com/p/4013b21ac925818dbee1cafbc62d069a",
+      "title": "Investor performance measurement and navigation improvements —22October2026"
+    }
   },
   "services": {
     "database_id": "772a663cc1334f269b73e144c998f089",
@@ -852,11 +857,11 @@
     }
   },
   "operations_updated_at_utc": "2026-10-21T07:46:47.509449+00:00",
-  "last_status_sync_at_utc": "2026-10-22T10:08:34.300173+00:00",
-  "last_status_sync_scope": "RSI-120 started for owner performance request; local142 checks and build pass, deployed before/after acceptance pending. Ongoing QA remains enabled.",
+  "last_status_sync_at_utc": "2026-10-22T10:23:51.096561+00:00",
+  "last_status_sync_scope": "RSI-120 complete:143 tests/CI, Vercel and actual bounded desktop/phone performance/functional acceptance. Ongoing QA unchanged; no FP restart or financial action.",
   "status_counts": {
-    "Done": 96,
-    "In progress": 21,
+    "Done": 97,
+    "In progress": 20,
     "To do": 3
   }
 }

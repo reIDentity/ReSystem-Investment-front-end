@@ -2995,8 +2995,8 @@
     "dependencies": [
       "RSI-115"
     ],
-    "status": "In progress",
-    "commit_url": "",
-    "verification_evidence": "Local142 tests/types/lint/build pass; actual source publication and deployment acceptance pending."
+    "status": "Done",
+    "commit_url": "https://github.com/reIDentity/ReSystem-Investment-front-end/commit/463f4ea03bcdb34eb33da34226ef5b33ca1ba20f",
+    "verification_evidence": "143 tests/types/lint/build/secret scan and CI39760886610/39761720206 pass; Vercel and actual desktop1440/phone390 acceptance. Cached keyboard111/35/39ms, mobile41ms, route shells27–143ms; mouse306/307/302ms includes stability overhead. No FP restart, financial action or QA gate change. See docs/testing/INVESTOR_PERFORMANCE_20261022.md."
   }
 ]

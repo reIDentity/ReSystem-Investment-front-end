@@ -1,5 +1,13 @@
 # Implementation and recovery status — 16 October 2026
 
+## 22 October 2026 — investor performance improvements deployed
+
+RSI-120 is Done. Activity preloads adjacent confirmed-snapshot pages, retains real rows/ranges during an uncached same-filter request and keeps cached pages interactive through background revalidation. Shared navigation/link read-ahead is per signed-in provider, limited to two warm workers/eight paths, and excludes quotes/transactions/auth actions. Forced refreshes stay fresh; late old-session responses cannot repopulate the current cache. The server-validated session seeds hydration without a duplicate immediate browser session GET. Hidden approval-history polling stops until expanded. Artificial200–400ms row delays/500ms fades are removed; page/card arrivals use160ms with no stagger. The Figma layout/branding, backend authorization, CSRF, session invalidation and financial review remain.
+
+Published [882483b](https://github.com/reIDentity/ReSystem-Investment-front-end/commit/882483b88c14517f826530401ce9bcbaa8b69c0c) and final [463f4ea](https://github.com/reIDentity/ReSystem-Investment-front-end/commit/463f4ea03bcdb34eb33da34226ef5b33ca1ba20f) pass CI39760886610/39761720206,143 application tests/types/lint/build/secret checks and Vercel. Actual cached keyboard page switches111/35/39ms and phone41ms show the correct range immediately with controls enabled. Comparable mouse automation306/307/302ms includes hover/stability overhead versus531ms before; navigation shells27–143ms. These are bounded live observations, not capacity/cold-network guarantees. Desktop1440/phone390, actual filter/range, zero row entrance animation and zero console errors verified. See [performance evidence](../testing/INVESTOR_PERFORMANCE_20261022.md).
+
+No FP application deployment/restart, schema/signer/gate change, wallet approval, signature, financial action or test email occurred. Ongoing QA remains enabled. No local server/container was started; browser viewport restored. Backlog120:97 Done/20 In progress/3 To do; broader platform/client QA remains separate.
+
 ## 22 October 2026 — five investor follow-ups deployed and accepted
 
 RSI-115–119 are Done: server-filtered Activity pages and totals; automatic reID email enrollment without duplicate confirmation; actual project artwork in Home recommendations/holdings; Mark all as read across notification pages; immediate exact share totals without quote-loading layout shifts. The existing Figma layout and branding are preserved outside these explicit corrections.
