@@ -67,10 +67,11 @@ export function verifiedLandingProject(project: Project, chain: unknown, revenue
     let valid = true, trailingValid = true;
     for (const asset of ["REAED", "USDT"] as const) {
       const matches = revenue.assets.filter(a => object(a) && a.asset === asset), a = matches[0];
+      const recent = series.days.reduce((sum, day) => sum + day.revenue[asset], 0n);
       const source = object(revenue.series) && Array.isArray(revenue.series.assets) ? revenue.series.assets.find(a => object(a) && a.asset === asset) : null;
-      if (matches.length !== 1 || !object(a) || a.decimals !== (asset === "REAED" ? 18 : 6) || !uint(a.fundedAtomic) || !uint(a.claimedTotalAtomic) || !uint(a.reserveAtomic) || BigInt(a.claimedTotalAtomic) + BigInt(a.reserveAtomic) !== BigInt(a.fundedAtomic) || series.totals.month[asset] > BigInt(a.fundedAtomic)) { valid = false; break; }
+      if (matches.length !== 1 || !object(a) || a.decimals !== (asset === "REAED" ? 18 : 6) || !uint(a.fundedAtomic) || !uint(a.claimedTotalAtomic) || !uint(a.reserveAtomic) || BigInt(a.claimedTotalAtomic) + BigInt(a.reserveAtomic) !== BigInt(a.fundedAtomic) || series.totals.month[asset] > BigInt(a.fundedAtomic) || recent > BigInt(a.fundedAtomic)) { valid = false; break; }
       f[asset] = BigInt(a.fundedAtomic); c[asset] = BigInt(a.claimedTotalAtomic); r[asset] = BigInt(a.reserveAtomic);
-      if (!object(source) || !uint(source.last30DaysAtomic) || BigInt(source.last30DaysAtomic) < series.totals.month[asset] || BigInt(source.last30DaysAtomic) > f[asset]) trailingValid = false;
+      if (!object(source) || !uint(source.last30DaysAtomic) || BigInt(source.last30DaysAtomic) < recent || BigInt(source.last30DaysAtomic) > f[asset]) trailingValid = false;
       else trailing[asset] = BigInt(source.last30DaysAtomic);
     }
     if (valid) {

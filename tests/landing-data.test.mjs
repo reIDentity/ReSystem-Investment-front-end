@@ -127,3 +127,18 @@ test('a newly published project beyond the first 50 records is discoverable and 
   assert.deepEqual(paths, ['projects', `projects?cursor=${idAt(49)}`]);
   await assert.rejects(loadLanding(async path => path === 'projects' ? { items: first, nextCursor: idAt(49) } : { items: [{ ...added, status: 'DRAFT' }], nextCursor: null }));
 });
+
+test('a 31-day calendar month can exceed the trailing 30-day total without hiding valid revenue', () => {
+  const r = revenue(); r.series.asOf = '2026-10-31T12:00:00Z';
+  r.series.days.forEach((day, i) => { day.date = `2026-10-${String(i + 18).padStart(2, '0')}`; });
+  const usdt = r.series.assets[1], scale = 10n ** 27n;
+  usdt.thisMonthAtomic = '110000000';
+  usdt.monthPerShareScaled = usdt.cumulativePerShareScaled = (110000000n * scale / 1000n).toString();
+  // Five USDT on 1 October belong to the calendar month but fall outside the trailing 30 days.
+  usdt.last30DaysAtomic = '105000000';
+  r.assets[1].fundedAtomic = r.assets[1].reserveAtomic = '110000000';
+  const verified = row(project(), chain(), r, Date.parse(r.series.asOf));
+  assert.equal(verified.last30.USDT, 105000000n); assert.equal(verified.series.totals.month.USDT, 110000000n);
+  const bad = structuredClone(r); bad.series.assets[1].last30DaysAtomic = '104999999';
+  assert.equal(row(project(), chain(), bad, Date.parse(bad.series.asOf)).last30, null);
+});

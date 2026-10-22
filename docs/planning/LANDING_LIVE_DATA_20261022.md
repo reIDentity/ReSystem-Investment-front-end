@@ -52,7 +52,9 @@ No wallet transaction, top-up, signature, financial review, contract deployment,
 
 ## Publication and deployed acceptance
 
-Pending final published commit, CI/Vercel status and final hosted browser verification. RSI-079 remains In progress until those checks complete.
+Completed for RSI-079. Published implementation [34bf225](https://github.com/reIDentity/ReSystem-Investment-front-end/commit/34bf225a101202551fa6843978c06e3c6e94de48), chart/audit follow-ups 9675809 and bc599b2, and final verified [6828b25](https://github.com/reIDentity/ReSystem-Investment-front-end/commit/6828b2520b4d4398faba0327b2a87443222edf4b) are on dev. [GitHub CI 39742430187](https://github.com/reIDentity/ReSystem-Investment-front-end/actions/runs/39742430187) passed all steps, including 123 application tests, 23 security/transport helper tests, production/development audit enforcement, full-history secret scanning, lint, types and build. The Vercel commit status is success, and the actual hosted page was independently checked.
+
+Hosted acceptance: six actual published projects with six loaded images and exact detail links; Identity filter returns reID, All restores the catalogue; selecting reID and two fractions yields exactly 0.002 USDT and its real project URL. All live API values reconcile with the displayed counts/funding/claims/minimum. Desktop 1440×1000 and phone 390×844 have no horizontal document overflow (scroll width equals client width), and long descriptions remain in their original two-line slots. Phone catalogue/calculator/money-flow and desktop catalogue/money-flow screenshots plus the anonymous live proof are retained in the private local evidence directory `.runtime/landing-20261022/`. Original Figma asset/class preservation is separately recorded there. No financial action or FP deployment occurred; temporary local previews were stopped. This does not certify the remaining platform/client financial or independent QA acceptance.
 
 ### CI network resilience
 
@@ -63,3 +65,7 @@ A fresh local audit reproduced an unavailable production report and recovered on
 ### Verified audit transport fallback
 
 Repeated hosted audit failures were isolated from the application's passed tests/build. Direct HTTPS advisory requests returned valid data while npm's request transport timed out. The retry now uses an ephemeral random-port loopback adapter only if the direct official HTTPS audit fails. It forwards only public advisory/metadata reads through verified HTTPS HTTP/1.1, with no credentials/cookies, no redirects, bounded framing/decompression and strict non-200/malformed rejection. npm still calculates the complete report and the unchanged policy enforces it. Valid findings never trigger another attempt. This is CI-only, stops after the command, and creates no FP/local application service or new security exception. A forced-direct-failure integration verified both real production and full audits through the fallback, retaining zero production findings and all five known development advisory paths under the existing exact expiring exception. All 23 CI helper/transport regressions pass.
+
+### Month-end revenue guard
+
+A final review corrected a calendar edge case: on the 31st, a calendar month's revenue can legitimately exceed a trailing 30-day total. The latter is now checked against the complete 14-day series and lifetime funding, rather than assuming it must exceed the calendar month. A dedicated 31 October regression passes; the complete local application suite now has 124 passing tests. This changes no layout, project economics, transaction action or current 22 October displayed values. The final follow-up workflow is recorded after publication.
