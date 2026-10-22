@@ -270,3 +270,66 @@ test('confirmed email toggles save through the existing button and follow the in
   await act(async () => { fireEvent.click(view.getByRole('button', { name: 'Save preferences' })); });
   assert.deepEqual(calls, [{ endpoint: 'notification-preferences', method: 'PATCH', body: { transactionUpdates: true, supportUpdates: false } }, { endpoint: 'email-notifications', method: 'PATCH', body: { transactionEmails: false, supportEmails: true } }]);
 });
+
+function depositFixture({ count = 9, walletMatches = true, error } = {}) {
+  const items = Array.from({ length: count }, (_, index) => ({ tx_hash: `0x${(100 - index).toString(16).padStart(64, '0')}`, activity_index: String(index), timestamp: `2026-10-${String(22 - index).padStart(2, '0')}T06:00:00Z`, amount_atomic: String((100 - index) * 1e6), asset: 'USDT' }));
+  const calls = [];
+  const { LiveDeposit } = clientRenderer({
+    'next/image': ({ alt }) => React.createElement('span', null, alt),
+    qrcode: { toDataURL: () => new Promise(() => {}) },
+    '../PlatformProvider': { usePlatform: () => ({ user }), useResource: path => { calls.push(path); return { ...resource({ wallet: walletMatches ? wallet : `0x${'2'.repeat(40)}`, address: wallet, items, nextCursor: 'older-deposits' }), error }; } },
+    '../InvestorUI': { ...ui, CopyButton: () => null },
+  }).load('src/components/invest/platform/LiveDeposit.tsx');
+  return { view: render(React.createElement(LiveDeposit)), calls };
+}
+test('recent deposits shows only the newest five records and See more links to filtered Activity', () => {
+  const { view, calls } = depositFixture();
+  assert.equal(view.container.querySelectorAll('.iv-real-deposit').length, 5);
+  assert.deepEqual([...view.container.querySelectorAll('.iv-real-deposit time')].map(row => row.dateTime), ['22', '21', '20', '19', '18'].map(day => `2026-10-${day}T06:00:00Z`));
+  assert.equal(view.getByRole('link', { name: 'See more' }).getAttribute('href'), '/invest/activity?filter=deposits');
+  assert.equal(view.queryByRole('button', { name: 'Older deposits' }), null);
+  assert.deepEqual(calls, ['wallet/deposits']);
+});
+test('short and empty recent histories do not create placeholder deposits', () => {
+  for (const count of [0, 3, 5]) {
+    const { view } = depositFixture({ count });
+    assert.equal(view.container.querySelectorAll('.iv-real-deposit').length, count);
+    view.unmount();
+  }
+});
+test('recent deposits still hide records on wallet mismatch or load failure', () => {
+  for (const options of [{ walletMatches: false }, { error: new Error('Deposit history unavailable') }]) {
+    const { view } = depositFixture(options);
+    assert.equal(view.container.querySelectorAll('.iv-real-deposit').length, 0);
+    assert.ok(view.getByRole('alert'));
+    view.unmount();
+  }
+});
+test('See more arrival selects Deposits, paginates deposit history and resets cursor on another filter', async () => {
+  const calls = [];
+  const incoming = { tx_hash: `0x${'a'.repeat(64)}`, activity_index: 'incoming', timestamp: '2026-10-22T06:00:00Z', type: 'wallet_transfer', direction: 'incoming', asset: 'USDT', amount_atomic: '1000000', status: 'confirmed', block_number: '100' };
+  const { InvestorActivity } = clientRenderer({
+    './PlatformProvider': { usePlatform: () => ({ user }), useResource: path => { calls.push(path); return resource({ items: path.startsWith('wallet/deposits') ? [incoming] : [], nextCursor: path === 'wallet/deposits' ? 'older/+=' : null }); } },
+    './InvestorUI': ui, './platform/Transaction': { IntentReview: () => null },
+  }).load('src/components/invest/ActivitySupport.tsx');
+  const page = clientRenderer({ '@/components/invest/ActivitySupport': { InvestorActivity } }).load('src/app/invest/(authenticated)/activity/page.tsx').default;
+  const view = render(await page({ searchParams: Promise.resolve({ filter: 'deposits' }) }));
+  assert.equal(view.getByRole('button', { name: 'Deposits', exact: true }).getAttribute('aria-pressed'), 'true');
+  assert.ok(view.getByText('Deposit received'));
+  fireEvent.click(view.getByRole('button', { name: 'Next page' }));
+  assert.ok(calls.includes('wallet/deposits?cursor=older%2F%2B%3D'));
+  fireEvent.click(view.getByRole('button', { name: 'All', exact: true }));
+  assert.ok(calls.includes('activity'));
+  assert.equal(view.queryByRole('button', { name: 'First page' }), null);
+});
+test('unknown and repeated Activity filter parameters safely open All without losing intent links', async () => {
+  const Page = clientRenderer({ '@/components/invest/ActivitySupport': { InvestorActivity: props => React.createElement('div', { 'data-filter': props.initialFilter, 'data-intent': props.initialIntent }) } }).load('src/app/invest/(authenticated)/activity/page.tsx').default;
+  const { InvestorActivity } = clientRenderer({ './PlatformProvider': { usePlatform: () => ({ user }), useResource: () => resource({ items: [], nextCursor: null }) }, './InvestorUI': ui, './platform/Transaction': { IntentReview: () => null } }).load('src/components/invest/ActivitySupport.tsx');
+  for (const filter of ['unsupported', ['deposits', 'buys'], undefined]) {
+    const page = await Page({ searchParams: Promise.resolve({ filter, intent: 'retained-intent' }) });
+    assert.equal(page.props.initialIntent, 'retained-intent');
+    const view = render(React.createElement(InvestorActivity, { initialFilter: page.props.initialFilter }));
+    assert.equal(view.getByRole('button', { name: 'All', exact: true }).getAttribute('aria-pressed'), 'true');
+    view.unmount();
+  }
+});

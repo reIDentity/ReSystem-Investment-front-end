@@ -33,18 +33,18 @@ function activityDescription(row: ChainActivity): { label: string; icon: string;
   if (row.event_name === "ProceedsWithdrawn") return { label: "Resale proceeds claimed", icon: "$", tone: "green" };
   return { label: (row.event_name || "Chain activity").replace(/([a-z])([A-Z])/g, "$1 $2"), icon: "·", tone: "neutral" };
 }
-export function InvestorActivity({ initialIntent }: { initialIntent?: string }) {
+export function InvestorActivity({ initialIntent, initialFilter = "all" }: { initialIntent?: string; initialFilter?: string }) {
   const { user } = usePlatform();
   const [cursor, setCursor] = useState<string | null>(null);
   const [txCursor, setTxCursor] = useState<string | null>(null);
-  const [filter, setFilter] = useState("all");
+  const [filter, setFilter] = useState(activityFilters.some(([value]) => value === initialFilter) ? initialFilter : "all");
   const [intent, setIntent] = useState<TransactionResponse | string | null>(initialIntent || null);
-  const history = useResource<Page<ChainActivity>>(cursorPath("activity", cursor));
+  const history = useResource<Page<ChainActivity>>(cursorPath(filter === "deposits" ? "wallet/deposits" : "activity", cursor));
   const transactions = useResource<TransactionPage>(cursorPath("transactions", txCursor), 10000);
   const items = history.error ? [] : history.data?.items.filter(row => filter === "all" || filter === "payouts" && ["RewardClaimed", "ProceedsWithdrawn"].includes(row.event_name || "") || filter === "buys" && (row.event_name === "Purchased" || row.event_name === "ListingFilled" && typeof row.args?.buyer === "string" && row.args.buyer.toLowerCase() === user.wallet.toLowerCase()) || filter === "deposits" && row.type === "wallet_transfer" && row.direction === "incoming" || filter === "withdrawals" && row.type === "wallet_transfer" && row.direction === "outgoing") || [];
   return <InvestorShell page="activity" title="Activity" subtitle="Every purchase, payout, deposit and withdrawal, recorded on INFRA" networkBlock={history.data?.provenance?.indexedBlock}>
     <Panel className="iv-transactions iv-activity-restored">
-      <div className="iv-panel-toolbar"><h2>Transactions</h2><div className="iv-tabs" role="group" aria-label="Filter activity on this page">{activityFilters.map(([value, label]) => <button key={value} aria-pressed={filter === value} onClick={() => setFilter(value)}>{label}</button>)}</div></div>
+      <div className="iv-panel-toolbar"><h2>Transactions</h2><div className="iv-tabs" role="group" aria-label="Filter activity on this page">{activityFilters.map(([value, label]) => <button key={value} aria-pressed={filter === value} onClick={() => { setFilter(value); setCursor(null); }}>{label}</button>)}</div></div>
       <DataState loading={history.isLoading} error={history.error} empty={Boolean(history.data && items.length === 0)} onRetry={() => void history.mutate()}>No matching transactions on this page.</DataState>
       <div className="iv-table-scroll"><table className="iv-table iv-activity-table"><thead><tr><th>Activity</th><th>Product</th><th>Date</th><th>Transaction</th><th>Status</th><th>Amount</th><th><span className="sr-only">Help</span></th></tr></thead><tbody>{items.map(row => {
         const action = activityDescription(row);

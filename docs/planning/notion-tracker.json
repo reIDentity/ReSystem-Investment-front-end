@@ -604,9 +604,14 @@
       "page_id": "4003b21a-c925-819f-ba82-f3b3343ebd80",
       "url": "https://app.notion.com/p/4003b21ac925819fba82f3b3343ebd80",
       "title": "Fix purchase preparation failure and display actionable investor errors"
+    },
+    "RSI-114": {
+      "page_id": "4013b21a-c925-8139-b339-fd904366d2b2",
+      "url": "https://app.notion.com/p/4013b21ac9258139b339fd904366d2b2",
+      "title": "Show five recent deposits and link full Activity history"
     }
   },
-  "task_count": 113,
+  "task_count": 114,
   "initial_status": "To do",
   "github_sync": "Codex-managed workflow; no automatic webhook or background automation configured",
   "plan_page_id": "3fb3b21a-c925-810b-9694-e2c99173f5f9",
@@ -703,15 +708,15 @@
     "../ReSystem-Investment-backend/docs/FP_ROLLOUT_20261020.md": {
       "page_id": "3ff3b21a-c925-816d-99d6-e1549e8c9599",
       "url": "https://app.notion.com/p/3ff3b21ac925816d99d6e1549e8c9599",
-      "title": "FP UAT rollout and acceptance — 20 October 2026"
+      "title": "FP UAT rollout and acceptance \u2014 20 October 2026"
     },
     "docs/planning/AUTONOMOUS_AUDIT_20261020.md": {
-      "title": "Autonomous platform audit — 20 October 2026",
+      "title": "Autonomous platform audit \u2014 20 October 2026",
       "page_id": "3ff3b21a-c925-81c7-8fa9-d11fb964d9c7",
       "url": "https://app.notion.com/p/3ff3b21ac92581c78fa9d11fb964d9c7"
     },
     "docs/planning/END_OF_DAY_20261020.md": {
-      "title": "End-of-day checkpoint — 20 October 2026",
+      "title": "End-of-day checkpoint \u2014 20 October 2026",
       "page_id": "3ff3b21a-c925-81e4-ab0c-c01bdbc22f64",
       "url": "https://app.notion.com/p/3ff3b21ac92581e4ab0cc01bdbc22f64"
     },
@@ -723,17 +728,17 @@
     "docs/planning/LANDING_PROJECTS_20261021.md": {
       "page_id": "4003b21a-c925-81f3-a671-fcea593e6779",
       "url": "https://app.notion.com/p/4003b21ac92581f3a671fcea593e6779",
-      "title": "First four landing projects — creation and live data integration"
+      "title": "First four landing projects \u2014 creation and live data integration"
     },
     "docs/testing/PURCHASE_ERRORS_20261021.md": {
       "page_id": "4003b21a-c925-812c-b731-dcbdacaa27f7",
       "url": "https://app.notion.com/p/4003b21ac925812cb731dcbdacaa27f7",
-      "title": "Purchase preparation errors — diagnosis and actionable messages"
+      "title": "Purchase preparation errors \u2014 diagnosis and actionable messages"
     },
     "docs/planning/LANDING_LIVE_DATA_20261022.md": {
       "page_id": "4013b21a-c925-8130-b98f-e2e7ec63a766",
       "url": "https://app.notion.com/p/4013b21ac9258130b98fe2e7ec63a766",
-      "title": "Landing page live data audit — 22 October 2026"
+      "title": "Landing page live data audit \u2014 22 October 2026"
     }
   },
   "service_records": {
@@ -808,10 +813,10 @@
   },
   "operations_updated_at_utc": "2026-10-21T07:46:47.509449+00:00",
   "last_status_sync_at_utc": "2026-10-22T07:50:48.215914+00:00",
-  "last_status_sync_scope": "RSI-079 only: complete published landing integration, verified code/CI/Vercel and responsive acceptance; unrelated statuses preserved.",
+  "last_status_sync_scope": "RSI-114 added To do then In progress for the owner-requested five-deposit sidebar and Activity navigation; unrelated task statuses preserved.",
   "status_counts": {
     "Done": 90,
-    "In progress": 20,
+    "In progress": 21,
     "To do": 3
   }
 }

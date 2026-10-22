@@ -3,7 +3,7 @@
 **Saved:** 16 October 2026, Asia/Dubai
 **Document purpose:** durable technical plan, implementation scope and continuation instructions for future Codex sessions.
 **Delivery state:** implementation approved by the user on 16 October 2026. The five independent repositories are being implemented and verified on INFRA UAT. Production release remains separate.
-**Canonical backlog:** [`tasks.json`](tasks.json), 113 tracked tasks (105 original tasks and eight approved follow-ups). Current statuses/evidence are synchronized from the live Notion board; dated initial snapshots below are historical. The 21 October additions cover guarded automatic server deployment, the stable QA/public-media handover, the four landing publications and actionable purchase errors; neither certifies full client acceptance or enables a new financial window.
+**Canonical backlog:** [`tasks.json`](tasks.json), 114 tracked tasks (105 original tasks and nine approved follow-ups). Current statuses/evidence are synchronized from the live Notion board; dated initial snapshots below are historical. The 21 October additions cover guarded automatic server deployment, the stable QA/public-media handover, the four landing publications and actionable purchase errors; neither certifies full client acceptance or enables a new financial window.
 **Continuation entry point:** [`START_HERE.md`](../../START_HERE.md).
 **Notion project:** [reSystem Investment project workspace](https://app.notion.com/p/3fb3b21ac925815cab02d74e0f79fc0b).
 
