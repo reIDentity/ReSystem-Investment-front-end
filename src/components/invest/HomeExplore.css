@@ -198,6 +198,15 @@
   margin-top: 16px;
 }
 
+.iv-home-holding-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.iv-home-holding-card > .iv-two-buttons {
+  margin-top: auto;
+}
+
 .iv-home-holding-card .iv-holding-title > div {
   flex: 1;
 }
