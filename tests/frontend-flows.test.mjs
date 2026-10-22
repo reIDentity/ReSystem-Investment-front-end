@@ -396,13 +396,13 @@ test('share totals update immediately in exact units while stale or loading quot
         return {...resource(ready?{projectId,asset,quantity,chainId:15324,decimals:asset==='USDT'?6:18,amountAtomic:(BigInt(quantity)*(asset==='USDT'?1000n:3600000000000000n)).toString()}:undefined),isLoading:!ready};
       }
       return resource(undefined);
-    }},'./InvestorUI':{...ui,Asset:()=>null,CopyButton:()=>null},'./platform/Transaction':{TransactionReview:()=>null},'./platform/AssetSelect':{AssetSelect:()=>null},
+    }},'./InvestorUI':{...ui,Asset:()=>null,CopyButton:()=>null,DataState:({loading,error})=>loading?React.createElement('p',null,'Quote loading layout marker'):error?React.createElement('p',null,error.message):null},'./platform/Transaction':{TransactionReview:()=>null},'./platform/AssetSelect':{AssetSelect:()=>null},
   }).load('src/components/invest/ProductDetail.tsx');
   const view=render(React.createElement(InvestorProduct,{id:projectId}));
   const total=()=>view.container.querySelector('.iv-order-total strong').textContent;
   assert.equal(total(),'0.0036 reAED');assert.equal(view.getByRole('button',{name:'Review purchase',exact:true}).disabled,true);
   fireEvent.click(view.getByRole('button',{name:'50',exact:true}));assert.equal(total(),'0.18 reAED');
-  fireEvent.change(view.getByLabelText('Share quantity'),{target:{value:'51'}});assert.equal(total(),'0.1836 reAED');assert.doesNotMatch(total(),/Unavailable/);
+  fireEvent.change(view.getByLabelText('Share quantity'),{target:{value:'51'}});assert.equal(total(),'0.1836 reAED');assert.doesNotMatch(total(),/Unavailable/);assert.equal(view.queryByText('Quote loading layout marker'),null);
   fireEvent.click(view.getByRole('radio',{name:/USDT/}));assert.equal(total(),'0.051 USDT');assert.equal(view.getByRole('button',{name:'Review purchase',exact:true}).disabled,true);
   ready=true;view.rerender(React.createElement(InvestorProduct,{id:projectId}));assert.equal(view.getByRole('button',{name:'Review purchase',exact:true}).disabled,false);
   fireEvent.change(view.getByLabelText('Share quantity'),{target:{value:'0'}});assert.equal(total(),'—');assert.equal(view.getByRole('button',{name:'Review purchase',exact:true}).disabled,true);
