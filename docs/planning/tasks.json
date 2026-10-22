@@ -1971,11 +1971,11 @@
       "RSI-060",
       "RSI-007"
     ],
-    "status": "In progress",
-    "commit_url": "https://github.com/reIDentity/ReSystem-Investment-front-end/commit/3d4a706cfdcbb2a3a49710c1e96c874e93d875b0",
-    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
-    "verification_evidence": "Native private-tracker status and published source reference synchronized on2026-10-20. Detailed account/UAT/runtime evidence remains in the private Notion task; this import is not independent recertification.",
-    "remaining_acceptance": "Remaining acceptance is recorded in the private task; original requirements and dependencies below are preserved. No blanket completion was applied."
+    "status": "Done",
+    "commit_url": "https://github.com/reIDentity/ReSystem-Investment-front-end/commit/a93f9cce65168347ec2d53ccabd11e637f6106b7",
+    "notion_status_observed_at_utc": "2026-10-22T07:50:48.215914+00:00",
+    "verification_evidence": "Full public landing audit completed 22 October: real published catalogue, artwork, supply/prices, complete funding histories, ledgers and canonical series, exact whole-fraction calculator and truthful unavailable states. 124 application /23 CI helper tests; lint/types/build, strict dependency/secret gates; deployed Vercel desktop1440 and phone390 verified with no horizontal overflow. CI: https://github.com/reIDentity/ReSystem-Investment-front-end/actions/runs/39743061136. Evidence: docs/planning/LANDING_LIVE_DATA_20261022.md. No wallet transaction, FP deployment, gate or security-policy change.",
+    "remaining_acceptance": "None for RSI-079 landing data criteria. Broader independent platform/client QA remains tracked separately."
   },
   {
     "id": "RSI-080",

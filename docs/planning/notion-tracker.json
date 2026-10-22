@@ -729,6 +729,11 @@
       "page_id": "4003b21a-c925-812c-b731-dcbdacaa27f7",
       "url": "https://app.notion.com/p/4003b21ac925812cb731dcbdacaa27f7",
       "title": "Purchase preparation errors — diagnosis and actionable messages"
+    },
+    "docs/planning/LANDING_LIVE_DATA_20261022.md": {
+      "page_id": "4013b21a-c925-8130-b98f-e2e7ec63a766",
+      "url": "https://app.notion.com/p/4013b21ac9258130b98fe2e7ec63a766",
+      "title": "Landing page live data audit — 22 October 2026"
     }
   },
   "service_records": {
@@ -802,11 +807,11 @@
     }
   },
   "operations_updated_at_utc": "2026-10-21T07:46:47.509449+00:00",
-  "last_status_sync_at_utc": "2026-10-21T18:54:34.163862+00:00",
-  "last_status_sync_scope": "RSI-113 completed from actual live400 diagnosis, published fixes, passing CI and deployed desktop/phone negative-path/error-style proof. Earlier112 task states retained without broader recertification.",
+  "last_status_sync_at_utc": "2026-10-22T07:50:48.215914+00:00",
+  "last_status_sync_scope": "RSI-079 only: complete published landing integration, verified code/CI/Vercel and responsive acceptance; unrelated statuses preserved.",
   "status_counts": {
-    "Done": 89,
-    "In progress": 21,
+    "Done": 90,
+    "In progress": 20,
     "To do": 3
   }
 }
