@@ -2888,7 +2888,10 @@
     "dependencies": [
       "RSI-114"
     ],
-    "status": "In progress"
+    "status": "Done",
+    "commit_url": "https://github.com/reIDentity/ReSystem-Investment-front-end/commit/ce36f2be7fc6a44b0cf3753cb632a8e4235022f7",
+    "verification_evidence": "Deployed FP API/worker7faae39 and Vercelce36f2b; source CI39749965207/39755097672 and image39751427453 pass;132 frontend,245 API,142 backend unit passes/one host skip. Actual signed-in desktop/phone checks complete; ongoing QA restored enabled. See START_HERE latest22Oct evidence and private task.",
+    "notion_status_observed_at_utc": "2026-10-22T09:30:57.784487+00:00"
   },
   {
     "id": "RSI-116",
@@ -2906,7 +2909,10 @@
       "Published source, CI and actual deployed behavior are verified separately before Done."
     ],
     "dependencies": [],
-    "status": "In progress"
+    "status": "Done",
+    "commit_url": "https://github.com/reIDentity/ReSystem-Investment-front-end/commit/ce36f2be7fc6a44b0cf3753cb632a8e4235022f7",
+    "verification_evidence": "Deployed FP API/worker7faae39 and Vercelce36f2b; source CI39749965207/39755097672 and image39751427453 pass;132 frontend,245 API,142 backend unit passes/one host skip. Actual signed-in desktop/phone checks complete; ongoing QA restored enabled. See START_HERE latest22Oct evidence and private task.",
+    "notion_status_observed_at_utc": "2026-10-22T09:30:57.784646+00:00"
   },
   {
     "id": "RSI-117",
@@ -2924,7 +2930,10 @@
       "Published source, CI and actual deployed behavior are verified separately before Done."
     ],
     "dependencies": [],
-    "status": "In progress"
+    "status": "Done",
+    "commit_url": "https://github.com/reIDentity/ReSystem-Investment-front-end/commit/ce36f2be7fc6a44b0cf3753cb632a8e4235022f7",
+    "verification_evidence": "Deployed FP API/worker7faae39 and Vercelce36f2b; source CI39749965207/39755097672 and image39751427453 pass;132 frontend,245 API,142 backend unit passes/one host skip. Actual signed-in desktop/phone checks complete; ongoing QA restored enabled. See START_HERE latest22Oct evidence and private task.",
+    "notion_status_observed_at_utc": "2026-10-22T09:30:57.784648+00:00"
   },
   {
     "id": "RSI-118",
@@ -2942,7 +2951,10 @@
       "Published source, CI and actual deployed behavior are verified separately before Done."
     ],
     "dependencies": [],
-    "status": "In progress"
+    "status": "Done",
+    "commit_url": "https://github.com/reIDentity/ReSystem-Investment-front-end/commit/ce36f2be7fc6a44b0cf3753cb632a8e4235022f7",
+    "verification_evidence": "Deployed FP API/worker7faae39 and Vercelce36f2b; source CI39749965207/39755097672 and image39751427453 pass;132 frontend,245 API,142 backend unit passes/one host skip. Actual signed-in desktop/phone checks complete; ongoing QA restored enabled. See START_HERE latest22Oct evidence and private task.",
+    "notion_status_observed_at_utc": "2026-10-22T09:30:57.784649+00:00"
   },
   {
     "id": "RSI-119",
@@ -2960,6 +2972,9 @@
       "Published source, CI and actual deployed behavior are verified separately before Done."
     ],
     "dependencies": [],
-    "status": "In progress"
+    "status": "Done",
+    "commit_url": "https://github.com/reIDentity/ReSystem-Investment-front-end/commit/ce36f2be7fc6a44b0cf3753cb632a8e4235022f7",
+    "verification_evidence": "Deployed FP API/worker7faae39 and Vercelce36f2b; source CI39749965207/39755097672 and image39751427453 pass;132 frontend,245 API,142 backend unit passes/one host skip. Actual signed-in desktop/phone checks complete; ongoing QA restored enabled. See START_HERE latest22Oct evidence and private task.",
+    "notion_status_observed_at_utc": "2026-10-22T09:30:57.784650+00:00"
   }
 ]

@@ -847,11 +847,11 @@
     }
   },
   "operations_updated_at_utc": "2026-10-21T07:46:47.509449+00:00",
-  "last_status_sync_at_utc": "2026-10-22T08:07:45.737565+00:00",
-  "last_status_sync_scope": "RSI-115 to RSI-119 in progress for five explicit owner requests. Local checks pass; guarded backend and Vercel rollout pending. Owner approved a brief deployment-only QA request pause and immediate restoration; no new financial authority.",
+  "last_status_sync_at_utc": "2026-10-22T09:32:21.299389+00:00",
+  "last_status_sync_scope": "RSI-115 to RSI-119 complete: published source/CI, actual FP/Vercel release and focused signed-in desktop/phone acceptance verified; QA requests restored true in API/worker; email recipient policy verified; no financial action.",
   "status_counts": {
-    "Done": 91,
-    "In progress": 25,
+    "Done": 96,
+    "In progress": 20,
     "To do": 3
   }
 }
