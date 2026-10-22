@@ -28,8 +28,8 @@ OZ_ADVISORY = 'GHSA-9rcw-c2f9-2j55'
 PRODUCTION = ('ProjectFactory', 'ProjectFractions', 'FractionMarketplace', 'ClaimRouter')
 
 
-def run(args, **kwargs):
-    return subprocess.run(args, cwd=ROOT, capture_output=True, text=True, timeout=180, **kwargs)
+def run(args, *, timeout=180, **kwargs):
+    return subprocess.run(args, cwd=ROOT, capture_output=True, text=True, timeout=timeout, **kwargs)
 
 
 def output(name, value):
@@ -128,7 +128,20 @@ def npm_exception(name, vulnerabilities, lock, policy, today):
 
 
 def audit_npm(production):
-    result = run(['npm', 'audit', *(['--omit=dev'] if production else []), '--json'])
+    # npm's default HTTP retries can outlast our command deadline on a cold CI
+    # runner. Bound each fetch, retry a timed-out command once, and still require
+    # the complete fresh report. A missing audit never becomes a passing audit.
+    command = ['npm', 'audit', *(['--omit=dev'] if production else []), '--json',
+               '--fetch-timeout=20000', '--fetch-retries=1',
+               '--fetch-retry-mintimeout=1000', '--fetch-retry-maxtimeout=5000']
+    for attempt in range(2):
+        try:
+            result = run(command, timeout=90)
+            break
+        except subprocess.TimeoutExpired:
+            if attempt == 1:
+                raise
+            print('npm audit timed out; retrying once with the same checks', flush=True)
     value = json.loads(result.stdout)
     if result.returncode not in (0, 1) or value.get('error') or value.get('auditReportVersion') != 2:
         raise ValueError('npm audit unavailable or returned an invalid report')

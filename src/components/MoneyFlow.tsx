@@ -163,6 +163,8 @@ function PaidOut({ shown, projects }: { shown: boolean; projects: LandingProject
 function Kpis({ shown, live }: { shown: boolean; live: Totals }) {
   const values = live.days.map(d => valuation(d.revenue));
   const peak = values.reduce((a, v) => v > a ? v : a, 0n);
+  const recordCounts = (live.payments ?? []).slice(-7).map((_, i, last) => BigInt(live.payments!.length - last.length + i + 1));
+  const countPeak = recordCounts.at(-1) ?? 0n;
   const points = values.map((v, i) => `${values.length > 1 ? i / (values.length - 1) * 90 : 0} ${40 - (peak ? Number(v * 3600n / peak) / 100 : 0)}`).join(" L");
   const kpi = "lift group flex h-full items-center justify-between rounded-[20px] bg-[#eaf5ff] p-5";
   return (
@@ -204,12 +206,12 @@ function Kpis({ shown, live }: { shown: boolean; live: Totals }) {
           </p>
         </div>
         <div className="flex h-9 items-end gap-1" aria-hidden>
-          {values.slice(-7).map((value, i) => (
+          {recordCounts.map((value, i) => (
             <span
               key={i}
               className="w-2 origin-bottom rounded-sm bg-brand transition-[height,filter] duration-700 ease-[var(--ease-spring)] group-hover:brightness-90"
               style={{
-                height: shown ? `${peak ? Number(value * 10000n / peak) / 100 : 0}%` : "0%",
+                height: shown ? `${countPeak ? Number(value * 10000n / countPeak) / 100 : 0}%` : "0%",
                 opacity: 0.45 + i * 0.08,
                 transitionDelay: `${i * 80}ms`,
               }}

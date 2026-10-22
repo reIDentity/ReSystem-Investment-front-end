@@ -50,7 +50,7 @@ export function Footer() {
                 <ul className="mt-2 space-y-1">
                   {c.links.map((l) => (
                     <li key={l}>
-                      <a href={c.title === "Products" ? "https://resystem.org/ecosystem" : l === "Resystem" ? "https://resystem.org/" : "https://resystem.org/"} className="inline-block text-[13px] text-white/90 transition-colors duration-300 hover:text-[#7cc8ff]">
+                      <a href={c.title === "Products" ? "https://resystem.org/ecosystem" : "https://resystem.org/"} className="inline-block text-[13px] text-white/90 transition-colors duration-300 hover:text-[#7cc8ff]">
                         {l}
                       </a>
                     </li>

@@ -53,3 +53,7 @@ No wallet transaction, top-up, signature, financial review, contract deployment,
 ## Publication and deployed acceptance
 
 Pending final published commit, CI/Vercel status and final hosted browser verification. RSI-079 remains In progress until those checks complete.
+
+### CI network resilience
+
+The first GitHub run, 39738471946, and its retry stopped inside the dependency-audit command after 180 seconds. Application checks had already passed locally, and Vercel deployed the page successfully. A follow-up makes npm fetch timeouts explicit (20 seconds, one HTTP retry), retries a timed-out audit command once with a 90-second command deadline, and avoids npm ci's redundant install-time audit. The explicit production and full development audits still run, validate complete fresh reports and retain their original vulnerability thresholds, exact expiring exceptions and fail-closed behavior. No security policy or scanner exclusion changed. All 14 CI helper regressions and the complete local dependency gate pass. The funding-record mini-chart also uses actual cumulative record counts rather than monetary revenue bars under a count label.

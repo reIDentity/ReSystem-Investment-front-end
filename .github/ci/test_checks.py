@@ -1,6 +1,9 @@
 import datetime as dt
 import importlib.util
 from pathlib import Path
+import json
+import subprocess
+from unittest.mock import patch
 import tempfile
 import unittest
 
@@ -66,6 +69,39 @@ class SecurityGates(unittest.TestCase):
             path.write_text('not an artifact')
             with self.assertRaises(ValueError):
                 checks.file_hash(path)
+
+    def test_audit_retry_keeps_full_findings_and_bounded_network_options(self):
+        report = {'auditReportVersion': 2, 'vulnerabilities': self.vulns,
+                  'metadata': {'vulnerabilities': {'total': 2}}}
+        success = subprocess.CompletedProcess([], 1, json.dumps(report), '')
+        with patch.object(checks, 'run', side_effect=[subprocess.TimeoutExpired([], 90), success]) as command:
+            self.assertEqual(checks.audit_npm(True), report)
+            self.assertEqual(command.call_count, 2)
+            for call in command.call_args_list:
+                self.assertIn('--omit=dev', call.args[0])
+                self.assertIn('--fetch-timeout=20000', call.args[0])
+                self.assertIn('--fetch-retries=1', call.args[0])
+                self.assertEqual(call.kwargs['timeout'], 90)
+
+    def test_exhausted_or_invalid_audit_never_passes(self):
+        with patch.object(checks, 'run', side_effect=subprocess.TimeoutExpired([], 90)) as command:
+            with self.assertRaises(subprocess.TimeoutExpired):
+                checks.audit_npm(False)
+            self.assertEqual(command.call_count, 2)
+        for report in [{'error': {'code': 'ECONNRESET'}}, {'auditReportVersion': 2},
+                       {'auditReportVersion': 2, 'vulnerabilities': {}, 'metadata': {}}]:
+            with patch.object(checks, 'run', return_value=subprocess.CompletedProcess([], 1, json.dumps(report), '')):
+                with self.assertRaises(ValueError):
+                    checks.audit_npm(False)
+
+    def test_full_audit_still_checks_development_and_run_default_deadline_is_unchanged(self):
+        report = {'auditReportVersion': 2, 'vulnerabilities': {}, 'metadata': {'vulnerabilities': {'total': 0}}}
+        with patch.object(checks, 'run', return_value=subprocess.CompletedProcess([], 0, json.dumps(report), '')) as command:
+            checks.audit_npm(False)
+            self.assertNotIn('--omit=dev', command.call_args.args[0])
+        with patch.object(checks.subprocess, 'run') as command:
+            checks.run(['test'])
+            self.assertEqual(command.call_args.kwargs['timeout'], 180)
 
     def test_oz_exception_requires_exact_advisory_pin_and_four_absence_proofs(self):
         sources = [{'src/Production.sol': {}} for _ in range(4)]

@@ -22,7 +22,7 @@ jobs:
         with:
           node-version: 22
           cache: npm
-      - run: npm ci
+      - run: npm ci --no-audit --no-fund
       - name: Production and development dependency vulnerability gates
         run: python3 .github/ci/checks.py npm
       - run: npm run lint
