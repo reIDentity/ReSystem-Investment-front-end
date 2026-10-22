@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Independent CI security gates. Never print raw scanner/audit output or environment."""
+from npm_registry_transport import audit_registry_transport
 import argparse
 import datetime as dt
 import hashlib
@@ -131,14 +132,21 @@ def audit_npm(production):
     # Cold CI registry failures are retried, never accepted as clean reports.
     # A valid report containing findings returns immediately to the strict gate.
     command = ['npm', 'audit', *(['--omit=dev'] if production else []), '--json',
-               '--registry=https://registry.npmjs.org/', '--fetch-timeout=20000',
+               '--registry=https://registry.npmjs.org/', '--update-notifier=false', '--fetch-timeout=20000',
                '--fetch-retries=1', '--fetch-retry-mintimeout=1000',
                '--fetch-retry-maxtimeout=5000']
     phase = 'production' if production else 'full'
     for attempt in range(2):
         reason = 'INVALID_REPORT'
         try:
-            result = run(command, timeout=90)
+            if attempt == 0:
+                result = run(command, timeout=90)
+            else:
+                # Transport only: npm still constructs and validates the full
+                # fresh report. Upstream is pinned verified HTTPS, without auth.
+                with audit_registry_transport() as registry:
+                    fallback = [arg if not arg.startswith('--registry=') else '--registry=' + registry for arg in command]
+                    result = run(fallback, timeout=90)
             try:
                 value = json.loads(result.stdout)
             except json.JSONDecodeError:
@@ -264,6 +272,7 @@ def provenance(status):
     if (ROOT / 'package.json').exists():
         for command in ('node', 'npm'):
             versions[command] = run([command, '--version']).stdout.strip()
+        versions['curl'] = run(['curl', '--version']).stdout.splitlines()[0]
         for name in ('next', 'typescript', 'prisma'):
             path = ROOT / 'node_modules' / name / 'package.json'
             if path.exists():

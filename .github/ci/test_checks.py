@@ -1,6 +1,9 @@
+import sys
 import datetime as dt
 import importlib.util
 from pathlib import Path
+from contextlib import nullcontext
+sys.path.insert(0, str(Path(__file__).parent))
 import json
 import subprocess
 from unittest.mock import patch
@@ -74,7 +77,7 @@ class SecurityGates(unittest.TestCase):
         report = {'auditReportVersion': 2, 'vulnerabilities': self.vulns,
                   'metadata': {'vulnerabilities': {'total': 2}}}
         success = subprocess.CompletedProcess([], 1, json.dumps(report), '')
-        with patch.object(checks, 'run', side_effect=[subprocess.TimeoutExpired([], 90), success]) as command:
+        with patch.object(checks, 'audit_registry_transport', return_value=nullcontext('http://127.0.0.1:34567/')), patch.object(checks, 'run', side_effect=[subprocess.TimeoutExpired([], 90), success]) as command:
             self.assertEqual(checks.audit_npm(True), report)
             self.assertEqual(command.call_count, 2)
             for call in command.call_args_list:
@@ -84,26 +87,34 @@ class SecurityGates(unittest.TestCase):
                 self.assertEqual(call.kwargs['timeout'], 90)
 
     def test_exhausted_or_invalid_audit_never_passes(self):
-        with patch.object(checks, 'run', side_effect=subprocess.TimeoutExpired([], 90)) as command:
+        with patch.object(checks, 'audit_registry_transport', return_value=nullcontext('http://127.0.0.1:34567/')), patch.object(checks, 'run', side_effect=subprocess.TimeoutExpired([], 90)) as command:
             with self.assertRaises(subprocess.TimeoutExpired):
                 checks.audit_npm(False)
             self.assertEqual(command.call_count, 2)
         for report in [{'error': {'code': 'ECONNRESET'}}, {'auditReportVersion': 2},
                        {'auditReportVersion': 2, 'vulnerabilities': {}, 'metadata': {}}]:
-            with patch.object(checks, 'run', return_value=subprocess.CompletedProcess([], 1, json.dumps(report), '')):
+            with patch.object(checks, 'audit_registry_transport', return_value=nullcontext('http://127.0.0.1:34567/')), patch.object(checks, 'run', return_value=subprocess.CompletedProcess([], 1, json.dumps(report), '')):
                 with self.assertRaises(ValueError):
                     checks.audit_npm(False)
+
+    def test_valid_findings_never_trigger_a_transport_retry(self):
+        report = {'auditReportVersion': 2, 'vulnerabilities': self.vulns,
+                  'metadata': {'vulnerabilities': {'total': 2}}}
+        with patch.object(checks, 'run', return_value=subprocess.CompletedProcess([], 1, json.dumps(report), '')) as command, patch.object(checks, 'audit_registry_transport') as adapter:
+            self.assertEqual(checks.audit_npm(True), report)
+            self.assertEqual(command.call_count, 1)
+            adapter.assert_not_called()
 
     def test_unavailable_registry_report_is_retried_without_printing_upstream_content(self):
         unavailable = subprocess.CompletedProcess([], 1, json.dumps({'error': {'code': 'E503', 'summary': 'private upstream content'}}), '')
         report = {'auditReportVersion': 2, 'vulnerabilities': {}, 'metadata': {'vulnerabilities': {'total': 0}}}
         success = subprocess.CompletedProcess([], 0, json.dumps(report), '')
-        with patch.object(checks, 'run', side_effect=[unavailable, success]) as command, patch('builtins.print') as messages:
+        with patch.object(checks, 'audit_registry_transport', return_value=nullcontext('http://127.0.0.1:34567/')), patch.object(checks, 'run', side_effect=[unavailable, success]) as command, patch('builtins.print') as messages:
             self.assertEqual(checks.audit_npm(True), report)
             self.assertEqual(command.call_count, 2)
             self.assertNotIn('private upstream', str(messages.call_args_list))
             self.assertIn('E503', str(messages.call_args_list))
-            self.assertIn('--registry=https://registry.npmjs.org/', command.call_args.args[0])
+            self.assertIn('--registry=http://127.0.0.1:34567/', command.call_args.args[0])
 
     def test_full_audit_still_checks_development_and_run_default_deadline_is_unchanged(self):
         report = {'auditReportVersion': 2, 'vulnerabilities': {}, 'metadata': {'vulnerabilities': {'total': 0}}}
