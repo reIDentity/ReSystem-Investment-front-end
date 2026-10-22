@@ -53,3 +53,11 @@
 .iv-notifications .iv-email-off { color:#94a3b8; }
 
 @media(max-width:767px) { .iv-notifications .iv-content { grid-template-columns:1fr; } }
+
+.iv-activity-pagination { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; margin-top:16px; }
+.iv-activity-pagination p { margin:0; color:#64748b; font-size:12px; }
+.iv-activity-pagination nav { display:flex; align-items:center; flex-wrap:wrap; gap:6px; }
+.iv-activity-pagination nav > span { display:flex; align-items:center; gap:6px; }
+.iv-activity-pagination .iv-button { border:1px solid #eef0f4; min-height:36px; }
+.iv-page-gap { padding:0 4px; color:#64748b; }
+@media(max-width:767px) { .iv-activity-pagination .iv-button { min-width:44px; min-height:44px; padding:8px 10px; } }

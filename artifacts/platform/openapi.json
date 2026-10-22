@@ -9458,6 +9458,49 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "description": "Numbered mode: one-based page (default 1, max 1000000). Mutually exclusive with cursor.",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "pageSize",
+            "required": false,
+            "in": "query",
+            "description": "Numbered mode: 1–50 rows per page (default 10).",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "filter",
+            "required": false,
+            "in": "query",
+            "description": "Filter applied before counting and paging.",
+            "schema": {
+              "enum": [
+                "all",
+                "payouts",
+                "buys",
+                "deposits",
+                "withdrawals"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "snapshotBlock",
+            "required": false,
+            "in": "query",
+            "description": "Use pagination.snapshotBlock from the first response to exclude newer blocks across pages.",
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -17125,9 +17168,52 @@
         ],
         "additionalProperties": false
       },
+      "ActivityPagination": {
+        "type": "object",
+        "properties": {
+          "page": {
+            "type": "integer"
+          },
+          "pageSize": {
+            "type": "integer"
+          },
+          "total": {
+            "type": "integer"
+          },
+          "totalPages": {
+            "type": "integer"
+          },
+          "filter": {
+            "type": "string",
+            "enum": [
+              "all",
+              "payouts",
+              "buys",
+              "deposits",
+              "withdrawals"
+            ]
+          },
+          "snapshotBlock": {
+            "type": "string",
+            "pattern": "^(0|[1-9][0-9]*)$"
+          }
+        },
+        "required": [
+          "page",
+          "pageSize",
+          "total",
+          "totalPages",
+          "filter",
+          "snapshotBlock"
+        ],
+        "additionalProperties": false
+      },
       "ActivityPage": {
         "type": "object",
         "properties": {
+          "pagination": {
+            "$ref": "#/components/schemas/ActivityPagination"
+          },
           "items": {
             "type": "array",
             "items": {

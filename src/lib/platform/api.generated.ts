@@ -1,4 +1,4 @@
-// Generated from OpenAPI 0.1.0; do not hand-edit. SHA-256: e7a49e793f862e772571ea79e1de3c843f239d64ccf30d9f78a53b53ee94c2fd
+// Generated from OpenAPI 0.1.0; do not hand-edit. SHA-256: 7482eb5187da8ff86c0e3412f177a4cd0afcbe84df172de5202ffc50b195a09a
 export type LoginDto = { "username": string; "password": string; "totp"?: string; };
 export type MfaEnrollmentConfirmDto = { "enrollmentToken": string; "totp": string; };
 export type MfaChallengeVerifyDto = { "challengeToken": string; "totp": string; };
@@ -81,7 +81,8 @@ export type ProceedsResponse = { "wallet": string; "chainId": 15324; "source": s
 export type HistoryCoverage = { "status": "complete" | "partial" | "pending"; "sources": Array<{ "source": string; "complete": boolean; "updatedAt": string; "hasNextPage": boolean; }>; };
 export type ActivityProvenance = { "source": string; "indexedBlock": (string) | null; "updatedAt": string; "historyCoverage": HistoryCoverage; };
 export type ActivityResponse = { "chain_id": number; "tx_hash": string; "activity_index": string; "block_number": string; "block_hash": string; "from_address": (string) | null; "to_address": (string) | null; "asset": (string) | null; "amount_atomic": (string) | null; "source": string; "type": "wallet_transfer" | "contract_event" | "revenue_allocation"; "event_name": (string) | null; "args": (JsonValue) | null; "timestamp": string; "direction": ("incoming" | "outgoing") | null; "status": "CONFIRMED"; "explorerUrl": string; };
-export type ActivityPage = { "items": Array<ActivityResponse>; "nextCursor": (string) | null; "provenance": ActivityProvenance; };
+export type ActivityPagination = { "page": number; "pageSize": number; "total": number; "totalPages": number; "filter": "all" | "payouts" | "buys" | "deposits" | "withdrawals"; "snapshotBlock": string; };
+export type ActivityPage = { "pagination"?: ActivityPagination; "items": Array<ActivityResponse>; "nextCursor": (string) | null; "provenance": ActivityProvenance; };
 export type DepositsResponse = { "items": Array<ActivityResponse>; "nextCursor": (string) | null; "provenance": ActivityProvenance; "address": string; "wallet": string; "qrDataUrl": string; "bank": { "available": false; }; "card": { "available": false; }; };
 export type ProjectWalletPolicyResponse = { "ownerWallet": string; "treasuryWallets": Array<string>; };
 export type WalletSendQuoteResponse = { "chainId": 15324; "wallet": string; "recipient": string; "asset": "REAED" | "USDT"; "decimals": 6 | 18; "maximumAtomic": string; "nativeBalanceAtomic": string; "tokenBalanceAtomic": (string) | null; "estimatedFeeWei": string; "gasEstimate": (string) | null; "canSend": boolean; "quotedAt": string; "expiresAt": string; "source": string; };

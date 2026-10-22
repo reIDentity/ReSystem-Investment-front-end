@@ -211,7 +211,7 @@ test('Back/manual amount abandons deferred Max and a late quote cannot overwrite
 test('revenue-allocation activity displays only this wallet’s exact allocation and never substitutes the project pool amount', () => {
   const allocation = { chain_id: 15324, tx_hash: `0x${'a'.repeat(64)}`, activity_index: 'allocation-1', block_number: '7337161', timestamp: '2026-10-19T12:00:00Z', type: 'revenue_allocation', event_name: 'RevenueAllocation', asset: 'USDT', amount_atomic: '1', args: { project: `0x${'2'.repeat(40)}`, projectAmountAtomic: '900719925474099312345678', amount: '900719925474099312345678', asset: '1' }, direction: null, status: 'confirmed' };
   const rows = [allocation, { ...allocation, activity_index: 'allocation-2', amount_atomic: null }];
-  const { InvestorActivity } = clientRenderer({ './PlatformProvider': { usePlatform: () => ({ user }), useResource: path => resource({ items: path === 'activity' ? rows : [], nextCursor: null }) }, './InvestorUI': ui, './platform/Transaction': { IntentReview: () => null } }).load('src/components/invest/ActivitySupport.tsx');
+  const { InvestorActivity } = clientRenderer({ './PlatformProvider': { usePlatform: () => ({ user }), useResource: path => resource({ items: path.startsWith('activity?') && new URLSearchParams(path.split('?')[1]).get('filter') === 'all' ? rows : [], nextCursor: null }) }, './InvestorUI': ui, './platform/Transaction': { IntentReview: () => null } }).load('src/components/invest/ActivitySupport.tsx');
   const view = render(React.createElement(InvestorActivity));
   assert.equal(view.getAllByText('Revenue allocation').length, 2);
   assert.ok(view.getByText('0.000001 USDT'));
@@ -305,22 +305,33 @@ test('recent deposits still hide records on wallet mismatch or load failure', ()
     view.unmount();
   }
 });
-test('See more arrival selects Deposits, paginates deposit history and resets cursor on another filter', async () => {
+test('See more arrival selects Deposits, requests numbered server pages and resets page/snapshot on another filter', async () => {
   const calls = [];
   const incoming = { tx_hash: `0x${'a'.repeat(64)}`, activity_index: 'incoming', timestamp: '2026-10-22T06:00:00Z', type: 'wallet_transfer', direction: 'incoming', asset: 'USDT', amount_atomic: '1000000', status: 'confirmed', block_number: '100' };
   const { InvestorActivity } = clientRenderer({
-    './PlatformProvider': { usePlatform: () => ({ user }), useResource: path => { calls.push(path); return resource({ items: path.startsWith('wallet/deposits') ? [incoming] : [], nextCursor: path === 'wallet/deposits' ? 'older/+=' : null }); } },
+    './PlatformProvider': { usePlatform: () => ({ user }), useResource: path => {
+      calls.push(path);
+      if (!path.startsWith('activity?')) return resource({ items: [], nextCursor: null });
+      const params = new URLSearchParams(path.split('?')[1]), page = Number(params.get('page'));
+      return resource({ items: Array.from({ length: page === 3 ? 3 : 10 }, (_, index) => ({ ...incoming, activity_index: `${page}:${index}` })), nextCursor: null, pagination: { page, pageSize: 10, total: 23, totalPages: 3, filter: params.get('filter'), snapshotBlock: '100' } });
+    } },
     './InvestorUI': ui, './platform/Transaction': { IntentReview: () => null },
   }).load('src/components/invest/ActivitySupport.tsx');
   const page = clientRenderer({ '@/components/invest/ActivitySupport': { InvestorActivity } }).load('src/app/invest/(authenticated)/activity/page.tsx').default;
   const view = render(await page({ searchParams: Promise.resolve({ filter: 'deposits' }) }));
   assert.equal(view.getByRole('button', { name: 'Deposits', exact: true }).getAttribute('aria-pressed'), 'true');
-  assert.ok(view.getByText('Deposit received'));
-  fireEvent.click(view.getByRole('button', { name: 'Next page' }));
-  assert.ok(calls.includes('wallet/deposits?cursor=older%2F%2B%3D'));
-  fireEvent.click(view.getByRole('button', { name: 'All', exact: true }));
-  assert.ok(calls.includes('activity'));
-  assert.equal(view.queryByRole('button', { name: 'First page' }), null);
+  assert.equal(view.container.querySelectorAll('tbody tr').length, 10);
+  assert.ok(view.getByText('Showing 1–10 of 23 transactions'));
+  assert.equal(view.getByRole('button', { name: 'Previous', exact: true }).disabled, true);
+  fireEvent.click(view.getByRole('button', { name: 'Page 3', exact: true }));
+  assert.ok(calls.includes('activity?page=3&pageSize=10&filter=deposits&snapshotBlock=100'));
+  assert.ok(view.getByText('Showing 21–23 of 23 transactions'));
+  assert.equal(view.container.querySelectorAll('tbody tr').length, 3);
+  assert.equal(view.getByRole('button', { name: 'Next', exact: true }).disabled, true);
+  fireEvent.click(view.getByRole('button', { name: 'Previous', exact: true }));
+  assert.ok(calls.includes('activity?page=2&pageSize=10&filter=deposits&snapshotBlock=100'));
+  fireEvent.click(view.getByRole('button', { name: 'Withdrawals', exact: true }));
+  assert.ok(calls.includes('activity?page=1&pageSize=10&filter=withdrawals'));
 });
 test('unknown and repeated Activity filter parameters safely open All without losing intent links', async () => {
   const Page = clientRenderer({ '@/components/invest/ActivitySupport': { InvestorActivity: props => React.createElement('div', { 'data-filter': props.initialFilter, 'data-intent': props.initialIntent }) } }).load('src/app/invest/(authenticated)/activity/page.tsx').default;
@@ -332,4 +343,19 @@ test('unknown and repeated Activity filter parameters safely open All without lo
     assert.equal(view.getByRole('button', { name: 'All', exact: true }).getAttribute('aria-pressed'), 'true');
     view.unmount();
   }
+});
+
+test('numbered pagination handles zero results, one page, loading and bounded page-number gaps accessibly', () => {
+  const { ActivityPagination } = clientRenderer().load('src/components/invest/platform/ActivityPagination.tsx');
+  const base = {page:1,pageSize:10,total:0,totalPages:0,filter:'all',snapshotBlock:'100'};
+  let view = render(React.createElement(ActivityPagination, { pagination: base, busy:false,onPage:()=>assert.fail('empty pages must not navigate') }));
+  assert.ok(view.getByRole('status').textContent.includes('Showing 0–0 of 0 transactions'));
+  assert.ok([...view.container.querySelectorAll('button')].every(button=>button.disabled));view.unmount();
+  const calls=[];
+  view=render(React.createElement(ActivityPagination,{pagination:{...base,page:50,total:1000,totalPages:100},busy:false,onPage:value=>calls.push(value)}));
+  assert.equal(view.getByRole('button',{name:'Page 50',exact:true}).getAttribute('aria-current'),'page');
+  assert.equal(view.getAllByRole('button').length,7);
+  fireEvent.click(view.getByRole('button',{name:'Page 100',exact:true}));assert.deepEqual(calls,[100]);view.unmount();
+  view=render(React.createElement(ActivityPagination,{pagination:{...base,total:2,totalPages:1},busy:true,onPage:()=>assert.fail('busy pages must not navigate')}));
+  assert.ok([...view.container.querySelectorAll('button')].every(button=>button.disabled));
 });

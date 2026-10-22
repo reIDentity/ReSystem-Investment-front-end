@@ -2,13 +2,14 @@
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import useSWR from "swr";
 import { Paperclip } from "lucide-react";
-import type { TicketPage, TicketResponse, TransactionPage, TransactionResponse, NotificationPage, PreferenceDto, EmailNotificationsResponse, EmailPreferenceDto } from "@/lib/platform/api.generated";
+import type { TicketPage, TicketResponse, TransactionPage, TransactionResponse, NotificationPage, PreferenceDto, EmailNotificationsResponse, EmailPreferenceDto, ActivityPage } from "@/lib/platform/api.generated";
 import type { ChainActivity, Page } from "@/lib/platform/types";
 import { api } from "@/lib/platform/client";
 import { messageId, privateAttachmentPath, readPrivateAttachments, validatePrivateImage, type PendingAttachment } from "@/lib/platform/support-attachments";
 import { assetLabel, explorer, units } from "@/lib/platform/money";
 import { usePlatform, useResource } from "./PlatformProvider";
 import { DataState, Initials, InvestorShell, Modal, notificationPath, Panel, Provenance, Tag } from "./InvestorUI";
+import { ActivityPagination } from "./platform/ActivityPagination";
 import { IntentReview } from "./platform/Transaction";
 import Link from "next/link";
 import "./ActivitySupport.css";
@@ -34,24 +35,26 @@ function activityDescription(row: ChainActivity): { label: string; icon: string;
   return { label: (row.event_name || "Chain activity").replace(/([a-z])([A-Z])/g, "$1 $2"), icon: "·", tone: "neutral" };
 }
 export function InvestorActivity({ initialIntent, initialFilter = "all" }: { initialIntent?: string; initialFilter?: string }) {
-  const { user } = usePlatform();
-  const [cursor, setCursor] = useState<string | null>(null);
+  const [page, setPage] = useState<{ number: number; snapshotBlock?: string }>({ number: 1 });
   const [txCursor, setTxCursor] = useState<string | null>(null);
   const [filter, setFilter] = useState(activityFilters.some(([value]) => value === initialFilter) ? initialFilter : "all");
   const [intent, setIntent] = useState<TransactionResponse | string | null>(initialIntent || null);
-  const history = useResource<Page<ChainActivity>>(cursorPath(filter === "deposits" ? "wallet/deposits" : "activity", cursor));
+  const query = new URLSearchParams({ page: String(page.number), pageSize: "10", filter });
+  if (page.snapshotBlock) query.set("snapshotBlock", page.snapshotBlock);
+  const history = useResource<Page<ChainActivity> & Pick<ActivityPage, "pagination">>(`activity?${query}`);
   const transactions = useResource<TransactionPage>(cursorPath("transactions", txCursor), 10000);
-  const items = history.error ? [] : history.data?.items.filter(row => filter === "all" || filter === "payouts" && ["RewardClaimed", "ProceedsWithdrawn"].includes(row.event_name || "") || filter === "buys" && (row.event_name === "Purchased" || row.event_name === "ListingFilled" && typeof row.args?.buyer === "string" && row.args.buyer.toLowerCase() === user.wallet.toLowerCase()) || filter === "deposits" && row.type === "wallet_transfer" && row.direction === "incoming" || filter === "withdrawals" && row.type === "wallet_transfer" && row.direction === "outgoing") || [];
+  const items = history.error ? [] : history.data?.items || [];
+  const pagination = history.data?.pagination;
   return <InvestorShell page="activity" title="Activity" subtitle="Every purchase, payout, deposit and withdrawal, recorded on INFRA" networkBlock={history.data?.provenance?.indexedBlock}>
     <Panel className="iv-transactions iv-activity-restored">
-      <div className="iv-panel-toolbar"><h2>Transactions</h2><div className="iv-tabs" role="group" aria-label="Filter activity on this page">{activityFilters.map(([value, label]) => <button key={value} aria-pressed={filter === value} onClick={() => { setFilter(value); setCursor(null); }}>{label}</button>)}</div></div>
-      <DataState loading={history.isLoading} error={history.error} empty={Boolean(history.data && items.length === 0)} onRetry={() => void history.mutate()}>No matching transactions on this page.</DataState>
+      <div className="iv-panel-toolbar"><h2>Transactions</h2><div className="iv-tabs" role="group" aria-label="Filter activity">{activityFilters.map(([value, label]) => <button key={value} aria-pressed={filter === value} onClick={() => { setFilter(value); setPage({ number: 1 }); }}>{label}</button>)}</div></div>
+      <DataState loading={history.isLoading} error={history.error} empty={Boolean(history.data && items.length === 0)} onRetry={() => void history.mutate()}>No matching transactions yet.</DataState>
       <div className="iv-table-scroll"><table className="iv-table iv-activity-table"><thead><tr><th>Activity</th><th>Product</th><th>Date</th><th>Transaction</th><th>Status</th><th>Amount</th><th><span className="sr-only">Help</span></th></tr></thead><tbody>{items.map(row => {
         const action = activityDescription(row);
         const project = typeof row.args?.project === "string" ? row.args.project : null;
         return <tr key={`${row.tx_hash}:${row.activity_index}`}><td><div className="iv-activity-label"><Initials name={action.icon} tone={action.tone} /><span>{action.label}<small>Block {row.block_number}</small></span></div></td><td>{row.type === "wallet_transfer" ? "Wallet" : project ? <span title={project}>{project.slice(0, 6)}…{project.slice(-4)}</span> : "—"}</td><td><time dateTime={row.timestamp}>{new Date(row.timestamp).toLocaleDateString(undefined, { day: "2-digit", month: "short", year: "numeric" })}</time></td><td>{explorer(row.tx_hash) ? <a className="iv-text-link" href={explorer(row.tx_hash)!} target="_blank" rel="noopener noreferrer">{row.tx_hash.slice(0, 6)}…{row.tx_hash.slice(-4)} ↗</a> : "Unavailable"}</td><td><Tag tone={["confirmed", "indexed", "completed"].includes(row.status.toLowerCase()) ? "green" : "neutral"}>{row.status.replaceAll("_", " ")}</Tag></td><td>{activityAmount(row)}</td><td><Link className="iv-button iv-small" href="/invest/support">Get help</Link></td></tr>;
       })}</tbody></table></div>
-      <PageButtons cursor={cursor} next={history.data?.nextCursor} change={setCursor} />
+      {pagination && !history.error ? <ActivityPagination pagination={pagination} busy={history.isLoading || history.isValidating} onPage={number => setPage({ number, snapshotBlock: pagination.snapshotBlock })} /> : null}
       <Provenance source={history.data?.provenance?.source} block={history.data?.provenance?.indexedBlock} updated={history.data?.provenance?.updatedAt} coverage={history.data?.provenance?.historyCoverage} />
     </Panel>
     <Panel className="iv-approval-history"><details><summary>Transaction approvals {transactions.data ? `(${transactions.data.items.length}${transactions.data.nextCursor ? "+" : ""})` : ""}</summary><DataState loading={transactions.isLoading} error={transactions.error} empty={Boolean(transactions.data && transactions.data.items.length === 0)} onRetry={() => void transactions.mutate()}>No transaction requests yet.</DataState>{transactions.data?.items.map(tx => <div className="iv-record iv-record-with-action" key={tx.id}><div><strong>{String(tx.command.type).replaceAll("_", " ")}</strong><Tag tone={["FAILED", "REJECTED", "EXPIRED"].includes(tx.status) ? "amber" : "blue"}>{tx.status.replaceAll("_", " ")}</Tag></div><button className="iv-button iv-small" onClick={() => setIntent(tx)}>View progress</button></div>)}<PageButtons cursor={txCursor} next={transactions.data?.nextCursor} change={setTxCursor} /></details></Panel>
