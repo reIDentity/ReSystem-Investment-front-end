@@ -94,6 +94,17 @@ class SecurityGates(unittest.TestCase):
                 with self.assertRaises(ValueError):
                     checks.audit_npm(False)
 
+    def test_unavailable_registry_report_is_retried_without_printing_upstream_content(self):
+        unavailable = subprocess.CompletedProcess([], 1, json.dumps({'error': {'code': 'E503', 'summary': 'private upstream content'}}), '')
+        report = {'auditReportVersion': 2, 'vulnerabilities': {}, 'metadata': {'vulnerabilities': {'total': 0}}}
+        success = subprocess.CompletedProcess([], 0, json.dumps(report), '')
+        with patch.object(checks, 'run', side_effect=[unavailable, success]) as command, patch('builtins.print') as messages:
+            self.assertEqual(checks.audit_npm(True), report)
+            self.assertEqual(command.call_count, 2)
+            self.assertNotIn('private upstream', str(messages.call_args_list))
+            self.assertIn('E503', str(messages.call_args_list))
+            self.assertIn('--registry=https://registry.npmjs.org/', command.call_args.args[0])
+
     def test_full_audit_still_checks_development_and_run_default_deadline_is_unchanged(self):
         report = {'auditReportVersion': 2, 'vulnerabilities': {}, 'metadata': {'vulnerabilities': {'total': 0}}}
         with patch.object(checks, 'run', return_value=subprocess.CompletedProcess([], 0, json.dumps(report), '')) as command:

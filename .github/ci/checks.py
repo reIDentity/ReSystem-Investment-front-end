@@ -128,26 +128,42 @@ def npm_exception(name, vulnerabilities, lock, policy, today):
 
 
 def audit_npm(production):
-    # npm's default HTTP retries can outlast our command deadline on a cold CI
-    # runner. Bound each fetch, retry a timed-out command once, and still require
-    # the complete fresh report. A missing audit never becomes a passing audit.
+    # Cold CI registry failures are retried, never accepted as clean reports.
+    # A valid report containing findings returns immediately to the strict gate.
     command = ['npm', 'audit', *(['--omit=dev'] if production else []), '--json',
-               '--fetch-timeout=20000', '--fetch-retries=1',
-               '--fetch-retry-mintimeout=1000', '--fetch-retry-maxtimeout=5000']
+               '--registry=https://registry.npmjs.org/', '--fetch-timeout=20000',
+               '--fetch-retries=1', '--fetch-retry-mintimeout=1000',
+               '--fetch-retry-maxtimeout=5000']
+    phase = 'production' if production else 'full'
     for attempt in range(2):
+        reason = 'INVALID_REPORT'
         try:
             result = run(command, timeout=90)
-            break
+            try:
+                value = json.loads(result.stdout)
+            except json.JSONDecodeError:
+                value = None
+            if isinstance(value, dict):
+                if (result.returncode in (0, 1) and not value.get('error') and
+                        value.get('auditReportVersion') == 2 and
+                        isinstance(value.get('vulnerabilities'), dict) and
+                        isinstance(value.get('metadata', {}).get('vulnerabilities', {}).get('total'), int)):
+                    return value
+                # Only an allowlisted machine code may enter logs; never raw
+                # npm output, response messages, URLs or local configuration.
+                code = value.get('error', {}).get('code') if isinstance(value.get('error'), dict) else None
+                if code in {'ENOAUDIT', 'ECONNRESET', 'ETIMEDOUT', 'EAI_AGAIN',
+                            'ENOTFOUND', 'ECONNREFUSED', 'E400', 'E401', 'E403',
+                            'E404', 'E429', 'E500', 'E502', 'E503', 'E504'}:
+                    reason = code
         except subprocess.TimeoutExpired:
             if attempt == 1:
                 raise
-            print('npm audit timed out; retrying once with the same checks', flush=True)
-    value = json.loads(result.stdout)
-    if result.returncode not in (0, 1) or value.get('error') or value.get('auditReportVersion') != 2:
-        raise ValueError('npm audit unavailable or returned an invalid report')
-    if not isinstance(value.get('vulnerabilities'), dict) or not isinstance(value.get('metadata', {}).get('vulnerabilities', {}).get('total'), int):
-        raise ValueError('npm audit omitted vulnerability totals')
-    return value
+            reason = 'COMMAND_TIMEOUT'
+        if attempt == 0:
+            print(f'npm audit {phase} unavailable ({reason}); retrying once', flush=True)
+        else:
+            raise ValueError(f'npm audit {phase} unavailable ({reason}); valid report required')
 
 
 def npm():

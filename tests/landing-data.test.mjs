@@ -111,3 +111,19 @@ test('public transport omits cookies, has a shared deadline, rejects redirects/e
     await assert.rejects(transport.fetchLanding(), /exceeds limit/); assert.equal(cancelled, true);
   } finally { globalThis.fetch = original; }
 });
+
+test('a newly published project beyond the first 50 records is discoverable and a broken next page cannot masquerade as a full catalogue', async () => {
+  const idAt = i => `00000000-0000-4000-8000-${String(i).padStart(12, '0')}`;
+  const first = Array.from({ length: 50 }, (_, i) => project(idAt(i)));
+  const added = { ...project(idAt(50)), title: 'New publication beyond page one' };
+  const paths = [];
+  const reader = async path => {
+    if (path.includes('/')) throw Error('Independent public detail unavailable');
+    paths.push(path);
+    return path === 'projects' ? { items: first, nextCursor: idAt(49) } : { items: [added], nextCursor: null };
+  };
+  const data = await loadLanding(reader, () => now);
+  assert.equal(data.projects.length, 51); assert.equal(data.projects[50].project.title, added.title);
+  assert.deepEqual(paths, ['projects', `projects?cursor=${idAt(49)}`]);
+  await assert.rejects(loadLanding(async path => path === 'projects' ? { items: first, nextCursor: idAt(49) } : { items: [{ ...added, status: 'DRAFT' }], nextCursor: null }));
+});
