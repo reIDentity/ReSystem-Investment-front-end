@@ -48,6 +48,7 @@ export function InvestorActivity({ initialIntent, initialFilter = "all" }: { ini
   const displayed = history.data?.pagination && history.data.pagination.filter !== filter ? undefined : history.data;
   const items = history.error ? [] : displayed?.items || [];
   const pagination = displayed?.pagination;
+  const pagePending = Boolean(history.isLoading && (!pagination || pagination.page !== page.number || (page.snapshotBlock && pagination.snapshotBlock !== page.snapshotBlock)));
   const warmPage = (number: number) => { if (pagination) prefetch?.([activityPath(number, filter, pagination.snapshotBlock)]); };
   const currentPage = pagination?.page, totalPages = pagination?.totalPages, snapshotBlock = pagination?.snapshotBlock;
   useEffect(() => {
@@ -58,20 +59,20 @@ export function InvestorActivity({ initialIntent, initialFilter = "all" }: { ini
     }
   }, [cachePage, displayed, pagination, history.error, page.snapshotBlock, user.id, filter]);
   useEffect(() => {
-    if (!currentPage || !totalPages || !snapshotBlock || history.error || history.isLoading) return;
+    if (!currentPage || !totalPages || !snapshotBlock || history.error || pagePending) return;
     const adjacent = [currentPage + 1, currentPage - 1, currentPage + 2].filter(number => number >= 1 && number <= totalPages);
     prefetch?.(adjacent.map(number => activityPath(number, filter, snapshotBlock)));
-  }, [prefetch, filter, currentPage, totalPages, snapshotBlock, history.error, history.isLoading]);
+  }, [prefetch, filter, currentPage, totalPages, snapshotBlock, history.error, pagePending]);
   return <InvestorShell page="activity" title="Activity" subtitle="Every purchase, payout, deposit and withdrawal, recorded on INFRA" networkBlock={history.data?.provenance?.indexedBlock}>
     <Panel className="iv-transactions iv-activity-restored">
       <div className="iv-panel-toolbar"><h2>Transactions</h2><div className="iv-tabs" role="group" aria-label="Filter activity">{activityFilters.map(([value, label]) => <button key={value} aria-pressed={filter === value} onPointerEnter={() => prefetch?.([activityPath(1, value)])} onFocus={() => prefetch?.([activityPath(1, value)])} onClick={() => { setFilter(value); setPage({ number: 1 }); }}>{label}</button>)}</div></div>
-      <DataState loading={history.isLoading && !displayed} error={history.error} empty={Boolean(displayed && items.length === 0 && !history.isLoading)} onRetry={() => void history.mutate()}>No matching transactions yet.</DataState>
-      <div className="iv-table-scroll"><table className="iv-table iv-activity-table" aria-busy={history.isLoading}><thead><tr><th>Activity</th><th>Product</th><th>Date</th><th>Transaction</th><th>Status</th><th>Amount</th><th><span className="sr-only">Help</span></th></tr></thead><tbody>{items.map(row => {
+      <DataState loading={pagePending && !displayed} error={history.error} empty={Boolean(displayed && items.length === 0 && !pagePending)} onRetry={() => void history.mutate()}>No matching transactions yet.</DataState>
+      <div className="iv-table-scroll"><table className="iv-table iv-activity-table" aria-busy={pagePending}><thead><tr><th>Activity</th><th>Product</th><th>Date</th><th>Transaction</th><th>Status</th><th>Amount</th><th><span className="sr-only">Help</span></th></tr></thead><tbody>{items.map(row => {
         const action = activityDescription(row);
         const project = typeof row.args?.project === "string" ? row.args.project : null;
         return <tr key={`${row.tx_hash}:${row.activity_index}`}><td><div className="iv-activity-label"><Initials name={action.icon} tone={action.tone} /><span>{action.label}<small>Block {row.block_number}</small></span></div></td><td>{row.type === "wallet_transfer" ? "Wallet" : project ? <span title={project}>{project.slice(0, 6)}…{project.slice(-4)}</span> : "—"}</td><td><time dateTime={row.timestamp}>{new Date(row.timestamp).toLocaleDateString(undefined, { day: "2-digit", month: "short", year: "numeric" })}</time></td><td>{explorer(row.tx_hash) ? <a className="iv-text-link" href={explorer(row.tx_hash)!} target="_blank" rel="noopener noreferrer">{row.tx_hash.slice(0, 6)}…{row.tx_hash.slice(-4)} ↗</a> : "Unavailable"}</td><td><Tag tone={["confirmed", "indexed", "completed"].includes(row.status.toLowerCase()) ? "green" : "neutral"}>{row.status.replaceAll("_", " ")}</Tag></td><td>{activityAmount(row)}</td><td><Link className="iv-button iv-small" href="/invest/support">Get help</Link></td></tr>;
       })}</tbody></table></div>
-      {pagination && !history.error ? <ActivityPagination pagination={pagination} busy={history.isLoading} onIntent={warmPage} onPage={number => setPage({ number, snapshotBlock: pagination.snapshotBlock })} /> : null}
+      {pagination && !history.error ? <ActivityPagination pagination={pagination} busy={pagePending} onIntent={warmPage} onPage={number => setPage({ number, snapshotBlock: pagination.snapshotBlock })} /> : null}
       <Provenance source={history.data?.provenance?.source} block={history.data?.provenance?.indexedBlock} updated={history.data?.provenance?.updatedAt} coverage={history.data?.provenance?.historyCoverage} />
     </Panel>
     <Panel className="iv-approval-history"><details onToggle={event => { const open = event.currentTarget.open; setApprovalsOpen(open); if (open) void transactions.mutate(); }}><summary>Transaction approvals {transactions.data ? `(${transactions.data.items.length}${transactions.data.nextCursor ? "+" : ""})` : ""}</summary><DataState loading={transactions.isLoading} error={transactions.error} empty={Boolean(transactions.data && transactions.data.items.length === 0)} onRetry={() => void transactions.mutate()}>No transaction requests yet.</DataState>{transactions.data?.items.map(tx => <div className="iv-record iv-record-with-action" key={tx.id}><div><strong>{String(tx.command.type).replaceAll("_", " ")}</strong><Tag tone={["FAILED", "REJECTED", "EXPIRED"].includes(tx.status) ? "amber" : "blue"}>{tx.status.replaceAll("_", " ")}</Tag></div><button className="iv-button iv-small" onClick={() => setIntent(tx)}>View progress</button></div>)}<PageButtons cursor={txCursor} next={transactions.data?.nextCursor} change={setTxCursor} /></details></Panel>

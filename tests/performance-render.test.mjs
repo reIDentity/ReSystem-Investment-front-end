@@ -71,3 +71,9 @@ test('hidden approval history stops periodic polling, refreshes on expansion and
  await act(async()=>{details.open=true;fireEvent(details,new dom.window.Event('toggle'));});assert.equal(intervals.at(-1),10000);assert.ok(refreshes.length>0);
  await act(async()=>{details.open=false;fireEvent(details,new dom.window.Event('toggle'));});assert.equal(intervals.at(-1),0);
 });
+
+
+test('a matching cached page stays interactive even when SWR still marks its revalidation as loading',()=>{
+ const {InvestorActivity}=clientRenderer({'./PlatformProvider':{usePlatform:()=>({user}),useResource:path=>path.startsWith('activity?')?{data:payload(),isLoading:true,isValidating:true,error:null,mutate:async()=>{}}:{data:{items:[],nextCursor:null},mutate:async()=>{}}},'./InvestorUI':ui,'./platform/Transaction':{IntentReview:()=>null}}).load('src/components/invest/ActivitySupport.tsx');
+ const view=render(React.createElement(InvestorActivity));assert.equal(view.container.querySelector('table').getAttribute('aria-busy'),'false');assert.equal(view.getByRole('button',{name:'Page 2',exact:true}).disabled,false);assert.ok(view.getByText('Showing 1–10 of 30 transactions'));
+});
