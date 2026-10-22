@@ -3021,5 +3021,42 @@
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-admin/commit/70a569d25bbe8387a8698bce9a3441191dff9869",
     "verification_evidence": "Admin70a569d published;191 tests/types/lint/build and CI39764805668 passed. Hosted image39765094160 verified; auto release explicitly deferred for open QA. Root receipt release-admin-70a569d25bbe-57c12fc0cc98 verifies scoped deployment, protected peers/schema/resources and signer resume. Gate restored verified_open; actual desktop/phone390 form has no manual hashes, synthetic local CSV fingerprint ready and removable, no overflow/console errors. No financial intent, signature or broadcast.",
     "notion_status_observed_at_utc": "2026-10-22T10:53:52.885712+00:00"
+  },
+  {
+    "id": "RSI-122",
+    "title": "Align Home holding-card action buttons across different title lengths",
+    "phase": "10 · Investor UX follow-ups",
+    "repository": "Investor frontend",
+    "priority": "P2",
+    "objective": "Align the existing blue action rows while preserving the approved card design.",
+    "requirements": [
+      "Scope flex-column layout to Home holding cards and anchor the action row with automatic top margin."
+    ],
+    "acceptance": [
+      "Buttons align across unequal title lengths on desktop; phone layout has no overflow and retains button padding."
+    ],
+    "dependencies": [],
+    "status": "Done",
+    "commit_url": "https://github.com/reIDentity/ReSystem-Investment-front-end/commit/c55234eff1159520f990204c3c7759eda8e40c28",
+    "verification_evidence": "Production build/types, source CI39767014954 and Vercel pass. Actual desktop220px cards have identical action top1016.0859375 versus previous20.25px discrepancy; phone390 has no overflow,40px buttons/16px bottom padding. Viewport restored; no financial actions."
+  },
+  {
+    "id": "RSI-123",
+    "title": "Provision Manoj super-admin with human MFA enrollment",
+    "phase": "10 · Staff access operations",
+    "repository": "Backend",
+    "priority": "P1",
+    "objective": "Complete the explicitly owner-requested new staff onboarding using existing protected provisioning.",
+    "requirements": [
+      "Refuse overwriting existing account/contact; use exact reserved GLOBAL role and enrollment-only provisioning.",
+      "Keep generated password only in protected runtime/private Development Credentials; human completes MFA."
+    ],
+    "acceptance": [
+      "Password hash verified, active GLOBAL role, absent factor and sessions, encrypted unverified contact, durable audit."
+    ],
+    "dependencies": [],
+    "status": "Done",
+    "commit_url": "https://github.com/reIDentity/ReSystem-Investment-backend/commit/7faae39c2dbf8eeddc1620bf4b40539456006768",
+    "verification_evidence": "Existing deployed provisionStaff function executed as one transaction; new account/role/password postconditions verified, three audit records, no sessions/factor/email. Private credential child record created. This commit identifies the actual existing implementation; operation required no new backend source/schema/gate changes."
   }
 ]

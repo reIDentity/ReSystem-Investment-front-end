@@ -644,9 +644,19 @@
       "page_id": "4013b21a-c925-8138-be71-f966f6024caa",
       "url": "https://app.notion.com/p/4013b21ac9258138be71f966f6024caa",
       "title": "Generate revenue references automatically and fingerprint optional reports"
+    },
+    "RSI-122": {
+      "page_id": "4013b21a-c925-8126-85f0-f3719d7d3a4b",
+      "url": "https://app.notion.com/p/4013b21ac925812685f0f3719d7d3a4b",
+      "title": "Align Home holding-card action buttons across different title lengths"
+    },
+    "RSI-123": {
+      "page_id": "4013b21a-c925-81f9-bf04-fe227e671f08",
+      "url": "https://app.notion.com/p/4013b21ac92581f9bf04fe227e671f08",
+      "title": "Provision Manoj super-admin with human MFA enrollment"
     }
   },
-  "task_count": 121,
+  "task_count": 123,
   "initial_status": "To do",
   "github_sync": "Codex-managed workflow; no automatic webhook or background automation configured",
   "plan_page_id": "3fb3b21a-c925-810b-9694-e2c99173f5f9",
@@ -867,10 +877,10 @@
     }
   },
   "operations_updated_at_utc": "2026-10-21T07:46:47.509449+00:00",
-  "last_status_sync_at_utc": "2026-10-22T10:53:52.887051+00:00",
-  "last_status_sync_scope": "RSI-121 Done:191 tests/source CI, guarded FP admin rollout and actual desktop/phone report controls verified. Ongoing QA restored; no financial actions.",
+  "last_status_sync_at_utc": "2026-10-22T11:03:39.629829+00:00",
+  "last_status_sync_scope": "RSI-122 deployed card alignment and RSI-123 owner-authorized protected staff provisioning complete. Private credentials remain outside source; ongoing QA unchanged.",
   "status_counts": {
-    "Done": 98,
+    "Done": 100,
     "In progress": 20,
     "To do": 3
   }

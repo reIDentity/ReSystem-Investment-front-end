@@ -1,5 +1,11 @@
 # reSystem Investment - start here
 
+## 22 October 2026 — holdings alignment and staff onboarding complete
+
+RSI-122 is Done: [c55234e](https://github.com/reIDentity/ReSystem-Investment-front-end/commit/c55234eff1159520f990204c3c7759eda8e40c28), CI39767014954 and Vercel pass. Actual desktop holdings now have identical button-row positions, correcting the20.25px difference without changing the220px card heights; phone390 retains40px buttons/16px bottom padding and no overflow. The viewport was reset. No transaction was prepared or signed.
+
+RSI-123 is Done: the explicitly owner-requested new super-admin was created through the existing backend7faae39c protected provisioner, with exact GLOBAL membership, verified password hash, no sessions/factor and three audit records. Credentials/contact details remain only in protected runtime and private Development Credentials; human first-login MFA enrollment remains required. No email, backend source/schema/policy/service/gate/signing change occurred. Private Notion tasks retain operational evidence. Backlog123:100 Done/20 In progress/3 To do.
+
 ## 22 October 2026 — automatic admin revenue references deployed
 
 RSI-121 is Done. The admin revenue form creates its own funding reference and fingerprints optional local PDF/CSV/XLSX reports; staff no longer enter bytes32 values. [Admin70a569d](https://github.com/reIDentity/ReSystem-Investment-admin/commit/70a569d25bbe8387a8698bce9a3441191dff9869) passes191 tests, lint, types, build and CI39764805668. Root receipt `release-admin-70a569d25bbe-57c12fc0cc98` and actual desktop/phone acceptance verify deployment. The owner-approved brief pause is complete and ongoing investor QA is enabled again. No report content was uploaded, financial request prepared, wallet signed or funds moved. Backend/indexer/signer, schema, permissions, resources and installed controller policy remain unchanged. See `docs/testing/ADMIN_REVENUE_REFERENCES_20261022.md` for exact source/image/runtime evidence. Backlog121:98 Done/20 In progress/3 To do.
