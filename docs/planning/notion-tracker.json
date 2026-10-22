@@ -609,9 +609,34 @@
       "page_id": "4013b21a-c925-8139-b339-fd904366d2b2",
       "url": "https://app.notion.com/p/4013b21ac9258139b339fd904366d2b2",
       "title": "Show five recent deposits and link full Activity history"
+    },
+    "RSI-115": {
+      "page_id": "4013b21a-c925-81f6-ba8f-ef6811db5cb2",
+      "url": "https://app.notion.com/p/4013b21ac92581f6ba8fef6811db5cb2",
+      "title": "Server-filtered Activity pagination with page numbers and totals"
+    },
+    "RSI-116": {
+      "page_id": "4013b21a-c925-8190-aa9d-e54df2f1d810",
+      "url": "https://app.notion.com/p/4013b21ac9258190aa9de54df2f1d810",
+      "title": "Use authenticated reID email for notifications without extra confirmation"
+    },
+    "RSI-117": {
+      "page_id": "4013b21a-c925-8132-bd7c-e44951e85862",
+      "url": "https://app.notion.com/p/4013b21ac9258132bd7ce44951e85862",
+      "title": "Show project thumbnails in recommendations and holdings"
+    },
+    "RSI-118": {
+      "page_id": "4013b21a-c925-811e-a42c-c9f5d302dcb7",
+      "url": "https://app.notion.com/p/4013b21ac925811ea42cc9f5d302dcb7",
+      "title": "Mark all investor notifications as read"
+    },
+    "RSI-119": {
+      "page_id": "4013b21a-c925-81f0-817b-c9f6b17305a4",
+      "url": "https://app.notion.com/p/4013b21ac92581f0817bc9f6b17305a4",
+      "title": "Update share purchase totals smoothly while revalidating the quote"
     }
   },
-  "task_count": 114,
+  "task_count": 119,
   "initial_status": "To do",
   "github_sync": "Codex-managed workflow; no automatic webhook or background automation configured",
   "plan_page_id": "3fb3b21a-c925-810b-9694-e2c99173f5f9",
@@ -739,6 +764,16 @@
       "page_id": "4013b21a-c925-8130-b98f-e2e7ec63a766",
       "url": "https://app.notion.com/p/4013b21ac9258130b98fe2e7ec63a766",
       "title": "Landing page live data audit — 22 October 2026"
+    },
+    "../ReSystem-Investment-backend/docs/ACTIVITY_PAGINATION.md": {
+      "page_id": "4013b21a-c925-81ab-a4f2-f62c9a209419",
+      "url": "https://app.notion.com/p/4013b21ac92581aba4f2f62c9a209419",
+      "title": "Server-filtered Activity pagination — 22 October 2026"
+    },
+    "../ReSystem-Investment-backend/docs/INVESTOR_UX_FOLLOWUPS_20261022.md": {
+      "page_id": "4013b21a-c925-813d-a4c2-f5d4623f24e3",
+      "url": "https://app.notion.com/p/4013b21ac925813da4c2f5d4623f24e3",
+      "title": "reID email, notification reading, project icons and purchase totals — 22 October 2026"
     }
   },
   "service_records": {
@@ -813,10 +848,10 @@
   },
   "operations_updated_at_utc": "2026-10-21T07:46:47.509449+00:00",
   "last_status_sync_at_utc": "2026-10-22T08:07:45.737565+00:00",
-  "last_status_sync_scope": "RSI-114 completed with published04ff066, passing CI39745110475/Vercel and actual signed-in desktop/phone acceptance; unrelated statuses preserved.",
+  "last_status_sync_scope": "RSI-115 to RSI-119 in progress for five explicit owner requests. Local checks pass; guarded backend and Vercel rollout pending. Owner approved a brief deployment-only QA request pause and immediate restoration; no new financial authority.",
   "status_counts": {
     "Done": 91,
-    "In progress": 20,
+    "In progress": 25,
     "To do": 3
   }
 }

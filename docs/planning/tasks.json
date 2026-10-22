@@ -2867,5 +2867,99 @@
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-front-end/commit/04ff066b0d3847a820612c1791b7d542fa0910c1",
     "verification_evidence": "129 application tests, lint, TypeScript and production build pass; CI39745110475/Vercel successful. Actual signed-in deployed sidebar has five newest rows; See more opens Activity Deposits selected with all10 existing deposits. Phone390 has no horizontal overflow. Pagination/reset, invalid/repeated filters, empty/short/error/wallet safeguards verified; no financial action or FP change.",
     "notion_status_observed_at_utc": "2026-10-22T08:07:45.736484+00:00"
+  },
+  {
+    "id": "RSI-115",
+    "title": "Server-filtered Activity pagination with page numbers and totals",
+    "phase": "08 · Investor experience",
+    "repository": "Cross-project",
+    "priority": "P1",
+    "objective": "Filter and paginate confirmed investor activity on the server, with numbered navigation and accurate totals.",
+    "requirements": [
+      "Keep existing table/branding and legacy cursor consumers compatible.",
+      "Filter in PostgreSQL before counting/selecting; derive wallet from session and retain canonical confirmed-block checks.",
+      "Show Previous/Next, bounded page numbers and Showing X–Y of Z; reset page and boundary on filter changes."
+    ],
+    "acceptance": [
+      "Validated API parameters and single-query filtered total/page metadata with stable block boundary.",
+      "Database/HTTP tests cover filters, counts, order, wallet isolation, empty/clamped pages and new blocks.",
+      "Frontend navigation/loading/empty tests and build pass; actual server and Vercel deployment verified separately."
+    ],
+    "dependencies": [
+      "RSI-114"
+    ],
+    "status": "In progress"
+  },
+  {
+    "id": "RSI-116",
+    "title": "Use authenticated reID email for notifications without extra confirmation",
+    "repository": "Cross-project",
+    "phase": "08 · Investor experience",
+    "priority": "P1",
+    "objective": "Use authenticated reID email for notifications without extra confirmation.",
+    "requirements": [
+      "Trust only the server-authenticated reID profile email, preserving encrypted storage, opt-outs and tenant isolation.",
+      "Remove duplicate confirmation UI; migrate old reID-sourced candidates without sending emails and enable eligible delivery."
+    ],
+    "acceptance": [
+      "Relevant local tests, lint, types and build pass.",
+      "Published source, CI and actual deployed behavior are verified separately before Done."
+    ],
+    "dependencies": [],
+    "status": "In progress"
+  },
+  {
+    "id": "RSI-117",
+    "title": "Show project thumbnails in recommendations and holdings",
+    "repository": "Investor frontend",
+    "phase": "08 · Investor experience",
+    "priority": "P2",
+    "objective": "Show project thumbnails in recommendations and holdings.",
+    "requirements": [
+      "Use each project’s validated public artwork in its existing icon slot.",
+      "Reuse catalogue images, handle missing/broken art and retain card geometry."
+    ],
+    "acceptance": [
+      "Relevant local tests, lint, types and build pass.",
+      "Published source, CI and actual deployed behavior are verified separately before Done."
+    ],
+    "dependencies": [],
+    "status": "In progress"
+  },
+  {
+    "id": "RSI-118",
+    "title": "Mark all investor notifications as read",
+    "repository": "Cross-project",
+    "phase": "08 · Investor experience",
+    "priority": "P2",
+    "objective": "Mark all investor notifications as read.",
+    "requirements": [
+      "Bulk-update only this authenticated user’s unread visible notifications across pages, preserving CSRF and canonical checks.",
+      "Add one Updates control; prevent duplicate submission, refresh session-scoped caches/badge, and report failures honestly."
+    ],
+    "acceptance": [
+      "Relevant local tests, lint, types and build pass.",
+      "Published source, CI and actual deployed behavior are verified separately before Done."
+    ],
+    "dependencies": [],
+    "status": "In progress"
+  },
+  {
+    "id": "RSI-119",
+    "title": "Update share purchase totals smoothly while revalidating the quote",
+    "repository": "Investor frontend",
+    "phase": "08 · Investor experience",
+    "priority": "P2",
+    "objective": "Update share purchase totals smoothly while revalidating the quote.",
+    "requirements": [
+      "Immediately calculate displayed totals in exact atomic units from the project’s published price.",
+      "Keep purchase/USDT allowance gated on a matching fresh server quote and existing sale/supply/input checks."
+    ],
+    "acceptance": [
+      "Relevant local tests, lint, types and build pass.",
+      "Published source, CI and actual deployed behavior are verified separately before Done."
+    ],
+    "dependencies": [],
+    "status": "In progress"
   }
 ]
