@@ -17206,6 +17206,26 @@
         ],
         "additionalProperties": false
       },
+      "ActivityProject": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "contractAddress": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "contractAddress"
+        ],
+        "additionalProperties": false
+      },
       "ActivityResponse": {
         "type": "object",
         "properties": {
@@ -17261,6 +17281,10 @@
             "$ref": "#/components/schemas/JsonValue",
             "nullable": true
           },
+          "project": {
+            "$ref": "#/components/schemas/ActivityProject",
+            "nullable": true
+          },
           "timestamp": {
             "type": "string",
             "format": "date-time"
@@ -17297,6 +17321,7 @@
           "type",
           "event_name",
           "args",
+          "project",
           "timestamp",
           "direction",
           "status",

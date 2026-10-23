@@ -1,4 +1,4 @@
-// Generated from OpenAPI 0.1.0; do not hand-edit. SHA-256: 515ac53cf661ed7400541dd7044513e44e9e0838d251a23477cefec624d242bb
+// Generated from OpenAPI 0.1.0; do not hand-edit. SHA-256: 1735806a715bf70a869584c963a997e785059c3d19dfcde801456d12e20cb07c
 export type LoginDto = { "username": string; "password": string; "totp"?: string; };
 export type MfaEnrollmentConfirmDto = { "enrollmentToken": string; "totp": string; };
 export type MfaChallengeVerifyDto = { "challengeToken": string; "totp": string; };
@@ -80,7 +80,8 @@ export type ListingQuoteResponse = { "id": string; "seller": string; "project": 
 export type ProceedsResponse = { "wallet": string; "chainId": 15324; "source": string; "assets": Array<{ "asset": "REAED" | "USDT"; "decimals": 6 | 18; "amountAtomic": string; }>; };
 export type HistoryCoverage = { "status": "complete" | "partial" | "pending"; "sources": Array<{ "source": string; "complete": boolean; "updatedAt": string; "hasNextPage": boolean; }>; };
 export type ActivityProvenance = { "source": string; "indexedBlock": (string) | null; "updatedAt": string; "historyCoverage": HistoryCoverage; };
-export type ActivityResponse = { "chain_id": number; "tx_hash": string; "activity_index": string; "block_number": string; "block_hash": string; "from_address": (string) | null; "to_address": (string) | null; "asset": (string) | null; "amount_atomic": (string) | null; "source": string; "type": "wallet_transfer" | "contract_event" | "revenue_allocation"; "event_name": (string) | null; "args": (JsonValue) | null; "timestamp": string; "direction": ("incoming" | "outgoing") | null; "status": "CONFIRMED"; "explorerUrl": string; };
+export type ActivityProject = { "id": string; "title": string; "contractAddress": string; };
+export type ActivityResponse = { "chain_id": number; "tx_hash": string; "activity_index": string; "block_number": string; "block_hash": string; "from_address": (string) | null; "to_address": (string) | null; "asset": (string) | null; "amount_atomic": (string) | null; "source": string; "type": "wallet_transfer" | "contract_event" | "revenue_allocation"; "event_name": (string) | null; "args": (JsonValue) | null; "project": (ActivityProject) | null; "timestamp": string; "direction": ("incoming" | "outgoing") | null; "status": "CONFIRMED"; "explorerUrl": string; };
 export type NotificationsReadAllResponse = { "updated": number; };
 export type ActivityPagination = { "page": number; "pageSize": number; "total": number; "totalPages": number; "filter": "all" | "payouts" | "buys" | "deposits" | "withdrawals"; "snapshotBlock": string; };
 export type ActivityPage = { "pagination"?: ActivityPagination; "items": Array<ActivityResponse>; "nextCursor": (string) | null; "provenance": ActivityProvenance; };
