@@ -89,7 +89,36 @@ export function InvestorSupport({ initialTicket }: { initialTicket?: string }) {
   const [attachment, setAttachment] = useState<PendingAttachment | null>(null); const fileInput = useRef<HTMLInputElement>(null);
   const ticket = useResource<TicketResponse>(ticketId ? `support/${ticketId}` : null, 15000); const [create, setCreate] = useState(false); const [subject, setSubject] = useState(""); const [body, setBody] = useState(""); const [reply, setReply] = useState(""); const [busy, setBusy] = useState(false); const [error, setError] = useState("");
   async function newTicket(e: FormEvent) { e.preventDefault(); if (requestPending.current || subject.trim().length < 3 || body.trim().length < 5) return; requestPending.current = true; setBusy(true); setError(""); try { const result = await api<TicketResponse>("support", { method: "POST", body: { subject: subject.trim(), body: body.trim() } }); setSelected(result.id); setReply(""); setAttachment(null); setCreate(false); setSubject(""); setBody(""); notify("Support request saved.", { kind: "success" }); await tickets.mutate(api<TicketPage>(cursorPath("support", cursor)), { revalidate: false, throwOnError: true }).catch(() => { notify("Your support request was saved, but the ticket list could not refresh. Refresh the page to see it; do not create it again."); }); } catch (e) { setError((e as Error).message); } finally { requestPending.current = false; setBusy(false); } }
-  async function respond(e: FormEvent) { e.preventDefault(); if (!ticketId || (!reply.trim() && !attachment?.messageId) || requestPending.current) return; const submittedTicket = ticketId, selectedImage = attachment; let savedMessage = selectedImage?.messageId; requestPending.current = true; setBusy(true); setError(""); try { if (!savedMessage) { const saved = await api(`support/${submittedTicket}/messages`, { method: "POST", body: { body: reply.trim() } }); if (selectedImage) { savedMessage = messageId(saved); if (activeTicket.current === submittedTicket) setAttachment({ ...selectedImage, messageId: savedMessage }); } } if (selectedImage && savedMessage) { const form = new FormData(); form.append("file", selectedImage.file); await api(`${privateAttachmentPath(submittedTicket)}/messages/${savedMessage}/attachments`, { method: "POST", body: form, idempotencyKey: selectedImage.key }); } if (activeTicket.current === submittedTicket) { setReply(""); setAttachment(null); notify("Your reply was saved.", { kind: "success" }); } await Promise.allSettled([ticket.mutate(), tickets.mutate(), attachments.mutate()]); } catch (e) { if (activeTicket.current === submittedTicket) setError(savedMessage && selectedImage ? "Your reply is saved. The private image upload could not be confirmed. Retry Send with the same image to check or finish its upload without sending another reply." : (e as Error).message); } finally { requestPending.current = false; setBusy(false); } }
+  async function respond(e: FormEvent) {
+    e.preventDefault();
+    if (!ticketId || (!reply.trim() && !attachment?.messageId) || requestPending.current) return;
+    const submittedTicket = ticketId, selectedImage = attachment;
+    let savedMessage = selectedImage?.messageId;
+    requestPending.current = true; setBusy(true); setError("");
+    try {
+      if (!savedMessage) {
+        const saved = await api(`support/${submittedTicket}/messages`, { method: "POST", body: { body: reply.trim() } });
+        if (selectedImage) { savedMessage = messageId(saved); if (activeTicket.current === submittedTicket) setAttachment({ ...selectedImage, messageId: savedMessage }); }
+      }
+      if (selectedImage && savedMessage) {
+        const form = new FormData(); form.append("file", selectedImage.file);
+        await api(`${privateAttachmentPath(submittedTicket)}/messages/${savedMessage}/attachments`, { method: "POST", body: form, idempotencyKey: selectedImage.key });
+      }
+      if (activeTicket.current === submittedTicket) { setReply(""); setAttachment(null); notify("Your reply was saved.", { kind: "success" }); }
+      // Explicit reads propagate failures; ordinary SWR revalidation may resolve
+      // stale data even when its GET failed. Never turn a refresh into a retry of the write.
+      const refreshed = await Promise.allSettled([
+        ticket.mutate(api<TicketResponse>(`support/${submittedTicket}`), { revalidate: false, throwOnError: true }),
+        tickets.mutate(api<TicketPage>(cursorPath("support", cursor)), { revalidate: false, throwOnError: true }),
+        attachments.mutate(readPrivateAttachments(submittedTicket, api), { revalidate: false, throwOnError: true }),
+      ]);
+      if (activeTicket.current === submittedTicket && refreshed.some(result => result.status === "rejected")) {
+        notify("Your reply was saved, but the conversation could not fully refresh. Refresh to see the latest messages and images; do not send the reply again.");
+      }
+    } catch (e) {
+      if (activeTicket.current === submittedTicket) setError(savedMessage && selectedImage ? "Your reply is saved. The private image upload could not be confirmed. Retry Send with the same image to check or finish its upload without sending another reply." : (e as Error).message);
+    } finally { requestPending.current = false; setBusy(false); }
+  }
   const initials = user.name.split(/\s+/).filter(Boolean).slice(0, 2).map(name => name[0]).join("").toUpperCase();
   const answers = [
     ["How do I start investing?", "Add reAED or USDT to your connected wallet on INFRA, choose a published project in Explore, select whole shares and review the exact cost. Approve the request in reID, then follow confirmation in Activity. A wallet deposit alone does not buy shares."],

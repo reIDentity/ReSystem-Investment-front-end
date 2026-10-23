@@ -95,6 +95,47 @@ test('mounted SWR reports a completed read-all mutation separately from its fail
  await waitFor(()=>assert.match(notices.at(-1),/were marked as read, but the list could not refresh/));
  assert.equal(mutations,1);assert.equal(listReads,2);
 });
+test('mounted SWR keeps saved replies distinct from failed conversation, ticket-list and attachment refreshes',async()=>{
+ for(const failedPath of [null,'support/synthetic-ticket','support','support/synthetic-ticket/attachments']){
+  const notices=[],reads=[];let writes=0;
+  const ticket={id:'synthetic-ticket',subject:'Synthetic conversation',status:'OPEN',updatedAt:'2026-10-23T06:00:00Z',messages:[]};
+  globalThis.fetch=async(url,options)=>{
+   const path=String(url).replace('/api/platform/','');
+   if(path==='auth/session')return Response.json({authenticated:true,kind:'investor',csrfToken:'synthetic'});
+   if(options?.method==='POST'){
+    assert.equal(path,'support/synthetic-ticket/messages');writes++;
+    const message={id:'saved-message',authorId:user.id,body:JSON.parse(options.body).body,createdAt:'2026-10-23T06:01:00Z'};
+    ticket.messages=[message];return Response.json(message);
+   }
+   reads.push(path);
+   if(writes&&path===failedPath)return Response.json({error:{message:'Synthetic refresh unavailable'}},{status:503});
+   if(path==='support')return Response.json({items:[ticket],nextCursor:null});
+   if(path==='support/synthetic-ticket')return Response.json(ticket);
+   if(path==='support/synthetic-ticket/attachments')return Response.json({items:[],nextCursor:null});
+   throw new Error(`Unexpected synthetic path: ${path}`);
+  };
+  const {api}=clientRenderer().load('src/lib/platform/client.ts');
+  const {InvestorSupport}=clientRenderer({
+   './PlatformProvider':{usePlatform:()=>({user,live:true,notify:(message,options)=>notices.push({message,options})}),useResource:path=>useSWR(path?[user.id,path]:null,()=>api(path),{shouldRetryOnError:false,revalidateOnFocus:false,dedupingInterval:0})},
+   './InvestorUI':{InvestorShell:fragment,Panel:fragment,Tag:fragment,Initials:()=>null,DataState:()=>null},
+   './platform/Transaction':{IntentReview:()=>null},
+  }).load('src/components/invest/ActivitySupport.tsx');
+  const view=render(React.createElement(SWRConfig,{value:{provider:()=>new Map()}},React.createElement(InvestorSupport)));
+  await view.findByLabelText('Your reply');
+  await waitFor(()=>assert.ok(reads.includes('support/synthetic-ticket/attachments')));
+  const initialReads=reads.length;
+  fireEvent.change(view.getByLabelText('Your reply'),{target:{value:'Synthetic saved reply'}});
+  fireEvent.submit(view.getByLabelText('Your reply').closest('form'));
+  fireEvent.submit(view.getByLabelText('Your reply').closest('form'));
+  if(failedPath){await waitFor(()=>assert.match(notices.at(-1)?.message||'',/reply was saved, but the conversation could not fully refresh/));assert.equal(notices.at(-1).options,undefined);}
+  else {await view.findByText('Synthetic saved reply');assert.equal(notices.at(-1).message,'Your reply was saved.');assert.equal(notices.at(-1).options.kind,'success');}
+  await waitFor(()=>assert.equal(view.getByRole('button',{name:'Send',exact:true}).textContent,'Send'));
+  assert.equal(view.getByLabelText('Your reply').value,'');assert.equal(writes,1);
+  assert.deepEqual(reads.slice(initialReads).sort(),['support','support/synthetic-ticket','support/synthetic-ticket/attachments']);
+  fireEvent.submit(view.getByLabelText('Your reply').closest('form'));assert.equal(writes,1);
+  view.unmount();
+ }
+});
 test('success notice timers reset on replacement while actionable notices remain, and session changes clean up timers',async()=>{
  let now=0,sequence=0,context;const timers=new Map();
  const clock={setTimeout:(callback,delay)=>{const id=++sequence;timers.set(id,{callback,at:now+delay});return id;},clearTimeout:id=>timers.delete(id)};
