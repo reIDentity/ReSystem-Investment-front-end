@@ -31,6 +31,8 @@ The [audit report](PLATFORM_AUDIT_20261023.md) contains source CI, hosted build,
 
 Additional local acceptance on 23 October passed five publication groups, 27 financial lifecycle transactions, eight staff/security groups and 27 isolation-policy tests. A controlled restart preserved all 29 indexed publication/sale/financial receipts and project state. The cold staff test-runner assumption was corrected; both disposable stacks were stopped and all their service ports closed. See the backend [isolated acceptance record](https://github.com/reIDentity/ReSystem-Investment-backend/blob/ae614a832411becaaa7e0e0c347d6965e80c9b0a/docs/LOCAL_SYNTHETIC_ACCEPTANCE.md) for exact scope and separate remaining checks. These tests used synthetic identities/provider/mail and local Anvil; they spent no real UAT funds.
 
+Source verification: backend [CI39918501108](https://github.com/reIDentity/ReSystem-Investment-backend/actions/runs/39918501108) and investor [CI39918921938](https://github.com/reIDentity/ReSystem-Investment-front-end/actions/runs/39918921938) passed; Vercel completed the documentation-only guide release. The unnecessary automatic image-build run39919676267 for the backend test/document change was canceled before its FP release job. This was an intentional candidate-preservation action, not a failed source check or a new deployment.
+
 ## Investor test route
 
 | Step | Check | Expected result |

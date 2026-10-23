@@ -3158,8 +3158,9 @@
       "RSI-127",
       "RSI-128"
     ],
-    "status": "In progress",
-    "commit_url": "",
-    "verification_evidence": "Fresh isolated V2 publication and 27-action financial driver passed; restart preserved 29 INDEXED intents and project/switch state. Corrected cold staff driver under verification. No FP change."
+    "status": "Done",
+    "commit_url": "https://github.com/reIDentity/ReSystem-Investment-backend/commit/ae614a832411becaaa7e0e0c347d6965e80c9b0a",
+    "verification_evidence": "Published backend ae614a8 passed CI39918501108; guide00e4fcb passed investor CI39918921938 and Vercel. Fresh isolated publication5groups, financial27transactions/7groups, staff8groups and policy27tests pass. Restart preserved29INDEXEDreceipts/project/switch; owned stacks/ports closed. FP audit candidate and QA gate preserved; unnecessary follow-up image-build run39919676267 canceled before release. Client/device/independent review and external gateway remain separate.",
+    "notion_status_observed_at_utc": "2026-10-23T07:45:30.739238+00:00"
   }
 ]
