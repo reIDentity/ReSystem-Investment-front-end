@@ -46,6 +46,17 @@
     "render_review": "All pages rendered; contact sheets and enlarged critical flows visually checked. Source images unchanged.",
     "contents_links": "15 admin and 16 investor contents links retained and destinations validated.",
     "developer_pdf": "Unchanged against previously delivered ZIP",
-    "scope": "Documentation screenshots only. No application write, transaction, account, gate or deployment changes."
+    "scope": "Documentation screenshots only. No application write, transaction, account, gate or deployment changes.",
+    "source_commit": "https://github.com/reIDentity/ReSystem-Investment-front-end/commit/bbc8df58a505714b7c71061f8b99dc4f932c1368",
+    "notion_verified": {
+      "admin_visual_images": 14,
+      "investor_visual_images": 15,
+      "updated_pdf_attached_to_each": true
+    },
+    "secret_scan": "Pass with existing repository Gitleaks config and approved historical exclusions; no new exclusion.",
+    "pdf_sha256": {
+      "ADMIN": "1b93ffca0f0ecd19cc2f45c94367f9805a3a0b4528982d1d243d16918712f93d",
+      "INVESTOR": "374394be4c077fd58b3e38d8c4fa42ecc834b7169db43dd0e9b748bf7fa0d5fd"
+    }
   }
 }
