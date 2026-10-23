@@ -679,9 +679,14 @@
       "page_id": "4023b21a-c925-8127-bf13-f9d68afb6ae4",
       "url": "https://app.notion.com/p/4023b21ac9258127bf13f9d68afb6ae4",
       "title": "Expand permission-aware admin operational information"
+    },
+    "RSI-129": {
+      "page_id": "4023b21a-c925-81ab-b6b6-fdf0af936dcd",
+      "url": "https://app.notion.com/p/4023b21ac92581abb6b6fdf0af936dcd",
+      "title": "Finish isolated acceptance and record stable client test release"
     }
   },
-  "task_count": 128,
+  "task_count": 129,
   "initial_status": "To do",
   "github_sync": "Codex-managed workflow; no automatic webhook or background automation configured",
   "plan_page_id": "3fb3b21a-c925-810b-9694-e2c99173f5f9",
@@ -834,6 +839,11 @@
       "page_id": "4023b21a-c925-81c8-9126-d28a965a32da",
       "url": "https://app.notion.com/p/4023b21ac92581c89126d28a965a32da",
       "title": "Platform security, performance and usability audit — 23 October 2026"
+    },
+    "docs/testing/CLIENT_TEST_RELEASE_20261023.md": {
+      "page_id": "4023b21a-c925-81bd-bab2-c5f560ba8066",
+      "url": "https://app.notion.com/p/4023b21ac92581bdbab2c5f560ba8066",
+      "title": "Client test release — 23 October 2026"
     }
   },
   "service_records": {

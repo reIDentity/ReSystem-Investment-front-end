@@ -1,5 +1,12 @@
 # Implementation and recovery status — 16 October 2026
 
+## 23 October 2026 — stable client test candidate
+
+Use [CLIENT-UAT-2026-10-23](../testing/CLIENT_TEST_RELEASE_20261023.md) for the current test route, exact deployed revisions and known limitations. API/worker `8924944`, admin `f954ad0`, indexer `6f35968` and investor application `6274452` remain the verified candidate; QA requests stay enabled. No new FP release or real-chain transaction occurred during this follow-up.
+
+The isolated acceptance gap is closed for cold startup, publication, 27 financial lifecycle transactions and controlled restart preserving 29 indexed receipts. The staff driver now enables its own synthetic switch through the normal fresh-code API flow and passes eight security groups; 27 policy tests pass. Both local stacks were stopped. Backend test/document correction `ae614a8` is published; hosted checks are tracked in the task. RSI-106 is closed as superseded by the already-completed RSI-116 reID email requirement. Independent review, full device/client acceptance, the external NFT gateway and owner-deferred off-host backup remain explicit limits.
+
+
 ## 23 October 2026 — platform audit fixes deployed
 
 The owner requested security/performance fixes, clearer investor feedback and scoped interaction animations, and richer admin information. The [audit evidence](../testing/PLATFORM_AUDIT_20261023.md) records verified defects, tested corrections and remaining acceptance limits. Backend `8924944` and admin `f954ad0` are verified running on FP; investor `6274452` is deployed on Vercel. Hosted CI, guarded release receipts and signed-in desktop checks pass. QA reID requests were restored immediately after the owner-approved brief rollout pause. RSI-126/127/128 are Done for this audit scope; backlog 128: 104 Done / 21 In progress / 3 To do.

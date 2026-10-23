@@ -2675,11 +2675,10 @@
       "RSI-092",
       "RSI-054"
     ],
-    "status": "In progress",
-    "commit_url": "https://github.com/reIDentity/ReSystem-Investment-front-end/commit/245e230f7e11b7384dffd2e1ac5598d4e3843829",
-    "notion_status_observed_at_utc": "2026-10-21T07:46:47.509449+00:00",
-    "verification_evidence": "Published notification controls and generated API integration passed CI and synthetic UI checks. Approved-recipient confirmation and preference persistence were verified separately. Removal/reconfirmation and broader failure-state acceptance remain open in the private task.",
-    "remaining_acceptance": "Remaining acceptance is recorded in the private task; original requirements and dependencies below are preserved. No blanket completion was applied."
+    "status": "Done",
+    "commit_url": "https://github.com/reIDentity/ReSystem-Investment-front-end/commit/ce36f2be7fc6a44b0cf3753cb632a8e4235022f7",
+    "notion_status_observed_at_utc": "2026-10-23T07:30:00Z",
+    "verification_evidence": "Closed as superseded by the owner-approved, deployed RSI-116 reID email integration. Historical double-opt-in/removal acceptance is not claimed. Existing preferences/encrypted storage preserved; no new email sent."
   },
   {
     "id": "RSI-107",
@@ -3138,5 +3137,29 @@
     "status": "Done",
     "verification_evidence": "Admin f954ad0 deployed on FP: 199 tests/lint/types/build plus hosted CI 39911535117/image 39912364001 pass. Rich scoped overview, named requests, sale availability, exact indexed proceeds/reserves, honest refresh states and on-demand charts verified in signed-in live browser. Receipt release-admin-f954ad0e8f78-1e57c75d7f16; QA restored open, shared signer/policy unchanged. No messages or transactions submitted.",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-admin/commit/f954ad0e8f78f0c31e02205d6dca69c5558aa7bc"
+  },
+  {
+    "id": "RSI-129",
+    "title": "Finish isolated acceptance and record stable client test release",
+    "phase": "09 · Release acceptance",
+    "repository": "Cross-project",
+    "priority": "P1",
+    "objective": "Finish independently executable acceptance gaps and retain the stable deployed candidate for client testing.",
+    "requirements": [
+      "Verify a cold isolated stack, controlled restart and staff/publication/financial drivers without real funds.",
+      "Reconcile superseded email instructions and record current versions, client test route and external limitations."
+    ],
+    "acceptance": [
+      "Positive local acceptance and cleanup are verified; confirmed test-runner defects are fixed.",
+      "A published client guide records the exact stable runtime and remaining external or independent acceptance."
+    ],
+    "dependencies": [
+      "RSI-126",
+      "RSI-127",
+      "RSI-128"
+    ],
+    "status": "In progress",
+    "commit_url": "",
+    "verification_evidence": "Fresh isolated V2 publication and 27-action financial driver passed; restart preserved 29 INDEXED intents and project/switch state. Corrected cold staff driver under verification. No FP change."
   }
 ]

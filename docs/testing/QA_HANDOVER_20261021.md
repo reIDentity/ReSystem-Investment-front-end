@@ -1,5 +1,7 @@
 # reSystem Investment QA handover 21 October 2026
 
+**Historical checkpoint:** use [the 23 October client test release](CLIENT_TEST_RELEASE_20261023.md) for current versions and test instructions. In particular, investor email now comes from the authenticated reID profile without duplicate inbox confirmation; the older confirmation/removal test below is superseded by RSI-116.
+
 This is the INFRA testnet QA candidate. Use the investor and admin applications below, preserve the approved Figma layouts, and report findings against the exact deployed revision. Production release, independent contract review and privileged custody handover are separate milestones.
 
 ## Latest application release — all eleven shared admin actions and ongoing investor QA verified
