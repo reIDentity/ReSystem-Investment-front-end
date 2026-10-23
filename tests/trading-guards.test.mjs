@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { currentListingQuote } from '../src/lib/platform/marketplace.ts';
-import { transactionIssue, isSettled } from '../src/lib/platform/transaction.ts';
+import { transactionIssue, isSettled, transactionPollInterval, transactionGuidance } from '../src/lib/platform/transaction.ts';
 
 const now = Date.parse('2026-10-19T12:00:00Z');
 const wallet = `0x${'1'.repeat(40)}`;
@@ -41,4 +41,15 @@ test('every pre-broadcast approval state rejects expired and malformed deadlines
     const reconciled = { ...intent, status, expiresAt: 'invalid', txHash: hash, receipt: { status: 'success', transactionHash: hash } };
     assert.equal(transactionIssue(reconciled, wallet, now), null);
   }
+});
+
+
+test('transaction polling stops at terminal states but continues through broadcast, confirmation and reconciliation',()=>{
+ for(const status of ['INDEXED','FAILED','REJECTED','EXPIRED'])assert.equal(transactionPollInterval({status}),0);
+ for(const status of ['CREATED','SUBMITTING','AWAITING_APPROVAL','BROADCAST','CONFIRMED','RECONCILIATION_REQUIRED'])assert.equal(transactionPollInterval({status}),4000);
+ assert.equal(transactionPollInterval(),4000);
+ assert.match(transactionGuidance({status:'CONFIRMED'}),/when indexing finishes/);
+ assert.match(transactionGuidance({status:'BROADCAST'}),/Do not send it again/);
+ assert.match(transactionGuidance({status:'FAILED',errorCode:'CHAIN_REVERT'}),/fee may still have been charged/);
+ assert.doesNotMatch(transactionGuidance({status:'FAILED',errorCode:'private-diagnostic'}),/private-diagnostic/);
 });

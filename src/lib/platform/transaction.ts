@@ -11,3 +11,25 @@ export function transactionIssue(intent: TransactionResponse, wallet: string, no
   return null;
 }
 export function isSettled(intent: TransactionResponse): boolean { return ["CONFIRMED", "INDEXED"].includes(intent.status) && !transactionIssue(intent, intent.walletAddress); }
+
+/** Stop automatic polls only after a durable terminal state. Confirmation still needs indexing. */
+export function transactionPollInterval(intent?: TransactionResponse): number {
+  return intent && ["INDEXED", "FAILED", "REJECTED", "EXPIRED"].includes(intent.status) ? 0 : 4000;
+}
+
+/** Explain the next step without exposing provider diagnostics or claiming uncertain outcomes. */
+export function transactionGuidance(intent: TransactionResponse): string {
+  switch (intent.status) {
+    case "CREATED": return "Review the amount, destination and network fee, then request approval. Nothing is sent until you approve in reID.";
+    case "SUBMITTING": return "Your approval request is being sent to reID. Keep this request while its status updates; do not create another one.";
+    case "AWAITING_APPROVAL": return "Open reID to approve or reject this exact request. Return here to follow confirmation.";
+    case "BROADCAST": return "Your transaction was sent to INFRA and is waiting for confirmation. Do not send it again.";
+    case "CONFIRMED": return "INFRA confirmed your transaction. Your balances and activity will update when indexing finishes.";
+    case "INDEXED": return "Your transaction is confirmed and recorded. View your latest balances in Wallet and the transaction details in Activity.";
+    case "REJECTED": return "The approval was rejected. Check Activity before preparing a new request if you want to try again.";
+    case "EXPIRED": return "This review expired. Do not approve its old link. Check Activity before preparing a new review.";
+    case "FAILED": return intent.errorCode === "CHAIN_REVERT" ? "INFRA rejected this transaction. Its changes were not applied, but a network fee may still have been charged. Check the receipt before trying again." : "This request could not be completed. Check its transaction receipt or contact Support before trying again.";
+    case "RECONCILIATION_REQUIRED": return "The service is checking whether the approval request reached reID. Keep this intent; do not submit a replacement transaction.";
+    default: return "Check this request in Activity for its latest status.";
+  }
+}

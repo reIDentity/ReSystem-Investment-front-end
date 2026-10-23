@@ -76,8 +76,11 @@ export async function proxyPlatform(request: Request, segments: string[], config
     if (COOKIES.has(name)) outgoing.append("Set-Cookie", value.replace(/;\s*Domain=[^;]*/gi, "").replace(/;\s*Path=[^;]*/gi, "") + "; Path=/" + (config.origin.startsWith("https:") && !/;\s*Secure(?:;|$)/i.test(value) ? "; Secure" : ""));
   }
   const location = upstream.headers.get("location");
-  if (location) {
+  if (location || (upstream.status >= 300 && upstream.status < 400 && upstream.status !== 304)) {
     if (attachmentContent || attachmentUpload) return failure("Private image redirects are not permitted.", 502);
+    // Only browser OAuth GETs may redirect. A 307/308 from a write endpoint
+    // must never replay its body, CSRF header, or private payload elsewhere.
+    if (method !== "GET" || !/^auth\/reid\/(start|callback)$/.test(path) || ![301, 302, 303, 307, 308].includes(upstream.status) || !location) return failure("Unexpected platform redirect.", 502);
     let url: URL; try { url = new URL(location, config.origin); } catch { return failure("Invalid sign-in redirect.", 502); }
     if (url.username || url.password || ![config.origin, config.approvalOrigin].includes(url.origin)) return failure("Untrusted sign-in redirect.", 502);
     outgoing.set("Location", url.href); return new Response(null, { status: upstream.status, headers: outgoing });

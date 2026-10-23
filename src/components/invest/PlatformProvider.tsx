@@ -35,7 +35,7 @@ export function PlatformProvider(props: { children: ReactNode; user: InvestorUse
   return <SWRConfig key={`${props.user.id}:${props.user.wallet.toLowerCase()}`} value={{ provider: () => new Map(), shouldRetryOnError: false, revalidateOnFocus: true }}><SessionScope {...props} /></SWRConfig>;
 }
 export function usePlatform() { const value = useContext(Context); if (!value) throw new Error("Investor session provider is missing"); return value; }
-export function useResource<T>(path: string | null, refreshInterval = 30000, options: Pick<SWRConfiguration<T>, "keepPreviousData"> = {}) {
+export function useResource<T>(path: string | null, refreshInterval: SWRConfiguration<T>["refreshInterval"] = 30000, options: Pick<SWRConfiguration<T>, "keepPreviousData"> = {}) {
   const { user, live, requestResource } = usePlatform();
   return useSWR<T>(live && path ? [user.id, path] : null, ([, endpoint]: [string, string]) => requestResource(endpoint) as Promise<T>, { refreshInterval, shouldRetryOnError: false, ...options });
 }

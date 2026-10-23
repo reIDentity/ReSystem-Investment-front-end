@@ -48,3 +48,24 @@ test('unknown diagnostics, HTML, malformed envelopes and server failures never l
   }
   assert.match(platformErrorMessage(deployedError, 401), /session expired.*reID/);
 });
+
+test('interrupted writes never assert failure or unchanged funds and never retry automatically',async()=>{
+ for(const failure of ['network','unreadable','gateway']) {
+  let writes=0;
+  globalThis.fetch=async path=>{
+   if(String(path).endsWith('/auth/session'))return Response.json({authenticated:true,kind:'investor',csrfToken:'synthetic'});
+   writes++;
+   if(failure==='network')throw new Error('Synthetic network interruption');
+   if(failure==='gateway')return Response.json({error:{message:'The platform service is unavailable. Please retry shortly.'}},{status:503});
+   return new Response('<html>synthetic gateway</html>',{status:200});
+  };
+  const {api}=clientRenderer().load('src/lib/platform/client.ts');
+  await assert.rejects(api('transactions/synthetic/submit',{method:'POST'}),error=>{
+   assert.match(error.message,/may have reached.*Activity.*do not repeat an uncertain approval/);
+   assert.doesNotMatch(error.message,/unchanged|not been changed|gateway|<html>/);return true;
+  });
+  assert.equal(writes,1);
+  await assert.rejects(api('support',{method:'POST',body:{subject:'Synthetic'}}),/may already be saved.*check before repeating/);
+  assert.equal(writes,2);
+ }
+});

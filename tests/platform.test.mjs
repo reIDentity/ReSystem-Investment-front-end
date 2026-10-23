@@ -104,3 +104,24 @@ test('public project IPFS URLs preserve content identity on the public gateway a
  assert.equal(url.search,'');assert.equal(url.hash,'');assert.equal(url.username,'');assert.equal(url.password,'');
  for(const value of [null,undefined,{},[],1,'','a'.repeat(31),'a'.repeat(121),`https://evil.invalid/${cid}`,`//evil.invalid/${cid}`,`../${cid}`,`${cid}?token=private`,`${cid}#fragment`,`${cid}/document`,`${cid}%2Fdocument`,`${cid} `,`${cid}\n`])assert.throws(()=>publicIpfsUrl(value),/Invalid public IPFS CID/);
 });
+
+test('only OAuth GET endpoints may return redirects, never replaying mutation bodies even to trusted origins',async()=>{
+ for(const method of ['POST','PATCH','DELETE']) {
+  const path=method==='POST'?'transactions':method==='PATCH'?'notification-preferences':'email-notifications';
+  for(const status of [301,302,303,307,308]) for(const location of [config.origin+'/invest/home',config.approvalOrigin+'/oauth/authorize']) {
+   const res=await proxyPlatform(request(path,{method,headers:{Origin:config.origin,'X-CSRF-Token':'synthetic','Content-Type':'application/json'},body:'{"private":"synthetic-only"}'}),path.split('/'),config,async()=>new Response(null,{status,headers:{Location:location,'Set-Cookie':'resystem_session=synthetic-rejected'}}));
+   assert.equal(res.status,502);assert.equal(res.headers.get('Location'),null);assert.equal(res.headers.get('Set-Cookie'),null);
+  }
+ }
+ for(const path of ['auth/session','portfolio','wallet']) {
+  const res=await proxyPlatform(request(path),path.split('/'),config,async()=>new Response(null,{status:307,headers:{Location:config.origin+'/invest'}}));
+  assert.equal(res.status,502);assert.equal(res.headers.get('Location'),null);
+ }
+});
+test('OAuth callback preserves cookies and trusted redirect while malformed redirect responses fail closed',async()=>{
+ const res=await proxyPlatform(request('auth/reid/callback'),['auth','reid','callback'],config,async()=>new Response(null,{status:303,headers:{Location:config.origin+'/invest/home','Set-Cookie':'resystem_session=synthetic; HttpOnly; SameSite=Lax'}}));
+ assert.equal(res.status,303);assert.equal(res.headers.get('Location'),config.origin+'/invest/home');assert.match(res.headers.get('Set-Cookie'),/resystem_session=synthetic/);
+ for(const response of [new Response(null,{status:307}),new Response('{}',{status:200,headers:{Location:config.origin+'/invest/home'}})]) {
+  const result=await proxyPlatform(request('auth/reid/start'),['auth','reid','start'],config,async()=>response);assert.equal(result.status,502);assert.equal(result.headers.get('Location'),null);
+ }
+});

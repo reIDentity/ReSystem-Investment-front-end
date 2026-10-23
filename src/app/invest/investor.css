@@ -867,3 +867,28 @@ textarea.iv-input { resize:vertical; }
 @media(max-width:1050px) { .iv-header { flex-wrap:wrap; } .iv-header > nav { order:3; width:100%; justify-content:flex-start; } .iv-page-heading > div:first-child { flex-shrink:1; } }
 @media(max-width:700px) { .iv-live-columns { grid-template-columns:1fr; } .iv-page-heading { flex-direction:column; } .iv-heading-actions { flex-wrap:wrap; } .iv-exact-summary > div { gap:10px; } .iv-record-with-action { flex-wrap:wrap; } .iv-live-asset > strong { font-size:26px; } .iv-header > nav a { padding:0 14px; } .iv-table { min-width:600px; } .iv-modal { width:calc(100% - 24px); padding:20px; } }
 @media(prefers-reduced-motion:reduce) { .iv-skeleton { animation:none; } .investor-app * { scroll-behavior:auto!important; transition:none!important; } }
+
+/* Short interaction feedback: no stagger, layout shifts, or animated money values. */
+.iv-transaction-guidance { margin-top:10px; color:#64748b; font-size:13px; line-height:1.6; }
+@media (prefers-reduced-motion:no-preference) {
+  .investor-app .iv-button,
+  .investor-app .iv-home-recommendation-list a,
+  .investor-app .iv-presets button,
+  .investor-app .iv-block-controls button {
+    transition:translate 140ms ease,scale 140ms ease,background-color 140ms ease,box-shadow 140ms ease;
+  }
+  .investor-app .iv-button:active:not(:disabled),
+  .investor-app .iv-presets button:active:not(:disabled),
+  .investor-app .iv-block-controls button:active:not(:disabled) { scale:.98; }
+  .investor-app .iv-popover,
+  .investor-app .iv-modal[open] { animation:iv-interaction-enter 140ms ease-out; }
+  .investor-app .iv-toast { animation:iv-notice-enter 160ms ease-out; }
+  .investor-app .iv-modal[open]::backdrop { animation:iv-backdrop-enter 140ms ease-out; }
+  @media (hover:hover) and (pointer:fine) {
+    .investor-app .iv-button:hover:not(:disabled),
+    .investor-app .iv-home-recommendation-list a:hover { translate:0 -1px; }
+  }
+}
+@keyframes iv-interaction-enter { from { opacity:0; translate:0 4px; } to { opacity:1; translate:0 0; } }
+@keyframes iv-notice-enter { from { opacity:0; translate:0 6px; } to { opacity:1; translate:0 0; } }
+@keyframes iv-backdrop-enter { from { opacity:0; } to { opacity:1; } }

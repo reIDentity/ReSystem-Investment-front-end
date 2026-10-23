@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import type { ChainActivity, Page } from "@/lib/platform/types";
 import { assetLabel, explorer, units, type PaymentAsset } from "@/lib/platform/money";
+import { api } from "@/lib/platform/client";
 import { usePlatform, useResource } from "../PlatformProvider";
 import { CopyButton, DataState, Initials, InvestorShell, Panel, Provenance, Tag } from "../InvestorUI";
 import "./LiveDeposit.css";
@@ -11,12 +12,25 @@ import "./LiveDeposit.css";
 type Deposits = Page<ChainActivity> & { wallet: string; address: string; qrDataUrl: string };
 
 export function LiveDeposit() {
-  const { user } = usePlatform();
+  const { user, notify } = usePlatform();
   const [asset, setAsset] = useState<PaymentAsset>("REAED");
   const [amount, setAmount] = useState("");
   const [qr, setQr] = useState<{ wallet: string; url: string } | null>(null);
   const deposits = useResource<Deposits>("wallet/deposits");
   const data = deposits.data;
+  const [refreshing, setRefreshing] = useState(false);
+  const [refreshError, setRefreshError] = useState<Error | null>(null);
+  async function refresh() {
+    if (refreshing || deposits.isValidating) return;
+    setRefreshing(true); setRefreshError(null);
+    try {
+      // Plain SWR revalidation can resolve stale cached data after a failed GET.
+      const updated = await deposits.mutate(api<Deposits>("wallet/deposits"), { revalidate: false, throwOnError: true });
+      if (updated?.wallet.toLowerCase() !== user.wallet.toLowerCase() || updated?.address.toLowerCase() !== user.wallet.toLowerCase()) throw new Error("The wallet changed. Reconnect with reID.");
+      notify("Deposit history refreshed. New deposits appear after INFRA confirmation.");
+    } catch { setRefreshError(new Error("Deposit history could not refresh. Check your connection and try again.")); notify("Could not refresh deposits. Check the message beside Recent deposits and try again."); }
+    finally { setRefreshing(false); }
+  }
   const matches = data?.wallet.toLowerCase() === user.wallet.toLowerCase() && data?.address.toLowerCase() === user.wallet.toLowerCase();
   useEffect(() => {
     if (!matches) return;
@@ -24,7 +38,7 @@ export function LiveDeposit() {
     void import("qrcode").then(module => module.toDataURL(user.wallet, { errorCorrectionLevel: "M", margin: 0, width: 124, color: { dark: "#0091ff", light: "#ffffff" } })).then(url => { if (active) setQr({ wallet: user.wallet, url }); }).catch(() => { /* The verified text address remains usable when QR generation fails. */ });
     return () => { active = false; };
   }, [matches, user.wallet]);
-  return <InvestorShell page="deposit" title="Deposit" subtitle="Add reAED, USDT, a bank transfer or a card payment to your wallet" networkBlock={data?.provenance?.indexedBlock}>
+  return <InvestorShell page="deposit" title="Deposit" subtitle="Receive reAED or USDT in your connected wallet on INFRA" networkBlock={data?.provenance?.indexedBlock}>
     <div className="iv-main-sidebar iv-deposit-page">
       <Panel className="iv-deposit-form">
         <fieldset className="iv-deposit-options">
@@ -43,11 +57,11 @@ export function LiveDeposit() {
           <div className="iv-qr">{matches && qr?.wallet === user.wallet ? <Image src={qr.url} width={124} height={124} unoptimized alt="QR code for your connected reID wallet address" /> : <span className="iv-qr-placeholder">{deposits.isLoading ? "Loading wallet QR…" : "Use the address shown"}</span>}</div>
           <div><p>Send {assetLabel(asset)} on INFRA to</p><code data-deposit-wallet>{user.wallet}</code><div><CopyButton value={user.wallet} /><Tag tone="amber">INFRA network only</Tag></div><small className="sr-only" id="deposit-amount-help">The QR contains your connected wallet address. Choose INFRA and enter the amount in your sending wallet. Deposits appear after confirmation.</small></div>
         </div>
-        <button className="iv-button iv-primary iv-full" disabled={deposits.isValidating} onClick={() => void deposits.mutate()}>{deposits.isValidating ? "Checking deposits…" : "Refresh deposits"}</button>
+        <button className="iv-button iv-primary iv-full" disabled={refreshing || deposits.isValidating} onClick={() => void refresh()}>{refreshing || deposits.isValidating ? "Checking deposits…" : "Refresh deposits"}</button>
       </Panel>
       <Panel title="Recent deposits" className="iv-recent-deposits">
-        <DataState loading={deposits.isLoading} error={deposits.error || (data && !matches ? new Error("The wallet changed. Reconnect with reID.") : null)} empty={Boolean(matches && data?.items.length === 0)} onRetry={() => void deposits.mutate()}>No confirmed deposits yet.</DataState>
-        {matches && !deposits.error ? data?.items.slice(0, 5).map(row => <div className="iv-recent-row iv-real-deposit" key={`${row.tx_hash}:${row.activity_index}`}><Initials name="↓" /><div><strong>{assetLabel(row.asset || "")} received</strong><time dateTime={row.timestamp}>{new Date(row.timestamp).toLocaleDateString(undefined, { day: "2-digit", month: "short", year: "numeric" })}</time>{explorer(row.tx_hash) ? <a className="iv-text-link" href={explorer(row.tx_hash)!} target="_blank" rel="noopener noreferrer">View transaction ↗</a> : null}</div><span><strong>+{units(row.amount_atomic, row.asset === "USDT" ? 6 : 18)} {assetLabel(row.asset || "")}</strong><Tag>Confirmed</Tag></span></div>) : null}
+        <DataState loading={deposits.isLoading} error={refreshError || deposits.error || (data && !matches ? new Error("The wallet changed. Reconnect with reID.") : null)} empty={Boolean(matches && data?.items.length === 0)} onRetry={() => void refresh()}>No confirmed deposits yet.</DataState>
+        {matches && !refreshError && !deposits.error ? data?.items.slice(0, 5).map(row => <div className="iv-recent-row iv-real-deposit" key={`${row.tx_hash}:${row.activity_index}`}><Initials name="↓" /><div><strong>{assetLabel(row.asset || "")} received</strong><time dateTime={row.timestamp}>{new Date(row.timestamp).toLocaleDateString(undefined, { day: "2-digit", month: "short", year: "numeric" })}</time>{explorer(row.tx_hash) ? <a className="iv-text-link" href={explorer(row.tx_hash)!} target="_blank" rel="noopener noreferrer">View transaction ↗</a> : null}</div><span><strong>+{units(row.amount_atomic, row.asset === "USDT" ? 6 : 18)} {assetLabel(row.asset || "")}</strong><Tag>Confirmed</Tag></span></div>) : null}
         <div className="iv-action-row"><Link className="iv-button iv-small" href="/invest/activity?filter=deposits">See more</Link></div>
         <Provenance source={data?.provenance?.source} block={data?.provenance?.indexedBlock} updated={data?.provenance?.updatedAt} coverage={data?.provenance?.historyCoverage} />
       </Panel>

@@ -21,12 +21,12 @@ const ui = {
 const wallet = `0x${'1'.repeat(40)}`;
 const user = { id: 'synthetic-investor', wallet, name: 'Synthetic QA' };
 const resource = data => ({ data, error: undefined, isLoading: false, mutate: async () => {} });
-function supportFixture(transport) {
+function supportFixture(transport, refreshFailure = false) {
   const tickets = ['alpha', 'beta'].map(id => ({ id, subject: `Case ${id}`, status: 'OPEN', updatedAt: '2026-10-01T00:00:00Z', messages: [] }));
   const calls = [], refreshed = [], notices = [];
   let finish;
   const { InvestorSupport } = clientRenderer({
-    './PlatformProvider': { usePlatform: () => ({ user, live: true, notify: value => notices.push(value) }), useResource: endpoint => ({ ...resource(endpoint === 'support' ? { items: tickets, nextCursor: null } : tickets.find(t => endpoint === `support/${t.id}`)), mutate: async () => { refreshed.push(endpoint); } }) },
+    './PlatformProvider': { usePlatform: () => ({ user, live: true, notify: value => notices.push(value) }), useResource: endpoint => ({ ...resource(endpoint === 'support' ? { items: tickets, nextCursor: null } : tickets.find(t => endpoint === `support/${t.id}`)), mutate: async fresh => { refreshed.push(endpoint); if (fresh) await fresh; if (refreshFailure) throw new Error("Synthetic list refresh failed"); } }) },
     '@/lib/platform/client': { api: (endpoint, options) => { if (!options?.method) return Promise.resolve({ items: [], nextCursor: null }); calls.push({ endpoint, options }); if (transport) return transport(endpoint, options); return new Promise((resolve, reject) => { finish = { resolve, reject }; }); } },
     './InvestorUI': ui, './platform/Transaction': { IntentReview: () => null },
   }).load('src/components/invest/ActivitySupport.tsx');
@@ -78,7 +78,7 @@ test('private image retry reuses its saved message and exact upload key without 
   const file = new File([new Uint8Array([1, 2, 3])], 'synthetic-private.png', { type: 'image/png' });
   fireEvent.change(view.getByLabelText('Choose private support image'), { target: { files: [file] } });
   fireEvent.submit(view.getByLabelText('Your reply').closest('form'));
-  await view.findByText(/Your reply is saved. The private image was not uploaded/);
+  await view.findByText(/Your reply is saved. The private image upload could not be confirmed/);
   assert.equal(calls.length, 2);
   assert.equal(view.getByLabelText('Your reply').disabled, true);
   fireEvent.submit(view.getByLabelText('Your reply').closest('form'));
@@ -222,15 +222,34 @@ test('revenue-allocation activity displays only this wallet’s exact allocation
   fireEvent.click(view.getByRole('button', { name: 'Payouts', exact: true }));
   assert.equal(view.queryByText('Revenue allocation'), null);
 });
-function notificationsFixture(emailStatus) {
-  const calls = [], notices = [];
+test('activity names link to the authoritative project while older or unattributed rows retain honest fallbacks', () => {
+  const contract = `0x${'2'.repeat(40)}`;
+  const base = { chain_id: 15324, tx_hash: `0x${'a'.repeat(64)}`, block_number: '100', timestamp: '2026-10-22T06:00:00Z', type: 'event', event_name: 'TransferSingle', asset: null, amount_atomic: null, direction: null, status: 'confirmed' };
+  const rows = [
+    { ...base, activity_index: 'named', args: { value: '1' }, project: { id: 'published-project', title: 'Actual project', contractAddress: contract } },
+    { ...base, activity_index: 'legacy', args: { value: '2', project: contract } },
+    { ...base, activity_index: 'unattributed', args: { value: '3' }, project: null },
+    { ...base, activity_index: 'wallet', type: 'wallet_transfer', direction: 'incoming', asset: 'USDT', amount_atomic: '1', project: null },
+  ];
+  const { InvestorActivity } = clientRenderer({ './PlatformProvider': { usePlatform: () => ({ user }), useResource: path => resource({ items: path.startsWith('activity?') ? rows : [], nextCursor: null }) }, './InvestorUI': ui, './platform/Transaction': { IntentReview: () => null } }).load('src/components/invest/ActivitySupport.tsx');
+  const view = render(React.createElement(InvestorActivity));
+  assert.equal(view.getByRole('link', { name: 'Actual project' }).getAttribute('href'), '/invest/products/published-project');
+  const renderedRows = [...view.container.querySelectorAll('tbody tr')];
+  assert.equal(renderedRows[0].querySelectorAll('td')[5].textContent, '1 fraction');
+  assert.equal(renderedRows[1].querySelectorAll('td')[1].textContent, '0x2222…2222');
+  assert.equal(renderedRows[1].querySelectorAll('td')[5].textContent, '2 fractions');
+  assert.equal(renderedRows[2].querySelectorAll('td')[1].textContent, '—');
+  assert.equal(renderedRows[3].querySelectorAll('td')[1].textContent, 'Wallet');
+});
+function notificationsFixture(emailStatus, { failEmailSave = false } = {}) {
+  const calls = [], notices = [], cacheWrites = [];
   const data = { notifications: { items: [], nextCursor: null }, 'notification-preferences': { userId: 'synthetic-investor', transactionUpdates: true, supportUpdates: true }, 'email-notifications': emailStatus };
   const { InvestorNotifications } = clientRenderer({
-    './PlatformProvider': { usePlatform: () => ({ user, live: true, notify: value => notices.push(value) }), useResource: endpoint => emailStatus instanceof Error && endpoint === 'email-notifications' ? { data: undefined, error: emailStatus, isLoading: false, mutate: async () => {} } : resource(data[endpoint]) },
-    '@/lib/platform/client': { api: async (endpoint, options) => { calls.push({ endpoint, method: options?.method, body: JSON.parse(JSON.stringify(options?.body ?? {})) }); return {}; } },
+    './PlatformProvider': { usePlatform: () => ({ user, live: true, notify: value => notices.push(value) }), useResource: endpoint => emailStatus instanceof Error && endpoint === 'email-notifications' ? { data: undefined, error: emailStatus, isLoading: false, mutate: async () => {} } : { ...resource(data[endpoint]), mutate: async (saved, options) => { if (!saved) throw new Error('Synthetic follow-up GET failed'); cacheWrites.push({ endpoint, saved, options }); data[endpoint] = saved; } } },
+    '@/lib/platform/client': { api: async (endpoint, options) => { calls.push({ endpoint, method: options?.method, body: JSON.parse(JSON.stringify(options?.body ?? {})) }); if (failEmailSave && endpoint === 'email-notifications') throw new Error('Email preferences could not be saved.'); return { ...data[endpoint], ...options?.body }; } },
     './InvestorUI': ui, './platform/Transaction': { IntentReview: () => null },
   }).load('src/components/invest/ActivitySupport.tsx');
-  return { view: render(React.createElement(InvestorNotifications)), calls, notices };
+  return { view: render(React.createElement(InvestorNotifications)), calls, notices, cacheWrites };
 }
 const emailStatus = (fields = {}) => ({ deliveryEnabled: true, verifiedEmail: null, verifiedAt: null, pendingEmail: null, pendingSource: null, verificationExpiresAt: null, transactionEmails: true, supportEmails: true, ...fields });
 test('saving preferences sends only the editable fields, never the userId the backend rejects', async () => {
@@ -256,13 +275,30 @@ test('email from reID never presents duplicate confirmation, resend, removal or 
   }
 });
 test('confirmed email toggles save through the existing button and follow the in-app category', async () => {
-  const { view, calls } = notificationsFixture(emailStatus({ verifiedEmail: 'h•••••@example.org', verifiedAt: '2026-10-20T00:00:00Z' }));
+  const { view, calls, notices, cacheWrites } = notificationsFixture(emailStatus({ verifiedEmail: 'h•••••@example.org', verifiedAt: '2026-10-20T00:00:00Z' }));
   assert.equal(view.getByRole('button', { name: 'Save preferences' }).disabled, true);
   fireEvent.click(view.getByLabelText('Transaction emails'));
   fireEvent.click(view.getByLabelText('Support replies'));
   assert.equal(view.getByLabelText('Support reply emails').disabled, true);
   await act(async () => { fireEvent.click(view.getByRole('button', { name: 'Save preferences' })); });
   assert.deepEqual(calls, [{ endpoint: 'notification-preferences', method: 'PATCH', body: { transactionUpdates: true, supportUpdates: false } }, { endpoint: 'email-notifications', method: 'PATCH', body: { transactionEmails: false, supportEmails: true } }]);
+  assert.deepEqual(cacheWrites.map(write => [write.endpoint, write.options.revalidate]), [['notification-preferences', false], ['email-notifications', false]]);
+  assert.equal(view.getByLabelText('Transaction emails').checked, false);
+  assert.equal(view.getByLabelText('Support replies').checked, false);
+  assert.deepEqual(notices, ['Notification preferences saved.']);
+  assert.equal(view.getByRole('button', { name: 'Save preferences' }).disabled, true);
+});
+test('partial preference saving preserves the remaining edit and does not repeat the successful update', async () => {
+  const { view, calls, notices, cacheWrites } = notificationsFixture(emailStatus({ verifiedEmail: 'h•••••@example.org' }), { failEmailSave: true });
+  fireEvent.click(view.getByLabelText('Transaction emails'));
+  fireEvent.click(view.getByLabelText('Support replies'));
+  await act(async () => { fireEvent.click(view.getByRole('button', { name: 'Save preferences' })); });
+  assert.equal(view.getByLabelText('Transaction emails').checked, false);
+  assert.equal(view.getByLabelText('Support replies').checked, false);
+  assert.equal(cacheWrites.length, 1);
+  assert.equal(notices.at(-1), 'Some preferences were saved. Email preferences could not be saved.');
+  await act(async () => { fireEvent.click(view.getByRole('button', { name: 'Save preferences' })); });
+  assert.deepEqual(calls.map(call => call.endpoint), ['notification-preferences', 'email-notifications', 'email-notifications']);
 });
 
 function depositFixture({ count = 9, walletMatches = true, error } = {}) {
@@ -369,17 +405,18 @@ test('project icons use validated public project art, preserve identity and reco
   assert.equal(view.container.querySelector('img'),null);assert.ok(view.getByText('MI'));
 });
 test('Mark all as read sends one scoped request, refreshes after success and never reports a failed operation as done', async () => {
-  for (const fail of [false,true]) {
+  for (const outcome of ['success', 'write-failure', 'refresh-failure']) {
+    const fail = outcome === 'write-failure';
     const calls=[],notices=[],refreshes=[];let finish;
     const {InvestorNotifications}=clientRenderer({
-      './PlatformProvider':{usePlatform:()=>({user,notify:message=>notices.push(message)}),useResource:path=>({...resource(path==='notifications'?{items:[{id:'one',title:'Actual update',body:'Body',createdAt:'2026-10-22T00:00:00Z',href:'/invest/activity',readAt:null}],nextCursor:'older'}:path==='notification-preferences'?{transactionUpdates:true,supportUpdates:true}:emailStatus({deliveryEnabled:false})),mutate:async()=>{refreshes.push(path);}})},
-      '@/lib/platform/client':{api:async(endpoint,options)=>{calls.push({endpoint,options});return new Promise((resolve,reject)=>{finish={resolve,reject};});}},'./InvestorUI':ui,'./platform/Transaction':{IntentReview:()=>null},
+      './PlatformProvider':{usePlatform:()=>({user,notify:message=>notices.push(message)}),useResource:path=>({...resource(path==='notifications'?{items:[{id:'one',title:'Actual update',body:'Body',createdAt:'2026-10-22T00:00:00Z',href:'/invest/activity',readAt:null}],nextCursor:'older'}:path==='notification-preferences'?{transactionUpdates:true,supportUpdates:true}:emailStatus({deliveryEnabled:false})),mutate:async fresh=>{refreshes.push(path);if(fresh)await fresh;if(outcome==='refresh-failure')throw new Error('Synthetic refresh failure');}})},
+      '@/lib/platform/client':{api:async(endpoint,options)=>{if(!options?.method)return {items:[],nextCursor:null};calls.push({endpoint,options});return new Promise((resolve,reject)=>{finish={resolve,reject};});}},'./InvestorUI':ui,'./platform/Transaction':{IntentReview:()=>null},
     }).load('src/components/invest/ActivitySupport.tsx');
     const view=render(React.createElement(InvestorNotifications));
     fireEvent.click(view.getByRole('button',{name:'Mark all as read'}));fireEvent.click(view.getByRole('button',{name:'Marking as read…'}));
     assert.equal(calls.length,1);assert.equal(calls[0].endpoint,'notifications/read-all');assert.equal(calls[0].options.method,'PATCH');assert.equal(calls[0].options.body,undefined);
     await act(async()=>fail?finish.reject(new Error('unavailable')):finish.resolve({updated:70}));
-    assert.equal(notices.length,1);assert.match(notices[0],fail?/Could not/:/All notifications marked/);assert.deepEqual(refreshes,fail?[]:['notifications']);view.unmount();
+    assert.equal(notices.length,1);assert.match(notices[0],fail?/unavailable/:outcome==='refresh-failure'?/were marked as read, but the list could not refresh/:/All notifications marked/);assert.deepEqual(refreshes,fail?[]:['notifications']);view.unmount();
   }
 });
 
@@ -407,4 +444,16 @@ test('share totals update immediately in exact units while stale or loading quot
   fireEvent.click(view.getByRole('radio',{name:/USDT/}));assert.equal(total(),'0.051 USDT');assert.equal(view.getByRole('button',{name:'Review purchase',exact:true}).disabled,true);
   ready=true;view.rerender(React.createElement(InvestorProduct,{id:projectId}));assert.equal(view.getByRole('button',{name:'Review purchase',exact:true}).disabled,false);
   fireEvent.change(view.getByLabelText('Share quantity'),{target:{value:'0'}});assert.equal(total(),'—');assert.equal(view.getByRole('button',{name:'Review purchase',exact:true}).disabled,true);
+});
+
+
+test('successful ticket creation remains successful when the follow-up list refresh fails', async () => {
+ const {view,calls,notices}=supportFixture(async()=>({id:'created-ticket'}),true);
+ fireEvent.click(view.getByRole('button',{name:'New ticket'}));
+ fireEvent.change(view.getByLabelText('Subject'),{target:{value:'Synthetic request'}});
+ fireEvent.change(view.getByLabelText('How can we help?'),{target:{value:'Synthetic question body'}});
+ fireEvent.submit(view.getByLabelText('Subject').closest('form'));
+ await waitFor(()=>assert.ok(notices.some(value=>/was saved.*could not refresh.*do not create it again/.test(value))));
+ assert.equal(calls.length,1);assert.equal(view.queryByRole('dialog',{name:'New ticket'}),null);
+ assert.equal(view.queryByText('Synthetic list refresh failed'),null);
 });
