@@ -1,9 +1,142 @@
 # reSystem Investment | Admin guide
 
-Version 1.0 | 23 October 2026 | Client UAT edition
+Version 1.1 | 23 October 2026 | Client UAT edition
 
 For project administrators, finance operators, support staff and client testers. Open the admin panel at **https://admin.resystem.org**. The features visible to you depend on your assigned permissions.
 
+<!-- VISUAL WALKTHROUGH START -->
+## Screenshot walkthrough
+Use these screenshots with the numbered steps. The PDF enlarges the relevant panels and overlays matching markers. Screens are actual INFRA UAT captures dated 23 October 2026, except the explicitly labelled archived publication review. Balances, addresses, sample values and expired reviews are examples, not instructions to copy.
+
+### Visual 01. Sign in with your own staff account
+Open: **admin.resystem.org/sign-in**
+![Sign in with your own staff account](assets/screenshots/admin-sign-in.jpg)
+1. **Enter your credentials.** Use your individual username and password, then select Continue.
+2. **Complete the security step.** Follow enrollment if this is your first login. Enter the current authenticator code yourself.
+3. **Check your workspace.** Confirm the intended account and INFRA UAT environment before working.
+**Remember:** No personal wallet connection is needed. Never share passwords, setup keys or authenticator codes.
+Screenshot: 23 October 2026.
+
+### Visual 02. Start with the platform overview
+Open: **Overview**
+![Start with the platform overview](assets/screenshots/admin-overview.jpg)
+1. **Check platform health.** Read service and indexer status before interpreting the numbers.
+2. **Read the right balance.** Primary proceeds, revenue funding and reward claims are different records.
+3. **Choose your next area.** Use the left navigation for Projects, Treasury & revenue and Transactions. Detailed histories are available below the overview.
+**Remember:** These are dated UAT examples. Unavailable or delayed data is not the same as a zero balance.
+Screenshot: 23 October 2026.
+
+### Visual 03. Find or create a project
+Open: **Projects**
+![Find or create a project](assets/screenshots/admin-projects.jpg)
+1. **Find the named project.** Search the list and check its draft/published state before opening it.
+2. **Open the project.** Use its name to inspect content, economics, media and lifecycle.
+3. **Start a new draft.** Choose Create project only when you have approved content and economics.
+**Remember:** A draft is an internal record. Publication and opening the sale are later, separate actions.
+Screenshot: 23 October 2026.
+
+### Visual 04. Draft step 1: describe the project
+Open: **Projects > Create project > Details**
+![Draft step 1: describe the project](assets/screenshots/admin-create-details.jpg)
+1. **Give it a clear name.** Use the name investors should recognize. Label test projects clearly.
+2. **Explain the project.** Enter the description and optional location with approved public wording.
+3. **Continue to economics.** Continue moves to the next step; it does not publish a project.
+**Remember:** Public content must not contain passwords, confidential records or private support material.
+Screenshot: 23 October 2026.
+
+### Visual 05. Draft step 2: check the price
+Open: **Create project > Economics**
+![Draft step 2: check the price](assets/screenshots/admin-create-economics.jpg)
+1. **Enter total value.** Enter the approved project value in USDT.
+2. **Enter whole fractions.** Set the maximum fraction count. Check that the value divides exactly at supported precision.
+3. **Check the calculated price.** The displayed per-share price must match the agreed economics before continuing.
+**Remember:** Unsaved demonstration: 10 USDT / 10,000 fractions = 0.001 USDT each. Do not copy sample values into a real project.
+Screenshot: 23 October 2026.
+
+### Visual 06. Draft step 3: owner and treasury
+Open: **Create project > Ownership**
+![Draft step 3: owner and treasury](assets/screenshots/admin-create-ownership.jpg)
+1. **Check the owner.** The configured shared admin wallet is the project owner. Staff cannot replace it with MetaMask.
+2. **Choose an approved treasury.** Select the approved destination for primary-sale withdrawals.
+3. **Continue after checking.** Check both destinations before continuing. The owner manages the contract; the treasury receives primary proceeds.
+**Remember:** Selecting a treasury is a business decision. A destination must be approved before it appears in this list.
+Screenshot: 23 October 2026.
+
+### Visual 07. Draft step 4: review, then save
+Open: **Create project > Review**
+![Draft step 4: review, then save](assets/screenshots/admin-create-review.jpg)
+1. **Review every field.** Check the name, description, owner, treasury, total value, supply and price.
+2. **Acknowledge the review.** Select the acknowledgment only after checking the information.
+3. **Save the project draft.** Reopen the saved draft and add public media. Saving does not create a blockchain project.
+**Remember:** This screenshot is an unsaved demonstration. No draft was created for the guide.
+Screenshot: 23 October 2026.
+
+### Visual 08. Add the project image and documents
+Open: **Projects > Project > Media & metadata**
+![Add the project image and documents](assets/screenshots/admin-media.jpg)
+1. **Select the public file.** Choose an approved project image or public document, within the displayed 10 MiB limit.
+2. **Review public permanence.** Read the acknowledgment before upload. Public project media is different from private support files.
+3. **Prepare the metadata revision.** Wait for upload/pinning, then check the current revision and image before publication.
+**Remember:** On a published project, applying a new metadata revision is a separate authorized transaction. Frozen metadata cannot be casually replaced.
+Screenshot: 23 October 2026.
+
+### Visual 09. Read the exact publication review
+Open: **Project publication > Exact transaction review**
+![Read the exact publication review](assets/screenshots/admin-publish-20261021.png)
+1. **Check the frozen values.** Read the owner, treasury, maximum fractions, total value and metadata. Approval applies to this exact request.
+2. **Check network and expiry.** Use the intended INFRA chain and a current review. Scroll through all transaction details.
+3. **Approve personally.** When the values match, acknowledge them and use a fresh code with Approve with authenticator. Track the result in Transactions.
+**Remember:** Archived 21 Oct example, already expired. Never reuse these values as a live approval. A second approver may be required by policy.
+Screenshot: 21 October 2026 - archived review.
+
+### Visual 10. Open or close a primary sale
+Open: **Projects > Project > Lifecycle**
+![Open or close a primary sale](assets/screenshots/admin-lifecycle.jpg)
+1. **Check the project state.** Open Lifecycle on the intended published project.
+2. **Open the sale separately.** Use Open sale, review the exact contract/fee and approve with a fresh authenticator code.
+3. **Verify before announcing.** Wait for confirmed/indexed status, then check that the investor project can be bought.
+**Remember:** Closing a sale stops new primary purchases after confirmation. It does not refund investors or erase their shares.
+Screenshot: 23 October 2026.
+
+### Visual 11. Understand treasury and revenue
+Open: **Treasury & revenue**
+![Understand treasury and revenue](assets/screenshots/admin-treasury.jpg)
+1. **Primary proceeds.** Purchase funds held for the approved treasury are separate from investor rewards.
+2. **Revenue and claims.** Review actual revenue deposits and the amounts investors have claimed.
+3. **Prepare approved funding.** Choose Fund project revenue for a new revenue deposit. Use the breakdown and history tabs below for existing records.
+**Remember:** A yield setting does not create rewards. Only confirmed revenue funding makes assets available for claims.
+Screenshot: 23 October 2026.
+
+### Visual 12. Prepare a revenue deposit
+Open: **Treasury & revenue > Fund project revenue**
+![Prepare a revenue deposit](assets/screenshots/admin-fund-revenue.jpg)
+1. **Choose project, asset and amount.** Select the published project and intended deposit. The contract must have issued holders.
+2. **Use the automatic reference.** The form creates the unique funding reference. Optionally select a PDF, CSV or XLSX report for a local fingerprint.
+3. **Review and approve funding.** Acknowledge the purpose, then review exact values. USDT allowance, if needed, is a separate approval before funding.
+**Remember:** The report file stays on your device; only its fingerprint is referenced. Keep the original. Do not repeat an uncertain deposit.
+Screenshot: 23 October 2026.
+
+### Visual 13. Follow a transaction to completion
+Open: **Transactions**
+![Follow a transaction to completion](assets/screenshots/admin-transactions.jpg)
+1. **Find the existing request.** Use the project, action and time to identify the request you already submitted.
+2. **Read its state.** Prepared is not broadcast; confirmed is not yet the same as indexed in the app.
+3. **Investigate uncertainty.** Open details and preserve the request/hash. Refresh the existing attempt before creating another one.
+**Remember:** If a result is uncertain, do not repeat the transaction. An on-chain failure can still use a network fee.
+Screenshot: 23 October 2026.
+
+### Visual 14. Create separate staff access
+Open: **Team & permissions > Add staff account**
+![Create separate staff access](assets/screenshots/admin-staff-form.jpg)
+1. **Enter the staff identity.** Use the intended person's name and individual username.
+2. **Confirm the intended scope.** Review the acknowledgment. Creating the account alone does not assign every permission.
+3. **Complete invitation and roles.** The account starts suspended. Use the supported setup invitation and authorized role assignment; the recipient sets password and MFA.
+**Remember:** Use the least access needed. Reserved super-admin grants and exceptional recovery require the protected owner/operator procedure.
+Screenshot: 23 October 2026.
+<!-- VISUAL WALKTHROUGH END -->
+
+## Detailed reference
+The following sections explain the rules, exceptions and troubleshooting behind the visual walkthrough.
 ## 1. What the admin panel does
 
 Use the admin panel to prepare and publish investment projects, manage their sale status, fund investor rewards, review financial records, assist investors and manage authorized staff. Each administrator has a separate login. Authorized blockchain actions use one shared admin wallet; you do not connect MetaMask or another personal wallet to the admin panel.

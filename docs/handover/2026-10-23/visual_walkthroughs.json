@@ -1,0 +1,1265 @@
+{
+  "version": "1.1",
+  "date": "2026-10-23",
+  "guides": {
+    "ADMIN_GUIDE": {
+      "title": "Admin visual guide",
+      "url": "https://admin.resystem.org",
+      "audience": "For client administrators and operations teams",
+      "cover_image": "admin-overview.jpg",
+      "cover_crop": [
+        625,
+        100,
+        1540,
+        1055
+      ],
+      "pages": [
+        {
+          "title": "Sign in with your own staff account",
+          "image": "admin-sign-in.jpg",
+          "crop": [
+            1705,
+            290,
+            435,
+            660
+          ],
+          "steps": [
+            {
+              "title": "Enter your credentials",
+              "body": "Use your individual username and password, then select Continue."
+            },
+            {
+              "title": "Complete the security step",
+              "body": "Follow enrollment if this is your first login. Enter the current authenticator code yourself."
+            },
+            {
+              "title": "Check your workspace",
+              "body": "Confirm the intended account and INFRA UAT environment before working."
+            }
+          ],
+          "note": "No personal wallet connection is needed. Never share passwords, setup keys or authenticator codes.",
+          "route": "admin.resystem.org/sign-in",
+          "points": [
+            [
+              1740,
+              605
+            ],
+            [
+              2075,
+              775
+            ]
+          ],
+          "layout": "side",
+          "captured": "23 October 2026"
+        },
+        {
+          "title": "Start with the platform overview",
+          "image": "admin-overview.jpg",
+          "crop": [
+            635,
+            295,
+            1530,
+            500
+          ],
+          "steps": [
+            {
+              "title": "Check platform health",
+              "body": "Read service and indexer status before interpreting the numbers."
+            },
+            {
+              "title": "Read the right balance",
+              "body": "Primary proceeds, revenue funding and reward claims are different records."
+            },
+            {
+              "title": "Choose your next area",
+              "body": "Use the left navigation for Projects, Treasury & revenue and Transactions. Detailed histories are available below the overview."
+            }
+          ],
+          "note": "These are dated UAT examples. Unavailable or delayed data is not the same as a zero balance.",
+          "route": "Overview",
+          "points": [
+            [
+              2010,
+              670
+            ],
+            [
+              1410,
+              360
+            ]
+          ],
+          "layout": "wide",
+          "captured": "23 October 2026"
+        },
+        {
+          "title": "Find or create a project",
+          "image": "admin-projects.jpg",
+          "crop": [
+            635,
+            110,
+            1530,
+            650
+          ],
+          "steps": [
+            {
+              "title": "Find the named project",
+              "body": "Search the list and check its draft/published state before opening it."
+            },
+            {
+              "title": "Open the project",
+              "body": "Use its name to inspect content, economics, media and lifecycle."
+            },
+            {
+              "title": "Start a new draft",
+              "body": "Choose Create project only when you have approved content and economics."
+            }
+          ],
+          "note": "A draft is an internal record. Publication and opening the sale are later, separate actions.",
+          "route": "Projects",
+          "points": [
+            [
+              1000,
+              325
+            ],
+            [
+              650,
+              540
+            ],
+            [
+              2115,
+              155
+            ]
+          ],
+          "layout": "wide",
+          "captured": "23 October 2026"
+        },
+        {
+          "title": "Draft step 1: describe the project",
+          "image": "admin-create-details.jpg",
+          "crop": [
+            635,
+            325,
+            1250,
+            775
+          ],
+          "steps": [
+            {
+              "title": "Give it a clear name",
+              "body": "Use the name investors should recognize. Label test projects clearly."
+            },
+            {
+              "title": "Explain the project",
+              "body": "Enter the description and optional location with approved public wording."
+            },
+            {
+              "title": "Continue to economics",
+              "body": "Continue moves to the next step; it does not publish a project."
+            }
+          ],
+          "note": "Public content must not contain passwords, confidential records or private support material.",
+          "route": "Projects > Create project > Details",
+          "points": [
+            [
+              690,
+              455
+            ],
+            [
+              690,
+              690
+            ],
+            [
+              1810,
+              1030
+            ]
+          ],
+          "layout": "wide",
+          "captured": "23 October 2026"
+        },
+        {
+          "title": "Draft step 2: check the price",
+          "image": "admin-create-economics.jpg",
+          "crop": [
+            635,
+            325,
+            1250,
+            620
+          ],
+          "steps": [
+            {
+              "title": "Enter total value",
+              "body": "Enter the approved project value in USDT."
+            },
+            {
+              "title": "Enter whole fractions",
+              "body": "Set the maximum fraction count. Check that the value divides exactly at supported precision."
+            },
+            {
+              "title": "Check the calculated price",
+              "body": "The displayed per-share price must match the agreed economics before continuing."
+            }
+          ],
+          "note": "Unsaved demonstration: 10 USDT / 10,000 fractions = 0.001 USDT each. Do not copy sample values into a real project.",
+          "route": "Create project > Economics",
+          "points": [
+            [
+              690,
+              455
+            ],
+            [
+              1290,
+              455
+            ],
+            [
+              690,
+              610
+            ]
+          ],
+          "layout": "wide",
+          "captured": "23 October 2026"
+        },
+        {
+          "title": "Draft step 3: owner and treasury",
+          "image": "admin-create-ownership.jpg",
+          "crop": [
+            635,
+            325,
+            1250,
+            520
+          ],
+          "steps": [
+            {
+              "title": "Check the owner",
+              "body": "The configured shared admin wallet is the project owner. Staff cannot replace it with MetaMask."
+            },
+            {
+              "title": "Choose an approved treasury",
+              "body": "Select the approved destination for primary-sale withdrawals."
+            },
+            {
+              "title": "Continue after checking",
+              "body": "Check both destinations before continuing. The owner manages the contract; the treasury receives primary proceeds."
+            }
+          ],
+          "note": "Selecting a treasury is a business decision. A destination must be approved before it appears in this list.",
+          "route": "Create project > Ownership",
+          "points": [
+            [
+              690,
+              455
+            ],
+            [
+              690,
+              575
+            ],
+            [
+              1810,
+              785
+            ]
+          ],
+          "layout": "wide",
+          "captured": "23 October 2026"
+        },
+        {
+          "title": "Draft step 4: review, then save",
+          "image": "admin-create-review.jpg",
+          "crop": [
+            635,
+            325,
+            1250,
+            840
+          ],
+          "steps": [
+            {
+              "title": "Review every field",
+              "body": "Check the name, description, owner, treasury, total value, supply and price."
+            },
+            {
+              "title": "Acknowledge the review",
+              "body": "Select the acknowledgment only after checking the information."
+            },
+            {
+              "title": "Save the project draft",
+              "body": "Reopen the saved draft and add public media. Saving does not create a blockchain project."
+            }
+          ],
+          "note": "This screenshot is an unsaved demonstration. No draft was created for the guide.",
+          "route": "Create project > Review",
+          "points": [
+            [
+              690,
+              455
+            ],
+            [
+              680,
+              985
+            ],
+            [
+              1790,
+              1060
+            ]
+          ],
+          "layout": "wide",
+          "captured": "23 October 2026"
+        },
+        {
+          "title": "Add the project image and documents",
+          "image": "admin-media.jpg",
+          "crop": [
+            635,
+            510,
+            1530,
+            655
+          ],
+          "steps": [
+            {
+              "title": "Select the public file",
+              "body": "Choose an approved project image or public document, within the displayed 10 MiB limit."
+            },
+            {
+              "title": "Review public permanence",
+              "body": "Read the acknowledgment before upload. Public project media is different from private support files."
+            },
+            {
+              "title": "Prepare the metadata revision",
+              "body": "Wait for upload/pinning, then check the current revision and image before publication."
+            }
+          ],
+          "note": "On a published project, applying a new metadata revision is a separate authorized transaction. Frozen metadata cannot be casually replaced.",
+          "route": "Projects > Project > Media & metadata",
+          "points": [
+            [
+              690,
+              695
+            ],
+            [
+              690,
+              745
+            ],
+            [
+              690,
+              970
+            ]
+          ],
+          "layout": "wide",
+          "captured": "23 October 2026"
+        },
+        {
+          "title": "Read the exact publication review",
+          "image": "admin-publish-20261021.png",
+          "crop": [
+            900,
+            70,
+            760,
+            1035
+          ],
+          "steps": [
+            {
+              "title": "Check the frozen values",
+              "body": "Read the owner, treasury, maximum fractions, total value and metadata. Approval applies to this exact request."
+            },
+            {
+              "title": "Check network and expiry",
+              "body": "Use the intended INFRA chain and a current review. Scroll through all transaction details."
+            },
+            {
+              "title": "Approve personally",
+              "body": "When the values match, acknowledge them and use a fresh code with Approve with authenticator. Track the result in Transactions."
+            }
+          ],
+          "note": "Archived 21 Oct example, already expired. Never reuse these values as a live approval. A second approver may be required by policy.",
+          "route": "Project publication > Exact transaction review",
+          "points": [
+            [
+              950,
+              705
+            ],
+            [
+              950,
+              1050
+            ]
+          ],
+          "layout": "side",
+          "captured": "21 October 2026 - archived review"
+        },
+        {
+          "title": "Open or close a primary sale",
+          "image": "admin-lifecycle.jpg",
+          "crop": [
+            635,
+            505,
+            1530,
+            410
+          ],
+          "steps": [
+            {
+              "title": "Check the project state",
+              "body": "Open Lifecycle on the intended published project."
+            },
+            {
+              "title": "Open the sale separately",
+              "body": "Use Open sale, review the exact contract/fee and approve with a fresh authenticator code."
+            },
+            {
+              "title": "Verify before announcing",
+              "body": "Wait for confirmed/indexed status, then check that the investor project can be bought."
+            }
+          ],
+          "note": "Closing a sale stops new primary purchases after confirmation. It does not refund investors or erase their shares.",
+          "route": "Projects > Project > Lifecycle",
+          "points": [
+            [
+              750,
+              565
+            ],
+            [
+              695,
+              857
+            ]
+          ],
+          "layout": "wide",
+          "captured": "23 October 2026"
+        },
+        {
+          "title": "Understand treasury and revenue",
+          "image": "admin-treasury.jpg",
+          "crop": [
+            635,
+            110,
+            1530,
+            490
+          ],
+          "steps": [
+            {
+              "title": "Primary proceeds",
+              "body": "Purchase funds held for the approved treasury are separate from investor rewards."
+            },
+            {
+              "title": "Revenue and claims",
+              "body": "Review actual revenue deposits and the amounts investors have claimed."
+            },
+            {
+              "title": "Prepare approved funding",
+              "body": "Choose Fund project revenue for a new revenue deposit. Use the breakdown and history tabs below for existing records."
+            }
+          ],
+          "note": "A yield setting does not create rewards. Only confirmed revenue funding makes assets available for claims.",
+          "route": "Treasury & revenue",
+          "points": [
+            [
+              800,
+              365
+            ],
+            [
+              1650,
+              365
+            ],
+            [
+              2080,
+              155
+            ]
+          ],
+          "layout": "wide",
+          "captured": "23 October 2026"
+        },
+        {
+          "title": "Prepare a revenue deposit",
+          "image": "admin-fund-revenue.jpg",
+          "crop": [
+            1005,
+            250,
+            525,
+            725
+          ],
+          "steps": [
+            {
+              "title": "Choose project, asset and amount",
+              "body": "Select the published project and intended deposit. The contract must have issued holders."
+            },
+            {
+              "title": "Use the automatic reference",
+              "body": "The form creates the unique funding reference. Optionally select a PDF, CSV or XLSX report for a local fingerprint."
+            },
+            {
+              "title": "Review and approve funding",
+              "body": "Acknowledge the purpose, then review exact values. USDT allowance, if needed, is a separate approval before funding."
+            }
+          ],
+          "note": "The report file stays on your device; only its fingerprint is referenced. Keep the original. Do not repeat an uncertain deposit.",
+          "route": "Treasury & revenue > Fund project revenue",
+          "points": [
+            [
+              1035,
+              405
+            ],
+            [
+              1035,
+              585
+            ],
+            [
+              1480,
+              925
+            ]
+          ],
+          "layout": "side",
+          "captured": "23 October 2026"
+        },
+        {
+          "title": "Follow a transaction to completion",
+          "image": "admin-transactions.jpg",
+          "crop": [
+            635,
+            110,
+            1530,
+            660
+          ],
+          "steps": [
+            {
+              "title": "Find the existing request",
+              "body": "Use the project, action and time to identify the request you already submitted."
+            },
+            {
+              "title": "Read its state",
+              "body": "Prepared is not broadcast; confirmed is not yet the same as indexed in the app."
+            },
+            {
+              "title": "Investigate uncertainty",
+              "body": "Open details and preserve the request/hash. Refresh the existing attempt before creating another one."
+            }
+          ],
+          "note": "If a result is uncertain, do not repeat the transaction. An on-chain failure can still use a network fee.",
+          "route": "Transactions",
+          "points": [
+            [
+              690,
+              355
+            ],
+            [
+              1860,
+              465
+            ],
+            [
+              2100,
+              465
+            ]
+          ],
+          "layout": "wide",
+          "captured": "23 October 2026"
+        },
+        {
+          "title": "Create separate staff access",
+          "image": "admin-staff-form.jpg",
+          "crop": [
+            0,
+            0,
+            520,
+            438
+          ],
+          "steps": [
+            {
+              "title": "Enter the staff identity",
+              "body": "Use the intended person's name and individual username."
+            },
+            {
+              "title": "Confirm the intended scope",
+              "body": "Review the acknowledgment. Creating the account alone does not assign every permission."
+            },
+            {
+              "title": "Complete invitation and roles",
+              "body": "The account starts suspended. Use the supported setup invitation and authorized role assignment; the recipient sets password and MFA."
+            }
+          ],
+          "note": "Use the least access needed. Reserved super-admin grants and exceptional recovery require the protected owner/operator procedure.",
+          "route": "Team & permissions > Add staff account",
+          "points": [
+            [
+              30,
+              143
+            ],
+            [
+              35,
+              344
+            ],
+            [
+              475,
+              394
+            ]
+          ],
+          "layout": "side",
+          "captured": "23 October 2026"
+        }
+      ]
+    },
+    "INVESTOR_GUIDE": {
+      "title": "Investor visual guide",
+      "url": "https://re-system-investment-front-end.vercel.app/invest",
+      "audience": "For investors and client testers",
+      "cover_image": "investor-home.jpg",
+      "cover_crop": [
+        615,
+        45,
+        1320,
+        665
+      ],
+      "pages": [
+        {
+          "title": "Connect your reID account",
+          "image": "investor-sign-in.jpg",
+          "crop": [
+            1300,
+            240,
+            540,
+            430
+          ],
+          "steps": [
+            {
+              "title": "Select Continue with reID",
+              "body": "Open the investor app and choose this button."
+            },
+            {
+              "title": "Complete reID sign-in",
+              "body": "Review profile/wallet access and complete your own security steps."
+            },
+            {
+              "title": "Check your identity on return",
+              "body": "Confirm your own profile and wallet before depositing or investing."
+            }
+          ],
+          "note": "Connecting signs you into the app. Every purchase, transfer or claim needs its own later approval.",
+          "route": "re-system-investment-front-end.vercel.app/invest",
+          "points": [
+            [
+              1405,
+              377
+            ]
+          ],
+          "layout": "side",
+          "captured": "23 October 2026"
+        },
+        {
+          "title": "Understand your Home dashboard",
+          "image": "investor-home.jpg",
+          "crop": [
+            615,
+            45,
+            1320,
+            665
+          ],
+          "steps": [
+            {
+              "title": "Use the navigation",
+              "body": "Explore finds projects; My earnings shows rewards; Wallet and Activity track assets and records."
+            },
+            {
+              "title": "Read the summary cards",
+              "body": "Portfolio value, claimable rewards and wallet balance describe different things."
+            },
+            {
+              "title": "Check the portfolio below",
+              "body": "Scroll to Your holdings for the projects and quantities you actually own."
+            }
+          ],
+          "note": "Screens show one UAT account on 23 Oct 2026. Values change; they are not example amounts you should send.",
+          "route": "Home",
+          "points": [
+            [
+              1015,
+              80
+            ],
+            [
+              645,
+              245
+            ],
+            [
+              980,
+              610
+            ]
+          ],
+          "layout": "wide",
+          "captured": "23 October 2026"
+        },
+        {
+          "title": "Deposit into your connected wallet",
+          "image": "investor-deposit.jpg",
+          "crop": [
+            620,
+            215,
+            1000,
+            605
+          ],
+          "steps": [
+            {
+              "title": "Choose reAED or USDT",
+              "body": "Use the supported asset on INFRA. Bank/card options marked Coming soon are unavailable."
+            },
+            {
+              "title": "Copy your own address",
+              "body": "Use the live address or QR from your account. Check network, address and amount in the sending wallet."
+            },
+            {
+              "title": "Refresh after confirmation",
+              "body": "The app records confirmed deposits after indexing. Entering an amount here does not send money."
+            }
+          ],
+          "note": "Do not send to the address or scan the QR in this guide. Open your own live Deposit screen. Keep reAED for fees, even when paying with USDT.",
+          "route": "Wallet > Deposit",
+          "points": [
+            [
+              655,
+              300
+            ],
+            [
+              805,
+              650
+            ],
+            [
+              1550,
+              765
+            ]
+          ],
+          "layout": "wide",
+          "captured": "23 October 2026"
+        },
+        {
+          "title": "See your five latest deposits",
+          "image": "investor-deposit.jpg",
+          "crop": [
+            1630,
+            215,
+            310,
+            670
+          ],
+          "steps": [
+            {
+              "title": "Read asset and confirmation",
+              "body": "Each card shows the asset, amount and date of a received payment."
+            },
+            {
+              "title": "Open the transaction link",
+              "body": "Use the explorer link to inspect the underlying confirmed movement."
+            },
+            {
+              "title": "Choose See more",
+              "body": "This opens Activity with the Deposits filter selected for the full paginated history."
+            }
+          ],
+          "note": "A claim or proceeds withdrawal can also appear as an incoming deposit. Do not count the same transaction twice.",
+          "route": "Deposit > Recent deposits",
+          "points": [
+            [
+              1900,
+              305
+            ],
+            [
+              1670,
+              345
+            ],
+            [
+              1680,
+              785
+            ]
+          ],
+          "layout": "side",
+          "captured": "23 October 2026"
+        },
+        {
+          "title": "Explore the published projects",
+          "image": "investor-explore.jpg",
+          "crop": [
+            620,
+            130,
+            1320,
+            630
+          ],
+          "steps": [
+            {
+              "title": "Read the project cards",
+              "body": "Check the project name, image and published information."
+            },
+            {
+              "title": "Open a project",
+              "body": "Read its details, available supply, price and documents before buying."
+            },
+            {
+              "title": "Compare actual revenue",
+              "body": "Treat funded revenue records separately from indicative yield or expectations."
+            }
+          ],
+          "note": "These are UAT sample valuations. Future revenue and a resale buyer are not guaranteed.",
+          "route": "Explore",
+          "points": [
+            [
+              650,
+              245
+            ],
+            [
+              900,
+              400
+            ],
+            [
+              1805,
+              610
+            ]
+          ],
+          "layout": "wide",
+          "captured": "23 October 2026"
+        },
+        {
+          "title": "Read the project before buying",
+          "image": "investor-project.jpg",
+          "crop": [
+            615,
+            145,
+            1320,
+            650
+          ],
+          "steps": [
+            {
+              "title": "Confirm the project",
+              "body": "Check the name, purpose and published description before selecting shares."
+            },
+            {
+              "title": "Read the project information",
+              "body": "Scroll through the project overview, supply, price and actual revenue details."
+            },
+            {
+              "title": "Check published documents",
+              "body": "Review any supporting documents before moving to Choose your shares."
+            }
+          ],
+          "note": "A dash or unavailable message is not always zero. Do not treat a projected yield as already funded rewards.",
+          "route": "Explore > Project details",
+          "points": [
+            [
+              680,
+              350
+            ]
+          ],
+          "layout": "wide",
+          "captured": "23 October 2026"
+        },
+        {
+          "title": "Choose shares and check the total",
+          "image": "investor-project.jpg",
+          "crop": [
+            615,
+            2930,
+            1320,
+            700
+          ],
+          "steps": [
+            {
+              "title": "Choose a whole quantity",
+              "body": "Use the quantity control or presets. Confirm the selected share of the project."
+            },
+            {
+              "title": "Select the payment asset",
+              "body": "reAED pays natively; USDT may require a separate limited allowance. Both need reAED for fees."
+            },
+            {
+              "title": "Review the current total",
+              "body": "Wait for the matching quote, check the total, then select Review purchase."
+            }
+          ],
+          "note": "The total shown is the purchase price. Network fees are extra and are checked in the transaction review.",
+          "route": "Project > Choose your shares",
+          "points": [
+            [
+              800,
+              3510
+            ],
+            [
+              1730,
+              3250
+            ],
+            [
+              1830,
+              3400
+            ]
+          ],
+          "layout": "wide",
+          "captured": "23 October 2026"
+        },
+        {
+          "title": "Prepare, then approve in reID",
+          "image": "investor-review.jpg",
+          "crop": [
+            1035,
+            360,
+            475,
+            500
+          ],
+          "steps": [
+            {
+              "title": "Check the initial action",
+              "body": "Confirm the project, asset and whole-fraction quantity."
+            },
+            {
+              "title": "Prepare the transaction",
+              "body": "The app checks price, balance and fee and creates the exact review."
+            },
+            {
+              "title": "Approve only the matching review",
+              "body": "Select Request reID approval when available, review in reID yourself, then follow the existing request in Activity."
+            }
+          ],
+          "note": "This screenshot is the first review stage. No purchase happens merely by opening it. If a submitted result is uncertain, inspect it before retrying.",
+          "route": "Review purchase",
+          "points": [
+            [
+              1070,
+              505
+            ],
+            [
+              1450,
+              815
+            ]
+          ],
+          "layout": "side",
+          "captured": "23 October 2026"
+        },
+        {
+          "title": "Find and use your holdings",
+          "image": "investor-home.jpg",
+          "crop": [
+            615,
+            1230,
+            800,
+            365
+          ],
+          "steps": [
+            {
+              "title": "Find the right project",
+              "body": "Use project names/images and the search/sort controls."
+            },
+            {
+              "title": "Read quantity and claimable value",
+              "body": "Shares are token quantity; To claim is funded rewards, not cash already in your wallet."
+            },
+            {
+              "title": "Use the next-action buttons",
+              "body": "My earnings opens rewards; Buy more returns to the project purchase flow."
+            }
+          ],
+          "note": "ERC-1155 example: 100 fractions can appear as one NFT card with Qty 100. Missing external artwork does not mean the tokens are missing.",
+          "route": "Home > Your holdings",
+          "points": [
+            [
+              650,
+              1350
+            ],
+            [
+              690,
+              1450
+            ],
+            [
+              690,
+              1500
+            ]
+          ],
+          "layout": "wide",
+          "captured": "23 October 2026"
+        },
+        {
+          "title": "Transfer fractions to another wallet",
+          "image": "investor-transfer-resale.jpg",
+          "crop": [
+            640,
+            3610,
+            640,
+            365
+          ],
+          "steps": [
+            {
+              "title": "Open Transfer or sell your shares",
+              "body": "Find this section near the bottom of the project page."
+            },
+            {
+              "title": "Enter recipient and quantity",
+              "body": "Check the complete wallet address and choose a whole number within your holdings."
+            },
+            {
+              "title": "Review and approve the transfer",
+              "body": "Use Review transfer, then approve the matching INFRA action in reID. Wait for confirmed records."
+            }
+          ],
+          "note": "Sending 20 of 100 leaves 80 for you and gives the recipient quantity 20 of the same project token ID 1. Past earned rewards stay with their earner.",
+          "route": "Project > Transfer or sell your shares",
+          "points": [
+            [
+              670,
+              3640
+            ],
+            [
+              680,
+              3775
+            ],
+            [
+              1190,
+              3930
+            ]
+          ],
+          "layout": "side",
+          "captured": "23 October 2026"
+        },
+        {
+          "title": "Offer shares for resale",
+          "image": "investor-transfer-resale.jpg",
+          "crop": [
+            1275,
+            3680,
+            650,
+            590
+          ],
+          "steps": [
+            {
+              "title": "Enter listing terms",
+              "body": "Choose whole quantity, payment asset, price per share and expiry."
+            },
+            {
+              "title": "Approve the operator if needed",
+              "body": "Review marketplace permission for this project. It is separate from the listing itself."
+            },
+            {
+              "title": "Review the listing",
+              "body": "Approve the listing in reID. Monitor fills/expiry; claim seller proceeds separately when available."
+            }
+          ],
+          "note": "A listing does not guarantee a buyer. Cancelling cannot undo a completed fill. Operator approval covers the project token, not only a fixed quantity.",
+          "route": "Project > Transfer or sell your shares",
+          "points": [
+            [
+              1305,
+              3740
+            ],
+            [
+              1500,
+              4133
+            ],
+            [
+              1830,
+              4185
+            ]
+          ],
+          "layout": "side",
+          "captured": "23 October 2026"
+        },
+        {
+          "title": "Check and claim funded rewards",
+          "image": "investor-earnings.jpg",
+          "crop": [
+            1590,
+            900,
+            345,
+            290
+          ],
+          "steps": [
+            {
+              "title": "Choose the intended project",
+              "body": "Select the project at the top of My earnings, then find its claim card. Confirm the project name before continuing."
+            },
+            {
+              "title": "Check what is claimable",
+              "body": "Only funded rewards can be claimed. A zero balance can leave the claim action disabled."
+            },
+            {
+              "title": "Review the claim and fee",
+              "body": "Use the available claim action, approve in reID and check the wallet after confirmation."
+            }
+          ],
+          "note": "A claim does not sell shares. Already-earned rewards remain claimable after you transfer or sell your entire holding.",
+          "route": "My earnings > Shareholder pool",
+          "points": [
+            [
+              1625,
+              937
+            ],
+            [
+              1885,
+              980
+            ],
+            [
+              1885,
+              1115
+            ]
+          ],
+          "layout": "side",
+          "captured": "23 October 2026"
+        },
+        {
+          "title": "Send wallet funds or sell shares",
+          "image": "investor-withdraw.jpg",
+          "crop": [
+            620,
+            215,
+            1320,
+            440
+          ],
+          "steps": [
+            {
+              "title": "Choose the source",
+              "body": "Select reAED, USDT or Sell shares. Selling shares follows the marketplace flow."
+            },
+            {
+              "title": "Enter amount and destination",
+              "body": "For a wallet transfer, continue through amount and the full INFRA recipient address."
+            },
+            {
+              "title": "Review before approving",
+              "body": "Check asset, recipient, amount and fee. Approve in reID only when all values match."
+            }
+          ],
+          "note": "Sending wallet funds is different from claiming rewards or selling fractions. The recipient gets the reviewed transfer amount; gas is separate.",
+          "route": "Wallet > Withdraw",
+          "points": [
+            [
+              655,
+              380
+            ],
+            [
+              1540,
+              605
+            ],
+            [
+              1680,
+              335
+            ]
+          ],
+          "layout": "wide",
+          "captured": "23 October 2026"
+        },
+        {
+          "title": "Track activity and get help",
+          "image": "investor-activity.jpg",
+          "crop": [
+            615,
+            215,
+            1320,
+            1050
+          ],
+          "steps": [
+            {
+              "title": "Filter the history",
+              "body": "Use All, Payouts, Buys, Deposits or Withdrawals."
+            },
+            {
+              "title": "Use page numbers and totals",
+              "body": "Browse the server-filtered records; Showing X-Y of Z tells you where you are."
+            },
+            {
+              "title": "Inspect the request or ask for help",
+              "body": "Use transaction links, the Transaction approvals section and Get help for a specific record."
+            }
+          ],
+          "note": "For support, describe the action/time/error and include its public hash. Private screenshots: PNG, JPEG or WebP up to 3 MiB. Never include keys or codes.",
+          "route": "Activity",
+          "points": [
+            [
+              650,
+              245
+            ],
+            [
+              1830,
+              1125
+            ],
+            [
+              1840,
+              380
+            ]
+          ],
+          "layout": "wide",
+          "captured": "23 October 2026",
+          "panels": [
+            {
+              "crop": [
+                615,
+                215,
+                1320,
+                410
+              ],
+              "box": [
+                32,
+                302,
+                778,
+                172
+              ],
+              "points": [
+                [
+                  920,
+                  245,
+                  1
+                ],
+                [
+                  1840,
+                  380,
+                  3
+                ]
+              ]
+            },
+            {
+              "crop": [
+                615,
+                1070,
+                1320,
+                190
+              ],
+              "box": [
+                32,
+                193,
+                778,
+                100
+              ],
+              "points": [
+                [
+                  1830,
+                  1125,
+                  2
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "title": "Manage notifications and email",
+          "image": "investor-notifications.jpg",
+          "crop": [
+            615,
+            215,
+            1320,
+            385
+          ],
+          "steps": [
+            {
+              "title": "Read the update",
+              "body": "Open relevant activity to inspect the underlying transaction or support event."
+            },
+            {
+              "title": "Mark updates as read",
+              "body": "Use Mark all as read to clear unread notifications. This does not approve transactions."
+            },
+            {
+              "title": "Save your preferences",
+              "body": "Choose in-app and email categories, then Save preferences. Email comes from your authenticated reID profile."
+            }
+          ],
+          "note": "No second email confirmation is required. Your opt-outs are respected. Use Support for a private ticket and sign out when finished.",
+          "route": "Notifications",
+          "points": [
+            [
+              650,
+              395
+            ],
+            [
+              770,
+              260
+            ],
+            [
+              1640,
+              540
+            ]
+          ],
+          "layout": "wide",
+          "captured": "23 October 2026"
+        }
+      ]
+    }
+  }
+}

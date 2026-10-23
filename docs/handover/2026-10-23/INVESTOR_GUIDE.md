@@ -1,9 +1,151 @@
 # reSystem Investment | Investor guide
 
-Version 1.0 | 23 October 2026 | Investor UAT edition
+Version 1.1 | 23 October 2026 | Investor UAT edition
 
 Open **https://re-system-investment-front-end.vercel.app/invest** to sign in. Browse published projects at **https://re-system-investment-front-end.vercel.app**.
 
+<!-- VISUAL WALKTHROUGH START -->
+## Screenshot walkthrough
+Use these screenshots with the numbered steps. The PDF enlarges the relevant panels and overlays matching markers. Screens are actual INFRA UAT captures dated 23 October 2026, except the explicitly labelled archived publication review. Balances, addresses, sample values and expired reviews are examples, not instructions to copy.
+
+### Visual 01. Connect your reID account
+Open: **re-system-investment-front-end.vercel.app/invest**
+![Connect your reID account](assets/screenshots/investor-sign-in.jpg)
+1. **Select Continue with reID.** Open the investor app and choose this button.
+2. **Complete reID sign-in.** Review profile/wallet access and complete your own security steps.
+3. **Check your identity on return.** Confirm your own profile and wallet before depositing or investing.
+**Remember:** Connecting signs you into the app. Every purchase, transfer or claim needs its own later approval.
+Screenshot: 23 October 2026.
+
+### Visual 02. Understand your Home dashboard
+Open: **Home**
+![Understand your Home dashboard](assets/screenshots/investor-home.jpg)
+1. **Use the navigation.** Explore finds projects; My earnings shows rewards; Wallet and Activity track assets and records.
+2. **Read the summary cards.** Portfolio value, claimable rewards and wallet balance describe different things.
+3. **Check the portfolio below.** Scroll to Your holdings for the projects and quantities you actually own.
+**Remember:** Screens show one UAT account on 23 Oct 2026. Values change; they are not example amounts you should send.
+Screenshot: 23 October 2026.
+
+### Visual 03. Deposit into your connected wallet
+Open: **Wallet > Deposit**
+![Deposit into your connected wallet](assets/screenshots/investor-deposit.jpg)
+1. **Choose reAED or USDT.** Use the supported asset on INFRA. Bank/card options marked Coming soon are unavailable.
+2. **Copy your own address.** Use the live address or QR from your account. Check network, address and amount in the sending wallet.
+3. **Refresh after confirmation.** The app records confirmed deposits after indexing. Entering an amount here does not send money.
+**Remember:** Do not send to the address or scan the QR in this guide. Open your own live Deposit screen. Keep reAED for fees, even when paying with USDT.
+Screenshot: 23 October 2026.
+
+### Visual 04. See your five latest deposits
+Open: **Deposit > Recent deposits**
+![See your five latest deposits](assets/screenshots/investor-deposit.jpg)
+1. **Read asset and confirmation.** Each card shows the asset, amount and date of a received payment.
+2. **Open the transaction link.** Use the explorer link to inspect the underlying confirmed movement.
+3. **Choose See more.** This opens Activity with the Deposits filter selected for the full paginated history.
+**Remember:** A claim or proceeds withdrawal can also appear as an incoming deposit. Do not count the same transaction twice.
+Screenshot: 23 October 2026.
+
+### Visual 05. Explore the published projects
+Open: **Explore**
+![Explore the published projects](assets/screenshots/investor-explore.jpg)
+1. **Read the project cards.** Check the project name, image and published information.
+2. **Open a project.** Read its details, available supply, price and documents before buying.
+3. **Compare actual revenue.** Treat funded revenue records separately from indicative yield or expectations.
+**Remember:** These are UAT sample valuations. Future revenue and a resale buyer are not guaranteed.
+Screenshot: 23 October 2026.
+
+### Visual 06. Read the project before buying
+Open: **Explore > Project details**
+![Read the project before buying](assets/screenshots/investor-project.jpg)
+1. **Confirm the project.** Check the name, purpose and published description before selecting shares.
+2. **Read the project information.** Scroll through the project overview, supply, price and actual revenue details.
+3. **Check published documents.** Review any supporting documents before moving to Choose your shares.
+**Remember:** A dash or unavailable message is not always zero. Do not treat a projected yield as already funded rewards.
+Screenshot: 23 October 2026.
+
+### Visual 07. Choose shares and check the total
+Open: **Project > Choose your shares**
+![Choose shares and check the total](assets/screenshots/investor-project.jpg)
+1. **Choose a whole quantity.** Use the quantity control or presets. Confirm the selected share of the project.
+2. **Select the payment asset.** reAED pays natively; USDT may require a separate limited allowance. Both need reAED for fees.
+3. **Review the current total.** Wait for the matching quote, check the total, then select Review purchase.
+**Remember:** The total shown is the purchase price. Network fees are extra and are checked in the transaction review.
+Screenshot: 23 October 2026.
+
+### Visual 08. Prepare, then approve in reID
+Open: **Review purchase**
+![Prepare, then approve in reID](assets/screenshots/investor-review.jpg)
+1. **Check the initial action.** Confirm the project, asset and whole-fraction quantity.
+2. **Prepare the transaction.** The app checks price, balance and fee and creates the exact review.
+3. **Approve only the matching review.** Select Request reID approval when available, review in reID yourself, then follow the existing request in Activity.
+**Remember:** This screenshot is the first review stage. No purchase happens merely by opening it. If a submitted result is uncertain, inspect it before retrying.
+Screenshot: 23 October 2026.
+
+### Visual 09. Find and use your holdings
+Open: **Home > Your holdings**
+![Find and use your holdings](assets/screenshots/investor-home.jpg)
+1. **Find the right project.** Use project names/images and the search/sort controls.
+2. **Read quantity and claimable value.** Shares are token quantity; To claim is funded rewards, not cash already in your wallet.
+3. **Use the next-action buttons.** My earnings opens rewards; Buy more returns to the project purchase flow.
+**Remember:** ERC-1155 example: 100 fractions can appear as one NFT card with Qty 100. Missing external artwork does not mean the tokens are missing.
+Screenshot: 23 October 2026.
+
+### Visual 10. Transfer fractions to another wallet
+Open: **Project > Transfer or sell your shares**
+![Transfer fractions to another wallet](assets/screenshots/investor-transfer-resale.jpg)
+1. **Open Transfer or sell your shares.** Find this section near the bottom of the project page.
+2. **Enter recipient and quantity.** Check the complete wallet address and choose a whole number within your holdings.
+3. **Review and approve the transfer.** Use Review transfer, then approve the matching INFRA action in reID. Wait for confirmed records.
+**Remember:** Sending 20 of 100 leaves 80 for you and gives the recipient quantity 20 of the same project token ID 1. Past earned rewards stay with their earner.
+Screenshot: 23 October 2026.
+
+### Visual 11. Offer shares for resale
+Open: **Project > Transfer or sell your shares**
+![Offer shares for resale](assets/screenshots/investor-transfer-resale.jpg)
+1. **Enter listing terms.** Choose whole quantity, payment asset, price per share and expiry.
+2. **Approve the operator if needed.** Review marketplace permission for this project. It is separate from the listing itself.
+3. **Review the listing.** Approve the listing in reID. Monitor fills/expiry; claim seller proceeds separately when available.
+**Remember:** A listing does not guarantee a buyer. Cancelling cannot undo a completed fill. Operator approval covers the project token, not only a fixed quantity.
+Screenshot: 23 October 2026.
+
+### Visual 12. Check and claim funded rewards
+Open: **My earnings > Shareholder pool**
+![Check and claim funded rewards](assets/screenshots/investor-earnings.jpg)
+1. **Choose the intended project.** Select the project at the top of My earnings, then find its claim card. Confirm the project name before continuing.
+2. **Check what is claimable.** Only funded rewards can be claimed. A zero balance can leave the claim action disabled.
+3. **Review the claim and fee.** Use the available claim action, approve in reID and check the wallet after confirmation.
+**Remember:** A claim does not sell shares. Already-earned rewards remain claimable after you transfer or sell your entire holding.
+Screenshot: 23 October 2026.
+
+### Visual 13. Send wallet funds or sell shares
+Open: **Wallet > Withdraw**
+![Send wallet funds or sell shares](assets/screenshots/investor-withdraw.jpg)
+1. **Choose the source.** Select reAED, USDT or Sell shares. Selling shares follows the marketplace flow.
+2. **Enter amount and destination.** For a wallet transfer, continue through amount and the full INFRA recipient address.
+3. **Review before approving.** Check asset, recipient, amount and fee. Approve in reID only when all values match.
+**Remember:** Sending wallet funds is different from claiming rewards or selling fractions. The recipient gets the reviewed transfer amount; gas is separate.
+Screenshot: 23 October 2026.
+
+### Visual 14. Track activity and get help
+Open: **Activity**
+![Track activity and get help](assets/screenshots/investor-activity.jpg)
+1. **Filter the history.** Use All, Payouts, Buys, Deposits or Withdrawals.
+2. **Use page numbers and totals.** Browse the server-filtered records; Showing X-Y of Z tells you where you are.
+3. **Inspect the request or ask for help.** Use transaction links, the Transaction approvals section and Get help for a specific record.
+**Remember:** For support, describe the action/time/error and include its public hash. Private screenshots: PNG, JPEG or WebP up to 3 MiB. Never include keys or codes.
+Screenshot: 23 October 2026.
+
+### Visual 15. Manage notifications and email
+Open: **Notifications**
+![Manage notifications and email](assets/screenshots/investor-notifications.jpg)
+1. **Read the update.** Open relevant activity to inspect the underlying transaction or support event.
+2. **Mark updates as read.** Use Mark all as read to clear unread notifications. This does not approve transactions.
+3. **Save your preferences.** Choose in-app and email categories, then Save preferences. Email comes from your authenticated reID profile.
+**Remember:** No second email confirmation is required. Your opt-outs are respected. Use Support for a private ticket and sign out when finished.
+Screenshot: 23 October 2026.
+<!-- VISUAL WALKTHROUGH END -->
+
+## Detailed reference
+The following sections explain the rules, exceptions and troubleshooting behind the visual walkthrough.
 ## 1. What you can do
 
 reSystem lets you buy whole project fractions, hold them in your connected wallet, receive rewards from actual project revenue deposits, transfer fractions and offer them for resale. The app brings your holdings, wallet activity, claims, notifications and support together.

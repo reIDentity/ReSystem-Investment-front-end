@@ -17,13 +17,13 @@
   "offline_verifier": "pass",
   "pdfs": {
     "developer_pages": 16,
-    "admin_pages": 11,
-    "investor_pages": 9
+    "admin_pages": 26,
+    "investor_pages": 25
   },
   "pdf_bookmarks": {
     "developer": 18,
-    "admin": 14,
-    "investor": 15
+    "admin": 31,
+    "investor": 33
   },
   "scope": "Documentation only. No live mutation, transaction, email, account or deployment action.",
   "source_commit": "https://github.com/reIDentity/ReSystem-Investment-front-end/commit/5ba80d9db0694289c16b7a0d7146fffd43efa323",
@@ -37,5 +37,15 @@
     "developer": "https://app.notion.com/p/4023b21ac92581e2ac6ce426b47f0c8c",
     "admin": "https://app.notion.com/p/4023b21ac9258147bb8cfea1b1fe2f21",
     "investor": "https://app.notion.com/p/4023b21ac9258163b1b4f9129a064fd1"
+  },
+  "visual_revision": {
+    "version": "1.1",
+    "admin_walkthroughs": 14,
+    "investor_walkthroughs": 15,
+    "screenshots": 28,
+    "render_review": "All pages rendered; contact sheets and enlarged critical flows visually checked. Source images unchanged.",
+    "contents_links": "15 admin and 16 investor contents links retained and destinations validated.",
+    "developer_pdf": "Unchanged against previously delivered ZIP",
+    "scope": "Documentation screenshots only. No application write, transaction, account, gate or deployment changes."
   }
 }

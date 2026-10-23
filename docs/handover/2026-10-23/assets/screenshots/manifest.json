@@ -1,0 +1,198 @@
+[
+  {
+    "file": "admin-create-details.jpg",
+    "sha256": "932320d2156837d962d641dee82580a4f96bcf01a4ac8f7a108fdce0f4fa48c4",
+    "capture_date": "2026-10-23",
+    "origin": "actual Chrome UAT application capture",
+    "processing": "original source pixels; PDF crop and numbered callout overlays only"
+  },
+  {
+    "file": "admin-create-economics.jpg",
+    "sha256": "602267eb14c5edb7f86677a752a7deb9a77d6600f2ab9cdb28565d53c99f6b4e",
+    "capture_date": "2026-10-23",
+    "origin": "actual Chrome UAT application capture",
+    "processing": "original source pixels; PDF crop and numbered callout overlays only"
+  },
+  {
+    "file": "admin-create-ownership.jpg",
+    "sha256": "7941c1a50b2ff691d08dcf9ce6a41264f7450ddb0c9bae3103e5be9262894f8a",
+    "capture_date": "2026-10-23",
+    "origin": "actual Chrome UAT application capture",
+    "processing": "original source pixels; PDF crop and numbered callout overlays only"
+  },
+  {
+    "file": "admin-create-review.jpg",
+    "sha256": "b789bf91cb40501253c1fd1683c01c614938e167c6c57a189d75611dd3ee23a1",
+    "capture_date": "2026-10-23",
+    "origin": "actual Chrome UAT application capture",
+    "processing": "original source pixels; PDF crop and numbered callout overlays only"
+  },
+  {
+    "file": "admin-fund-revenue.jpg",
+    "sha256": "7038edf7bd915194afbffefb7a6209a223227b26e5d32d348cd570858c600238",
+    "capture_date": "2026-10-23",
+    "origin": "actual Chrome UAT application capture",
+    "processing": "original source pixels; PDF crop and numbered callout overlays only"
+  },
+  {
+    "file": "admin-lifecycle.jpg",
+    "sha256": "f12ed962e698bbc548eb47bde782bdc8cb936359e5c012e1b0000c4b49e1aaad",
+    "capture_date": "2026-10-23",
+    "origin": "actual Chrome UAT application capture",
+    "processing": "original source pixels; PDF crop and numbered callout overlays only"
+  },
+  {
+    "file": "admin-media.jpg",
+    "sha256": "2222a3820add9f8e00b2a3ffab5662914d28796f5ee06665de0624ebc2955bc0",
+    "capture_date": "2026-10-23",
+    "origin": "actual Chrome UAT application capture",
+    "processing": "original source pixels; PDF crop and numbered callout overlays only"
+  },
+  {
+    "file": "admin-overview.jpg",
+    "sha256": "64c97e5390291e2bd651af3ce15514c666d3bbbd13355048520249c5096f1e7d",
+    "capture_date": "2026-10-23",
+    "origin": "actual Chrome UAT application capture",
+    "processing": "original source pixels; PDF crop and numbered callout overlays only"
+  },
+  {
+    "file": "admin-project-overview.jpg",
+    "sha256": "eadae5d04bd5fcffead62d8301b006493e9c3d886d4b3086c19f36240417a0ae",
+    "capture_date": "2026-10-23",
+    "origin": "actual Chrome UAT application capture",
+    "processing": "original source pixels; PDF crop and numbered callout overlays only"
+  },
+  {
+    "file": "admin-projects.jpg",
+    "sha256": "0e18b2a504fcab1ad038e811889dc72d599c7e2b91a8f5838d28c7e7f036ae26",
+    "capture_date": "2026-10-23",
+    "origin": "actual Chrome UAT application capture",
+    "processing": "original source pixels; PDF crop and numbered callout overlays only"
+  },
+  {
+    "file": "admin-publish-20261021.png",
+    "sha256": "174f6a4c691e60c32ccea31e91856f5f9a83d8f767912d2d6dd7391a506f5336",
+    "capture_date": "2026-10-21",
+    "origin": "actual Chrome UAT application capture",
+    "processing": "original source pixels; PDF crop and numbered callout overlays only"
+  },
+  {
+    "file": "admin-sign-in.jpg",
+    "sha256": "76540a3e41173dca9457ac2c6e137d347ce7b0f292dd2e72f3514b4e2649c988",
+    "capture_date": "2026-10-23",
+    "origin": "actual Chrome UAT application capture",
+    "processing": "original source pixels; PDF crop and numbered callout overlays only"
+  },
+  {
+    "file": "admin-staff-form.jpg",
+    "sha256": "35e1ecfd1f29e501cf1fd611ff3927514554c3b1e3b69377dc281407689223d9",
+    "capture_date": "2026-10-23",
+    "origin": "actual Chrome UAT application capture",
+    "processing": "original source pixels; PDF crop and numbered callout overlays only"
+  },
+  {
+    "file": "admin-transactions.jpg",
+    "sha256": "bcd6f34debca379ec6701f6c9bdda51952092d2764ee94c631badd4986a4ef8e",
+    "capture_date": "2026-10-23",
+    "origin": "actual Chrome UAT application capture",
+    "processing": "original source pixels; PDF crop and numbered callout overlays only"
+  },
+  {
+    "file": "admin-treasury.jpg",
+    "sha256": "6d5bdd45341c82aa618bc836cb98febda62668dff1b69a65841545fe48f980af",
+    "capture_date": "2026-10-23",
+    "origin": "actual Chrome UAT application capture",
+    "processing": "original source pixels; PDF crop and numbered callout overlays only"
+  },
+  {
+    "file": "admin-wallet.jpg",
+    "sha256": "b4b342f13630cc7f6a9e6bb000deb5dbcc951373b20214e924291749a16ff617",
+    "capture_date": "2026-10-23",
+    "origin": "actual Chrome UAT application capture",
+    "processing": "original source pixels; PDF crop and numbered callout overlays only"
+  },
+  {
+    "file": "investor-activity.jpg",
+    "sha256": "f9afb92b2868b14d0eb19f584a6e169f223264628d022928da9666b43115d0ab",
+    "capture_date": "2026-10-23",
+    "origin": "actual Chrome UAT application capture",
+    "processing": "original source pixels; PDF crop and numbered callout overlays only"
+  },
+  {
+    "file": "investor-deposit.jpg",
+    "sha256": "c07b8a2c3bfa30290eac580682c151681e88d3d517d0b233d54649062167bf45",
+    "capture_date": "2026-10-23",
+    "origin": "actual Chrome UAT application capture",
+    "processing": "original source pixels; PDF crop and numbered callout overlays only"
+  },
+  {
+    "file": "investor-earnings.jpg",
+    "sha256": "6aa78221d7625b0f58e32cdcfcf88b48c3d79d02db811f2b449b10463cd4a874",
+    "capture_date": "2026-10-23",
+    "origin": "actual Chrome UAT application capture",
+    "processing": "original source pixels; PDF crop and numbered callout overlays only"
+  },
+  {
+    "file": "investor-explore.jpg",
+    "sha256": "6f7d473c2dc6ffcebde709ad82abd6d5a19d876bea44dc07b1720de5c314a795",
+    "capture_date": "2026-10-23",
+    "origin": "actual Chrome UAT application capture",
+    "processing": "original source pixels; PDF crop and numbered callout overlays only"
+  },
+  {
+    "file": "investor-home.jpg",
+    "sha256": "d515e45cac8f29ed0ac12595137bb08f9149e6df7821cd6af955982b23633fd6",
+    "capture_date": "2026-10-23",
+    "origin": "actual Chrome UAT application capture",
+    "processing": "original source pixels; PDF crop and numbered callout overlays only"
+  },
+  {
+    "file": "investor-notifications.jpg",
+    "sha256": "5e8dc5f4ac38724c29674bcc7fe9634c497b3fa95345adae7a0e92aa89689d91",
+    "capture_date": "2026-10-23",
+    "origin": "actual Chrome UAT application capture",
+    "processing": "original source pixels; PDF crop and numbered callout overlays only"
+  },
+  {
+    "file": "investor-project.jpg",
+    "sha256": "56581e57063ae50c446c316fd7078bddd76e957782c02a8e35c1424b36ccd112",
+    "capture_date": "2026-10-23",
+    "origin": "actual Chrome UAT application capture",
+    "processing": "original source pixels; PDF crop and numbered callout overlays only"
+  },
+  {
+    "file": "investor-review.jpg",
+    "sha256": "a11b3597daf1f6dbf573de50243843e0b5d22b10f544104b631ed0404a79045d",
+    "capture_date": "2026-10-23",
+    "origin": "actual Chrome UAT application capture",
+    "processing": "original source pixels; PDF crop and numbered callout overlays only"
+  },
+  {
+    "file": "investor-sign-in.jpg",
+    "sha256": "e1ef2ebdbf3b7ea171ce59fc6d913c2d4e6de52374c390792ca15219c62a3a1d",
+    "capture_date": "2026-10-23",
+    "origin": "actual Chrome UAT application capture",
+    "processing": "original source pixels; PDF crop and numbered callout overlays only"
+  },
+  {
+    "file": "investor-transfer-resale.jpg",
+    "sha256": "190118132cc3f09d2637bcbee276cd2c6cc1ed8fba26017585891023de9db4ae",
+    "capture_date": "2026-10-23",
+    "origin": "actual Chrome UAT application capture",
+    "processing": "original source pixels; PDF crop and numbered callout overlays only"
+  },
+  {
+    "file": "investor-wallet.jpg",
+    "sha256": "10c87cbfb9bc14d686585e68b06d0535ca355b6cbf3dd106055be82928c7d10c",
+    "capture_date": "2026-10-23",
+    "origin": "actual Chrome UAT application capture",
+    "processing": "original source pixels; PDF crop and numbered callout overlays only"
+  },
+  {
+    "file": "investor-withdraw.jpg",
+    "sha256": "9808ffa3b2094a6db868916bd73794fe64b4a6781a02d32d8d894e3636c6a775",
+    "capture_date": "2026-10-23",
+    "origin": "actual Chrome UAT application capture",
+    "processing": "original source pixels; PDF crop and numbered callout overlays only"
+  }
+]
