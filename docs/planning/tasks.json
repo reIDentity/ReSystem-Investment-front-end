@@ -3184,6 +3184,9 @@
     "dependencies": [
       "RSI-129"
     ],
-    "status": "In progress"
+    "status": "Done",
+    "commit_url": "https://github.com/reIDentity/ReSystem-Investment-front-end/commit/5ba80d9db0694289c16b7a0d7146fffd43efa323",
+    "verification_evidence": "Three private Notion guides and PDFs (16/11/9 pages), editable Markdown and complete API bundle. Exact 104-operation coverage, v3 collection/environment lint and v2.1 import round-trip pass with zero warnings/errors; deployed-schema byte match; full-history Gitleaks zero findings; PDF layout/text/bookmarks checked. Documentation branch published and remote verified; runtime unchanged.",
+    "notion_status_observed_at_utc": "2026-10-23T14:03:24.096979+00:00"
   }
 ]

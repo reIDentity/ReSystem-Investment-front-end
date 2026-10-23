@@ -25,5 +25,17 @@
     "admin": 14,
     "investor": 15
   },
-  "scope": "Documentation only. No live mutation, transaction, email, account or deployment action."
+  "scope": "Documentation only. No live mutation, transaction, email, account or deployment action.",
+  "source_commit": "https://github.com/reIDentity/ReSystem-Investment-front-end/commit/5ba80d9db0694289c16b7a0d7146fffd43efa323",
+  "secret_scan": {
+    "scanner": "gitleaks 8.30.1",
+    "scope": "all Git history",
+    "status": "passed",
+    "findings": 0
+  },
+  "notion_guides": {
+    "developer": "https://app.notion.com/p/4023b21ac92581e2ac6ce426b47f0c8c",
+    "admin": "https://app.notion.com/p/4023b21ac9258147bb8cfea1b1fe2f21",
+    "investor": "https://app.notion.com/p/4023b21ac9258163b1b4f9129a064fd1"
+  }
 }
