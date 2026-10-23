@@ -1,0 +1,33 @@
+$kind: http-request
+name: GET /health
+description: 'Operation ID: HealthController_health
+
+
+
+
+  Canonical contract: openapi.json -> GET /health. Success: 200. Bodies are editable
+  contract examples, not captured live requests. Exact per-action validation also
+  applies. Use the cookie jar, not an API-key header. Do not export populated environments
+  or saved auth responses.
+
+
+  Public read enabled by default.'
+url: '{{baseUrl}}/health'
+method: GET
+headers:
+- key: Accept
+  value: application/json
+auth:
+  type: noauth
+settings:
+  strictSSL: true
+  followRedirects: false
+scripts:
+- type: beforeRequest
+  code: "// Manual-use guard. No secrets are saved or logged by this script.\nconst\
+    \ target = pm.variables.get('baseUrl');\nif (!/^https:\\/\\/[^/?#@]+(?::[0-9]+)?$/.test(target\
+    \ || '')) {\n  pm.execution.skipRequest(); throw new Error('Use an HTTPS origin\
+    \ without a path or credentials.');\n}"
+  language: text/javascript
+order: 1000
+examples: ./.resources/HealthController_health.resources/examples

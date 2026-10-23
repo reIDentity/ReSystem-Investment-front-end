@@ -1,0 +1,49 @@
+$kind: http-request
+name: POST /v1/auth/wallet/challenge
+description: 'Operation ID: AuthController_challenge
+
+
+
+
+  Canonical contract: openapi.json -> POST /v1/auth/wallet/challenge. Success: 201.
+  Bodies are editable contract examples, not captured live requests. Exact per-action
+  validation also applies. Use the cookie jar, not an API-key header. Do not export
+  populated environments or saved auth responses.
+
+
+  Set allow_operation to AuthController_challenge for this one manual request. Mutates
+  state: also requires allow_mutations=true and applicable human authorization. Never
+  run mutations in Collection Runner.
+
+
+  Legacy/policy-dependent route. Personal staff signing is permanently disabled; use
+  the shared admin flow.'
+url: '{{baseUrl}}/v1/auth/wallet/challenge'
+method: POST
+headers:
+- key: Accept
+  value: application/json
+- key: Origin
+  value: '{{origin}}'
+- key: X-CSRF-Token
+  value: '{{csrfToken}}'
+- key: Content-Type
+  value: application/json
+auth:
+  type: noauth
+settings:
+  strictSSL: true
+  followRedirects: false
+scripts:
+- type: beforeRequest
+  code: "// Manual-use guard. No secrets are saved or logged by this script.\nconst\
+    \ target = pm.variables.get('baseUrl');\nif (!/^https:\\/\\/[^/?#@]+(?::[0-9]+)?$/.test(target\
+    \ || '')) {\n  pm.execution.skipRequest(); throw new Error('Use an HTTPS origin\
+    \ without a path or credentials.');\n}\nif (pm.variables.get('allow_operation')\
+    \ !== \"AuthController_challenge\") {\n  pm.execution.skipRequest();\n}\nif (pm.variables.get('allow_mutations')\
+    \ !== 'true') {\n  pm.execution.skipRequest();\n}"
+  language: text/javascript
+order: 12000
+body:
+  type: json
+  content: "{\n  \"address\": \"{{address}}\",\n  \"chainId\": 15324\n}"

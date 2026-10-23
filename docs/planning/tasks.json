@@ -3162,5 +3162,28 @@
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-backend/commit/ae614a832411becaaa7e0e0c347d6965e80c9b0a",
     "verification_evidence": "Published backend ae614a8 passed CI39918501108; guide00e4fcb passed investor CI39918921938 and Vercel. Fresh isolated publication5groups, financial27transactions/7groups, staff8groups and policy27tests pass. Restart preserved29INDEXEDreceipts/project/switch; owned stacks/ports closed. FP audit candidate and QA gate preserved; unnecessary follow-up image-build run39919676267 canceled before release. Client/device/independent review and external gateway remain separate.",
     "notion_status_observed_at_utc": "2026-10-23T07:45:30.739238+00:00"
+  },
+  {
+    "id": "RSI-130",
+    "title": "Create developer, admin and investor handover guides",
+    "phase": "Documentation and client handover",
+    "repository": "Cross-project",
+    "priority": "P1",
+    "objective": "Deliver three current audience-specific guides and a safe importable API collection without changing the stable client candidate.",
+    "requirements": [
+      "Explain architecture, identity, APIs, contracts, indexer, local setup, deployment and recovery for a new developer.",
+      "Explain actual admin and investor workflows, exact approvals and known limits.",
+      "Provide branded PDFs, editable Markdown and a canonical OpenAPI-derived Postman package; archive in private Notion."
+    ],
+    "acceptance": [
+      "Current source and deployed-schema alignment verified.",
+      "104-operation collection import/lint and safe defaults verified; no credentials included.",
+      "PDF text/bookmarks/visual layout checked and three full private Notion copies saved.",
+      "Real source commit published on an isolated documentation branch; runtime unchanged."
+    ],
+    "dependencies": [
+      "RSI-129"
+    ],
+    "status": "In progress"
   }
 ]

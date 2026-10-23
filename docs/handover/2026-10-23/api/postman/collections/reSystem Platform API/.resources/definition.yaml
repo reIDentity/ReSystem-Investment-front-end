@@ -1,0 +1,16 @@
+$kind: collection
+name: reSystem Platform API
+description: reSystem UAT API handover. Derived from canonical OpenAPI; 104 operations.
+  Cookie jar authentication. Three public read requests work by default; unlock exactly
+  one other operation manually. Mutations also require allow_mutations=true. No credentials,
+  automatic token capture, messages or financial requests are sent by generation.
+  See DEVELOPER_HANDOVER.md section 10.
+auth:
+  type: noauth
+variables:
+- key: baseUrl
+  value: https://admin.resystem.org
+- key: allow_operation
+  value: ''
+- key: allow_mutations
+  value: 'false'

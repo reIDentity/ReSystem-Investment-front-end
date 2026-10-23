@@ -1,0 +1,29 @@
+{
+  "date": "2026-10-23",
+  "release": "CLIENT-UAT-2026-10-23",
+  "operations": 104,
+  "schema_matches_runtime_source": "8924944716f4e5bb960c9303b0b8362ee1e601ce",
+  "postman_v3_lint": {
+    "requests": 104,
+    "errors": 0,
+    "warnings": 0
+  },
+  "portable_import_roundtrip": {
+    "requests": 104,
+    "errors": 0,
+    "warnings": 0
+  },
+  "environment_lint": "pass",
+  "offline_verifier": "pass",
+  "pdfs": {
+    "developer_pages": 16,
+    "admin_pages": 11,
+    "investor_pages": 9
+  },
+  "pdf_bookmarks": {
+    "developer": 18,
+    "admin": 14,
+    "investor": 15
+  },
+  "scope": "Documentation only. No live mutation, transaction, email, account or deployment action."
+}

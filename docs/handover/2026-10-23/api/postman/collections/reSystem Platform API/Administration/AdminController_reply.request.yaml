@@ -1,0 +1,49 @@
+$kind: http-request
+name: POST /v1/admin/support/{id}/messages
+description: 'Operation ID: AdminController_reply
+
+
+
+
+  Canonical contract: openapi.json -> POST /v1/admin/support/{id}/messages. Success:
+  201. Bodies are editable contract examples, not captured live requests. Exact per-action
+  validation also applies. Use the cookie jar, not an API-key header. Do not export
+  populated environments or saved auth responses.
+
+
+  Set allow_operation to AdminController_reply for this one manual request. Mutates
+  state: also requires allow_mutations=true and applicable human authorization. Never
+  run mutations in Collection Runner.'
+url: '{{baseUrl}}/v1/admin/support/:id/messages'
+method: POST
+headers:
+- key: Accept
+  value: application/json
+- key: Origin
+  value: '{{origin}}'
+- key: X-CSRF-Token
+  value: '{{csrfToken}}'
+- key: Content-Type
+  value: application/json
+auth:
+  type: noauth
+settings:
+  strictSSL: true
+  followRedirects: false
+scripts:
+- type: beforeRequest
+  code: "// Manual-use guard. No secrets are saved or logged by this script.\nconst\
+    \ target = pm.variables.get('baseUrl');\nif (!/^https:\\/\\/[^/?#@]+(?::[0-9]+)?$/.test(target\
+    \ || '')) {\n  pm.execution.skipRequest(); throw new Error('Use an HTTPS origin\
+    \ without a path or credentials.');\n}\nif (pm.variables.get('allow_operation')\
+    \ !== \"AdminController_reply\") {\n  pm.execution.skipRequest();\n}\nif (pm.variables.get('allow_mutations')\
+    \ !== 'true') {\n  pm.execution.skipRequest();\n}"
+  language: text/javascript
+order: 53000
+pathVariables:
+- key: id
+  value: '{{ticketId}}'
+  description: Use the authorized resource ID from a read response.
+body:
+  type: json
+  content: "{\n  \"body\": \"{{body}}\"\n}"

@@ -1,0 +1,105 @@
+method,path,operationId,group,auth,successCodes
+GET,/health,HealthController_health,Health,public/schema,200
+GET,/ready,HealthController_ready,Health,public/schema,200
+GET,/v1/auth/session,AuthController_session,Authentication,cookie/session; verify role,200
+POST,/v1/auth/staff/login,AuthController_login,Authentication,cookie/session; verify role,201
+POST,/v1/auth/staff/mfa/enroll/confirm,AuthController_enrollMfa,Authentication,cookie/session; verify role,201
+POST,/v1/auth/staff/mfa/verify,AuthController_verifyMfa,Authentication,cookie/session; verify role,201
+POST,/v1/auth/logout,AuthController_logout,Authentication,cookie/session; verify role,201
+POST,/v1/auth/staff/handoff/accept,AuthController_acceptHandoff,Authentication,cookie/session; verify role,201
+POST,/v1/auth/staff/contact/confirm,AuthController_confirmContact,Authentication,cookie/session; verify role,201
+GET,/v1/auth/reid/start,AuthController_start,Authentication,cookie/session; verify role,302
+GET,/v1/auth/reid/callback,AuthController_callback,Authentication,cookie/session; verify role,302
+POST,/v1/auth/wallet/challenge,AuthController_challenge,Authentication,cookie/session; verify role,201
+POST,/v1/auth/wallet/verify,AuthController_verify,Authentication,cookie/session; verify role,201
+DELETE,/v1/auth/wallet,AuthController_disconnect,Authentication,cookie/session; verify role,200
+GET,/v1/projects,PublicProjectsController_list,Projects,public/schema,200
+GET,/v1/projects/{id},PublicProjectsController_get,Projects,public/schema,200
+GET,/v1/projects/{id}/chain,PublicProjectsController_chainState,Projects,public/schema,200
+GET,/v1/projects/{id}/revenue,PublicProjectsController_revenue,Projects,public/schema,200
+GET,/v1/projects/{id}/rewards,PublicProjectsController_rewards,Projects,public/schema,200
+GET,/v1/projects/{id}/quote,PublicProjectsController_quote,Projects,public/schema,200
+GET,/v1/admin/dashboard,AdminController_dashboard,Administration,cookie/session; verify role,200
+GET,/v1/admin/projects,AdminController_list,Administration,cookie/session; verify role,200
+POST,/v1/admin/projects,AdminController_create,Administration,cookie/session; verify role,201
+GET,/v1/admin/project-wallet-policy,AdminController_projectWalletPolicy,Administration,cookie/session; verify role,200
+GET,/v1/admin/projects/{id},AdminController_get,Administration,cookie/session; verify role,200
+PATCH,/v1/admin/projects/{id},AdminController_update,Administration,cookie/session; verify role,200
+POST,/v1/admin/projects/{id}/review,AdminController_review,Administration,cookie/session; verify role,201
+POST,/v1/admin/projects/{id}/approve,AdminController_approve,Administration,cookie/session; verify role,201
+POST,/v1/admin/projects/{id}/media,AdminController_upload,Administration,cookie/session; verify role,201
+POST,/v1/admin/projects/{id}/metadata,AdminController_metadata,Administration,cookie/session; verify role,201
+POST,/v1/admin/projects/{id}/archive,AdminController_archive,Administration,cookie/session; verify role,201
+GET,/v1/admin/projects/{id}/revisions,AdminController_revisions,Administration,cookie/session; verify role,200
+GET,/v1/admin/projects/{id}/yield-history,AdminController_yieldHistory,Administration,cookie/session; verify role,200
+POST,/v1/admin/projects/{id}/publish-intent,AdminController_publish,Administration,cookie/session; verify role,201
+GET,/v1/admin/platform-signer,AdminController_platformSignerStatus,Administration,cookie/session; verify role,200
+POST,/v1/admin/platform-signer/switch,AdminController_platformSwitch,Administration,cookie/session; verify role,201
+GET,/v1/admin/staff,AdminController_staff,Administration,cookie/session; verify role,200
+POST,/v1/admin/staff,AdminController_createStaff,Administration,cookie/session; verify role,201
+PATCH,/v1/admin/staff/{id},AdminController_suspend,Administration,cookie/session; verify role,200
+POST,/v1/admin/staff/{id}/invitation,AdminController_invite,Administration,cookie/session; verify role,201
+GET,/v1/admin/roles,AdminController_roles,Administration,cookie/session; verify role,200
+POST,/v1/admin/roles,AdminController_role,Administration,cookie/session; verify role,201
+PATCH,/v1/admin/roles/{id},AdminController_updateRole,Administration,cookie/session; verify role,200
+DELETE,/v1/admin/roles/{id},AdminController_deleteRole,Administration,cookie/session; verify role,200
+POST,/v1/admin/staff/{id}/roles,AdminController_membership,Administration,cookie/session; verify role,201
+DELETE,/v1/admin/staff/{id}/roles/{membershipId},AdminController_revoke,Administration,cookie/session; verify role,200
+GET,/v1/admin/indexer,AdminController_indexer,Administration,cookie/session; verify role,200
+GET,/v1/admin/investors,AdminController_investors,Administration,cookie/session; verify role,200
+GET,/v1/admin/audit,AdminController_audit,Administration,cookie/session; verify role,200
+GET,/v1/admin/support,AdminController_tickets,Administration,cookie/session; verify role,200
+GET,/v1/admin/support/{id},AdminController_ticket,Administration,cookie/session; verify role,200
+PATCH,/v1/admin/support/{id},AdminController_updateTicket,Administration,cookie/session; verify role,200
+POST,/v1/admin/support/{id}/messages,AdminController_reply,Administration,cookie/session; verify role,201
+GET,/v1/admin/holders,AdminController_holders,Administration,cookie/session; verify role,200
+GET,/v1/admin/sales,AdminController_sales,Administration,cookie/session; verify role,200
+GET,/v1/admin/marketplace/fills,AdminController_fills,Administration,cookie/session; verify role,200
+GET,/v1/admin/marketplace/proceeds,AdminController_proceeds,Administration,cookie/session; verify role,200
+GET,/v1/admin/revenue,AdminController_revenue,Administration,cookie/session; verify role,200
+GET,/v1/admin/treasury,AdminController_treasury,Administration,cookie/session; verify role,200
+GET,/v1/admin/claims,AdminController_claims,Administration,cookie/session; verify role,200
+GET,/v1/admin/marketplace,AdminController_market,Administration,cookie/session; verify role,200
+GET,/v1/admin/services,AdminController_services,Administration,cookie/session; verify role,200
+GET,/v1/admin/notifications,AdminController_notifications,Administration,cookie/session; verify role,200
+GET,/v1/wallet/send-quote,AccountController_sendQuote,Account,cookie/session; verify role,200
+GET,/v1/wallet,AccountController_wallet,Account,cookie/session; verify role,200
+GET,/v1/wallet/cashflow,AccountController_cashflow,Account,cookie/session; verify role,200
+GET,/v1/wallet/deposits,AccountController_deposits,Account,cookie/session; verify role,200
+GET,/v1/portfolio,AccountController_portfolio,Account,cookie/session; verify role,200
+GET,/v1/activity,AccountController_activity,Account,cookie/session; verify role,200
+GET,/v1/marketplace,AccountController_marketplace,Account,cookie/session; verify role,200
+GET,/v1/marketplace/proceeds,AccountController_proceeds,Account,cookie/session; verify role,200
+GET,/v1/marketplace/{id},AccountController_listing,Account,cookie/session; verify role,200
+GET,/v1/marketplace/{id}/quote,AccountController_listingQuote,Account,cookie/session; verify role,200
+GET,/v1/transactions/platform-pending,AccountController_platformPending,Account,cookie/session; verify role,200
+GET,/v1/transactions,AccountController_transactions,Account,cookie/session; verify role,200
+POST,/v1/transactions,AccountController_create,Account,cookie/session; verify role,201
+POST,/v1/transactions/{id}/platform-approve,AccountController_platformApprove,Account,cookie/session; verify role,201
+GET,/v1/transactions/{id}/platform-review,AccountController_platformReview,Account,cookie/session; verify role,200
+POST,/v1/transactions/{id}/platform-cosign,AccountController_platformCosign,Account,cookie/session; verify role,201
+GET,/v1/transactions/{id},AccountController_transaction,Account,cookie/session; verify role,200
+POST,/v1/transactions/{id}/submit,AccountController_submit,Account,cookie/session; verify role,201
+POST,/v1/transactions/{id}/broadcast,AccountController_broadcast,Account,cookie/session; verify role,201
+GET,/v1/support,AccountController_tickets,Account,cookie/session; verify role,200
+POST,/v1/support,AccountController_createTicket,Account,cookie/session; verify role,201
+GET,/v1/support/{id},AccountController_ticket,Account,cookie/session; verify role,200
+POST,/v1/support/{id}/messages,AccountController_reply,Account,cookie/session; verify role,201
+GET,/v1/notifications,AccountController_notifications,Account,cookie/session; verify role,200
+PATCH,/v1/notifications/read-all,AccountController_readAll,Account,cookie/session; verify role,200
+PATCH,/v1/notifications/{id}/read,AccountController_read,Account,cookie/session; verify role,200
+GET,/v1/notification-preferences,AccountController_preferences,Account,cookie/session; verify role,200
+PATCH,/v1/notification-preferences,AccountController_updatePreferences,Account,cookie/session; verify role,200
+POST,/v1/support/{id}/messages/{messageId}/attachments,SupportAttachmentController_upload,Private support attachments,cookie/session; verify role,201
+GET,/v1/support/{id}/attachments,SupportAttachmentController_list,Private support attachments,cookie/session; verify role,200
+GET,/v1/support/{id}/attachments/{attachmentId}/content,SupportAttachmentController_content,Private support attachments,cookie/session; verify role,200
+DELETE,/v1/support/{id}/attachments/{attachmentId},SupportAttachmentController_remove,Private support attachments,cookie/session; verify role,200
+POST,/v1/admin/support/{id}/messages/{messageId}/attachments,AdminSupportAttachmentController_upload,Private admin support attachments,cookie/session; verify role,201
+GET,/v1/admin/support/{id}/attachments,AdminSupportAttachmentController_list,Private admin support attachments,cookie/session; verify role,200
+GET,/v1/admin/support/{id}/attachments/{attachmentId}/content,AdminSupportAttachmentController_content,Private admin support attachments,cookie/session; verify role,200
+DELETE,/v1/admin/support/{id}/attachments/{attachmentId},AdminSupportAttachmentController_remove,Private admin support attachments,cookie/session; verify role,200
+GET,/v1/email-notifications,InvestorEmailController_status,Email notifications,cookie/session; verify role,200
+PATCH,/v1/email-notifications,InvestorEmailController_update,Email notifications,cookie/session; verify role,200
+DELETE,/v1/email-notifications,InvestorEmailController_remove,Email notifications,cookie/session; verify role,200
+POST,/v1/email-notifications/verification,InvestorEmailController_request,Email notifications,cookie/session; verify role,201
+POST,/v1/email-notifications/verification/confirm,InvestorEmailController_confirm,Email notifications,cookie/session; verify role,201

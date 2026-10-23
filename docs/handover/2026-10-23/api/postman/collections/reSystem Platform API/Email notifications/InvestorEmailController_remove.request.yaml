@@ -1,0 +1,45 @@
+$kind: http-request
+name: DELETE /v1/email-notifications
+description: 'Operation ID: InvestorEmailController_remove
+
+
+
+
+  Canonical contract: openapi.json -> DELETE /v1/email-notifications. Success: 200.
+  Bodies are editable contract examples, not captured live requests. Exact per-action
+  validation also applies. Use the cookie jar, not an API-key header. Do not export
+  populated environments or saved auth responses.
+
+
+  Set allow_operation to InvestorEmailController_remove for this one manual request.
+  Mutates state: also requires allow_mutations=true and applicable human authorization.
+  Never run mutations in Collection Runner.
+
+
+  Historical compatibility operation. Current investor UI uses reID profile email
+  without duplicate confirmation/removal.'
+url: '{{baseUrl}}/v1/email-notifications'
+method: DELETE
+headers:
+- key: Accept
+  value: application/json
+- key: Origin
+  value: '{{origin}}'
+- key: X-CSRF-Token
+  value: '{{csrfToken}}'
+auth:
+  type: noauth
+settings:
+  strictSSL: true
+  followRedirects: false
+scripts:
+- type: beforeRequest
+  code: "// Manual-use guard. No secrets are saved or logged by this script.\nconst\
+    \ target = pm.variables.get('baseUrl');\nif (!/^https:\\/\\/[^/?#@]+(?::[0-9]+)?$/.test(target\
+    \ || '')) {\n  pm.execution.skipRequest(); throw new Error('Use an HTTPS origin\
+    \ without a path or credentials.');\n}\nif (pm.variables.get('allow_operation')\
+    \ !== \"InvestorEmailController_remove\") {\n  pm.execution.skipRequest();\n}\n\
+    if (pm.variables.get('allow_mutations') !== 'true') {\n  pm.execution.skipRequest();\n\
+    }"
+  language: text/javascript
+order: 102000

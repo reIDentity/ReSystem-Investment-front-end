@@ -1,0 +1,42 @@
+$kind: http-request
+name: GET /v1/admin/support/{id}/attachments/{attachmentId}/content
+description: 'Operation ID: AdminSupportAttachmentController_content
+
+
+
+
+  Canonical contract: openapi.json -> GET /v1/admin/support/{id}/attachments/{attachmentId}/content.
+  Success: 200. Bodies are editable contract examples, not captured live requests.
+  Exact per-action validation also applies. Use the cookie jar, not an API-key header.
+  Do not export populated environments or saved auth responses.
+
+
+  Set allow_operation to AdminSupportAttachmentController_content for this one manual
+  request.'
+url: '{{baseUrl}}/v1/admin/support/:id/attachments/:attachmentId/content'
+method: GET
+headers:
+- key: Accept
+  value: image/webp
+auth:
+  type: noauth
+settings:
+  strictSSL: true
+  followRedirects: false
+scripts:
+- type: beforeRequest
+  code: "// Manual-use guard. No secrets are saved or logged by this script.\nconst\
+    \ target = pm.variables.get('baseUrl');\nif (!/^https:\\/\\/[^/?#@]+(?::[0-9]+)?$/.test(target\
+    \ || '')) {\n  pm.execution.skipRequest(); throw new Error('Use an HTTPS origin\
+    \ without a path or credentials.');\n}\nif (pm.variables.get('allow_operation')\
+    \ !== \"AdminSupportAttachmentController_content\") {\n  pm.execution.skipRequest();\n\
+    }"
+  language: text/javascript
+order: 98000
+pathVariables:
+- key: id
+  value: '{{ticketId}}'
+  description: Use the authorized resource ID from a read response.
+- key: attachmentId
+  value: '{{attachmentId}}'
+  description: Use the authorized resource ID from a read response.

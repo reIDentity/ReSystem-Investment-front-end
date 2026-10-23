@@ -1,5 +1,9 @@
 # reSystem Investment - start here
 
+## Audience-specific handover guides — 23 October 2026
+
+Use the [developer handover](docs/handover/2026-10-23/DEVELOPER_HANDOVER.md), [admin operating guide](docs/handover/2026-10-23/ADMIN_GUIDE.md) and [investor user guide](docs/handover/2026-10-23/INVESTOR_GUIDE.md). The developer package includes the canonical OpenAPI schema, a safe importable 104-operation Postman collection, an empty-secret environment and reproducible verification/rendering scripts. Full copies and PDFs are archived in the private Notion Documents library; their records are in `docs/planning/notion-tracker.json`. This documentation branch does not change the deployed candidate.
+
 ## 23 October 2026 — stable client test candidate
 
 Use [CLIENT-UAT-2026-10-23](docs/testing/CLIENT_TEST_RELEASE_20261023.md) for the current test route, exact deployed revisions and known limitations. API/worker `8924944`, admin `f954ad0`, indexer `6f35968` and investor application `6274452` remain the verified candidate; QA requests stay enabled. No new FP release or real-chain transaction occurred during this follow-up.

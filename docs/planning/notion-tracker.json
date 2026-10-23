@@ -684,9 +684,14 @@
       "page_id": "4023b21a-c925-81ab-b6b6-fdf0af936dcd",
       "url": "https://app.notion.com/p/4023b21ac92581abb6b6fdf0af936dcd",
       "title": "Finish isolated acceptance and record stable client test release"
+    },
+    "RSI-130": {
+      "page_id": "4023b21a-c925-8133-9316-d1e35ae753cb",
+      "url": "https://app.notion.com/p/4023b21ac92581339316d1e35ae753cb",
+      "title": "Create developer, admin and investor handover guides"
     }
   },
-  "task_count": 129,
+  "task_count": 130,
   "initial_status": "To do",
   "github_sync": "Codex-managed workflow; no automatic webhook or background automation configured",
   "plan_page_id": "3fb3b21a-c925-810b-9694-e2c99173f5f9",
@@ -844,6 +849,21 @@
       "page_id": "4023b21a-c925-81bd-bab2-c5f560ba8066",
       "url": "https://app.notion.com/p/4023b21ac92581bdbab2c5f560ba8066",
       "title": "Client test release — 23 October 2026"
+    },
+    "docs/handover/2026-10-23/DEVELOPER_HANDOVER.md": {
+      "page_id": "4023b21a-c925-81e2-ac6c-e426b47f0c8c",
+      "url": "https://app.notion.com/p/4023b21ac92581e2ac6ce426b47f0c8c",
+      "title": "reSystem Investment - Developer handover"
+    },
+    "docs/handover/2026-10-23/ADMIN_GUIDE.md": {
+      "page_id": "4023b21a-c925-8147-bb8c-fea1b1fe2f21",
+      "url": "https://app.notion.com/p/4023b21ac9258147bb8cfea1b1fe2f21",
+      "title": "reSystem Investment - Admin operating guide"
+    },
+    "docs/handover/2026-10-23/INVESTOR_GUIDE.md": {
+      "page_id": "4023b21a-c925-8163-b1b4-f9129a064fd1",
+      "url": "https://app.notion.com/p/4023b21ac9258163b1b4f9129a064fd1",
+      "title": "reSystem Investment - Investor user guide"
     }
   },
   "service_records": {

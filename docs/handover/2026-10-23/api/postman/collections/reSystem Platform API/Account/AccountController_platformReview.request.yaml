@@ -1,0 +1,38 @@
+$kind: http-request
+name: GET /v1/transactions/{id}/platform-review
+description: 'Operation ID: AccountController_platformReview
+
+
+
+
+  Canonical contract: openapi.json -> GET /v1/transactions/{id}/platform-review. Success:
+  200. Bodies are editable contract examples, not captured live requests. Exact per-action
+  validation also applies. Use the cookie jar, not an API-key header. Do not export
+  populated environments or saved auth responses.
+
+
+  Set allow_operation to AccountController_platformReview for this one manual request.'
+url: '{{baseUrl}}/v1/transactions/:id/platform-review'
+method: GET
+headers:
+- key: Accept
+  value: application/json
+auth:
+  type: noauth
+settings:
+  strictSSL: true
+  followRedirects: false
+scripts:
+- type: beforeRequest
+  code: "// Manual-use guard. No secrets are saved or logged by this script.\nconst\
+    \ target = pm.variables.get('baseUrl');\nif (!/^https:\\/\\/[^/?#@]+(?::[0-9]+)?$/.test(target\
+    \ || '')) {\n  pm.execution.skipRequest(); throw new Error('Use an HTTPS origin\
+    \ without a path or credentials.');\n}\nif (pm.variables.get('allow_operation')\
+    \ !== \"AccountController_platformReview\") {\n  pm.execution.skipRequest();\n\
+    }"
+  language: text/javascript
+order: 78000
+pathVariables:
+- key: id
+  value: '{{intentId}}'
+  description: Use the authorized resource ID from a read response.

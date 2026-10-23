@@ -1,0 +1,39 @@
+$kind: http-request
+name: GET /v1/admin/marketplace
+description: 'Operation ID: AdminController_market
+
+
+
+
+  Canonical contract: openapi.json -> GET /v1/admin/marketplace. Success: 200. Bodies
+  are editable contract examples, not captured live requests. Exact per-action validation
+  also applies. Use the cookie jar, not an API-key header. Do not export populated
+  environments or saved auth responses.
+
+
+  Set allow_operation to AdminController_market for this one manual request.'
+url: '{{baseUrl}}/v1/admin/marketplace'
+method: GET
+headers:
+- key: Accept
+  value: application/json
+auth:
+  type: noauth
+settings:
+  strictSSL: true
+  followRedirects: false
+scripts:
+- type: beforeRequest
+  code: "// Manual-use guard. No secrets are saved or logged by this script.\nconst\
+    \ target = pm.variables.get('baseUrl');\nif (!/^https:\\/\\/[^/?#@]+(?::[0-9]+)?$/.test(target\
+    \ || '')) {\n  pm.execution.skipRequest(); throw new Error('Use an HTTPS origin\
+    \ without a path or credentials.');\n}\nif (pm.variables.get('allow_operation')\
+    \ !== \"AdminController_market\") {\n  pm.execution.skipRequest();\n}"
+  language: text/javascript
+order: 61000
+queryParams:
+- key: cursor
+  value: '{{cursor}}'
+  disabled: true
+  description: Opaque kind-bound keyset cursor from nextCursor. Each page is a fresh
+    confirmed view; not an immutable multi-page export.

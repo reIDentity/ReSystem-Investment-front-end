@@ -1,0 +1,58 @@
+$kind: http-request
+name: GET /v1/activity
+description: 'Operation ID: AccountController_activity
+
+
+
+
+  Canonical contract: openapi.json -> GET /v1/activity. Success: 200. Bodies are editable
+  contract examples, not captured live requests. Exact per-action validation also
+  applies. Use the cookie jar, not an API-key header. Do not export populated environments
+  or saved auth responses.
+
+
+  Set allow_operation to AccountController_activity for this one manual request.'
+url: '{{baseUrl}}/v1/activity?page={{page}}&pageSize={{pageSize}}&filter={{filter}}'
+method: GET
+headers:
+- key: Accept
+  value: application/json
+auth:
+  type: noauth
+settings:
+  strictSSL: true
+  followRedirects: false
+scripts:
+- type: beforeRequest
+  code: "// Manual-use guard. No secrets are saved or logged by this script.\nconst\
+    \ target = pm.variables.get('baseUrl');\nif (!/^https:\\/\\/[^/?#@]+(?::[0-9]+)?$/.test(target\
+    \ || '')) {\n  pm.execution.skipRequest(); throw new Error('Use an HTTPS origin\
+    \ without a path or credentials.');\n}\nif (pm.variables.get('allow_operation')\
+    \ !== \"AccountController_activity\") {\n  pm.execution.skipRequest();\n}"
+  language: text/javascript
+order: 69000
+queryParams:
+- key: cursor
+  value: '{{cursor}}'
+  disabled: true
+  description: Enable only when required for this operation. See canonical schema
+    and runtime validation.
+- key: page
+  value: '{{page}}'
+  disabled: false
+  description: 'Numbered mode: one-based page (default 1, max 1000000). Mutually exclusive
+    with cursor.'
+- key: pageSize
+  value: '{{pageSize}}'
+  disabled: false
+  description: 'Numbered mode: 1–50 rows per page (default 10).'
+- key: filter
+  value: '{{filter}}'
+  disabled: false
+  description: Filter applied before counting and paging.
+- key: snapshotBlock
+  value: '{{snapshotBlock}}'
+  disabled: true
+  description: Use pagination.snapshotBlock from the first response to exclude newer
+    blocks across pages.
+examples: ./.resources/AccountController_activity.resources/examples
