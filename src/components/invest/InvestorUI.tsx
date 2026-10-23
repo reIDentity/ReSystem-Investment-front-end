@@ -69,7 +69,7 @@ export function CopyButton({ value, children = "Copy address" }: { value: string
   return <button type="button" className="iv-button iv-small" aria-live="polite" onClick={async () => {
     if (pending.current) return;
     pending.current = true;
-    try { await window.navigator.clipboard.writeText(value); setCopied(value); notify("Address copied to clipboard."); }
+    try { await window.navigator.clipboard.writeText(value); setCopied(value); notify("Address copied to clipboard.", { kind: "success" }); }
     catch { setCopied(null); notify("Clipboard access is unavailable. Select and copy the address shown."); }
     finally { pending.current = false; }
   }}>{copied === value ? "Copied ✓" : children}</button>;

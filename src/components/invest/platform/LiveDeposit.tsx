@@ -27,7 +27,7 @@ export function LiveDeposit() {
       // Plain SWR revalidation can resolve stale cached data after a failed GET.
       const updated = await deposits.mutate(api<Deposits>("wallet/deposits"), { revalidate: false, throwOnError: true });
       if (updated?.wallet.toLowerCase() !== user.wallet.toLowerCase() || updated?.address.toLowerCase() !== user.wallet.toLowerCase()) throw new Error("The wallet changed. Reconnect with reID.");
-      notify("Deposit history refreshed. New deposits appear after INFRA confirmation.");
+      notify("Deposit history refreshed. New deposits appear after INFRA confirmation.", { kind: "success" });
     } catch { setRefreshError(new Error("Deposit history could not refresh. Check your connection and try again.")); notify("Could not refresh deposits. Check the message beside Recent deposits and try again."); }
     finally { setRefreshing(false); }
   }
