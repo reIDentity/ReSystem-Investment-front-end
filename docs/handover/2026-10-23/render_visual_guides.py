@@ -107,7 +107,7 @@ def build(key,g,args):
  source=(ROOT/(key+'.md')).read_text();source=re.sub(r'<!-- VISUAL WALKTHROUGH START -->.*?<!-- VISUAL WALKTHROUGH END -->','',source,flags=re.S).replace('## Detailed reference\nThe following sections explain the rules, exceptions and troubleshooting behind the visual walkthrough.\n','')
  md=tmp/(key+'.md');md.write_text(source)
  ref=tmp/(key+'-reference.pdf')
- reference.render(md,ref,g['title'],'Detailed operating reference',['Understand','Review','Approve','Track'])
+ reference.render(md,ref,g['title'],'Detailed operating reference',['Understand','Review','Approve','Track'],version='1.1')
  vis=visual_pdf(key,g,out);(tmp/(key+'-visual.pdf')).write_bytes(vis)
  vr=PdfReader(io.BytesIO(vis));rr=PdfReader(ref);writer=PdfWriter();writer.append(vr,import_outline=True)
  start=len(vr.pages);writer.append(rr,pages=(2,len(rr.pages)),import_outline=True)

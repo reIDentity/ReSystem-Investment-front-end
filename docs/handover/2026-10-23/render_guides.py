@@ -56,11 +56,11 @@ class Journey(Flowable):
                 c.setStrokeColor(BLUE);c.line(x+box+2,31,x+box+8,31)
 
 class GuideDoc(BaseDocTemplate):
-    def __init__(self, filename, title, **kwargs):
+    def __init__(self, filename, title, version="1.0", **kwargs):
         super().__init__(str(filename),pagesize=A4,leftMargin=M,rightMargin=M,
                          topMargin=70,bottomMargin=48,title='reSystem Investment - '+title,
                          author='reSystem Investment',**kwargs)
-        self.guide_title=title;self.heading_count=0
+        self.guide_title=title;self.heading_count=0;self.version=version
         frame=Frame(M,48,CW,H-118,id='body',leftPadding=0,rightPadding=0,topPadding=0,bottomPadding=0)
         self.addPageTemplates(PageTemplate(id='Guide',frames=[frame],onPage=self.decorate))
     def beforeDocument(self): self.heading_count=0
@@ -73,7 +73,7 @@ class GuideDoc(BaseDocTemplate):
             c.setStrokeColor(LINE);c.line(M,H-52,W-M,H-52)
         c.setStrokeColor(LINE);c.line(M,35,W-M,35)
         c.setFillColor(MUTED);c.setFont('Body',7)
-        c.drawString(M,23,'23 October 2026  |  Version 1.0  |  INFRA UAT')
+        c.drawString(M,23,f'23 October 2026  |  Version {self.version}  |  INFRA UAT')
         c.drawRightString(W-M,23,str(doc.page))
         c.restoreState()
     def afterFlowable(self,f):
@@ -83,7 +83,7 @@ class GuideDoc(BaseDocTemplate):
             self.canv.addOutlineEntry(text,key,0,False)
             self.notify('TOCEntry',(0,text,self.page,key))
 
-def render(source,output,title,subtitle,labels):
+def render(source,output,title,subtitle,labels,version="1.0"):
     styles={
         'body':ParagraphStyle('BodyText',fontName='Body',fontSize=9.5,leading=14.4,textColor=INK,spaceAfter=8,splitLongWords=True),
         'h2':ParagraphStyle('H2',fontName='BodyBold',fontSize=16,leading=21,textColor=INK,spaceBefore=18,spaceAfter=10,keepWithNext=True),
@@ -100,7 +100,7 @@ def render(source,output,title,subtitle,labels):
     story.append(Paragraph(title,ParagraphStyle('Cover',fontName='BodyBold',fontSize=35,leading=42,textColor=INK,spaceAfter=22)))
     story.append(Paragraph(subtitle,ParagraphStyle('Deck',fontName='Body',fontSize=15,leading=23,textColor=MUTED,spaceAfter=30)))
     story.append(Journey(labels));story.append(Spacer(1,28))
-    story.append(Paragraph('<b>CLIENT-UAT-2026-10-23</b><br/>Version 1.0 | 23 October 2026',styles['body']))
+    story.append(Paragraph(f'<b>CLIENT-UAT-2026-10-23</b><br/>Version {version} | 23 October 2026',styles['body']))
     audience='Internal engineering handover. Includes API collection and operating runbooks.' if 'Developer' in title else 'A practical guide to the current UAT application. Use your own account and review each transaction.'
     story.append(Paragraph(audience,styles['body']))
     story.append(PageBreak())
@@ -149,7 +149,7 @@ def render(source,output,title,subtitle,labels):
                 ('BOTTOMPADDING',(0,0),(-1,-1),8),('LINEBELOW',(0,-1),(-1,-1),.5,LINE)]))
             story += [table,Spacer(1,12)];i=j+1;continue
         i+=1
-    doc=GuideDoc(output,title);doc.multiBuild(story)
+    doc=GuideDoc(output,title,version=version);doc.multiBuild(story)
     print(output)
 
 if __name__=='__main__':
