@@ -1,5 +1,11 @@
 # reSystem Investment - start here
 
+## 23 October 2026 — platform audit fixes deployed
+
+The owner requested security/performance fixes, clearer investor feedback and scoped interaction animations, and richer admin information. The [audit evidence](docs/testing/PLATFORM_AUDIT_20261023.md) records verified defects, tested corrections and remaining acceptance limits. Backend `8924944` and admin `f954ad0` are verified running on FP; investor `6274452` is deployed on Vercel. Hosted CI, guarded release receipts and signed-in desktop checks pass. QA reID requests were restored immediately after the owner-approved brief rollout pause. RSI-126/127/128 are Done for this audit scope; backlog 128: 104 Done / 21 In progress / 3 To do.
+
+The audit fixes atomic authentication throttling, redirect boundaries, upload admission, truthful refresh/write outcomes, Activity project names and admin overview completeness. Contracts and indexer regressions pass without source changes. Ongoing QA requests remain enabled. The shared signer, KMS policy, schema and existing financial authorizations are preserved; no wallet transaction or message/email test was submitted. The approved investor layout and branding remain.
+
 ## 22 October 2026 — holdings alignment and staff onboarding complete
 
 RSI-122 is Done: [c55234e](https://github.com/reIDentity/ReSystem-Investment-front-end/commit/c55234eff1159520f990204c3c7759eda8e40c28), CI39767014954 and Vercel pass. Actual desktop holdings now have identical button-row positions, correcting the20.25px difference without changing the220px card heights; phone390 retains40px buttons/16px bottom padding and no overflow. The viewport was reset. No transaction was prepared or signed.

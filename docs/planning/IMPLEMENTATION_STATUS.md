@@ -1,5 +1,11 @@
 # Implementation and recovery status — 16 October 2026
 
+## 23 October 2026 — platform audit fixes deployed
+
+The owner requested security/performance fixes, clearer investor feedback and scoped interaction animations, and richer admin information. The [audit evidence](../testing/PLATFORM_AUDIT_20261023.md) records verified defects, tested corrections and remaining acceptance limits. Backend `8924944` and admin `f954ad0` are verified running on FP; investor `6274452` is deployed on Vercel. Hosted CI, guarded release receipts and signed-in desktop checks pass. QA reID requests were restored immediately after the owner-approved brief rollout pause. RSI-126/127/128 are Done for this audit scope; backlog 128: 104 Done / 21 In progress / 3 To do.
+
+The audit fixes atomic authentication throttling, redirect boundaries, upload admission, truthful refresh/write outcomes, Activity project names and admin overview completeness. Contracts and indexer regressions pass without source changes. Ongoing QA requests remain enabled. The shared signer, KMS policy, schema and existing financial authorizations are preserved; no wallet transaction or message/email test was submitted. The approved investor layout and branding remain.
+
 ## 22 October 2026 — automatic admin revenue references deployed
 
 RSI-121 is Done. The admin revenue form creates its own funding reference and fingerprints optional local PDF/CSV/XLSX reports; staff no longer enter bytes32 values. [Admin70a569d](https://github.com/reIDentity/ReSystem-Investment-admin/commit/70a569d25bbe8387a8698bce9a3441191dff9869) passes191 tests, lint, types, build and CI39764805668. Root receipt `release-admin-70a569d25bbe-57c12fc0cc98` and actual desktop/phone acceptance verify deployment. The owner-approved brief pause is complete and ongoing investor QA is enabled again. No report content was uploaded, financial request prepared, wallet signed or funds moved. Backend/indexer/signer, schema, permissions, resources and installed controller policy remain unchanged. See `docs/testing/ADMIN_REVENUE_REFERENCES_20261022.md` for exact source/image/runtime evidence. Backlog121:98 Done/20 In progress/3 To do.

@@ -654,9 +654,34 @@
       "page_id": "4013b21a-c925-81f9-bf04-fe227e671f08",
       "url": "https://app.notion.com/p/4013b21ac92581f9bf04fe227e671f08",
       "title": "Provision Manoj super-admin with human MFA enrollment"
+    },
+    "RSI-124": {
+      "page_id": "4013b21a-c925-810e-9db8-e4e25057ef7e",
+      "url": "https://app.notion.com/p/4013b21ac925810e9db8e4e25057ef7e",
+      "title": "Diagnose NFT artwork and collection names in explorer and MetaMask"
+    },
+    "RSI-125": {
+      "page_id": "4013b21a-c925-81d7-b5dc-e6dc1489b2ea",
+      "url": "https://app.notion.com/p/4013b21ac92581d7b5dce6dc1489b2ea",
+      "title": "Provision two additional super-admin accounts with human MFA enrollment"
+    },
+    "RSI-126": {
+      "page_id": "4023b21a-c925-8167-af53-c275571ac985",
+      "url": "https://app.notion.com/p/4023b21ac9258167af53c275571ac985",
+      "title": "Audit platform security and performance and fix verified defects"
+    },
+    "RSI-127": {
+      "page_id": "4023b21a-c925-8127-97ba-d0affc862cc0",
+      "url": "https://app.notion.com/p/4023b21ac925812797bad0affc862cc0",
+      "title": "Improve investor action feedback and accessible interaction motion"
+    },
+    "RSI-128": {
+      "page_id": "4023b21a-c925-8127-bf13-f9d68afb6ae4",
+      "url": "https://app.notion.com/p/4023b21ac9258127bf13f9d68afb6ae4",
+      "title": "Expand permission-aware admin operational information"
     }
   },
-  "task_count": 123,
+  "task_count": 128,
   "initial_status": "To do",
   "github_sync": "Codex-managed workflow; no automatic webhook or background automation configured",
   "plan_page_id": "3fb3b21a-c925-810b-9694-e2c99173f5f9",
@@ -804,6 +829,11 @@
       "page_id": "4013b21a-c925-813d-a4c2-f5d4623f24e3",
       "url": "https://app.notion.com/p/4013b21ac925813da4c2f5d4623f24e3",
       "title": "reID email, notification reading, project icons and purchase totals — 22 October 2026"
+    },
+    "docs/testing/PLATFORM_AUDIT_20261023.md": {
+      "page_id": "4023b21a-c925-81c8-9126-d28a965a32da",
+      "url": "https://app.notion.com/p/4023b21ac92581c89126d28a965a32da",
+      "title": "Platform security, performance and usability audit — 23 October 2026"
     }
   },
   "service_records": {
@@ -877,11 +907,11 @@
     }
   },
   "operations_updated_at_utc": "2026-10-21T07:46:47.509449+00:00",
-  "last_status_sync_at_utc": "2026-10-22T11:03:39.629829+00:00",
-  "last_status_sync_scope": "RSI-122 deployed card alignment and RSI-123 owner-authorized protected staff provisioning complete. Private credentials remain outside source; ongoing QA unchanged.",
+  "last_status_sync_at_utc": "2026-10-23T07:05:47Z",
+  "last_status_sync_scope": "RSI-124 external NFT gateway remains open; RSI-125 protected staff provisioning complete; RSI-126/127/128 audit fixes deployed, verified, QA restored enabled.",
   "status_counts": {
-    "Done": 100,
-    "In progress": 20,
+    "Done": 104,
+    "In progress": 21,
     "To do": 3
   }
 }

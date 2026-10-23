@@ -3058,5 +3058,85 @@
     "status": "Done",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-backend/commit/7faae39c2dbf8eeddc1620bf4b40539456006768",
     "verification_evidence": "Existing deployed provisionStaff function executed as one transaction; new account/role/password postconditions verified, three audit records, no sessions/factor/email. Private credential child record created. This commit identifies the actual existing implementation; operation required no new backend source/schema/gate changes."
+  },
+  {
+    "id": "RSI-124",
+    "title": "Diagnose NFT artwork and collection names in explorer and MetaMask",
+    "phase": "11 · Platform audit and usability",
+    "repository": "Cross-project",
+    "priority": "P1",
+    "objective": "Diagnose NFT artwork and collection names in explorer and MetaMask",
+    "requirements": [],
+    "acceptance": [],
+    "dependencies": [],
+    "status": "In progress",
+    "verification_evidence": "On-chain metadata and original artwork are intact. Explorer gateway rewriting and MetaMask gateway access fail externally; optional collection name getters are absent in deployed v1. No remint, metadata update or wallet setting change performed.",
+    "blocked": true,
+    "blocker": "External explorer/operator and wallet gateway behavior; no metadata/signing change authorized."
+  },
+  {
+    "id": "RSI-125",
+    "title": "Provision two additional super-admin accounts with human MFA enrollment",
+    "phase": "11 · Platform audit and usability",
+    "repository": "Backend",
+    "priority": "P1",
+    "objective": "Provision two additional super-admin accounts with human MFA enrollment",
+    "requirements": [],
+    "acceptance": [],
+    "dependencies": [],
+    "status": "Done",
+    "verification_evidence": "Both owner-requested accounts were provisioned atomically with distinct strong passwords, verified Argon2 hashes, reserved GLOBAL membership, zero sessions/factors and two durable audits. Credentials remain in the private credential record; no email or runtime policy change.",
+    "commit_url": "https://github.com/reIDentity/ReSystem-Investment-backend/commit/7faae39c2dbf8eeddc1620bf4b40539456006768"
+  },
+  {
+    "id": "RSI-126",
+    "title": "Audit platform security and performance and fix verified defects",
+    "phase": "11 · Platform audit and usability",
+    "repository": "Cross-project",
+    "priority": "P1",
+    "objective": "Audit platform security and performance and fix verified defects",
+    "requirements": [],
+    "acceptance": [
+      "Fix verified defects with regression checks while preserving privacy, authorization, approved layout and exact financial approvals.",
+      "Record published source, hosted checks, actual runtime and signed-in acceptance separately; no new wallet action."
+    ],
+    "dependencies": [],
+    "status": "Done",
+    "verification_evidence": "Backend 8924944 deployed on FP: atomic concurrency throttle, bounded pre-Multer upload admission, published-only Activity project context. 144 unit passes +1 existing macOS skip; 250 real API/PostgreSQL/Redis tests pass; hosted CI 39911873722/image 39913044841 pass. Contracts 101 and indexer 109 + 10 isolated integration tests pass. Four production dependency audits report zero known vulnerabilities. Release receipt release-backend-8924944716f4-bf9c595b17db; protected state preserved, QA restored open, no financial actions. Independent security/capacity acceptance remains separate.",
+    "commit_url": "https://github.com/reIDentity/ReSystem-Investment-backend/commit/8924944716f4e5bb960c9303b0b8362ee1e601ce"
+  },
+  {
+    "id": "RSI-127",
+    "title": "Improve investor action feedback and accessible interaction motion",
+    "phase": "11 · Platform audit and usability",
+    "repository": "Investor frontend",
+    "priority": "P1",
+    "objective": "Improve investor action feedback and accessible interaction motion",
+    "requirements": [],
+    "acceptance": [
+      "Fix verified defects with regression checks while preserving privacy, authorization, approved layout and exact financial approvals.",
+      "Record published source, hosted checks, actual runtime and signed-in acceptance separately; no new wallet action."
+    ],
+    "dependencies": [],
+    "status": "Done",
+    "verification_evidence": "157 hosted tests, lint/types/build and Vercel pass. Live refresh progress/success/automatic expiry, popup motion/Escape/focus return, aligned image holdings and help guidance verified. Real-SWR tests cover truthful write/refresh outcomes. Existing layout and approval boundaries preserved; fresh phone/client acceptance remains separate.",
+    "commit_url": "https://github.com/reIDentity/ReSystem-Investment-front-end/commit/6274452876a44d3a13e40a502401f066ebd911fb"
+  },
+  {
+    "id": "RSI-128",
+    "title": "Expand permission-aware admin operational information",
+    "phase": "11 · Platform audit and usability",
+    "repository": "Admin frontend",
+    "priority": "P1",
+    "objective": "Expand permission-aware admin operational information",
+    "requirements": [],
+    "acceptance": [
+      "Fix verified defects with regression checks while preserving privacy, authorization, approved layout and exact financial approvals.",
+      "Record published source, hosted checks, actual runtime and signed-in acceptance separately; no new wallet action."
+    ],
+    "dependencies": [],
+    "status": "Done",
+    "verification_evidence": "Admin f954ad0 deployed on FP: 199 tests/lint/types/build plus hosted CI 39911535117/image 39912364001 pass. Rich scoped overview, named requests, sale availability, exact indexed proceeds/reserves, honest refresh states and on-demand charts verified in signed-in live browser. Receipt release-admin-f954ad0e8f78-1e57c75d7f16; QA restored open, shared signer/policy unchanged. No messages or transactions submitted.",
+    "commit_url": "https://github.com/reIDentity/ReSystem-Investment-admin/commit/f954ad0e8f78f0c31e02205d6dca69c5558aa7bc"
   }
 ]
