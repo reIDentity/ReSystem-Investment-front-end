@@ -22,7 +22,7 @@ export function transactionGuidance(intent: TransactionResponse): string {
   switch (intent.status) {
     case "CREATED": return "Review the amount, destination and network fee, then request approval. Nothing is sent until you approve in reID.";
     case "SUBMITTING": return "Your approval request is being sent to reID. Keep this request while its status updates; do not create another one.";
-    case "AWAITING_APPROVAL": return "Open reID to approve or reject this exact request. Return here to follow confirmation.";
+    case "AWAITING_APPROVAL": return "Open the reID mobile app or scan the approval code to review this exact request. Return here to follow confirmation.";
     case "BROADCAST": return "Your transaction was sent to INFRA and is waiting for confirmation. Do not send it again.";
     case "CONFIRMED": return "INFRA confirmed your transaction. Your balances and activity will update when indexing finishes.";
     case "INDEXED": return "Your transaction is confirmed and recorded. View your latest balances in Wallet and the transaction details in Activity.";

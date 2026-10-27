@@ -684,9 +684,19 @@
       "page_id": "4023b21a-c925-81ab-b6b6-fdf0af936dcd",
       "url": "https://app.notion.com/p/4023b21ac92581abb6b6fdf0af936dcd",
       "title": "Finish isolated acceptance and record stable client test release"
+    },
+    "RSI-130": {
+      "page_id": "4023b21a-c925-8133-9316-d1e35ae753cb",
+      "url": "https://app.notion.com/p/4023b21ac92581339316d1e35ae753cb",
+      "title": "Create developer, admin and investor handover guides"
+    },
+    "RSI-131": {
+      "page_id": "4063b21a-c925-81aa-83bb-ffebca572bc6",
+      "url": "https://app.notion.com/p/4063b21ac92581aa83bbffebca572bc6",
+      "title": "Migrate reID Connect to mobile app handoff and desktop QR"
     }
   },
-  "task_count": 129,
+  "task_count": 131,
   "initial_status": "To do",
   "github_sync": "Codex-managed workflow; no automatic webhook or background automation configured",
   "plan_page_id": "3fb3b21a-c925-810b-9694-e2c99173f5f9",

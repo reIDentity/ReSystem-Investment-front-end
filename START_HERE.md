@@ -1,5 +1,9 @@
 # reSystem Investment - start here
 
+## 27 October 2026 — mobile reID source candidate
+
+RSI-131 prepares SDK 0.4.0 desktop device QR sign-in, phone PKCE handoff and intent-specific mobile transaction approvals. Explicit UAT configuration remains `REID_BASE_URL=https://uat-wallet.reidentity.net` and `REID_APP_URL=https://app.reidentity.net`; the FP SDK default is not a mobile link host. The owner confirmed that completed device approval awaits a new reID test build. Use reID's in-app scanner or the always-visible user code; `/connect/device` currently has no OS app association or web fallback. See the backend's `docs/REID_MOBILE_CONNECT.md` and [private integration guide](https://app.notion.com/p/4063b21ac925810484c5e024b0112be1). Source is on `feat/reid-mobile-connect`; deployment and actual mobile acceptance remain pending. The current deployed client candidate and ongoing QA controls are untouched.
+
 ## 23 October 2026 — stable client test candidate
 
 Use [CLIENT-UAT-2026-10-23](docs/testing/CLIENT_TEST_RELEASE_20261023.md) for the current test route, exact deployed revisions and known limitations. API/worker `8924944`, admin `f954ad0`, indexer `6f35968` and investor application `6274452` remain the verified candidate; QA requests stay enabled. No new FP release or real-chain transaction occurred during this follow-up.
