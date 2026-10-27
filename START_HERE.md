@@ -1,5 +1,13 @@
 # reSystem Investment - start here
 
+## 27 October 2026 — backend release blocked by relaunched INFRA history
+
+Investor mobile code and clearer error handling are merged; production Vercel source is `2753e106`. Backend `75de100b4b052671ce17cd433e6d43d0270a091f` passes merged-source CI and hosted image build `40512245773`. Its exact source bundle, archive/config/layers are verified and staged on FP (runtime image `sha256:9612113114c3bf4ee32d304665ff9ecaa41963ad36292e425501082071960c4d`). It is **not deployed**.
+
+The owner approved a brief QA request pause, but the root release refused `indexer_not_ready` before changing application images or migrations. Current RPC head is about 38,900 versus last indexed block 7,717,364; that old block and a previously confirmed UAT receipt return null. The node reports `eth_syncing: false`. The owner confirms the blockchain was relaunched and **old history will be restored**. Preserve all existing indexer/database records and checkpoints; do not bypass release readiness, reset history or deploy new contracts to force recovery.
+
+The operator verified and resumed only the refused release's owned signer drain. App images, schema, protected peers, signing switch and signed journal history are unchanged. QA requests are restored and verified **enabled** on API/worker `8924944`. Admin `f954ad0`, indexer `6f35968` and the signer remain unchanged. No signature, broadcast, user login approval or financial request was performed. Before another guarded API/worker release, verify that the RPC actually serves restored history and the existing indexer is fresh/advancing; coordinate an applicable brief QA pause. Successful mobile approval with the provider's released build remains separate acceptance. Current evidence is in [RSI-131](https://app.notion.com/p/4063b21ac92581aa83bbffebca572bc6).
+
 ## 27 October 2026 — post-merge mobile sign-in diagnosis
 
 The owner reported the generic mobile sign-in unavailable message after the mobile source PRs were merged. FP's `/v1/auth/reid/device` returns HTTP 404 and its API/worker still run `8924944`: the new frontend is ahead of its backend. The merge-source backend CI/image pipeline and guarded backend rollout must complete before this route can work. QA requests remain enabled; a deployment pause requires applicable owner approval and restoration. The frontend now distinguishes an update in progress, an expired browser session, throttling, network failure and an unreadable response without exposing upstream error bodies. All 166 frontend tests, lint, types and production build pass locally. This correction does not claim a deployed backend or completed provider mobile approval; RSI-131 remains In progress.

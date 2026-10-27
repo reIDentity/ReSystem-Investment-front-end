@@ -2,7 +2,7 @@
   {
     "id": "RSI-001",
     "title": "Preserve and review the existing live deposit implementation",
-    "phase": "01 · Specification and baseline",
+    "phase": "01 \u00b7 Specification and baseline",
     "repository": "Investor frontend",
     "priority": "P0",
     "objective": "Establish a safe starting point without discarding the current uncommitted work.",
@@ -23,7 +23,7 @@
   {
     "id": "RSI-002",
     "title": "Approve platform scope and economic decision register",
-    "phase": "01 · Specification and baseline",
+    "phase": "01 \u00b7 Specification and baseline",
     "repository": "Cross-project",
     "priority": "P0",
     "objective": "Turn the confirmed requirements and remaining proposals into an explicit implementation specification.",
@@ -47,7 +47,7 @@
   {
     "id": "RSI-003",
     "title": "Verify the INFRA target network and asset manifest",
-    "phase": "01 · Specification and baseline",
+    "phase": "01 \u00b7 Specification and baseline",
     "repository": "Cross-project",
     "priority": "P0",
     "objective": "Establish authoritative network settings before deploying anything.",
@@ -71,7 +71,7 @@
   {
     "id": "RSI-004",
     "title": "Specify integer pricing, ownership and sale accounting",
-    "phase": "01 · Specification and baseline",
+    "phase": "01 \u00b7 Specification and baseline",
     "repository": "Contracts",
     "priority": "P0",
     "objective": "Make all economic calculations exact and reviewable.",
@@ -95,7 +95,7 @@
   {
     "id": "RSI-005",
     "title": "Specify reward allocation and rounding invariants",
-    "phase": "01 · Specification and baseline",
+    "phase": "01 \u00b7 Specification and baseline",
     "repository": "Contracts",
     "priority": "P0",
     "objective": "Prove historical entitlements survive purchases, direct transfers and resale.",
@@ -118,7 +118,7 @@
   {
     "id": "RSI-006",
     "title": "Specify application and contract permissions",
-    "phase": "01 · Specification and baseline",
+    "phase": "01 \u00b7 Specification and baseline",
     "repository": "Cross-project",
     "priority": "P0",
     "objective": "Separate staff authentication from wallet authority and unrestricted investor ownership.",
@@ -142,7 +142,7 @@
   {
     "id": "RSI-007",
     "title": "Audit existing UI and Figma flows against live behavior",
-    "phase": "01 · Specification and baseline",
+    "phase": "01 \u00b7 Specification and baseline",
     "repository": "Cross-project",
     "priority": "P1",
     "objective": "Capture all minor UI requirements without preserving misleading demo behavior.",
@@ -165,7 +165,7 @@
   {
     "id": "RSI-008",
     "title": "Approve API, event and lifecycle acceptance contracts",
-    "phase": "01 · Specification and baseline",
+    "phase": "01 \u00b7 Specification and baseline",
     "repository": "Cross-project",
     "priority": "P0",
     "objective": "Provide shared testable interfaces for independent repositories.",
@@ -191,7 +191,7 @@
   {
     "id": "RSI-009",
     "title": "Create and configure the five independent repositories",
-    "phase": "02 · Repository and platform foundations",
+    "phase": "02 \u00b7 Repository and platform foundations",
     "repository": "Cross-project",
     "priority": "P0",
     "objective": "Keep frontends, backend, contracts and indexer independently deployable.",
@@ -214,7 +214,7 @@
   {
     "id": "RSI-010",
     "title": "Publish versioned shared interface artifacts",
-    "phase": "02 · Repository and platform foundations",
+    "phase": "02 \u00b7 Repository and platform foundations",
     "repository": "Cross-project",
     "priority": "P0",
     "objective": "Synchronize contract ABIs, deployment manifests and API clients across repositories.",
@@ -237,7 +237,7 @@
   {
     "id": "RSI-011",
     "title": "Set up independent CI and quality gates",
-    "phase": "02 · Repository and platform foundations",
+    "phase": "02 \u00b7 Repository and platform foundations",
     "repository": "Cross-project",
     "priority": "P0",
     "objective": "Require repeatable checks before merging or deploying.",
@@ -260,7 +260,7 @@
   {
     "id": "RSI-012",
     "title": "Define secure environment and credential provisioning",
-    "phase": "02 · Repository and platform foundations",
+    "phase": "02 \u00b7 Repository and platform foundations",
     "repository": "Cross-project",
     "priority": "P0",
     "objective": "Provision authorized development/testnet credentials and establish the private Notion register, runtime boundaries and production rotation gate.",
@@ -287,7 +287,7 @@
   {
     "id": "RSI-013",
     "title": "Scaffold the standalone backend service",
-    "phase": "02 · Repository and platform foundations",
+    "phase": "02 \u00b7 Repository and platform foundations",
     "repository": "Backend",
     "priority": "P0",
     "objective": "Provide the NestJS/TypeScript service and infrastructure foundation.",
@@ -311,7 +311,7 @@
   {
     "id": "RSI-014",
     "title": "Design and migrate authoritative off-chain data models",
-    "phase": "02 · Repository and platform foundations",
+    "phase": "02 \u00b7 Repository and platform foundations",
     "repository": "Backend",
     "priority": "P0",
     "objective": "Store private workflows and rebuildable chain projections with clear boundaries.",
@@ -335,7 +335,7 @@
   {
     "id": "RSI-015",
     "title": "Configure background jobs and retry policies",
-    "phase": "02 · Repository and platform foundations",
+    "phase": "02 \u00b7 Repository and platform foundations",
     "repository": "Backend",
     "priority": "P1",
     "objective": "Run durable non-interactive work outside frontend request lifetimes.",
@@ -359,7 +359,7 @@
   {
     "id": "RSI-016",
     "title": "Pin and scaffold the Solidity toolchain",
-    "phase": "02 · Repository and platform foundations",
+    "phase": "02 \u00b7 Repository and platform foundations",
     "repository": "Contracts",
     "priority": "P0",
     "objective": "Start with an INFRA-compatible, reproducible contract toolchain.",
@@ -385,7 +385,7 @@
   {
     "id": "RSI-017",
     "title": "Implement the master project registry and factory",
-    "phase": "03 · Smart contracts",
+    "phase": "03 \u00b7 Smart contracts",
     "repository": "Contracts",
     "priority": "P0",
     "objective": "Create and discover a distinct contract address for every project.",
@@ -410,7 +410,7 @@
   {
     "id": "RSI-018",
     "title": "Implement fixed-version project deployment and initialization",
-    "phase": "03 · Smart contracts",
+    "phase": "03 \u00b7 Smart contracts",
     "repository": "Contracts",
     "priority": "P0",
     "objective": "Deploy gas-efficient project contracts without silent upgrades.",
@@ -434,7 +434,7 @@
   {
     "id": "RSI-019",
     "title": "Implement ERC-1155 ownership and fixed supply",
-    "phase": "03 · Smart contracts",
+    "phase": "03 \u00b7 Smart contracts",
     "repository": "Contracts",
     "priority": "P0",
     "objective": "Represent whole transferable project fractions as token ID 1.",
@@ -458,7 +458,7 @@
   {
     "id": "RSI-020",
     "title": "Implement exact quotes and economic getters",
-    "phase": "03 · Smart contracts",
+    "phase": "03 \u00b7 Smart contracts",
     "repository": "Contracts",
     "priority": "P0",
     "objective": "Return canonical prices without floating-point or exchange-rate ambiguity.",
@@ -482,7 +482,7 @@
   {
     "id": "RSI-021",
     "title": "Implement primary-sale lifecycle and authorization",
-    "phase": "03 · Smart contracts",
+    "phase": "03 \u00b7 Smart contracts",
     "repository": "Contracts",
     "priority": "P0",
     "objective": "Control when new fractions can be purchased.",
@@ -506,7 +506,7 @@
   {
     "id": "RSI-022",
     "title": "Implement native reAED purchases",
-    "phase": "03 · Smart contracts",
+    "phase": "03 \u00b7 Smart contracts",
     "repository": "Contracts",
     "priority": "P0",
     "objective": "Collect native payment and mint fractions atomically.",
@@ -530,7 +530,7 @@
   {
     "id": "RSI-023",
     "title": "Implement verified USDT purchases",
-    "phase": "03 · Smart contracts",
+    "phase": "03 \u00b7 Smart contracts",
     "repository": "Contracts",
     "priority": "P0",
     "objective": "Support direct USDT payment without implicit swaps.",
@@ -554,7 +554,7 @@
   {
     "id": "RSI-024",
     "title": "Implement isolated primary-sale proceeds",
-    "phase": "03 · Smart contracts",
+    "phase": "03 \u00b7 Smart contracts",
     "repository": "Contracts",
     "priority": "P0",
     "objective": "Let authorized treasuries collect investment principal without touching rewards.",
@@ -579,7 +579,7 @@
   {
     "id": "RSI-025",
     "title": "Implement transfer-safe per-asset reward accounting",
-    "phase": "03 · Smart contracts",
+    "phase": "03 \u00b7 Smart contracts",
     "repository": "Contracts",
     "priority": "P0",
     "objective": "Keep allocated rewards with the historical holder.",
@@ -603,7 +603,7 @@
   {
     "id": "RSI-026",
     "title": "Implement actual revenue deposits and references",
-    "phase": "03 · Smart contracts",
+    "phase": "03 \u00b7 Smart contracts",
     "repository": "Contracts",
     "priority": "P0",
     "objective": "Allocate only real received revenue to eligible issued fractions.",
@@ -627,7 +627,7 @@
   {
     "id": "RSI-027",
     "title": "Implement individual reward reads and claims",
-    "phase": "03 · Smart contracts",
+    "phase": "03 \u00b7 Smart contracts",
     "repository": "Contracts",
     "priority": "P0",
     "objective": "Pay actual funded rewards in their original asset.",
@@ -650,7 +650,7 @@
   {
     "id": "RSI-028",
     "title": "Implement bounded multi-project claims",
-    "phase": "03 · Smart contracts",
+    "phase": "03 \u00b7 Smart contracts",
     "repository": "Contracts",
     "priority": "P1",
     "objective": "Let investors collect multiple project rewards safely.",
@@ -660,7 +660,7 @@
     ],
     "acceptance": [
       "Batch size/gas bounds and mixed-success cases follow the approved API.",
-      "Caller cannot redirect another holder’s rewards."
+      "Caller cannot redirect another holder\u2019s rewards."
     ],
     "dependencies": [
       "RSI-027",
@@ -674,7 +674,7 @@
   {
     "id": "RSI-029",
     "title": "Implement anchored metadata and manual yield revisions",
-    "phase": "03 · Smart contracts",
+    "phase": "03 \u00b7 Smart contracts",
     "repository": "Contracts",
     "priority": "P1",
     "objective": "Publish presentation data without changing economic rights.",
@@ -698,7 +698,7 @@
   {
     "id": "RSI-030",
     "title": "Implement roles, two-step changes and scoped pauses",
-    "phase": "03 · Smart contracts",
+    "phase": "03 \u00b7 Smart contracts",
     "repository": "Contracts",
     "priority": "P0",
     "objective": "Bound privileged operations and preserve investor rights during incidents.",
@@ -724,7 +724,7 @@
   {
     "id": "RSI-031",
     "title": "Implement on-chain resale listing lifecycle",
-    "phase": "03 · Smart contracts",
+    "phase": "03 \u00b7 Smart contracts",
     "repository": "Contracts",
     "priority": "P0",
     "objective": "Let holders offer a whole fraction quantity without custody escrow.",
@@ -749,7 +749,7 @@
   {
     "id": "RSI-032",
     "title": "Implement partial-fill quote and listing availability",
-    "phase": "03 · Smart contracts",
+    "phase": "03 \u00b7 Smart contracts",
     "repository": "Contracts",
     "priority": "P0",
     "objective": "Give deterministic trade prices and available quantities.",
@@ -773,7 +773,7 @@
   {
     "id": "RSI-033",
     "title": "Implement atomic reAED resale fills",
-    "phase": "03 · Smart contracts",
+    "phase": "03 \u00b7 Smart contracts",
     "repository": "Contracts",
     "priority": "P0",
     "objective": "Settle native trades and transfer the correct fraction quantity together.",
@@ -797,7 +797,7 @@
   {
     "id": "RSI-034",
     "title": "Implement atomic USDT resale fills",
-    "phase": "03 · Smart contracts",
+    "phase": "03 \u00b7 Smart contracts",
     "repository": "Contracts",
     "priority": "P0",
     "objective": "Settle approved USDT trades with the same ownership guarantees.",
@@ -806,7 +806,7 @@
       "Validate buyer allowances, asset choice, deadlines and expected cost."
     ],
     "acceptance": [
-      "Successful trades collect exact USDT and credit the seller’s correct proceeds.",
+      "Successful trades collect exact USDT and credit the seller\u2019s correct proceeds.",
       "False/failed transfers and malicious callbacks cannot take fractions without payment."
     ],
     "dependencies": [
@@ -821,7 +821,7 @@
   {
     "id": "RSI-035",
     "title": "Implement seller proceeds withdrawal",
-    "phase": "03 · Smart contracts",
+    "phase": "03 \u00b7 Smart contracts",
     "repository": "Contracts",
     "priority": "P0",
     "objective": "Keep resale income independently withdrawable on-chain.",
@@ -831,7 +831,7 @@
     ],
     "acceptance": [
       "Seller can collect completed-sale proceeds once only.",
-      "No project owner, buyer or marketplace admin can withdraw another seller’s proceeds."
+      "No project owner, buyer or marketplace admin can withdraw another seller\u2019s proceeds."
     ],
     "dependencies": [
       "RSI-033",
@@ -845,7 +845,7 @@
   {
     "id": "RSI-036",
     "title": "Finalize ABI, event coverage and deployed-address artifacts",
-    "phase": "03 · Smart contracts",
+    "phase": "03 \u00b7 Smart contracts",
     "repository": "Contracts",
     "priority": "P1",
     "objective": "Make every important financial and administrative action observable.",
@@ -873,7 +873,7 @@
   {
     "id": "RSI-037",
     "title": "Complete contract unit and adversarial integration tests",
-    "phase": "03 · Smart contracts",
+    "phase": "03 \u00b7 Smart contracts",
     "repository": "Contracts",
     "priority": "P0",
     "objective": "Validate successful and failed operations across all contract functions.",
@@ -896,7 +896,7 @@
   {
     "id": "RSI-038",
     "title": "Complete reference-model, fuzz and invariant testing",
-    "phase": "03 · Smart contracts",
+    "phase": "03 \u00b7 Smart contracts",
     "repository": "Contracts",
     "priority": "P0",
     "objective": "Test economic safety over randomized sequences and precision boundaries.",
@@ -920,7 +920,7 @@
   {
     "id": "RSI-039",
     "title": "Migrate real investor reID sessions to the standalone backend",
-    "phase": "04 · Backend services",
+    "phase": "04 \u00b7 Backend services",
     "repository": "Backend",
     "priority": "P0",
     "objective": "Preserve working login while removing business/auth persistence from the frontend.",
@@ -945,7 +945,7 @@
   {
     "id": "RSI-040",
     "title": "Implement encrypted reID connection and transaction scopes",
-    "phase": "04 · Backend services",
+    "phase": "04 \u00b7 Backend services",
     "repository": "Backend",
     "priority": "P0",
     "objective": "Support actual wallet transaction approvals beyond read-only login.",
@@ -969,7 +969,7 @@
   {
     "id": "RSI-041",
     "title": "Implement administrator username/password and MFA",
-    "phase": "04 · Backend services",
+    "phase": "04 \u00b7 Backend services",
     "repository": "Backend",
     "priority": "P0",
     "objective": "Authenticate staff independently from wallet connections.",
@@ -993,7 +993,7 @@
   {
     "id": "RSI-042",
     "title": "Implement staff roles, permissions and project assignments",
-    "phase": "04 · Backend services",
+    "phase": "04 \u00b7 Backend services",
     "repository": "Backend",
     "priority": "P0",
     "objective": "Enforce authorization at every privileged API boundary.",
@@ -1017,7 +1017,7 @@
   {
     "id": "RSI-043",
     "title": "Implement authenticated admin wallet binding",
-    "phase": "04 · Backend services",
+    "phase": "04 \u00b7 Backend services",
     "repository": "Backend",
     "priority": "P0",
     "objective": "Link MetaMask/reID signers to authorized staff records.",
@@ -1041,7 +1041,7 @@
   {
     "id": "RSI-044",
     "title": "Implement Pinata/IPFS upload and media validation",
-    "phase": "04 · Backend services",
+    "phase": "04 \u00b7 Backend services",
     "repository": "Backend",
     "priority": "P1",
     "objective": "Publish safe public assets through server-controlled upload flows.",
@@ -1066,7 +1066,7 @@
   {
     "id": "RSI-045",
     "title": "Implement project draft, review and publishing APIs",
-    "phase": "04 · Backend services",
+    "phase": "04 \u00b7 Backend services",
     "repository": "Backend",
     "priority": "P0",
     "objective": "Manage project creation without making the database the settlement authority.",
@@ -1092,7 +1092,7 @@
   {
     "id": "RSI-046",
     "title": "Implement canonical transaction command orchestration",
-    "phase": "04 · Backend services",
+    "phase": "04 \u00b7 Backend services",
     "repository": "Backend",
     "priority": "P0",
     "objective": "Prepare safe, idempotent transactions from typed business actions.",
@@ -1118,7 +1118,7 @@
   {
     "id": "RSI-047",
     "title": "Implement approval, broadcast, receipt and confirmation tracking",
-    "phase": "04 · Backend services",
+    "phase": "04 \u00b7 Backend services",
     "repository": "Backend",
     "priority": "P0",
     "objective": "Display truthful transaction state through completion and indexing.",
@@ -1142,7 +1142,7 @@
   {
     "id": "RSI-048",
     "title": "Implement actual portfolio and holdings APIs",
-    "phase": "04 · Backend services",
+    "phase": "04 \u00b7 Backend services",
     "repository": "Backend",
     "priority": "P1",
     "objective": "Replace simulated investment balances with on-chain projections.",
@@ -1166,7 +1166,7 @@
   {
     "id": "RSI-049",
     "title": "Implement revenue, claim and manual-yield APIs",
-    "phase": "04 · Backend services",
+    "phase": "04 \u00b7 Backend services",
     "repository": "Backend",
     "priority": "P1",
     "objective": "Expose funded income distinctly from presentation yield.",
@@ -1191,7 +1191,7 @@
   {
     "id": "RSI-050",
     "title": "Implement marketplace listings, trades and proceeds APIs",
-    "phase": "04 · Backend services",
+    "phase": "04 \u00b7 Backend services",
     "repository": "Backend",
     "priority": "P1",
     "objective": "Provide browsable resale views without overriding contract truth.",
@@ -1216,7 +1216,7 @@
   {
     "id": "RSI-051",
     "title": "Implement actual balances, wallet deposits and sending APIs",
-    "phase": "04 · Backend services",
+    "phase": "04 \u00b7 Backend services",
     "repository": "Backend",
     "priority": "P0",
     "objective": "Unify deposit ingestion and wallet operations for verified users.",
@@ -1243,7 +1243,7 @@
   {
     "id": "RSI-052",
     "title": "Implement user-scoped activity and reporting endpoints",
-    "phase": "04 · Backend services",
+    "phase": "04 \u00b7 Backend services",
     "repository": "Backend",
     "priority": "P1",
     "objective": "Make all confirmed financial history searchable and exportable.",
@@ -1252,7 +1252,7 @@
       "Include transaction links, confirmation/indexing state, asset units and idempotent record identity."
     ],
     "acceptance": [
-      "User scoping and pagination do not leak another account’s private activity context.",
+      "User scoping and pagination do not leak another account\u2019s private activity context.",
       "Records trace to chain receipts/events and exports retain exact amounts."
     ],
     "dependencies": [
@@ -1269,7 +1269,7 @@
   {
     "id": "RSI-053",
     "title": "Implement persistent support tickets and replies",
-    "phase": "04 · Backend services",
+    "phase": "04 \u00b7 Backend services",
     "repository": "Backend",
     "priority": "P1",
     "objective": "Replace demo-only support interactions with durable service workflows.",
@@ -1279,7 +1279,7 @@
     ],
     "acceptance": [
       "A ticket survives sessions and service restarts with complete conversation history.",
-      "Investors cannot read or modify another investor’s tickets."
+      "Investors cannot read or modify another investor\u2019s tickets."
     ],
     "dependencies": [
       "RSI-014",
@@ -1295,7 +1295,7 @@
   {
     "id": "RSI-054",
     "title": "Implement actual notifications and preferences",
-    "phase": "04 · Backend services",
+    "phase": "04 \u00b7 Backend services",
     "repository": "Backend",
     "priority": "P1",
     "objective": "Deliver actionable account/transaction events instead of sample alerts.",
@@ -1321,7 +1321,7 @@
   {
     "id": "RSI-055",
     "title": "Implement operational audit and monitoring APIs",
-    "phase": "04 · Backend services",
+    "phase": "04 \u00b7 Backend services",
     "repository": "Backend",
     "priority": "P1",
     "objective": "Make privileged actions, failures and recovery observable.",
@@ -1346,7 +1346,7 @@
   {
     "id": "RSI-056",
     "title": "Publish and verify the complete REST/OpenAPI contract",
-    "phase": "04 · Backend services",
+    "phase": "04 \u00b7 Backend services",
     "repository": "Backend",
     "priority": "P1",
     "objective": "Give both frontends generated, stable and documented API clients.",
@@ -1378,7 +1378,7 @@
   {
     "id": "RSI-057",
     "title": "Scaffold standalone INFRA ingestion and provider resilience",
-    "phase": "05 · INFRA indexer",
+    "phase": "05 \u00b7 INFRA indexer",
     "repository": "Indexer",
     "priority": "P0",
     "objective": "Run a durable chain reader independently of frontend deployments.",
@@ -1404,7 +1404,7 @@
   {
     "id": "RSI-058",
     "title": "Implement durable cursors and event identity",
-    "phase": "05 · INFRA indexer",
+    "phase": "05 \u00b7 INFRA indexer",
     "repository": "Indexer",
     "priority": "P0",
     "objective": "Process every relevant event exactly once in projections.",
@@ -1427,7 +1427,7 @@
   {
     "id": "RSI-059",
     "title": "Implement confirmation and reorganization recovery",
-    "phase": "05 · INFRA indexer",
+    "phase": "05 \u00b7 INFRA indexer",
     "repository": "Indexer",
     "priority": "P0",
     "objective": "Prevent orphaned data from appearing permanently confirmed.",
@@ -1451,7 +1451,7 @@
   {
     "id": "RSI-060",
     "title": "Project registry, sale and metadata projections",
-    "phase": "05 · INFRA indexer",
+    "phase": "05 \u00b7 INFRA indexer",
     "repository": "Indexer",
     "priority": "P1",
     "objective": "Discover factory-created projects and their current public data.",
@@ -1474,7 +1474,7 @@
   {
     "id": "RSI-061",
     "title": "Index ownership, purchases and fraction transfers",
-    "phase": "05 · INFRA indexer",
+    "phase": "05 \u00b7 INFRA indexer",
     "repository": "Indexer",
     "priority": "P0",
     "objective": "Build portfolios from canonical ERC-1155 events.",
@@ -1497,7 +1497,7 @@
   {
     "id": "RSI-062",
     "title": "Index revenue funding, claims and indicative yield",
-    "phase": "05 · INFRA indexer",
+    "phase": "05 \u00b7 INFRA indexer",
     "repository": "Indexer",
     "priority": "P0",
     "objective": "Expose actual funded and paid amounts by project, asset and wallet.",
@@ -1522,7 +1522,7 @@
   {
     "id": "RSI-063",
     "title": "Index resale lifecycle, trades and proceeds",
-    "phase": "05 · INFRA indexer",
+    "phase": "05 \u00b7 INFRA indexer",
     "repository": "Indexer",
     "priority": "P0",
     "objective": "Serve marketplace history with correct partial quantities.",
@@ -1546,7 +1546,7 @@
   {
     "id": "RSI-064",
     "title": "Index direct native and USDT wallet activity",
-    "phase": "05 · INFRA indexer",
+    "phase": "05 \u00b7 INFRA indexer",
     "repository": "Indexer",
     "priority": "P0",
     "objective": "Supply complete actual deposit and withdrawal history for connected wallets.",
@@ -1570,7 +1570,7 @@
   {
     "id": "RSI-065",
     "title": "Implement reconciliation, backfill and recovery controls",
-    "phase": "05 · INFRA indexer",
+    "phase": "05 \u00b7 INFRA indexer",
     "repository": "Indexer",
     "priority": "P0",
     "objective": "Rebuild projections and detect silent accounting drift.",
@@ -1597,7 +1597,7 @@
   {
     "id": "RSI-066",
     "title": "Build independent admin app shell and authenticated navigation",
-    "phase": "06 · Administrator application",
+    "phase": "06 \u00b7 Administrator application",
     "repository": "Admin frontend",
     "priority": "P1",
     "objective": "Provide a branded, accessible admin application with its own FP-server deployment accessed through Teleport.",
@@ -1623,7 +1623,7 @@
   {
     "id": "RSI-067",
     "title": "Replace staff wallet connections with shared AWS-custodied admin wallet",
-    "phase": "06 · Administrator application",
+    "phase": "06 \u00b7 Administrator application",
     "repository": "Admin frontend",
     "priority": "P0",
     "objective": "Use one AWS-custodied admin wallet from FP while retaining individually authenticated and permissioned staff approvals.",
@@ -1672,7 +1672,7 @@
   {
     "id": "RSI-068",
     "title": "Build complete project draft and economic configuration wizard",
-    "phase": "06 · Administrator application",
+    "phase": "06 \u00b7 Administrator application",
     "repository": "Admin frontend",
     "priority": "P1",
     "objective": "Let staff prepare accurate projects and fraction prices.",
@@ -1697,7 +1697,7 @@
   {
     "id": "RSI-069",
     "title": "Build review, publish and contract lifecycle management",
-    "phase": "06 · Administrator application",
+    "phase": "06 \u00b7 Administrator application",
     "repository": "Admin frontend",
     "priority": "P0",
     "objective": "Move a reviewed draft to a confirmed on-chain project.",
@@ -1723,7 +1723,7 @@
   {
     "id": "RSI-070",
     "title": "Build project media, metadata and document revision management",
-    "phase": "06 · Administrator application",
+    "phase": "06 \u00b7 Administrator application",
     "repository": "Admin frontend",
     "priority": "P1",
     "objective": "Manage public assets with traceable IPFS references.",
@@ -1748,7 +1748,7 @@
   {
     "id": "RSI-071",
     "title": "Build manual indicative yield controls",
-    "phase": "06 · Administrator application",
+    "phase": "06 \u00b7 Administrator application",
     "repository": "Admin frontend",
     "priority": "P1",
     "objective": "Let project owners update labelled estimates without creating rewards.",
@@ -1772,7 +1772,7 @@
   {
     "id": "RSI-072",
     "title": "Build revenue funding and primary treasury workflows",
-    "phase": "06 · Administrator application",
+    "phase": "06 \u00b7 Administrator application",
     "repository": "Admin frontend",
     "priority": "P0",
     "objective": "Let authorized finance staff prepare and sign actual project funding and withdrawals.",
@@ -1798,7 +1798,7 @@
   {
     "id": "RSI-073",
     "title": "Build sales, holders, claims and marketplace reports",
-    "phase": "06 · Administrator application",
+    "phase": "06 \u00b7 Administrator application",
     "repository": "Admin frontend",
     "priority": "P1",
     "objective": "Give operators and auditors accurate project oversight.",
@@ -1824,7 +1824,7 @@
   {
     "id": "RSI-074",
     "title": "Build investor directory and staff/role management",
-    "phase": "06 · Administrator application",
+    "phase": "06 \u00b7 Administrator application",
     "repository": "Admin frontend",
     "priority": "P0",
     "objective": "Manage staff authority without restricting public token ownership.",
@@ -1850,7 +1850,7 @@
   {
     "id": "RSI-075",
     "title": "Build persistent support inbox and case workflow",
-    "phase": "06 · Administrator application",
+    "phase": "06 \u00b7 Administrator application",
     "repository": "Admin frontend",
     "priority": "P1",
     "objective": "Allow staff to service actual investor requests.",
@@ -1859,7 +1859,7 @@
       "Enforce scoped visibility and preserve conversation/audit history."
     ],
     "acceptance": [
-      "A staff reply appears in the investor’s correct ticket after reload.",
+      "A staff reply appears in the investor\u2019s correct ticket after reload.",
       "Unauthorized access and attachment leakage are prevented."
     ],
     "dependencies": [
@@ -1874,7 +1874,7 @@
   {
     "id": "RSI-076",
     "title": "Build notifications, audit and chain-health operations views",
-    "phase": "06 · Administrator application",
+    "phase": "06 \u00b7 Administrator application",
     "repository": "Admin frontend",
     "priority": "P1",
     "objective": "Expose actionable operational status and recovery controls.",
@@ -1899,7 +1899,7 @@
   {
     "id": "RSI-077",
     "title": "Verify complete admin workflows and accessibility",
-    "phase": "06 · Administrator application",
+    "phase": "06 \u00b7 Administrator application",
     "repository": "Admin frontend",
     "priority": "P1",
     "objective": "Confirm administrators can operate the platform without unsafe hidden assumptions.",
@@ -1929,7 +1929,7 @@
   {
     "id": "RSI-078",
     "title": "Integrate generated clients and real account/session state",
-    "phase": "07 · Investor application",
+    "phase": "07 \u00b7 Investor application",
     "repository": "Investor frontend",
     "priority": "P0",
     "objective": "Replace the demo provider with actual identity and server-backed data.",
@@ -1954,7 +1954,7 @@
   {
     "id": "RSI-079",
     "title": "Replace homepage and explore projects with published data",
-    "phase": "07 · Investor application",
+    "phase": "07 \u00b7 Investor application",
     "repository": "Investor frontend",
     "priority": "P1",
     "objective": "Show only actual published projects and truthful availability.",
@@ -1980,7 +1980,7 @@
   {
     "id": "RSI-080",
     "title": "Build complete live project details",
-    "phase": "07 · Investor application",
+    "phase": "07 \u00b7 Investor application",
     "repository": "Investor frontend",
     "priority": "P1",
     "objective": "Explain economics, documents, ownership and revenue clearly.",
@@ -2005,7 +2005,7 @@
   {
     "id": "RSI-081",
     "title": "Implement primary buy/rebuy flows in both assets",
-    "phase": "07 · Investor application",
+    "phase": "07 \u00b7 Investor application",
     "repository": "Investor frontend",
     "priority": "P0",
     "objective": "Let investors purchase whole fractions with approved wallet transactions.",
@@ -2033,7 +2033,7 @@
   {
     "id": "RSI-082",
     "title": "Replace dashboard with actual portfolio and balances",
-    "phase": "07 · Investor application",
+    "phase": "07 \u00b7 Investor application",
     "repository": "Investor frontend",
     "priority": "P1",
     "objective": "Provide a truthful account overview.",
@@ -2060,7 +2060,7 @@
   {
     "id": "RSI-083",
     "title": "Build holdings details and fraction transfer UI",
-    "phase": "07 · Investor application",
+    "phase": "07 \u00b7 Investor application",
     "repository": "Investor frontend",
     "priority": "P0",
     "objective": "Allow arbitrary whole-quantity transfers to any valid INFRA wallet.",
@@ -2088,7 +2088,7 @@
   {
     "id": "RSI-084",
     "title": "Build actual earnings, funding history and reward claims",
-    "phase": "07 · Investor application",
+    "phase": "07 \u00b7 Investor application",
     "repository": "Investor frontend",
     "priority": "P0",
     "objective": "Let current and former holders collect funded rewards.",
@@ -2115,7 +2115,7 @@
   {
     "id": "RSI-085",
     "title": "Replace wallet balances and assets with INFRA reads",
-    "phase": "07 · Investor application",
+    "phase": "07 \u00b7 Investor application",
     "repository": "Investor frontend",
     "priority": "P0",
     "objective": "Display actual native reAED, verified USDT and ownership tokens.",
@@ -2125,7 +2125,7 @@
     ],
     "acceptance": [
       "Wallet amounts reconcile to independent chain reads.",
-      "Unknown/spoof tokens are not presented as the platform’s verified USDT."
+      "Unknown/spoof tokens are not presented as the platform\u2019s verified USDT."
     ],
     "dependencies": [
       "RSI-078",
@@ -2140,7 +2140,7 @@
   {
     "id": "RSI-086",
     "title": "Complete live deposit migration and eliminate sample data",
-    "phase": "07 · Investor application",
+    "phase": "07 \u00b7 Investor application",
     "repository": "Investor frontend",
     "priority": "P0",
     "objective": "Preserve the current real deposit behavior on the standalone backend/indexer.",
@@ -2166,7 +2166,7 @@
   {
     "id": "RSI-087",
     "title": "Implement real outgoing wallet transfers",
-    "phase": "07 · Investor application",
+    "phase": "07 \u00b7 Investor application",
     "repository": "Investor frontend",
     "priority": "P0",
     "objective": "Send assets to another INFRA address with explicit wallet approval.",
@@ -2191,7 +2191,7 @@
   {
     "id": "RSI-088",
     "title": "Build investor resale browsing and partial buying",
-    "phase": "07 · Investor application",
+    "phase": "07 \u00b7 Investor application",
     "repository": "Investor frontend",
     "priority": "P0",
     "objective": "Make the v1 marketplace usable with real on-chain listings.",
@@ -2219,7 +2219,7 @@
   {
     "id": "RSI-089",
     "title": "Build listing creation, cancellation and seller proceeds UI",
-    "phase": "07 · Investor application",
+    "phase": "07 \u00b7 Investor application",
     "repository": "Investor frontend",
     "priority": "P0",
     "objective": "Let investors resell held fractions and collect completed-sale proceeds.",
@@ -2245,7 +2245,7 @@
   {
     "id": "RSI-090",
     "title": "Replace activity with actual filtered transaction history",
-    "phase": "07 · Investor application",
+    "phase": "07 \u00b7 Investor application",
     "repository": "Investor frontend",
     "priority": "P1",
     "objective": "Explain all account actions with source evidence.",
@@ -2269,7 +2269,7 @@
   {
     "id": "RSI-091",
     "title": "Implement durable investor support tickets",
-    "phase": "07 · Investor application",
+    "phase": "07 \u00b7 Investor application",
     "repository": "Investor frontend",
     "priority": "P1",
     "objective": "Replace local/demo support with actual conversations.",
@@ -2279,7 +2279,7 @@
     ],
     "acceptance": [
       "Tickets survive logout/reconnect and show the correct staff replies.",
-      "An investor cannot open another account’s support record."
+      "An investor cannot open another account\u2019s support record."
     ],
     "dependencies": [
       "RSI-078",
@@ -2294,7 +2294,7 @@
   {
     "id": "RSI-092",
     "title": "Implement real investor notifications",
-    "phase": "07 · Investor application",
+    "phase": "07 \u00b7 Investor application",
     "repository": "Investor frontend",
     "priority": "P1",
     "objective": "Show meaningful updates from account activity.",
@@ -2318,7 +2318,7 @@
   {
     "id": "RSI-093",
     "title": "Complete responsive, accessibility and data-provenance UI audit",
-    "phase": "07 · Investor application",
+    "phase": "07 \u00b7 Investor application",
     "repository": "Investor frontend",
     "priority": "P1",
     "objective": "Finish all designed investor flows with honest states and consistent branding.",
@@ -2354,7 +2354,7 @@
   {
     "id": "RSI-094",
     "title": "Complete cross-service threat model and security checks",
-    "phase": "08 · Verification, release and operations",
+    "phase": "08 \u00b7 Verification, release and operations",
     "repository": "Cross-project",
     "priority": "P0",
     "objective": "Review economic, identity, contract and operational attack paths.",
@@ -2381,7 +2381,7 @@
   {
     "id": "RSI-095",
     "title": "Complete backend/API/database integration suite",
-    "phase": "08 · Verification, release and operations",
+    "phase": "08 \u00b7 Verification, release and operations",
     "repository": "Backend",
     "priority": "P0",
     "objective": "Verify real service boundaries and failure recovery.",
@@ -2405,7 +2405,7 @@
   {
     "id": "RSI-096",
     "title": "Run complete multi-wallet platform lifecycle tests",
-    "phase": "08 · Verification, release and operations",
+    "phase": "08 \u00b7 Verification, release and operations",
     "repository": "Cross-project",
     "priority": "P0",
     "objective": "Prove the intended business journey end to end.",
@@ -2432,7 +2432,7 @@
   {
     "id": "RSI-097",
     "title": "Verify gas, throughput, pagination and operational bounds",
-    "phase": "08 · Verification, release and operations",
+    "phase": "08 \u00b7 Verification, release and operations",
     "repository": "Cross-project",
     "priority": "P1",
     "objective": "Keep production flows usable within INFRA and service limits.",
@@ -2455,7 +2455,7 @@
   {
     "id": "RSI-098",
     "title": "Complete independent contract review and release remediation",
-    "phase": "08 · Verification, release and operations",
+    "phase": "08 \u00b7 Verification, release and operations",
     "repository": "Contracts",
     "priority": "P0",
     "objective": "Obtain a focused independent check before valuable deployments.",
@@ -2480,7 +2480,7 @@
   {
     "id": "RSI-099",
     "title": "Implement reproducible deployment and verification scripts",
-    "phase": "08 · Verification, release and operations",
+    "phase": "08 \u00b7 Verification, release and operations",
     "repository": "Contracts",
     "priority": "P0",
     "objective": "Deploy approved contracts without manual undocumented state.",
@@ -2506,7 +2506,7 @@
   {
     "id": "RSI-100",
     "title": "Configure backend, indexer and database hosting",
-    "phase": "08 · Verification, release and operations",
+    "phase": "08 \u00b7 Verification, release and operations",
     "repository": "Cross-project",
     "priority": "P0",
     "objective": "Run durable platform services on the FP server accessed through Teleport, independently of the Vercel investor frontend.",
@@ -2533,7 +2533,7 @@
   {
     "id": "RSI-101",
     "title": "Configure separate investor and admin frontend deployments",
-    "phase": "08 · Verification, release and operations",
+    "phase": "08 \u00b7 Verification, release and operations",
     "repository": "Cross-project",
     "priority": "P1",
     "objective": "Publish the investor frontend on Vercel and the admin frontend on FP with correct APIs, origins and callbacks.",
@@ -2559,7 +2559,7 @@
   {
     "id": "RSI-102",
     "title": "Configure alerts, monitoring and reconciliation operations",
-    "phase": "08 · Verification, release and operations",
+    "phase": "08 \u00b7 Verification, release and operations",
     "repository": "Cross-project",
     "priority": "P1",
     "objective": "Detect and recover from actual service/chain failures.",
@@ -2585,7 +2585,7 @@
   {
     "id": "RSI-103",
     "title": "Run client acceptance and deployment rehearsal on INFRA",
-    "phase": "08 · Verification, release and operations",
+    "phase": "08 \u00b7 Verification, release and operations",
     "repository": "Cross-project",
     "priority": "P0",
     "objective": "Get explicit sign-off on the complete working platform.",
@@ -2610,7 +2610,7 @@
   {
     "id": "RSI-104",
     "title": "Perform approved release and privileged-role handover",
-    "phase": "08 · Verification, release and operations",
+    "phase": "08 \u00b7 Verification, release and operations",
     "repository": "Cross-project",
     "priority": "P0",
     "objective": "Release only after explicit deployment authorization and completed gates.",
@@ -2635,7 +2635,7 @@
   {
     "id": "RSI-105",
     "title": "Deliver operating runbooks, documentation and backlog evidence",
-    "phase": "08 · Verification, release and operations",
+    "phase": "08 \u00b7 Verification, release and operations",
     "repository": "Cross-project",
     "priority": "P1",
     "objective": "Make the platform maintainable across sessions and operators.",
@@ -2659,7 +2659,7 @@
   {
     "id": "RSI-106",
     "title": "Add investor email notification controls to Notifications preferences",
-    "phase": "07 · Investor application",
+    "phase": "07 \u00b7 Investor application",
     "repository": "Investor frontend",
     "priority": "P1",
     "objective": "Provide confirmed, recipient-bound investor email preferences in the existing Notifications screen.",
@@ -2683,7 +2683,7 @@
   {
     "id": "RSI-107",
     "title": "Match all email templates to the approved system colours and logo",
-    "phase": "07 · Investor application",
+    "phase": "07 \u00b7 Investor application",
     "repository": "Backend",
     "priority": "P1",
     "objective": "Use the approved investor logo and blue/white branding consistently across investor, staff and operations email.",
@@ -2707,7 +2707,7 @@
   {
     "id": "RSI-108",
     "title": "Audit and improve admin information, names and actionable context",
-    "phase": "08 · Admin application",
+    "phase": "08 \u00b7 Admin application",
     "repository": "Cross-project",
     "priority": "P1",
     "objective": "Make authorized admin records understandable without guessing identity or exposing restricted account data.",
@@ -2729,7 +2729,7 @@
   {
     "id": "RSI-109",
     "title": "Audit shared UI, pagination, review and asynchronous-state logic",
-    "phase": "11 · Testing and release",
+    "phase": "11 \u00b7 Testing and release",
     "repository": "Cross-project",
     "priority": "P1",
     "objective": "Fix reproduced aggregate, stale state, review lifecycle and canonical history defects without new financial authority.",
@@ -2751,7 +2751,7 @@
   {
     "id": "RSI-110",
     "title": "Automate guarded dev deployments to FP without personal Teleport sessions",
-    "phase": "11 · Testing and release",
+    "phase": "11 \u00b7 Testing and release",
     "repository": "Cross-project",
     "priority": "P0",
     "objective": "Deploy exact successful dev commits through hosted builds and a narrow service-specific machine identity, without personal Teleport tokens.",
@@ -2773,7 +2773,7 @@
   {
     "id": "RSI-111",
     "title": "Verify stable QA release and public NFT media delivery",
-    "phase": "11 · Testing and release",
+    "phase": "11 \u00b7 Testing and release",
     "repository": "Cross-project",
     "priority": "P0",
     "objective": "Provide a reproducible INFRA testnet QA candidate and explicit known limitations, preserving the approved UI.",
@@ -2796,7 +2796,7 @@
   {
     "id": "RSI-112",
     "title": "Create the first four landing projects and integrate their live public data",
-    "phase": "07 · Investor application",
+    "phase": "07 \u00b7 Investor application",
     "repository": "Cross-project",
     "priority": "P1",
     "objective": "Create four UAT sample projects for the first landing cards and bind the approved cards to their real published records and chain/indexer values.",
@@ -2821,7 +2821,7 @@
   {
     "id": "RSI-113",
     "title": "Fix purchase preparation failure and display actionable investor errors",
-    "phase": "07 · Investor application",
+    "phase": "07 \u00b7 Investor application",
     "repository": "Investor frontend",
     "priority": "P1",
     "objective": "Identify the live purchase rejection and show safe, specific error reasons and next steps without changing the approved design or financial controls.",
@@ -2846,7 +2846,7 @@
   {
     "id": "RSI-114",
     "title": "Show five recent deposits and link full Activity history",
-    "phase": "08 · Investor experience",
+    "phase": "08 \u00b7 Investor experience",
     "repository": "Investor frontend",
     "priority": "P2",
     "objective": "Keep the Deposit sidebar concise and open the complete deposit history from See more.",
@@ -2870,14 +2870,14 @@
   {
     "id": "RSI-115",
     "title": "Server-filtered Activity pagination with page numbers and totals",
-    "phase": "08 · Investor experience",
+    "phase": "08 \u00b7 Investor experience",
     "repository": "Cross-project",
     "priority": "P1",
     "objective": "Filter and paginate confirmed investor activity on the server, with numbered navigation and accurate totals.",
     "requirements": [
       "Keep existing table/branding and legacy cursor consumers compatible.",
       "Filter in PostgreSQL before counting/selecting; derive wallet from session and retain canonical confirmed-block checks.",
-      "Show Previous/Next, bounded page numbers and Showing X–Y of Z; reset page and boundary on filter changes."
+      "Show Previous/Next, bounded page numbers and Showing X\u2013Y of Z; reset page and boundary on filter changes."
     ],
     "acceptance": [
       "Validated API parameters and single-query filtered total/page metadata with stable block boundary.",
@@ -2896,7 +2896,7 @@
     "id": "RSI-116",
     "title": "Use authenticated reID email for notifications without extra confirmation",
     "repository": "Cross-project",
-    "phase": "08 · Investor experience",
+    "phase": "08 \u00b7 Investor experience",
     "priority": "P1",
     "objective": "Use authenticated reID email for notifications without extra confirmation.",
     "requirements": [
@@ -2917,11 +2917,11 @@
     "id": "RSI-117",
     "title": "Show project thumbnails in recommendations and holdings",
     "repository": "Investor frontend",
-    "phase": "08 · Investor experience",
+    "phase": "08 \u00b7 Investor experience",
     "priority": "P2",
     "objective": "Show project thumbnails in recommendations and holdings.",
     "requirements": [
-      "Use each project’s validated public artwork in its existing icon slot.",
+      "Use each project\u2019s validated public artwork in its existing icon slot.",
       "Reuse catalogue images, handle missing/broken art and retain card geometry."
     ],
     "acceptance": [
@@ -2938,11 +2938,11 @@
     "id": "RSI-118",
     "title": "Mark all investor notifications as read",
     "repository": "Cross-project",
-    "phase": "08 · Investor experience",
+    "phase": "08 \u00b7 Investor experience",
     "priority": "P2",
     "objective": "Mark all investor notifications as read.",
     "requirements": [
-      "Bulk-update only this authenticated user’s unread visible notifications across pages, preserving CSRF and canonical checks.",
+      "Bulk-update only this authenticated user\u2019s unread visible notifications across pages, preserving CSRF and canonical checks.",
       "Add one Updates control; prevent duplicate submission, refresh session-scoped caches/badge, and report failures honestly."
     ],
     "acceptance": [
@@ -2959,11 +2959,11 @@
     "id": "RSI-119",
     "title": "Update share purchase totals smoothly while revalidating the quote",
     "repository": "Investor frontend",
-    "phase": "08 · Investor experience",
+    "phase": "08 \u00b7 Investor experience",
     "priority": "P2",
     "objective": "Update share purchase totals smoothly while revalidating the quote.",
     "requirements": [
-      "Immediately calculate displayed totals in exact atomic units from the project’s published price.",
+      "Immediately calculate displayed totals in exact atomic units from the project\u2019s published price.",
       "Keep purchase/USDT allowance gated on a matching fresh server quote and existing sale/supply/input checks."
     ],
     "acceptance": [
@@ -2979,7 +2979,7 @@
   {
     "id": "RSI-120",
     "title": "Measure and improve investor navigation and Activity pagination performance",
-    "phase": "08 · Investor experience",
+    "phase": "08 \u00b7 Investor experience",
     "repository": "Investor frontend",
     "priority": "P1",
     "objective": "Remove measured avoidable delays without changing approved UI or financial/session correctness.",
@@ -2996,12 +2996,12 @@
     ],
     "status": "Done",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-front-end/commit/463f4ea03bcdb34eb33da34226ef5b33ca1ba20f",
-    "verification_evidence": "143 tests/types/lint/build/secret scan and CI39760886610/39761720206 pass; Vercel and actual desktop1440/phone390 acceptance. Cached keyboard111/35/39ms, mobile41ms, route shells27–143ms; mouse306/307/302ms includes stability overhead. No FP restart, financial action or QA gate change. See docs/testing/INVESTOR_PERFORMANCE_20261022.md."
+    "verification_evidence": "143 tests/types/lint/build/secret scan and CI39760886610/39761720206 pass; Vercel and actual desktop1440/phone390 acceptance. Cached keyboard111/35/39ms, mobile41ms, route shells27\u2013143ms; mouse306/307/302ms includes stability overhead. No FP restart, financial action or QA gate change. See docs/testing/INVESTOR_PERFORMANCE_20261022.md."
   },
   {
     "id": "RSI-121",
     "title": "Generate revenue references automatically and fingerprint optional reports",
-    "phase": "10 · Admin UX follow-ups",
+    "phase": "10 \u00b7 Admin UX follow-ups",
     "repository": "Admin frontend",
     "priority": "P1",
     "objective": "Remove manual blockchain hash entry from project revenue funding.",
@@ -3024,7 +3024,7 @@
   {
     "id": "RSI-122",
     "title": "Align Home holding-card action buttons across different title lengths",
-    "phase": "10 · Investor UX follow-ups",
+    "phase": "10 \u00b7 Investor UX follow-ups",
     "repository": "Investor frontend",
     "priority": "P2",
     "objective": "Align the existing blue action rows while preserving the approved card design.",
@@ -3042,7 +3042,7 @@
   {
     "id": "RSI-123",
     "title": "Provision Manoj super-admin with human MFA enrollment",
-    "phase": "10 · Staff access operations",
+    "phase": "10 \u00b7 Staff access operations",
     "repository": "Backend",
     "priority": "P1",
     "objective": "Complete the explicitly owner-requested new staff onboarding using existing protected provisioning.",
@@ -3061,7 +3061,7 @@
   {
     "id": "RSI-124",
     "title": "Diagnose NFT artwork and collection names in explorer and MetaMask",
-    "phase": "11 · Platform audit and usability",
+    "phase": "11 \u00b7 Platform audit and usability",
     "repository": "Cross-project",
     "priority": "P1",
     "objective": "Diagnose NFT artwork and collection names in explorer and MetaMask",
@@ -3076,7 +3076,7 @@
   {
     "id": "RSI-125",
     "title": "Provision two additional super-admin accounts with human MFA enrollment",
-    "phase": "11 · Platform audit and usability",
+    "phase": "11 \u00b7 Platform audit and usability",
     "repository": "Backend",
     "priority": "P1",
     "objective": "Provision two additional super-admin accounts with human MFA enrollment",
@@ -3090,7 +3090,7 @@
   {
     "id": "RSI-126",
     "title": "Audit platform security and performance and fix verified defects",
-    "phase": "11 · Platform audit and usability",
+    "phase": "11 \u00b7 Platform audit and usability",
     "repository": "Cross-project",
     "priority": "P1",
     "objective": "Audit platform security and performance and fix verified defects",
@@ -3107,7 +3107,7 @@
   {
     "id": "RSI-127",
     "title": "Improve investor action feedback and accessible interaction motion",
-    "phase": "11 · Platform audit and usability",
+    "phase": "11 \u00b7 Platform audit and usability",
     "repository": "Investor frontend",
     "priority": "P1",
     "objective": "Improve investor action feedback and accessible interaction motion",
@@ -3124,7 +3124,7 @@
   {
     "id": "RSI-128",
     "title": "Expand permission-aware admin operational information",
-    "phase": "11 · Platform audit and usability",
+    "phase": "11 \u00b7 Platform audit and usability",
     "repository": "Admin frontend",
     "priority": "P1",
     "objective": "Expand permission-aware admin operational information",
@@ -3141,7 +3141,7 @@
   {
     "id": "RSI-129",
     "title": "Finish isolated acceptance and record stable client test release",
-    "phase": "09 · Release acceptance",
+    "phase": "09 \u00b7 Release acceptance",
     "repository": "Cross-project",
     "priority": "P1",
     "objective": "Finish independently executable acceptance gaps and retain the stable deployed candidate for client testing.",
@@ -3215,7 +3215,8 @@
     ],
     "status": "In progress",
     "blocked": true,
-    "blocker": "Provider device-approval screen is awaiting a mobile test build; no /connect/device OS association or web fallback exists. Source is prepared; deployment and human mobile acceptance pending.",
-    "notion_url": "https://app.notion.com/p/4063b21ac92581aa83bbffebca572bc6"
+    "blocker": "Owner confirms relaunched INFRA UAT will restore old history. RPC head ~38,900 is below last indexed7,717,364; guarded backend rollout refused indexer_not_ready before image changes. Preserve history; wait for actual RPC/indexer recovery. Real provider mobile approval acceptance also remains.",
+    "notion_url": "https://app.notion.com/p/4063b21ac92581aa83bbffebca572bc6",
+    "verification_evidence": "Investor2753e106 production deployed;166 tests and hosted checks pass. Backend75de100 merged CI/build40512245773 pass, exact artifact/source/config/layers verified and staged. Authorized release stopped before image/migration changes; owned signer pause recovered and QA requests verified restored enabled on8924944. No signature/broadcast/indexer reset."
   }
 ]
