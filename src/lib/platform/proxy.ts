@@ -1,12 +1,14 @@
 /** Pure BFF boundary, separately tested without Next runtime or server credentials. */
+import { reidLinkOrigin } from "../reid/links.ts";
 export type ProxyConfig = { base: string; origin: string; approvalOrigin: string };
-const COOKIES = new Set(["resystem_session", "resystem_csrf", "resystem_oauth"]);
+const COOKIES = new Set(["resystem_session", "resystem_csrf", "resystem_oauth", "resystem_reid_device"]);
 const MAX_BODY = 64 * 1024;
 const MAX_RESPONSE = 2 * 1024 * 1024;
 const MAX_ATTACHMENT = 3 * 1024 * 1024;
 const SAFE = new Set(["GET", "HEAD"]);
 const ROUTES: [RegExp, string[]][] = [
   [/^auth\/session$/, ["GET"]], [/^auth\/logout$/, ["POST"]], [/^auth\/reid\/(start|callback)$/, ["GET"]],
+  [/^auth\/reid\/device$/, ["POST", "DELETE"]], [/^auth\/reid\/device\/poll$/, ["POST"]],
   [/^projects(?:\/[a-zA-Z0-9_-]+(?:\/(?:quote|chain|revenue|rewards))?)?$/, ["GET"]],
   [/^(?:wallet(?:\/(?:deposits|send-quote|cashflow))?|portfolio|earnings|activity|marketplace(?:\/(?:proceeds|[0-9]+(?:\/quote)?))?)$/, ["GET"]],
   [/^transactions$/, ["GET", "POST"]], [/^transactions\/[a-zA-Z0-9_-]+$/, ["GET"]],
@@ -25,7 +27,7 @@ export function proxyConfig(env: Record<string, string | undefined>): ProxyConfi
   if (!env.PLATFORM_API_BASE) throw new Error("Platform backend is not configured");
   const base = new URL(env.PLATFORM_API_BASE);
   const origin = new URL(env.PLATFORM_APP_ORIGIN || env.REID_REDIRECT_URI || "");
-  const approval = new URL(env.REID_APP_URL || "https://app.reidentity.net");
+  const approval = new URL(reidLinkOrigin(env.REID_APP_URL));
   for (const value of [base, origin, approval]) {
     if (value.username || value.password || !["http:", "https:"].includes(value.protocol)) throw new Error("Invalid platform configuration");
     if (value.protocol !== "https:" && !["localhost", "127.0.0.1", "[::1]"].includes(value.hostname)) throw new Error("HTTPS required");

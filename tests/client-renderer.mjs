@@ -27,13 +27,13 @@ export function clientRenderer(mocks = {}, expose = {}, clock = {}) {
         if (!target) throw new Error(`Unknown client test import: ${name}`);
         return load(path.relative(repository, target));
       }
-      if (!['react', 'react/jsx-runtime', 'swr', 'next/link', 'lucide-react'].includes(name)) throw new Error(`Unmocked client dependency: ${name}`);
+      if (!['react', 'react/jsx-runtime', 'swr', 'next/link', 'lucide-react', 'qrcode'].includes(name)) throw new Error(`Unmocked client dependency: ${name}`);
       return require(name);
     }
     const exposed = (expose[relative] || []).map(name => `module.exports.${name}=${name};`).join('\n');
     // Browser modules share an Error constructor; separate VM modules must too,
     // otherwise `error instanceof Error` incorrectly discards real client errors.
-    vm.runInNewContext(code + '\n' + exposed, { module: localModule, exports: localModule.exports, require: imports, Error, window: globalThis.window, document: globalThis.document, Event: globalThis.window?.Event || globalThis.Event, TextDecoder, FormData: globalThis.FormData, File: globalThis.File, AbortController, AbortSignal, fetch: (...args) => globalThis.fetch(...args), crypto: globalThis.crypto, URL, URLSearchParams, console, Date: clock.Date || Date, setTimeout: clock.setTimeout || setTimeout, clearTimeout: clock.clearTimeout || clearTimeout }, { filename: file });
+    vm.runInNewContext(code + '\n' + exposed, { module: localModule, exports: localModule.exports, require: imports, Error, window: clock.window || globalThis.window, document: globalThis.document, Event: globalThis.window?.Event || globalThis.Event, TextDecoder, FormData: globalThis.FormData, File: globalThis.File, AbortController, AbortSignal, fetch: (...args) => globalThis.fetch(...args), crypto: globalThis.crypto, URL, URLSearchParams, console, Date: clock.Date || Date, setTimeout: clock.setTimeout || setTimeout, clearTimeout: clock.clearTimeout || clearTimeout }, { filename: file });
     return localModule.exports;
   }
   return { load };

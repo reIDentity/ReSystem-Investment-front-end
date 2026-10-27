@@ -12,12 +12,12 @@ const originalFetch = globalThis.fetch;
 afterEach(() => { cleanup(); globalThis.fetch = originalFetch; });
 const wallet = `0x${'1'.repeat(40)}`, hash = `0x${'4'.repeat(64)}`;
 function intent(status = 'CREATED', expiresAt = new Date(Date.now() + 60000).toISOString()) {
-  return { id: 'synthetic-existing-intent', status, command: { type: 'SEND', asset: 'REAED', amountAtomic: '1', recipient: `0x${'2'.repeat(40)}` }, walletAddress: wallet, chainId: 15324, expiresAt, approvalUrl: 'https://app.reidentity.net/approval/synthetic-existing-intent', txHash: null, receipt: null, errorCode: null, transaction: { chainId: 15324, to: `0x${'2'.repeat(40)}`, data: '0x', valueWei: '1', gasEstimate: '21000', estimatedFeeWei: '1' } };
+  return { id: 'synthetic-existing-intent', status, command: { type: 'SEND', asset: 'REAED', amountAtomic: '1', recipient: `0x${'2'.repeat(40)}` }, walletAddress: wallet, chainId: 15324, expiresAt, approvalUrl: 'https://app.reidentity.net/tx-approve?intent_id=synthetic-provider-intent', txHash: null, receipt: null, errorCode: null, transaction: { chainId: 15324, to: `0x${'2'.repeat(40)}`, data: '0x', valueWei: '1', gasEstimate: '21000', estimatedFeeWei: '1' } };
 }
-function fixture(record, requestError) {
+function fixture(record, requestError, qrCalls = []) {
   const calls = [], paths = []; let refreshes = 0;
   const resource = { data: record, error: requestError, isLoading: false, mutate: async result => { if (result) { resource.data = result; resource.error = undefined; } else refreshes++; return resource.data; } };
-  const { IntentReview } = clientRenderer({ '../PlatformProvider': { usePlatform: () => ({ user: { id: 'synthetic-investor', wallet }, approvalOrigin: 'https://app.reidentity.net' }), useResource: path => { paths.push(path); return resource; } }, '../InvestorUI': { Modal: ({ children, title }) => React.createElement('section', { role: 'dialog', 'aria-label': title }, children), Tag: ({ children }) => React.createElement('span', null, children) }, '@/lib/platform/client': { api: async (path, options) => { calls.push({ path, options }); return { ...record, status: 'SUBMITTING' }; } } }).load('src/components/invest/platform/Transaction.tsx');
+  const { IntentReview } = clientRenderer({ qrcode: { toDataURL: async url => { qrCalls.push(url); return 'data:image/png;base64,AAAA'; } }, '../PlatformProvider': { usePlatform: () => ({ user: { id: 'synthetic-investor', wallet }, approvalOrigin: 'https://app.reidentity.net' }), useResource: path => { paths.push(path); return resource; } }, '../InvestorUI': { Modal: ({ children, title }) => React.createElement('section', { role: 'dialog', 'aria-label': title }, children), Tag: ({ children }) => React.createElement('span', null, children) }, '@/lib/platform/client': { api: async (path, options) => { calls.push({ path, options }); return { ...record, status: 'SUBMITTING' }; } } }).load('src/components/invest/platform/Transaction.tsx');
   const tree = () => React.createElement(SWRConfig, { value: { provider: () => new Map() } }, React.createElement(IntentReview, { initial: record, onClose() {} }));
   const view = render(tree());
   return { view, resource, calls, paths, refreshes: () => refreshes, rerender: () => view.rerender(tree()) };
@@ -108,4 +108,17 @@ test('a real preparation rejection explains the gas shortage and retries only th
   assert.equal(calls[0].options.headers['Idempotency-Key'], calls[1].options.headers['Idempotency-Key']);
   assert.deepEqual(JSON.parse(calls[1].options.body), command);
   assert.ok(calls.every(call => call.path === '/api/platform/transactions' && call.options.method === 'POST'));
+});
+
+
+test('mobile approval QR contains this exact provider intent and disappears with an expired or unavailable review', async () => {
+  const calls = [], record = intent('AWAITING_APPROVAL');
+  const f = fixture(record, undefined, calls);
+  await waitFor(() => assert.ok(f.view.getByRole('img', { name: /Scan to review this exact transaction/ })));
+  assert.deepEqual(calls, [record.approvalUrl]);
+  assert.equal(f.calls.length, 0, 'rendering a QR does not submit or sign');
+  f.resource.error = new Error('Synthetic unavailable'); f.rerender();
+  assert.equal(f.view.queryByRole('img'), null);
+  f.resource.error = undefined; record.expiresAt = new Date(0).toISOString(); f.rerender();
+  assert.equal(f.view.queryByRole('img'), null);
 });
