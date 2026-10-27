@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import React from 'react';
 import { JSDOM } from 'jsdom';
 import { clientRenderer } from './client-renderer.mjs';
-import { validDeviceSignIn } from '../src/lib/reid/device.ts';
+import { deviceRequest, validDeviceSignIn } from '../src/lib/reid/device.ts';
 import { reidLinkOrigin } from '../src/lib/reid/links.ts';
 import { proxyConfig, proxyPlatform } from '../src/lib/platform/proxy.ts';
 const dom = new JSDOM('<!doctype html><html><body></body></html>', { url: 'https://investor.invalid' });
@@ -81,4 +81,32 @@ test('BFF device endpoints preserve browser binding, exact origin, CSRF and no-s
   const good = await proxyPlatform(request({ Origin: config.origin, 'X-CSRF-Token': 'synthetic', Cookie: 'resystem_reid_device=synthetic; foreign=secret' }), path, config, fetcher);
   assert.equal(good.status, 200); assert.match(good.headers.get('Cache-Control'), /no-store/); assert.equal(calls, 1);
   assert.equal((await proxyPlatform(new Request('https://investor.invalid/api/platform/auth/reid/device/poll'), path, config, fetcher)).status, 404);
+});
+test('old backend route through the BFF produces an actionable rollout message and never polls or navigates', async () => {
+  const f = screen(); const fetcher = globalThis.fetch;
+  const config = proxyConfig({ PLATFORM_API_BASE: 'https://api.invalid/v1', PLATFORM_APP_ORIGIN: 'https://investor.invalid' });
+  globalThis.fetch = async (path, options) => {
+    if (String(path).endsWith('/auth/session')) return fetcher(path, options);
+    f.calls.push({ path, options });
+    return proxyPlatform(new Request('https://investor.invalid' + path, {
+      ...options, headers: { ...options.headers, Origin: config.origin },
+    }), ['auth', 'reid', 'device'], config,
+    async () => Response.json({ error: { message: 'Cannot POST /v1/auth/reid/device', secret: 'DO_NOT_DISPLAY' } }, { status: 404 }));
+  };
+  fireEvent.submit(f.view.getByRole('button', { name: 'Continue with reID' }).closest('form'));
+  await waitFor(() => assert.match(f.view.getByRole('alert').textContent, /sign-in is being updated/));
+  assert.equal(f.view.queryByRole('dialog'), null);
+  assert.equal(f.view.getByRole('button', { name: 'Continue with reID' }).disabled, false);
+  assert.doesNotMatch(f.view.container.textContent, /Cannot POST|DO_NOT_DISPLAY/);
+  await f.advance(60000); assert.equal(f.calls.length, 2); assert.deepEqual(f.navigations, []);
+});
+test('device errors distinguish expired browser session, throttling and service failure without displaying upstream content', async () => {
+  for (const [status, expected] of [[401, /Refresh this page/], [403, /Refresh this page/], [405, /being updated/], [429, /wait a minute/], [502, /couldn’t connect to reID/], [503, /couldn’t connect to reID/]]) {
+    globalThis.fetch = async () => Response.json({ message: 'DO_NOT_DISPLAY' }, { status });
+    await assert.rejects(deviceRequest('POST', 'auth/reid/device', 'synthetic'), error => expected.test(error.message) && !error.message.includes('DO_NOT_DISPLAY'));
+  }
+  globalThis.fetch = async () => { throw new TypeError('Internal transport detail'); };
+  await assert.rejects(deviceRequest('POST', 'auth/reid/device', 'synthetic'), /Check your connection/);
+  globalThis.fetch = async () => new Response('<html>Internal proxy detail</html>', { status: 200 });
+  await assert.rejects(deviceRequest('POST', 'auth/reid/device', 'synthetic'), /couldn’t verify the sign-in response/);
 });

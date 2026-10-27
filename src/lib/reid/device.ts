@@ -3,10 +3,27 @@ export type DeviceSignInStatus = { status: "pending"; interval: number } | { sta
 
 /** Public DTO only. device_code, OAuth tokens and client secrets stay on the API. */
 export async function deviceRequest<T>(method: "GET" | "POST" | "DELETE", path: string, csrfToken?: string): Promise<T> {
-  const response = await fetch(`/api/platform/${path}`, { method, credentials: "include", cache: "no-store", redirect: "error",
-    headers: { Accept: "application/json", ...(csrfToken ? { "X-CSRF-Token": csrfToken } : {}) }, signal: AbortSignal.timeout(15000) });
-  if (!response.ok) throw new Error(response.status === 429 ? "Too many sign-in attempts. Please wait a minute and try again." : "Mobile reID sign-in is temporarily unavailable. Please try again shortly.");
-  return response.json();
+  let response: Response;
+  try {
+    response = await fetch(`/api/platform/${path}`, { method, credentials: "include", cache: "no-store", redirect: "error",
+      headers: { Accept: "application/json", ...(csrfToken ? { "X-CSRF-Token": csrfToken } : {}) }, signal: AbortSignal.timeout(15000) });
+  } catch {
+    throw new Error("We couldn’t reach sign-in. Check your connection and try again.");
+  }
+  if (!response.ok) {
+    // Use known statuses, never upstream bodies: provider errors can contain
+    // internal details. A missing endpoint means a rollout mismatch, not denial.
+    const message = response.status === 404 || response.status === 405
+      ? "Mobile reID sign-in is being updated. Please try again after the update is complete."
+      : response.status === 401 || response.status === 403
+        ? "Your sign-in session needs refreshing. Refresh this page and try again."
+        : response.status === 429
+          ? "Too many sign-in attempts. Please wait a minute and try again."
+          : "We couldn’t connect to reID. Please try again shortly.";
+    throw new Error(message);
+  }
+  try { return await response.json(); }
+  catch { throw new Error("We couldn’t verify the sign-in response. Please try again."); }
 }
 export function validDeviceSignIn(value: DeviceSignIn, origin: string): boolean {
   try {

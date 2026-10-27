@@ -1,5 +1,9 @@
 # reSystem Investment - start here
 
+## 27 October 2026 — post-merge mobile sign-in diagnosis
+
+The owner reported the generic mobile sign-in unavailable message after the mobile source PRs were merged. FP's `/v1/auth/reid/device` returns HTTP 404 and its API/worker still run `8924944`: the new frontend is ahead of its backend. The merge-source backend CI/image pipeline and guarded backend rollout must complete before this route can work. QA requests remain enabled; a deployment pause requires applicable owner approval and restoration. The frontend now distinguishes an update in progress, an expired browser session, throttling, network failure and an unreadable response without exposing upstream error bodies. All 166 frontend tests, lint, types and production build pass locally. This correction does not claim a deployed backend or completed provider mobile approval; RSI-131 remains In progress.
+
 ## 27 October 2026 — mobile reID source candidate
 
 RSI-131 prepares SDK 0.4.0 desktop device QR sign-in, phone PKCE handoff and intent-specific mobile transaction approvals. Explicit UAT configuration remains `REID_BASE_URL=https://uat-wallet.reidentity.net` and `REID_APP_URL=https://app.reidentity.net`; the FP SDK default is not a mobile link host. The owner confirmed that completed device approval awaits a new reID test build. Use reID's in-app scanner or the always-visible user code; `/connect/device` currently has no OS app association or web fallback. See the backend's `docs/REID_MOBILE_CONNECT.md` and [private integration guide](https://app.notion.com/p/4063b21ac925810484c5e024b0112be1). Source is on `feat/reid-mobile-connect`; deployment and actual mobile acceptance remain pending. The current deployed client candidate and ongoing QA controls are untouched.
