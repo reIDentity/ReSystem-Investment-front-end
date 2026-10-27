@@ -67,7 +67,7 @@ test('phone continues with the existing PKCE navigation rather than starting a d
 test('denied desktop login removes its QR and cannot create a session by further polling', async () => {
   const f = screen({ status: 'denied' }); fireEvent.submit(f.view.getByRole('button', { name: 'Continue with reID' }).closest('form'));
   await waitFor(() => assert.ok(f.view.getByRole('dialog'))); await f.advance(5000);
-  assert.match(f.view.getByRole('status').textContent, /declined/); assert.equal(f.view.queryByRole('img'), null);
+  await waitFor(() => assert.match(f.view.getByRole('status').textContent, /declined/)); assert.equal(f.view.queryByRole('img'), null);
   const count = f.calls.length; await f.advance(5000); assert.equal(f.calls.length, count); assert.equal(f.navigations.length, 0);
 });
 test('BFF device endpoints preserve browser binding, exact origin, CSRF and no-store without permitting GET polling', async () => {
