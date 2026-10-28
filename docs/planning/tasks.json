@@ -3252,5 +3252,36 @@
     "verification_evidence": "Original DB archived/disconnected; encrypted PostgreSQL/Redis backups verified. Fresh schema/grants and six staff/password/MFA/global-role fingerprints retained; old sessions/business data removed. Indexereb764db112 tests, sourceCI40675903607 and hosted build40676194636 pass; actual runtime ready/advancing77231→77233 at lag12. Backend75de100 normal guarded rollout and public QR/pending/cancel pass. QA restored enabled; admin switch disabled; signature journal11 preserved, no financial action. Normal pipeline40677484386 succeeds with honest QA deferral; runner/auto setting restored. Wallet activation and human mobile approval remain separate.",
     "commit_url": "https://github.com/reIDentity/ReSystem-Investment-indexer/commit/eb764db033679a41e5ceb531a7d614622388a652",
     "notion_status_observed_at_utc": "2026-10-28T11:12:26.960259+00:00"
+  },
+  {
+    "id": "RSI-133",
+    "title": "Restore previous projects for fresh-chain publication",
+    "phase": "Project restoration after chain reset",
+    "repository": "Cross-project",
+    "priority": "P0",
+    "objective": "Recover archived project content without reviving old investor or chain state, then prepare replay-safe fresh publication.",
+    "requirements": [
+      "Restore prior text, economics, images/documents and accepted metadata revisions.",
+      "Keep fresh investor ledger, six staff/MFA, sessions and append-only signer history intact.",
+      "Keep formerly published projects as drafts until fresh confirmed publication; retain originally archived test.",
+      "Prepare a reviewed shared-wallet recovery and publication plan without reusing exhausted old financial approvals."
+    ],
+    "acceptance": [
+      "Authenticated admin catalogue and recovered project details verified.",
+      "Archived content/media fingerprints and current metadata validation pass.",
+      "Restore tool source published with CI evidence; actual operations audited.",
+      "Fresh replay-safe admin activation/publication accepted separately before public visibility."
+    ],
+    "dependencies": [
+      "RSI-132",
+      "RSI-067"
+    ],
+    "status": "In progress",
+    "blocked": true,
+    "blocker": "Content restored; newly selected AWS managed-project account denies IAM Roles Anywhere through organization SCP. INFRA account owner must review Advanced-features activation or provide suitable full-access account. Fresh key/financial approvals remain.",
+    "notion_url": "https://app.notion.com/p/4073b21ac92581149703c7b0e91c3acd",
+    "commit_url": "https://github.com/reIDentity/ReSystem-Investment-backend/commit/4805f2e0160af65ede5060bf8162ebea7d1424ae",
+    "verification_evidence": "Live admin lists10 recovered projects:9DRAFT/1ARCHIVED,12Media/12PINNEDrevisions. Six former publications have cleared chain bindings; original content/economics/current public metadata retained, pending old v3 excluded.23unique HTTPS IPFS objects verified against archived hash/size or exact JSON. Serializable audited no-overwrite restore passed6 focused unit groups and CI40684693275/40684700805. Full canonical reconciliation verified block78659/hash; only exact stale INGESTION_FAILED alert reviewed/resolved without guard/cursor/history changes; admin financial summaries show authoritative zero. Actual shared wallet balance0/nonce0/creatorfalse, journal11signatures/highest10; no signing/gate/restart changes. Fresh replay-safe activation and publication remain pending; New dedicated AWS profile authenticated and correct new account verified; KMS list succeeds but Roles Anywhere lists explicitly denied by organization SCP, no cloud/policy/billing changes.",
+    "notion_status_observed_at_utc": "2026-10-28T12:15:43.934591+00:00"
   }
 ]

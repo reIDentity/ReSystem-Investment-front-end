@@ -699,9 +699,14 @@
       "page_id": "4073b21a-c925-81c0-a4ec-de5c580df584",
       "url": "https://app.notion.com/p/4073b21ac92581c0a4ecde5c580df584",
       "title": "Refresh reSystem for the relaunched UAT chain"
+    },
+    "RSI-133": {
+      "page_id": "4073b21a-c925-8114-9703-c7b0e91c3acd",
+      "url": "https://app.notion.com/p/4073b21ac92581149703c7b0e91c3acd",
+      "title": "Restore previous projects for fresh-chain publication"
     }
   },
-  "task_count": 132,
+  "task_count": 133,
   "initial_status": "To do",
   "github_sync": "Codex-managed workflow; no automatic webhook or background automation configured",
   "plan_page_id": "3fb3b21a-c925-810b-9694-e2c99173f5f9",
@@ -932,11 +937,11 @@
     }
   },
   "operations_updated_at_utc": "2026-10-28T11:12:26.960259+00:00",
-  "last_status_sync_at_utc": "2026-10-28T11:33:53.039471+00:00",
-  "last_status_sync_scope": "RSI-131 actual browser JSON fix deployed and human mobile approval/dashboard accepted; RSI-132 reset remains verified, RSI-067 new-chain admin activation remains open.",
+  "last_status_sync_at_utc": "2026-10-28T12:15:43.934591+00:00",
+  "last_status_sync_scope": "RSI-133 live content recovery complete; owner-selected new AWS account authenticated but Roles Anywhere blocked by organization policy. Fresh shared-wallet activation/publication remain open.",
   "status_counts": {
     "Done": 109,
-    "In progress": 20,
+    "In progress": 21,
     "To do": 3
   }
 }
