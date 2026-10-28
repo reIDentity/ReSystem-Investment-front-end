@@ -101,7 +101,7 @@ test('old backend route through the BFF produces an actionable rollout message a
   await f.advance(60000); assert.equal(f.calls.length, 2); assert.deepEqual(f.navigations, []);
 });
 test('device errors distinguish expired browser session, throttling and service failure without displaying upstream content', async () => {
-  for (const [status, expected] of [[401, /Refresh this page/], [403, /Refresh this page/], [405, /being updated/], [429, /wait a minute/], [502, /couldn’t connect to reID/], [503, /couldn’t connect to reID/]]) {
+  for (const [status, expected] of [[401, /Refresh this page/], [403, /Refresh this page/], [405, /being updated/], [415, /Refresh this page to update sign-in/], [429, /wait a minute/], [502, /couldn’t connect to reID/], [503, /couldn’t connect to reID/]]) {
     globalThis.fetch = async () => Response.json({ message: 'DO_NOT_DISPLAY' }, { status });
     await assert.rejects(deviceRequest('POST', 'auth/reid/device', 'synthetic'), error => expected.test(error.message) && !error.message.includes('DO_NOT_DISPLAY'));
   }
@@ -109,4 +109,37 @@ test('device errors distinguish expired browser session, throttling and service 
   await assert.rejects(deviceRequest('POST', 'auth/reid/device', 'synthetic'), /Check your connection/);
   globalThis.fetch = async () => new Response('<html>Internal proxy detail</html>', { status: 200 });
   await assert.rejects(deviceRequest('POST', 'auth/reid/device', 'synthetic'), /couldn’t verify the sign-in response/);
+});
+
+test('desktop sign-in, polling and cancellation pass the real BFF JSON admission boundary', async () => {
+  const f = screen(); const backend = globalThis.fetch, received = [];
+  const config = proxyConfig({ PLATFORM_API_BASE: 'https://api.invalid/v1', PLATFORM_APP_ORIGIN: 'https://investor.invalid' });
+  async function admitted(url, options) {
+    const headers = new Headers(options.headers);
+    if (options.method !== 'GET' && (headers.get('Content-Type') !== 'application/json' || !options.body?.length))
+      return Response.json({ error: 'JSON command required' }, { status: 415 });
+    if (options.method !== 'GET') {
+      assert.deepEqual(JSON.parse(Buffer.from(options.body).toString('utf8')), {});
+      assert.equal(headers.get('X-CSRF-Token'), 'synthetic-csrf');
+    }
+    received.push({ url, method: options.method });
+    return backend(url, options);
+  }
+  // Reproduce the old browser command at the real BFF forwarding boundary.
+  const old = await proxyPlatform(new Request(config.origin + '/api/platform/auth/reid/device', {
+    method: 'POST', headers: { Origin: config.origin, 'X-CSRF-Token': 'synthetic-csrf' },
+  }), ['auth', 'reid', 'device'], config, admitted);
+  assert.equal(old.status, 415);
+  globalThis.fetch = async (path, options) => proxyPlatform(new Request(config.origin + path, {
+    ...options, headers: { ...options.headers, Origin: config.origin },
+  }), String(path).replace('/api/platform/', '').split('/'), config, admitted);
+  fireEvent.submit(f.view.getByRole('button', { name: 'Continue with reID' }).closest('form'));
+  await waitFor(() => assert.ok(f.view.getByRole('dialog')));
+  assert.equal(f.view.queryByRole('alert'), null);
+  await f.advance(5000);
+  assert.ok(received.some(r => r.method === 'POST' && r.url.endsWith('/device/poll')));
+  fireEvent.click(f.view.getByRole('button', { name: 'Close mobile sign-in' }));
+  await waitFor(() => assert.ok(received.some(r => r.method === 'DELETE' && r.url.endsWith('/device'))));
+  assert.equal(f.view.queryByRole('dialog'), null);
+  assert.deepEqual(f.navigations, []);
 });

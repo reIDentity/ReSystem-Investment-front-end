@@ -6,7 +6,8 @@ export async function deviceRequest<T>(method: "GET" | "POST" | "DELETE", path: 
   let response: Response;
   try {
     response = await fetch(`/api/platform/${path}`, { method, credentials: "include", cache: "no-store", redirect: "error",
-      headers: { Accept: "application/json", ...(csrfToken ? { "X-CSRF-Token": csrfToken } : {}) }, signal: AbortSignal.timeout(15000) });
+      headers: { Accept: "application/json", ...(method !== "GET" ? { "Content-Type": "application/json" } : {}), ...(csrfToken ? { "X-CSRF-Token": csrfToken } : {}) },
+      body: method !== "GET" ? JSON.stringify({}) : undefined, signal: AbortSignal.timeout(15000) });
   } catch {
     throw new Error("We couldn’t reach sign-in. Check your connection and try again.");
   }
@@ -17,9 +18,11 @@ export async function deviceRequest<T>(method: "GET" | "POST" | "DELETE", path: 
       ? "Mobile reID sign-in is being updated. Please try again after the update is complete."
       : response.status === 401 || response.status === 403
         ? "Your sign-in session needs refreshing. Refresh this page and try again."
-        : response.status === 429
-          ? "Too many sign-in attempts. Please wait a minute and try again."
-          : "We couldn’t connect to reID. Please try again shortly.";
+        : response.status === 415
+          ? "Refresh this page to update sign-in, then try again."
+          : response.status === 429
+            ? "Too many sign-in attempts. Please wait a minute and try again."
+            : "We couldn’t connect to reID. Please try again shortly.";
     throw new Error(message);
   }
   try { return await response.json(); }
