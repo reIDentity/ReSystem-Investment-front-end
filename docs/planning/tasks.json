@@ -1667,7 +1667,9 @@
       ]
     },
     "local_checkpoint_document": "docs/planning/SHARED_ADMIN_WALLET_20261021.md",
-    "deployment_workflow_evidence": "All three follow-ups are published to dev with final source CI success: backend 0b7c457e94b0df23a3bc422f1380fc707186e5de / https://github.com/reIDentity/ReSystem-Investment-backend/actions/runs/39601370526; admin 9df8b02ab6b94136db5bff6f794cba91be199a55 / https://github.com/reIDentity/ReSystem-Investment-admin/actions/runs/39601476694; indexer 6580a727ce29d9a37baa3617dedd1175810c5427 / https://github.com/reIDentity/ReSystem-Investment-indexer/actions/runs/39601512106. Final automatic deployment jobs backend 39602841317 (12:54:56Z), admin 39601878785 (12:45:20Z), indexer 39601702099 (12:43:28Z) all succeeded with explicit deferred/deployed=false/gateChanged=false while ongoing QA was open. All three FP_CD_MODE settings independently restored/read back auto. Root readback at 12:56:46 UTC confirms actual backend e950fd91/admin de9dcd5f/indexer 6f35968, gate open, API/indexer healthy; no new app image release is claimed. Root closed-gate policy is unchanged and post-attempt failure still requires verified recovery. Backend operator checks: 111 pass/one Linux-conditional skip; wrapper helpers: 43/43/40 pass."
+    "deployment_workflow_evidence": "All three follow-ups are published to dev with final source CI success: backend 0b7c457e94b0df23a3bc422f1380fc707186e5de / https://github.com/reIDentity/ReSystem-Investment-backend/actions/runs/39601370526; admin 9df8b02ab6b94136db5bff6f794cba91be199a55 / https://github.com/reIDentity/ReSystem-Investment-admin/actions/runs/39601476694; indexer 6580a727ce29d9a37baa3617dedd1175810c5427 / https://github.com/reIDentity/ReSystem-Investment-indexer/actions/runs/39601512106. Final automatic deployment jobs backend 39602841317 (12:54:56Z), admin 39601878785 (12:45:20Z), indexer 39601702099 (12:43:28Z) all succeeded with explicit deferred/deployed=false/gateChanged=false while ongoing QA was open. All three FP_CD_MODE settings independently restored/read back auto. Root readback at 12:56:46 UTC confirms actual backend e950fd91/admin de9dcd5f/indexer 6f35968, gate open, API/indexer healthy; no new app image release is claimed. Root closed-gate policy is unchanged and post-attempt failure still requires verified recovery. Backend operator checks: 111 pass/one Linux-conditional skip; wrapper helpers: 43/43/40 pass.",
+    "blocked": true,
+    "blocker": "Relaunched chain reset KMS wallet nonce/balance/creator permission while the old signed journal was preserved. Fresh replay-safe key/nonce/funding/role activation requires separate exact authorization. Global signing remains disabled."
   },
   {
     "id": "RSI-068",
@@ -3214,9 +3216,39 @@
       "RSI-127"
     ],
     "status": "In progress",
-    "blocked": true,
-    "blocker": "Owner confirms relaunched INFRA UAT will restore old history. RPC head ~38,900 is below last indexed7,717,364; guarded backend rollout refused indexer_not_ready before image changes. Preserve history; wait for actual RPC/indexer recovery. Real provider mobile approval acceptance also remains.",
+    "blocked": false,
     "notion_url": "https://app.notion.com/p/4063b21ac92581aa83bbffebca572bc6",
-    "verification_evidence": "Investor2753e106 production deployed;166 tests and hosted checks pass. Backend75de100 merged CI/build40512245773 pass, exact artifact/source/config/layers verified and staged. Authorized release stopped before image/migration changes; owned signer pause recovered and QA requests verified restored enabled on8924944. No signature/broadcast/indexer reset."
+    "verification_evidence": "Investor2753e106 deployed; backend75de100 deployed by guarded root receipt release-backend-75de100b4b05-10ae0ae451a9. Public browser-equivalent session200/device201, QR/manual-code host and secrecy, pending poll201 and cancel200 verified. Fresh indexer ready after owner-approved archived reset. Human mobile approval remains unverified; RSI-131 stays In progress."
+  },
+  {
+    "id": "RSI-132",
+    "title": "Refresh reSystem for the relaunched UAT chain",
+    "phase": "Archived UAT chain reset",
+    "repository": "Cross-project",
+    "priority": "P0",
+    "objective": "Archive old business state and rebuild a clean platform for the confirmed relaunched chain while preserving staff MFA and KMS custody.",
+    "requirements": [
+      "Retain recoverable original database and encrypted PostgreSQL/Redis backups.",
+      "Preserve six staff accounts/MFA, global roles, protected credentials and append-only signer journal.",
+      "Start empty catalogue/investor history, clear old sessions and verify new core deployment bindings.",
+      "Restore canonical indexing, mobile backend route and owner-approved ongoing investor QA only after verification."
+    ],
+    "acceptance": [
+      "Exact staff/schema fingerprints and archive recovery evidence verified.",
+      "Fresh canonical indexer ready and advancing; narrow trace recovery tests and hosted checks pass.",
+      "Mobile QR/manual-code preparation, one pending poll and cancellation verified without human login approval.",
+      "QA request restoration preserves disabled shared-admin signing and all unrelated services/resources."
+    ],
+    "dependencies": [
+      "RSI-013",
+      "RSI-014",
+      "RSI-131"
+    ],
+    "status": "Done",
+    "blocked": false,
+    "notion_url": "https://app.notion.com/p/4073b21ac92581c0a4ecde5c580df584",
+    "verification_evidence": "Original DB archived/disconnected; encrypted PostgreSQL/Redis backups verified. Fresh schema/grants and six staff/password/MFA/global-role fingerprints retained; old sessions/business data removed. Indexereb764db112 tests, sourceCI40675903607 and hosted build40676194636 pass; actual runtime ready/advancing77231→77233 at lag12. Backend75de100 normal guarded rollout and public QR/pending/cancel pass. QA restored enabled; admin switch disabled; signature journal11 preserved, no financial action. Normal pipeline40677484386 succeeds with honest QA deferral; runner/auto setting restored. Wallet activation and human mobile approval remain separate.",
+    "commit_url": "https://github.com/reIDentity/ReSystem-Investment-indexer/commit/eb764db033679a41e5ceb531a7d614622388a652",
+    "notion_status_observed_at_utc": "2026-10-28T11:12:26.960259+00:00"
   }
 ]
