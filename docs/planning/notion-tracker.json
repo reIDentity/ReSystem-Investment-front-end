@@ -932,11 +932,11 @@
     }
   },
   "operations_updated_at_utc": "2026-10-28T11:12:26.960259+00:00",
-  "last_status_sync_at_utc": "2026-10-28T11:12:26.960259+00:00",
-  "last_status_sync_scope": "RSI-132 bounded archived reset verified; fresh indexing and mobile backend deployed, QA enabled, signer disabled. RSI-131 human mobile approval and RSI-067 replay-safe wallet activation remain open.",
+  "last_status_sync_at_utc": "2026-10-28T11:33:53.039471+00:00",
+  "last_status_sync_scope": "RSI-131 actual browser JSON fix deployed and human mobile approval/dashboard accepted; RSI-132 reset remains verified, RSI-067 new-chain admin activation remains open.",
   "status_counts": {
-    "Done": 108,
-    "In progress": 21,
+    "Done": 109,
+    "In progress": 20,
     "To do": 3
   }
 }

@@ -3215,10 +3215,12 @@
       "RSI-126",
       "RSI-127"
     ],
-    "status": "In progress",
+    "status": "Done",
     "blocked": false,
     "notion_url": "https://app.notion.com/p/4063b21ac92581aa83bbffebca572bc6",
-    "verification_evidence": "Investor2753e106 deployed; backend75de100 deployed by guarded root receipt release-backend-75de100b4b05-10ae0ae451a9. Public browser-equivalent session200/device201, QR/manual-code host and secrecy, pending poll201 and cancel200 verified. Fresh indexer ready after owner-approved archived reset. Human mobile approval remains unverified; RSI-131 stays In progress."
+    "verification_evidence": "Actual browser JSON command defect fixed inb8a637a. Real component→BFF JSON-admission regression reproduces old415 then succeeds for start/poll/cancel. All167 tests, lint/types/build and CI40679795856 pass; Vercel success and actual Chrome QR/manual-code confirmed. Exact helper/public BFF returns200/201/201/200. Owner personally approved mobile access and confirmed dashboard; actual /invest/home and Connected with reID observed. No FP/gate/financial action. General device/client QA and replay-safe admin activation remain separate.",
+    "commit_url": "https://github.com/reIDentity/ReSystem-Investment-front-end/commit/b8a637aa6e32b3e288eea9a33ab70a9d4aba8f27",
+    "notion_status_observed_at_utc": "2026-10-28T11:33:53.039471+00:00"
   },
   {
     "id": "RSI-132",

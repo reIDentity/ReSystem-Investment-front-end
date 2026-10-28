@@ -1,5 +1,11 @@
 # Implementation and recovery status — 16 October 2026
 
+## 28 October 2026 — browser sign-in transport fixed; mobile approval accepted
+
+The owner reported “We couldn’t connect to reID” after backend rollout. The actual browser helper sent empty device start/poll/cancel commands without JSON framing; the BFF correctly forwarded no JSON body and the backend rejected415. The earlier Python probe supplied JSON and therefore verified backend preparation while missing this browser defect. [Investorb8a637a](https://github.com/reIDentity/ReSystem-Investment-front-end/commit/b8a637aa6e32b3e288eea9a33ab70a9d4aba8f27) sends the same empty JSON object/content type used by other platform commands and gives stale415 clients a refresh message. Origin/CSRF, secure cookies, no-store, timeout/redirect restrictions, layout and branding remain.
+
+All167 frontend tests, lint/types/build and CI40679795856 pass. A new regression reproduces the old415 at the real BFF admission boundary, then checks actual component start/poll/cancel. The exact browser helper against the public BFF verifies session200/device201/poll201/cancel200 without a probe-added content type. Vercel reports the fix deployed; an actual Chrome button click opens the QR/manual-code dialog. The owner personally approved in reID and confirmed the dashboard; the actual browser reached `/invest/home` with “Connected with reID”. RSI-131 is Done for this migration/desktop-to-mobile acceptance. General client/device acceptance remains separate. No FP restart, gate change, new permission or financial action occurred; QA remains enabled and shared-admin activation remains separate.
+
 ## 28 October 2026 — fresh-chain reset verified; mobile backend deployed
 
 This **supersedes the 27 October wait-for-old-history decision**. The owner requested an empty catalogue/history after INFRA was redeployed and confirmed QA paused with no approvals open. Original `investment` is retained as disconnected `investment_archive_20261028`, with verified encrypted PostgreSQL and Redis backups. The fresh `investment` preserves all six staff accounts, password hashes, MFA, global roles/memberships and staff contact; old sessions and business records are absent. Original KMS custody, signer policies and append-only11-signature history remain. Everyone must sign in again.
