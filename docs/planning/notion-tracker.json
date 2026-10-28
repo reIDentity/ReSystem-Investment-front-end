@@ -937,8 +937,8 @@
     }
   },
   "operations_updated_at_utc": "2026-10-28T11:12:26.960259+00:00",
-  "last_status_sync_at_utc": "2026-10-28T12:15:43.934591+00:00",
-  "last_status_sync_scope": "RSI-133 live content recovery complete; owner-selected new AWS account authenticated but Roles Anywhere blocked by organization policy. Fresh shared-wallet activation/publication remain open.",
+  "last_status_sync_at_utc": "2026-10-28T12:43:46.169709+00:00",
+  "last_status_sync_scope": "RSI-133 content recovery and approved new-account KMS credential staging verified. Live wallet cutover and exact financial publication approvals remain; no signature/cutover.",
   "status_counts": {
     "Done": 109,
     "In progress": 21,
