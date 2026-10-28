@@ -694,9 +694,14 @@
       "page_id": "4063b21a-c925-81aa-83bb-ffebca572bc6",
       "url": "https://app.notion.com/p/4063b21ac92581aa83bbffebca572bc6",
       "title": "Migrate reID Connect to mobile app handoff and desktop QR"
+    },
+    "RSI-132": {
+      "page_id": "4073b21a-c925-81c0-a4ec-de5c580df584",
+      "url": "https://app.notion.com/p/4073b21ac92581c0a4ecde5c580df584",
+      "title": "Refresh reSystem for the relaunched UAT chain"
     }
   },
-  "task_count": 131,
+  "task_count": 132,
   "initial_status": "To do",
   "github_sync": "Codex-managed workflow; no automatic webhook or background automation configured",
   "plan_page_id": "3fb3b21a-c925-810b-9694-e2c99173f5f9",
@@ -926,11 +931,11 @@
       "url": "https://app.notion.com/p/3fb3b21ac92581299557f8215be14852?pvs=204"
     }
   },
-  "operations_updated_at_utc": "2026-10-21T07:46:47.509449+00:00",
-  "last_status_sync_at_utc": "2026-10-23T07:05:47Z",
-  "last_status_sync_scope": "RSI-124 external NFT gateway remains open; RSI-125 protected staff provisioning complete; RSI-126/127/128 audit fixes deployed, verified, QA restored enabled.",
+  "operations_updated_at_utc": "2026-10-28T11:12:26.960259+00:00",
+  "last_status_sync_at_utc": "2026-10-28T11:12:26.960259+00:00",
+  "last_status_sync_scope": "RSI-132 bounded archived reset verified; fresh indexing and mobile backend deployed, QA enabled, signer disabled. RSI-131 human mobile approval and RSI-067 replay-safe wallet activation remain open.",
   "status_counts": {
-    "Done": 104,
+    "Done": 108,
     "In progress": 21,
     "To do": 3
   }
