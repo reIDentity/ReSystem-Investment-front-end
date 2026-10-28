@@ -728,6 +728,11 @@
       "page_id": "4013b21a-c925-8109-aaed-fbab95f320d9",
       "url": "https://app.notion.com/p/4013b21ac9258109aaedfbab95f320d9",
       "title": "Automatic project revenue references"
+    },
+    "../ReSystem-Investment-backend/docs/AWS_ADMIN_WALLET.md": {
+      "page_id": "4003b21a-c925-81f1-934b-cd2012ae880c",
+      "url": "https://app.notion.com/p/4003b21ac92581f1934bcd2012ae880c",
+      "title": "Shared admin wallet — AWS KMS architecture and rollout"
     }
   },
   "services": {
@@ -934,10 +939,14 @@
     "Notion project documentation": {
       "page_id": "3fb3b21a-c925-8129-9557-f8215be14852",
       "url": "https://app.notion.com/p/3fb3b21ac92581299557f8215be14852?pvs=204"
+    },
+    "AWS KMS — shared admin wallet custody": {
+      "page_id": "4003b21a-c925-81ec-a674-c1c214989532",
+      "url": "https://app.notion.com/p/4003b21ac92581eca674c1c214989532"
     }
   },
   "operations_updated_at_utc": "2026-10-28T11:12:26.960259+00:00",
-  "last_status_sync_at_utc": "2026-10-28T12:43:46.169709+00:00",
+  "last_status_sync_at_utc": "2026-10-28T12:46:08.153482+00:00",
   "last_status_sync_scope": "RSI-133 content recovery and approved new-account KMS credential staging verified. Live wallet cutover and exact financial publication approvals remain; no signature/cutover.",
   "status_counts": {
     "Done": 109,
