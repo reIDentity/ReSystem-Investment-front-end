@@ -1,5 +1,7 @@
 # Client test release — 23 October 2026
 
+**Superseded for current runtime and contract addresses by QA-UAT-2026-10-29.** Read `START_HERE.md` and backend `docs/UAT_RESTORATION_20261029.md`. The October23 checks below remain historical evidence; its old-chain registry and deployment snapshot are not the current test target.
+
 Release ID: **CLIENT-UAT-2026-10-23**. This is the stable INFRA UAT candidate for client testing. It supersedes the operating instructions in the 21 October handover. Production approval and the client's acceptance result remain separate.
 
 ## Open the applications

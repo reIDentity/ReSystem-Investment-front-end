@@ -733,6 +733,11 @@
       "page_id": "4003b21a-c925-81f1-934b-cd2012ae880c",
       "url": "https://app.notion.com/p/4003b21ac92581f1934bcd2012ae880c",
       "title": "Shared admin wallet — AWS KMS architecture and rollout"
+    },
+    "../ReSystem-Investment-backend/docs/UAT_RESTORATION_20261029.md": {
+      "page_id": "4083b21a-c925-8157-a550-dea95ac0c10b",
+      "url": "https://app.notion.com/p/4083b21ac9258157a550dea95ac0c10b",
+      "title": "QA-UAT-2026-10-29 — fresh-chain restoration and test handover"
     }
   },
   "services": {
@@ -762,7 +767,8 @@
     "indexer_observation": "17 October 2026: exact deployed 5227157 private readiness 200 / lag 12; three candidate-source queues complete,0 pending / 0 failed. Canonical facts/cursor survived 08:29 controlled restart; candidate completion is not proof of exhaustive wallet history. Historic alert rows 1/2 were precisely audited/resolved after 37 canonical progress blocks; unchanged monitor automatically HEALTHY 08:25:27. Financial submission remains disabled.",
     "investor_ui_observation": "Published c61d34e Home/shared-header Figma restoration verified on the public authenticated investor app at desktop1440 and phone390; actual API values, native assets, search/clear and disabled zero-reward claim checked without financial transactions. All14-screen acceptance remains separate.",
     "backup_timer_observation": "17 October 08:36:18 UTC reviewed 543d4dc root-owned operations/minimal separate backup runtime installed. Default preflight+systemd validation+actual manual systemd service run passed: encrypted 2096637-byte archive/checksum/receipt. Retention dry-run deleted nothing. Timer enabled/active 02:30 UTC+<=15-minute jitter, observed next 2026-10-18T02:42:47UTC; future automatic run not yet observed. Authenticated archive catalog verification pending; off-host recovery and task 100 final reconciliation / 102 broader coverage remain separate.",
-    "mail_observation": "17 October: actual deployed outbox/drill and automatic recovery SENT/audit/envelope-erasure behavior verified without duplicate sends after restart. User explicitly confirmed receipt of test/recovery emails. This is not human staff invitation/recovery completion or wallet approval."
+    "mail_observation": "17 October: actual deployed outbox/drill and automatic recovery SENT/audit/envelope-erasure behavior verified without duplicate sends after restart. User explicitly confirmed receipt of test/recovery emails. This is not human staff invitation/recovery completion or wallet approval.",
+    "current_uat_candidate_20261029": "Stable fresh-chain test candidate: API/worker75de100,adminf954ad0,indexereb764db,shared KMS wallet0xb1d9df009c4d62ce9de14e0affeb3cf0ca3b97f2/eu-north-1. All6restored projects published/open,19approved broadcasts canonical,4mobile investor actions INDEXED; A1/B1,supply2,USDT allowance0. Root gate open/API-indexer healthy; admin0pending/alerts. Current registry/receipts: backend docs/UAT_RESTORATION_20261029.md. Historical dated observations above remain historical; independent client/multi-staff acceptance is separate."
   },
   "document_records": {
     "docs/planning/RE_SYSTEM_IMPLEMENTATION_PLAN.md": {
@@ -946,11 +952,11 @@
     }
   },
   "operations_updated_at_utc": "2026-10-28T11:12:26.960259+00:00",
-  "last_status_sync_at_utc": "2026-10-28T12:46:08.153482+00:00",
-  "last_status_sync_scope": "RSI-133 content recovery and approved new-account KMS credential staging verified. Live wallet cutover and exact financial publication approvals remain; no signature/cutover.",
+  "last_status_sync_at_utc": "2026-10-29T06:33:00Z",
+  "last_status_sync_scope": "Scoped reconciliation: RSI-133 Done after19canonical broadcasts/six fresh open projects/four investor mobile smoke confirmations; RSI-067 stays In progress for independent multi-staff/client acceptance. Aggregate below is the local133-task snapshot, not a fresh full-board audit.",
   "status_counts": {
-    "Done": 109,
-    "In progress": 21,
+    "Done": 110,
+    "In progress": 20,
     "To do": 3
   }
 }
