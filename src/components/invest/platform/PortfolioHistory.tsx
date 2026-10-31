@@ -68,6 +68,8 @@ export function PortfolioHistory({
           style={{
             position: "absolute",
             bottom: 4,
+            margin: 0,
+            padding: 0,
             left: 0,
             right: 0,
             display: "flex",
