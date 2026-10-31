@@ -1,4 +1,5 @@
 "use client";
+import { useActionError, useFeedbackMessage } from "../ActionFeedback";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -40,10 +41,11 @@ export function InvestorProduct({ id }: { id: string }) {
   const portfolio = useResource<Portfolio>("portfolio"), wallet = useResource<WalletResponse>("wallet");
   const p = project.error ? undefined : project.data, supply = state.error ? undefined : state.data, funding = revenue.error ? undefined : revenue.data;
   const h = portfolio.error ? undefined : portfolio.data?.items.find(item => item.projectId === id);
-  const [quantity, setQuantity] = useState("1"), [asset, setAsset] = useState<PaymentAsset>("REAED"), [command, setCommand] = useState<InvestorCommand | null>(null), [error, setError] = useState("");
+  const [quantity, setQuantity] = useState("1"), [asset, setAsset] = useState<PaymentAsset>("REAED"), [command, setCommand] = useState<InvestorCommand | null>(null), [, setError] = useActionError();
   const [recipient, setRecipient] = useState(""), [transferQuantity, setTransferQuantity] = useState("1");
   const [listingQuantity, setListingQuantity] = useState("1"), [listingPrice, setListingPrice] = useState(""), [listingAsset, setListingAsset] = useState<PaymentAsset>("USDT"), [expiry, setExpiry] = useState("");
   const validQuantity = validWhole(quantity);
+  useFeedbackMessage(validQuantity ? "" : "Enter a whole share quantity greater than zero.");
   const quote = useResource<Quote>(p && validQuantity ? `projects/${id}/quote?quantity=${quantity}&asset=${asset}` : null, 15000);
   const currentQuote = !quote.error && quote.data?.projectId === id && quote.data.quantity === quantity && quote.data.asset === asset && quote.data.chainId === 15324 && quote.data.decimals === decimals(asset) && validAtomic(quote.data.amountAtomic) ? quote.data : null;
   const publishedUnitPrice = asset === "USDT" ? p?.unitPriceUsdtAtomic : p?.unitPriceReaedAtomic;
@@ -93,7 +95,6 @@ export function InvestorProduct({ id }: { id: string }) {
       </Panel>
 
       {h && p && ownsShares ? <details className="iv-pd-manage"><summary>Transfer or sell your shares</summary><div className="iv-live-columns"><form className="iv-live-form" onSubmit={handleTransferSubmit}><h3>Transfer shares</h3><label htmlFor="transfer-recipient">Recipient wallet</label><input id="transfer-recipient" className="iv-input" value={recipient} onChange={event => setRecipient(event.target.value)} placeholder="0x…" required autoComplete="off" /><label htmlFor="transfer-quantity">Whole quantity</label><input id="transfer-quantity" className="iv-input" inputMode="numeric" value={transferQuantity} onChange={event => setTransferQuantity(event.target.value)} required /><button className="iv-button iv-primary" disabled={h.quantity === "0"}>Review transfer</button></form><form className="iv-live-form" onSubmit={handleListingSubmit}><h3>Offer shares for resale</h3><label htmlFor="listing-quantity">Whole quantity</label><input id="listing-quantity" className="iv-input" inputMode="numeric" value={listingQuantity} onChange={event => setListingQuantity(event.target.value)} /><AssetSelect asset={listingAsset} setAsset={setListingAsset} id="listing-asset" /><label htmlFor="listing-price">Price per share ({assetLabel(listingAsset)})</label><input id="listing-price" className="iv-input" inputMode="decimal" value={listingPrice} onChange={event => setListingPrice(event.target.value)} required /><label htmlFor="listing-expiry">Expiry</label><input id="listing-expiry" className="iv-input" type="datetime-local" value={expiry} onChange={event => setExpiry(event.target.value)} required /><button type="button" className="iv-button" onClick={() => review({ type: "APPROVE_MARKETPLACE", projectId: id })}>Review marketplace approval</button><button className="iv-button iv-primary" disabled={h.quantity === "0"}>Review listing</button><small>Operator approval allows marketplace transfers during fills. Shares remain in your wallet until a buyer fills the listing. No buyer or buyback is guaranteed.</small></form></div></details> : null}
-      {error ? <p className="iv-form-error" role="alert">{error}</p> : null}
     </div>
     {command ? <TransactionReview command={command} onClose={() => setCommand(null)} /> : null}
   </InvestorShell>;

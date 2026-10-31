@@ -143,24 +143,24 @@ test('success notice timers reset on replacement while actionable notices remain
  const runtime=clientRenderer({}, {}, clock);
  const {PlatformProvider,usePlatform}=runtime.load('src/components/invest/PlatformProvider.tsx');
  const {SESSION_EXPIRED_EVENT}=runtime.load('src/lib/platform/client.ts');
- function Probe(){context=usePlatform();return React.createElement('p',{role:'status'},context.notice);}
+ function Probe(){context=usePlatform();return React.createElement('p',{'data-testid':'notice-probe'},context.notice);}
  const tree=actor=>React.createElement(PlatformProvider,{user:actor,live:false,approvalOrigin:'https://app.reidentity.net'},React.createElement(Probe));
  const view=render(tree(user));
  await act(async()=>context.notify('Deposit history refreshed.',{kind:'success'}));
  assert.equal(timers.size,1);const oldTimer=[...timers.values()][0];
- await advance(7999);assert.equal(view.getByRole('status').textContent,'Deposit history refreshed.');
+ await advance(7999);assert.equal(view.getByTestId('notice-probe').textContent,'Deposit history refreshed.');
  await act(async()=>context.notify('Deposit history refreshed.',{kind:'success'}));
  assert.equal(timers.size,1);
- await act(async()=>oldTimer.callback());assert.equal(view.getByRole('status').textContent,'Deposit history refreshed.');
- await advance(7999);assert.equal(view.getByRole('status').textContent,'Deposit history refreshed.');
- await advance(1);assert.equal(view.getByRole('status').textContent,'');assert.equal(timers.size,0);
+ await act(async()=>oldTimer.callback());assert.equal(view.getByTestId('notice-probe').textContent,'Deposit history refreshed.');
+ await advance(7999);assert.equal(view.getByTestId('notice-probe').textContent,'Deposit history refreshed.');
+ await advance(1);assert.equal(view.getByTestId('notice-probe').textContent,'');assert.equal(timers.size,0);
  await act(async()=>context.notify('Saved.',{kind:'success'}));
  await act(async()=>context.notify('Your request may already have reached the platform. Check Activity.'));
- assert.equal(timers.size,0);await advance(60000);assert.match(view.getByRole('status').textContent,/Check Activity/);
- await act(async()=>context.notify(''));assert.equal(view.getByRole('status').textContent,'');
+ assert.equal(timers.size,0);await advance(60000);assert.match(view.getByTestId('notice-probe').textContent,/Check Activity/);
+ await act(async()=>context.notify(''));assert.equal(view.getByTestId('notice-probe').textContent,'');
  await act(async()=>context.notify('Copied.',{kind:'success'}));
  view.rerender(tree({...user,id:'synthetic-second-investor',wallet:'0x'+'2'.repeat(40)}));
- assert.equal(view.getByRole('status').textContent,'');assert.equal(timers.size,0);
+ assert.equal(view.getByTestId('notice-probe').textContent,'');assert.equal(timers.size,0);
  await act(async()=>context.notify('Saved.',{kind:'success'}));
  await act(async()=>window.dispatchEvent(new window.Event(SESSION_EXPIRED_EVENT)));
  assert.ok(view.getByRole('heading',{name:'Your session has ended'}));assert.equal(timers.size,0);

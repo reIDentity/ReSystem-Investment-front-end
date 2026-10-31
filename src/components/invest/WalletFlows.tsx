@@ -1,4 +1,5 @@
 "use client";
+import { useActionError } from "../ActionFeedback";
 import Link from "next/link";
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import type { WalletResponse } from "@/lib/platform/api.generated";
@@ -54,7 +55,7 @@ export function InvestorWithdraw() {
   const [amount, setAmount] = useState("");
   const [recipient, setRecipient] = useState("");
   const [command, setCommand] = useState<InvestorCommand | null>(null);
-  const [error, setError] = useState("");
+  const [error, setError] = useActionError();
   const [pendingMax, setPendingMax] = useState(false);
   const [maxQuote, setMaxQuote] = useState<SendQuote | null>(null);
   const [quoting, setQuoting] = useState(false);
@@ -104,7 +105,7 @@ export function InvestorWithdraw() {
         {step === 1 ? <div className="iv-withdraw-step"><h2>How much would you like to withdraw?</h2><p className="iv-muted">Available: {units(available?.toString(), decimals(asset))} {assetLabel(asset)}</p><label className="iv-form-label" htmlFor="withdraw-amount">Amount in {assetLabel(asset)}</label><div className="iv-amount-field"><input id="withdraw-amount" inputMode="decimal" maxLength={80} value={amount} onChange={event => { quoteGeneration.current++; setAmount(event.target.value); setPendingMax(false); setMaxQuote(null); setQuoting(false); }} autoComplete="off" required /><button type="button" disabled={!balances || quoting} onClick={() => { quoteGeneration.current++; setAmount(""); setMaxQuote(null); setPendingMax(true); setStep(2); setError(""); }}>Max</button></div><p className="iv-muted">Keep enough reAED for the network fee. The balance and gas are checked again before approval.</p></div> : null}
         {step === 2 ? <div className="iv-withdraw-step"><h2>Where should we send it?</h2><p className="iv-muted">Enter the receiving wallet on INFRA testnet, chain 15324.</p><label className="iv-form-label" htmlFor="withdraw-recipient">Recipient INFRA address</label><input className="iv-input" id="withdraw-recipient" value={recipient} onChange={event => { quoteGeneration.current++; setRecipient(event.target.value); setMaxQuote(null); setQuoting(false); }} maxLength={42} placeholder="0x…" autoComplete="off" required /><p className="iv-muted">Check the complete address. Confirmed transfers cannot be reversed by the platform.</p></div> : null}
         {step === 3 ? <div className="iv-withdraw-step"><h2>Review your withdrawal</h2><dl className="iv-exact-summary"><div><dt>Asset</dt><dd>{assetLabel(asset)}</dd></div><div><dt>Amount</dt><dd>{units(enteredAmount, decimals(asset))} {assetLabel(asset)}</dd></div><div><dt>Recipient</dt><dd>{recipient}</dd></div><div><dt>Network</dt><dd>INFRA testnet · 15324</dd></div></dl><p className="iv-muted">Review the exact amount, recipient and network fee before requesting approval. This screen does not move funds.</p></div> : null}
-        {error ? <p className="iv-form-error" role="alert">{error}</p> : null}
+        {error ? <p className="iv-form-error">{error}</p> : null}
         <div className="iv-form-actions">{step > 0 ? <button type="button" className="iv-button" onClick={() => { quoteGeneration.current++; if (step <= 2) setPendingMax(false); setMaxQuote(null); setQuoting(false); setStep(step - 1); setError(""); }}>Back</button> : null}{source === "RESALE" ? <Link className="iv-button iv-primary" href="/invest/marketplace">Go to marketplace</Link> : <button className="iv-button iv-primary" disabled={!balances || quoting}>{step === 3 ? "Review transfer" : "Continue"}</button>}</div>
       </form>
     </Panel><Panel title="Summary" className="iv-withdraw-summary"><dl>

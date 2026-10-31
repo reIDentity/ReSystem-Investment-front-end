@@ -27,7 +27,7 @@ export function clientRenderer(mocks = {}, expose = {}, clock = {}) {
         if (!target) throw new Error(`Unknown client test import: ${name}`);
         return load(path.relative(repository, target));
       }
-      if (!['react', 'react/jsx-runtime', 'swr', 'next/link', 'lucide-react', 'qrcode'].includes(name)) throw new Error(`Unmocked client dependency: ${name}`);
+      if (!['react', 'react-dom', 'react/jsx-runtime', 'swr', 'next/link', 'lucide-react', 'qrcode'].includes(name)) throw new Error(`Unmocked client dependency: ${name}`);
       return require(name);
     }
     const exposed = (expose[relative] || []).map(name => `module.exports.${name}=${name};`).join('\n');

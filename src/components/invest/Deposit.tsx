@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { useFeedbackMessage, useActionFeedback } from "../ActionFeedback";
 import { LiveDeposit } from "./platform/LiveDeposit";
 import Link from "next/link";
 import { useState } from "react";
@@ -35,17 +36,19 @@ async function fetchDeposits([url, wallet]: readonly [string, string]): Promise<
 export function InvestorDeposit() { const { live } = usePlatform(); return live ? <LiveDeposit /> : <ReadOnlyDeposit />; }
 
 function ReadOnlyDeposit() {
-  const { user } = usePlatform();
+  const { user, notify } = usePlatform();
   const [asset, setAsset] = useState<DepositAsset>("reAED");
   const [amount, setAmount] = useState("");
   const [status, setStatus] = useState("");
   const { data, error, isLoading, isValidating, mutate } = useSWR<DepositResponse, DepositLoadError>(["/api/invest/deposits", user.wallet], fetchDeposits, { refreshInterval: 30000, dedupingInterval: 15000, shouldRetryOnError: false });
+  const { available: feedbackAvailable } = useActionFeedback();
+  useFeedbackMessage(error?.message);
   const loading = isLoading || isValidating;
   const qr = data?.qr || error?.qr;
   async function refresh() {
     setStatus("");
-    try { if (await mutate()) setStatus("Deposit history refreshed from INFRA."); }
-    catch { /* The error is rendered beside the history, with no fake fallback. */ }
+    try { const fresh = await mutate(undefined, { revalidate: true, throwOnError: true }); if (fresh) { setStatus("Deposit history refreshed from INFRA."); notify("Deposit history refreshed from INFRA.", { kind: "success" }); } }
+    catch { notify("Could not refresh deposits. Please try again."); }
   }
 
   return <InvestorShell page="deposit" title="Deposit" subtitle="Receive reAED or USDT in your connected reID wallet on INFRA" liveData networkBlock={error ? null : data?.indexedBlock}>
@@ -68,7 +71,7 @@ function ReadOnlyDeposit() {
       </Panel>
       <Panel title="Recent deposits" className="iv-recent-deposits">
         <p className="iv-muted iv-deposit-history-note">Incoming reAED and USDT transfers to your connected wallet.</p>
-        {error && <p className="iv-form-error" role="alert">{error.message}{data && " Showing the last loaded records."}{error.signedOut && <> <Link href="/invest?next=%2Finvest%2Fdeposit">Connect with reID again</Link></>}</p>}
+        {error && <p className="iv-form-error" role={feedbackAvailable ? undefined : "alert"}>{error.message}{data && " Showing the last loaded records."}{error.signedOut && <> <Link href="/invest?next=%2Finvest%2Fdeposit">Connect with reID again</Link></>}</p>}
         {data?.warnings.map(warning => <p className="iv-form-error" role="status" key={warning}>{warning}</p>)}
         {loading && !data && <p className="iv-empty" role="status">Loading deposits from INFRA…</p>}
         {!loading && !error && data?.deposits.length === 0 && <p className="iv-empty">No reAED or USDT deposits found in recent indexed activity.</p>}

@@ -97,7 +97,7 @@ export function fixture(name) {
 const sourcePaths = [
   'src/components/invest/HomeExplore.tsx',
   'src/components/invest/platform/PortfolioHistory.tsx', 'src/components/invest/InvestorUI.tsx', 'src/components/invest/platform/ProjectIcon.tsx',
-  'src/components/Logo.tsx', 'src/lib/platform/read-ahead.ts', 'src/lib/platform/money.ts', 'src/lib/platform/media.ts',
+  'src/components/ActionFeedback.tsx', 'src/components/Logo.tsx', 'src/lib/platform/read-ahead.ts', 'src/lib/platform/money.ts', 'src/lib/platform/media.ts',
   'src/lib/platform/portfolio-values.ts', 'src/lib/platform/valuation.ts', 'src/lib/platform/cashflow-values.ts',
 ];
 export function hashFile(relative) { return createHash('sha256').update(fs.readFileSync(path.join(repository, relative))).digest('hex'); }
@@ -135,7 +135,7 @@ export function createHomeRenderer() {
         if (!target) throw new Error(`Unknown fixture import: ${name}`);
         return load(target);
       }
-      if (!['react', 'react/jsx-runtime', 'next/image', 'next/link'].includes(name)) throw new Error(`External preview dependency denied: ${name}`);
+      if (!['react', 'react-dom', 'react/jsx-runtime', 'next/image', 'next/link'].includes(name)) throw new Error(`External preview dependency denied: ${name}`);
       return fromRepository(name);
     }
     vm.runInNewContext(code, { module: localModule, exports: localModule.exports, require: importModule, console }, { filename: file });

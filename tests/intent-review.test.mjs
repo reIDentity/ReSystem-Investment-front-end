@@ -17,8 +17,10 @@ function intent(status = 'CREATED', expiresAt = new Date(Date.now() + 60000).toI
 function fixture(record, requestError, qrCalls = []) {
   const calls = [], paths = []; let refreshes = 0;
   const resource = { data: record, error: requestError, isLoading: false, mutate: async result => { if (result) { resource.data = result; resource.error = undefined; } else refreshes++; return resource.data; } };
-  const { IntentReview } = clientRenderer({ qrcode: { toDataURL: async url => { qrCalls.push(url); return 'data:image/png;base64,AAAA'; } }, '../PlatformProvider': { usePlatform: () => ({ user: { id: 'synthetic-investor', wallet }, approvalOrigin: 'https://app.reidentity.net' }), useResource: path => { paths.push(path); return resource; } }, '../InvestorUI': { Modal: ({ children, title }) => React.createElement('section', { role: 'dialog', 'aria-label': title }, children), Tag: ({ children }) => React.createElement('span', null, children) }, '@/lib/platform/client': { api: async (path, options) => { calls.push({ path, options }); return { ...record, status: 'SUBMITTING' }; } } }).load('src/components/invest/platform/Transaction.tsx');
-  const tree = () => React.createElement(SWRConfig, { value: { provider: () => new Map() } }, React.createElement(IntentReview, { initial: record, onClose() {} }));
+  const runtime = clientRenderer({ qrcode: { toDataURL: async url => { qrCalls.push(url); return 'data:image/png;base64,AAAA'; } }, '../PlatformProvider': { usePlatform: () => ({ user: { id: 'synthetic-investor', wallet }, approvalOrigin: 'https://app.reidentity.net' }), useResource: path => { paths.push(path); return resource; } }, '../InvestorUI': { Modal: ({ children, title }) => React.createElement('section', { role: 'dialog', 'aria-label': title }, children), Tag: ({ children }) => React.createElement('span', null, children) }, '@/lib/platform/client': { api: async (path, options) => { calls.push({ path, options }); return { ...record, status: 'SUBMITTING' }; } } });
+  const { IntentReview } = runtime.load('src/components/invest/platform/Transaction.tsx');
+  const { ActionFeedbackProvider } = runtime.load('src/components/ActionFeedback.tsx');
+  const tree = () => React.createElement(SWRConfig, { value: { provider: () => new Map() } }, React.createElement(ActionFeedbackProvider,null,React.createElement(IntentReview, { initial: record, onClose() {} })));
   const view = render(tree());
   return { view, resource, calls, paths, refreshes: () => refreshes, rerender: () => view.rerender(tree()) };
 }
@@ -74,7 +76,7 @@ test('the open approval expires locally at its deadline even if no status poll c
   const f = fixture(intent('AWAITING_APPROVAL', new Date(Date.now() + 2000).toISOString()));
   assert.ok(f.view.getByRole('link', { name: /Open reID/ }));
   await waitFor(() => assert.equal(Boolean(f.view.queryByRole('link', { name: /Open reID/ })), false), { timeout: 3500 });
-  assert.match(f.view.getByRole('alert').textContent, /Do not approve.*Refresh this same intent/);
+  assert.match((await f.view.findByRole('alert')).textContent, /Do not approve.*Refresh this same intent/);
   assert.equal(f.refreshes(), 0); assert.equal(f.calls.length, 0);
 });
 test('a platform-signed intent awaiting its second approval stays pending with no investor approval action', () => {
@@ -93,9 +95,11 @@ test('a real preparation rejection explains the gas shortage and retries only th
     calls.push({ path, options });
     return Response.json({ error: { code: 'HTTP_400', message: { message: 'Insufficient native balance including gas reserve', error: 'Bad Request', statusCode: 400 } } }, { status: 400 });
   };
-  const { TransactionReview } = clientRenderer({ '../PlatformProvider': { useResource: () => ({data:{title:'Synthetic project'},error:undefined}) }, '../InvestorUI': { Modal: ({ title, children }) => React.createElement('section', { role: 'dialog', 'aria-label': title }, children) } }).load('src/components/invest/platform/Transaction.tsx');
+  const runtime = clientRenderer({ '../PlatformProvider': { useResource: () => ({data:{title:'Synthetic project'},error:undefined}) }, '../InvestorUI': { Modal: ({ title, children }) => React.createElement('section', { role: 'dialog', 'aria-label': title }, children) } });
+  const { TransactionReview } = runtime.load('src/components/invest/platform/Transaction.tsx');
+  const { ActionFeedbackProvider } = runtime.load('src/components/ActionFeedback.tsx');
   const command = { type: 'BUY', projectId: 'synthetic-project', asset: 'REAED', quantity: '10' };
-  const view = render(React.createElement(TransactionReview, { command, onClose() {} }));
+  const view = render(React.createElement(ActionFeedbackProvider,null,React.createElement(TransactionReview, { command, onClose() {} })));
   fireEvent.click(view.getByRole('button', { name: 'Prepare transaction' }));
   await view.findByRole('alert');
   assert.match(view.getByRole('alert').textContent, /Not enough reAED.*Add reAED/);
@@ -121,4 +125,24 @@ test('mobile approval QR contains this exact provider intent and disappears with
   assert.equal(f.view.queryByRole('img'), null);
   f.resource.error = undefined; record.expiresAt = new Date(0).toISOString(); f.rerender();
   assert.equal(f.view.queryByRole('img'), null);
+});
+
+test('transaction toasts distinguish waiting, failed and receipt-verified completion, without repeating during polling',()=>{
+ const f=fixture(intent('CREATED'));
+ f.resource.data={...intent('AWAITING_APPROVAL')};f.rerender();
+ assert.match(document.querySelector('.action-toast [role="status"]').textContent,/Approval requested/);
+ assert.equal(document.querySelector('.action-toast-success'),null);
+ f.resource.data={...intent('INDEXED'),txHash:hash,receipt:null};f.rerender();
+ assert.match(f.view.getByRole('alert').textContent,/Confirmation evidence is unavailable/);
+ assert.equal(document.querySelector('.action-toast-success'),null);
+ f.resource.data={...f.resource.data,receipt:{status:'success',transactionHash:hash}};f.rerender();
+ assert.match(document.querySelector('.action-toast-success').textContent,/confirmed and recorded/);
+ fireEvent.click(f.view.getByRole('button',{name:'Dismiss notification'}));f.rerender();
+ assert.equal(document.querySelector('.action-toast'),null);
+});
+test('a rejected approval displays recovery guidance rather than a success toast',()=>{
+ const f=fixture(intent('AWAITING_APPROVAL'));
+ f.resource.data=intent('REJECTED');f.rerender();
+ assert.match(f.view.getByRole('alert').textContent,/approval was rejected.*Check Activity/);
+ assert.equal(document.querySelector('.action-toast-success'),null);assert.equal(f.calls.length,0);
 });
