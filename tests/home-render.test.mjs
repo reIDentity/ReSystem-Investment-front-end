@@ -60,7 +60,7 @@ test('populated API-shaped resources render exact display amounts without invent
   assert.equal(kpi(html, 'Available to claim'), '$3.08'); assert.equal(kpi(html, 'Wallet balance'), '$2.00');
   assert.equal(kpi(html, 'Total paid out'), '$0.00'); assert.equal(kpi(html, 'Total invested'), '—');
   assert.equal(disabled(html), false); assert.match(text(html), /1,176 shares in 1 project/);
-  assert.match(text(html), /No performance history available yet/);
+  assert.match(text(html), /Confirmed history is not available yet/);
 });
 test('error then recovered resources produce correct separate renders without claiming a browser retry click', () => {
   const renderer = createHomeRenderer(); const before = renderer.render('stale-error'), after = renderer.render('recovered');
@@ -92,7 +92,7 @@ test('existing invested slots display only same-anchor remaining acquisition bas
   assert.equal(kpi(html, 'Total invested'), '$1.00');
   assert.match(html, /<dt>Invested<\/dt><dd>\$1\.00<\/dd>/);
   assert.match(html, /iv-home-performance/);
-  assert.match(text(html), /No performance history available yet/);
+  assert.match(text(html), /Confirmed history is not available yet/);
   assert.equal((html.match(/class="iv-kpi /g) || []).length, 4);
   for (const name of ['gift-basis', 'malformed-basis']) {
     const unknown = render(name);
@@ -116,4 +116,13 @@ test('existing cash-flow slots and original bars use full verified gross flows, 
   assert.match(text(stale), /Complete cash-flow totals are not available yet/);
   const partial = text(render('gift-basis'));
   assert.match(partial, /Shares bought\$3\.00/);
+});
+
+
+test('verified dated history renders an accessible chart and table without presenting cost as market value',()=>{
+ const html=render('cashflow-history');
+ assert.match(html,/Cumulative confirmed purchase cost and claimed rewards/);
+ assert.match(text(html),/Purchase cost \$21.*Rewards claimed \$5/);
+ assert.match(text(html),/Monthly values/);
+ assert.doesNotMatch(text(html),/Confirmed history is not available yet/);
 });

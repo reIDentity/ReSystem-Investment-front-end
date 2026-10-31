@@ -2583,6 +2583,148 @@
         ]
       }
     },
+    "/v1/projects/{id}/artwork/{cid}": {
+      "get": {
+        "operationId": "PublicProjectsController_image",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "cid",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Hash-verified public artwork variant",
+            "content": {
+              "image/webp": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          },
+          "304": {
+            "description": "Unchanged public artwork"
+          },
+          "400": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Projects"
+        ]
+      }
+    },
     "/v1/projects/{id}/chain": {
       "get": {
         "operationId": "PublicProjectsController_chainState",
@@ -7398,6 +7540,14 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "before",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -8403,6 +8553,258 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ProjectionPage"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "cookie": []
+          }
+        ],
+        "tags": [
+          "Administration"
+        ]
+      }
+    },
+    "/v1/admin/operations-queue": {
+      "get": {
+        "operationId": "AdminController_operationsQueue",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OperationsQueue"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "cookie": []
+          }
+        ],
+        "tags": [
+          "Administration"
+        ]
+      }
+    },
+    "/v1/admin/financial-summary": {
+      "get": {
+        "operationId": "AdminController_financialSummary",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FinancialSummary"
                 }
               }
             }
@@ -12166,6 +12568,14 @@
             "name": "id",
             "required": true,
             "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "before",
+            "required": true,
+            "in": "query",
             "schema": {
               "type": "string"
             }
@@ -16930,6 +17340,53 @@
             "format": "date-time",
             "nullable": true
           },
+          "series": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "month": {
+                  "type": "string",
+                  "pattern": "^[0-9]{4}-[0-9]{2}$"
+                },
+                "assets": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "asset": {
+                        "type": "string",
+                        "enum": [
+                          "REAED",
+                          "USDT"
+                        ]
+                      },
+                      "purchasesAtomic": {
+                        "type": "string",
+                        "pattern": "^(0|[1-9][0-9]*)$"
+                      },
+                      "rewardsAtomic": {
+                        "type": "string",
+                        "pattern": "^(0|[1-9][0-9]*)$"
+                      }
+                    },
+                    "required": [
+                      "asset",
+                      "purchasesAtomic",
+                      "rewardsAtomic"
+                    ],
+                    "additionalProperties": false
+                  }
+                }
+              },
+              "required": [
+                "month",
+                "assets"
+              ],
+              "additionalProperties": false
+            },
+            "nullable": true
+          },
           "assets": {
             "type": "array",
             "items": {
@@ -17004,6 +17461,7 @@
           "confirmedBlock",
           "blockHash",
           "asOf",
+          "series",
           "assets"
         ],
         "additionalProperties": false
@@ -17591,6 +18049,9 @@
           "source": {
             "type": "string"
           },
+          "blockHash": {
+            "type": "string"
+          },
           "indexedBlock": {
             "type": "string",
             "pattern": "^(0|[1-9][0-9]*)$",
@@ -17606,6 +18067,7 @@
         },
         "required": [
           "source",
+          "blockHash",
           "indexedBlock",
           "updatedAt",
           "historyCoverage"
@@ -19127,6 +19589,175 @@
         ],
         "additionalProperties": false
       },
+      "FinancialSummary": {
+        "type": "object",
+        "properties": {
+          "totals": {
+            "type": "object",
+            "properties": {
+              "projects": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "openSales": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "issued": {
+                "type": "string",
+                "pattern": "^(0|[1-9][0-9]*)$",
+                "description": "Exact integer base units; never convert to a JavaScript number"
+              },
+              "maxFractions": {
+                "type": "string",
+                "pattern": "^(0|[1-9][0-9]*)$",
+                "description": "Exact integer base units; never convert to a JavaScript number"
+              },
+              "totalValueUsdt": {
+                "type": "string",
+                "pattern": "^(0|[1-9][0-9]*)$",
+                "description": "Exact integer base units; never convert to a JavaScript number"
+              },
+              "soldValueUsdt": {
+                "type": "string",
+                "pattern": "^(0|[1-9][0-9]*)$",
+                "description": "Exact integer base units; never convert to a JavaScript number"
+              },
+              "proceeds": {
+                "type": "object",
+                "properties": {
+                  "0": {
+                    "type": "string",
+                    "pattern": "^(0|[1-9][0-9]*)$",
+                    "description": "Exact integer base units; never convert to a JavaScript number"
+                  },
+                  "1": {
+                    "type": "string",
+                    "pattern": "^(0|[1-9][0-9]*)$",
+                    "description": "Exact integer base units; never convert to a JavaScript number"
+                  }
+                },
+                "required": [
+                  "0",
+                  "1"
+                ],
+                "additionalProperties": false
+              },
+              "funded": {
+                "type": "object",
+                "properties": {
+                  "0": {
+                    "type": "string",
+                    "pattern": "^(0|[1-9][0-9]*)$",
+                    "description": "Exact integer base units; never convert to a JavaScript number"
+                  },
+                  "1": {
+                    "type": "string",
+                    "pattern": "^(0|[1-9][0-9]*)$",
+                    "description": "Exact integer base units; never convert to a JavaScript number"
+                  }
+                },
+                "required": [
+                  "0",
+                  "1"
+                ],
+                "additionalProperties": false
+              },
+              "claimed": {
+                "type": "object",
+                "properties": {
+                  "0": {
+                    "type": "string",
+                    "pattern": "^(0|[1-9][0-9]*)$",
+                    "description": "Exact integer base units; never convert to a JavaScript number"
+                  },
+                  "1": {
+                    "type": "string",
+                    "pattern": "^(0|[1-9][0-9]*)$",
+                    "description": "Exact integer base units; never convert to a JavaScript number"
+                  }
+                },
+                "required": [
+                  "0",
+                  "1"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "projects",
+              "openSales",
+              "issued",
+              "maxFractions",
+              "totalValueUsdt",
+              "soldValueUsdt",
+              "proceeds",
+              "funded",
+              "claimed"
+            ],
+            "additionalProperties": false
+          },
+          "listings": {
+            "type": "object",
+            "properties": {
+              "counts": {
+                "type": "object",
+                "properties": {
+                  "open": {
+                    "type": "integer"
+                  },
+                  "sold": {
+                    "type": "integer"
+                  },
+                  "expired": {
+                    "type": "integer"
+                  },
+                  "cancelled": {
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "open",
+                  "sold",
+                  "expired",
+                  "cancelled"
+                ],
+                "additionalProperties": false
+              },
+              "openQuantity": {
+                "type": "string",
+                "pattern": "^(0|[1-9][0-9]*)$",
+                "description": "Exact integer base units; never convert to a JavaScript number"
+              },
+              "total": {
+                "type": "integer"
+              }
+            },
+            "required": [
+              "counts",
+              "openQuantity",
+              "total"
+            ],
+            "additionalProperties": false
+          },
+          "recentProjects": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProjectionRow"
+            }
+          },
+          "provenance": {
+            "$ref": "#/components/schemas/ProjectionProvenance"
+          }
+        },
+        "required": [
+          "totals",
+          "listings",
+          "recentProjects",
+          "provenance"
+        ],
+        "additionalProperties": false
+      },
       "ProjectionPage": {
         "type": "object",
         "properties": {
@@ -19723,6 +20354,10 @@
               "$ref": "#/components/schemas/TicketMessage"
             }
           },
+          "nextMessageCursor": {
+            "type": "string",
+            "nullable": true
+          },
           "requester": {
             "$ref": "#/components/schemas/AdminIdentity",
             "nullable": true
@@ -19842,6 +20477,12 @@
                     "additionalProperties": true
                   }
                 ]
+              },
+              "reason": {
+                "type": "string"
+              },
+              "requestId": {
+                "type": "string"
               }
             },
             "required": [
@@ -19857,6 +20498,124 @@
         "required": [
           "error",
           "statusCode"
+        ],
+        "additionalProperties": false
+      },
+      "OperationsQueue": {
+        "type": "object",
+        "properties": {
+          "asOf": {
+            "type": "string"
+          },
+          "since": {
+            "type": "string"
+          },
+          "failed24h": {
+            "type": "integer"
+          },
+          "requests": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "type": {
+                  "type": "string"
+                },
+                "status": {
+                  "type": "string"
+                },
+                "createdAt": {
+                  "type": "string"
+                },
+                "updatedAt": {
+                  "type": "string"
+                },
+                "txHash": {
+                  "type": "string",
+                  "nullable": true
+                },
+                "actor": {
+                  "$ref": "#/components/schemas/AdminIdentity",
+                  "nullable": true
+                },
+                "project": {
+                  "$ref": "#/components/schemas/AdminProject",
+                  "nullable": true
+                },
+                "nextAction": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "id",
+                "type",
+                "status",
+                "createdAt",
+                "updatedAt",
+                "txHash",
+                "actor",
+                "project",
+                "nextAction"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "support": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "subject": {
+                  "type": "string"
+                },
+                "status": {
+                  "type": "string"
+                },
+                "updatedAt": {
+                  "type": "string"
+                },
+                "assignedToId": {
+                  "type": "string",
+                  "nullable": true
+                },
+                "userId": {
+                  "type": "string"
+                },
+                "requester": {
+                  "$ref": "#/components/schemas/AdminIdentity",
+                  "nullable": true
+                },
+                "assignee": {
+                  "$ref": "#/components/schemas/AdminIdentity",
+                  "nullable": true
+                }
+              },
+              "required": [
+                "id",
+                "subject",
+                "status",
+                "updatedAt",
+                "assignedToId",
+                "userId",
+                "requester",
+                "assignee"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "asOf",
+          "since",
+          "failed24h",
+          "requests",
+          "support"
         ],
         "additionalProperties": false
       }

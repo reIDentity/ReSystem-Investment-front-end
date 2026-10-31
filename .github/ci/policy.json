@@ -10,6 +10,17 @@
         "https://github.com/advisories/GHSA-vfj7-8cjw-p6xm",
         "https://github.com/micromatch/braces/issues/70"
       ]
+    },
+    {
+      "advisory": "GHSA-g3hv-75wg-m249",
+      "package": "minimatch",
+      "version": "3.1.5",
+      "expires": "2026-11-14",
+      "reason": "Development-only legacy ESLint API. Exact source hash proves v3 lacks the affected optimization routine; modern dependency upgraded to 11.0.3. Production findings remain blocked.",
+      "sources": [
+        "https://github.com/advisories/GHSA-g3hv-75wg-m249",
+        "https://github.com/isaacs/minimatch/blob/v3.1.5/minimatch.js"
+      ]
     }
   ]
 }

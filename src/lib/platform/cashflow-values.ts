@@ -26,3 +26,29 @@ export function cashflowWidths(cashflow: VerifiedCashflow): string[] {
   const maximum = values.reduce((max, n) => n > max ? n : max, 0n);
   return values.map(value => { const ratio = maximum ? value * 10000n / maximum : 0n; return `${ratio / 100n}.${(ratio % 100n).toString().padStart(2, "0")}%`; });
 }
+
+
+/** Validate the dated cumulative series against the already verified asset totals. */
+export function readWalletHistory(value: unknown): {month: string; purchases: bigint; rewards: bigint}[] {
+  if (!object(value) || typeof value.wallet !== "string") return [];
+  const flow = readWalletCashflow(value, value.wallet);
+  if (!flow || !Array.isArray(value.series) || value.series.length !== 12) return [];
+  const asOf = new Date(flow.asOf);
+  const previous = { REAED: { purchases: 0n, rewards: 0n }, USDT: { purchases: 0n, rewards: 0n } };
+  const rows = [];
+  for (let i = 0; i < 12; i++) {
+    const row = value.series[i];
+    const month = new Date(Date.UTC(asOf.getUTCFullYear(), asOf.getUTCMonth() - 11 + i, 1)).toISOString().slice(0, 7);
+    if (!object(row) || row.month !== month || !Array.isArray(row.assets) || row.assets.length !== 2) return [];
+    for (const asset of ["REAED", "USDT"] as const) {
+      const matches = row.assets.filter(a => object(a) && a.asset === asset);
+      if (matches.length !== 1 || !uint(matches[0].purchasesAtomic) || !uint(matches[0].rewardsAtomic)) return [];
+      const purchases = BigInt(matches[0].purchasesAtomic), rewards = BigInt(matches[0].rewardsAtomic);
+      if (purchases < previous[asset].purchases || rewards < previous[asset].rewards || purchases > flow.amounts.purchases[asset] || rewards > flow.amounts.payouts[asset]) return [];
+      previous[asset] = { purchases, rewards };
+    }
+    rows.push({ month, purchases: previous.REAED.purchases * 5n + previous.USDT.purchases * 18n * 10n ** 12n, rewards: previous.REAED.rewards * 5n + previous.USDT.rewards * 18n * 10n ** 12n });
+  }
+  for (const asset of ["REAED", "USDT"] as const) if (previous[asset].purchases !== flow.amounts.purchases[asset]) return [];
+  return rows;
+}

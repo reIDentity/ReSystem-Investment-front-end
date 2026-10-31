@@ -31,7 +31,7 @@ test('expired pending approvals and malformed deadlines remove the provider link
     assert.equal(f.view.queryByText('Approval link is not trusted. Reconnect with reID.'), null);
     fireEvent.click(f.view.getByRole('button', { name: 'Refresh status' }));
     assert.equal(f.refreshes(), 1); assert.equal(f.calls.length, 0);
-    assert.ok(f.paths.every(path => path === 'transactions/synthetic-existing-intent'));
+    assert.ok(f.paths.every(path => path === null || path === 'transactions/synthetic-existing-intent'));
     cleanup();
   }
 });
@@ -93,7 +93,7 @@ test('a real preparation rejection explains the gas shortage and retries only th
     calls.push({ path, options });
     return Response.json({ error: { code: 'HTTP_400', message: { message: 'Insufficient native balance including gas reserve', error: 'Bad Request', statusCode: 400 } } }, { status: 400 });
   };
-  const { TransactionReview } = clientRenderer({ '../InvestorUI': { Modal: ({ title, children }) => React.createElement('section', { role: 'dialog', 'aria-label': title }, children) } }).load('src/components/invest/platform/Transaction.tsx');
+  const { TransactionReview } = clientRenderer({ '../PlatformProvider': { useResource: () => ({data:{title:'Synthetic project'},error:undefined}) }, '../InvestorUI': { Modal: ({ title, children }) => React.createElement('section', { role: 'dialog', 'aria-label': title }, children) } }).load('src/components/invest/platform/Transaction.tsx');
   const command = { type: 'BUY', projectId: 'synthetic-project', asset: 'REAED', quantity: '10' };
   const view = render(React.createElement(TransactionReview, { command, onClose() {} }));
   fireEvent.click(view.getByRole('button', { name: 'Prepare transaction' }));

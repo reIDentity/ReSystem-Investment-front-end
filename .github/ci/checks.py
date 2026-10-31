@@ -90,23 +90,47 @@ def secrets():
 
 
 def terminal_advisories(name, vulnerabilities, seen=None):
-    seen = set() if seen is None else set(seen)
-    if name in seen or name not in vulnerabilities:
-        raise ValueError('invalid audit dependency graph')
-    seen.add(name)
-    node = vulnerabilities[name]
-    via = node.get('via')
-    if not isinstance(via, list) or not via:
-        raise ValueError('invalid audit advisory list')
-    result = []
-    for entry in via:
-        if isinstance(entry, str):
-            result.extend(terminal_advisories(entry, vulnerabilities, seen))
-        elif isinstance(entry, dict) and isinstance(entry.get('url'), str):
-            result.append((name, entry['url'].rsplit('/', 1)[-1]))
-        else:
-            raise ValueError('invalid audit advisory')
-    return result
+    # npm's propagated dependency graph can contain legitimate peer cycles.
+    # Visit every reachable node once; reject a graph without an advisory leaf.
+    visited = set() if seen is None else set(seen)
+    pending = [name]
+    result = set()
+    while pending:
+        current = pending.pop()
+        if current in visited:
+            continue
+        if current not in vulnerabilities:
+            raise ValueError('invalid audit dependency graph')
+        visited.add(current)
+        via = vulnerabilities[current].get('via')
+        if not isinstance(via, list) or not via:
+            raise ValueError('invalid audit advisory list')
+        for entry in via:
+            if isinstance(entry, str):
+                pending.append(entry)
+            elif isinstance(entry, dict) and isinstance(entry.get('url'), str) and re.fullmatch(
+                    r'https://github\.com/advisories/GHSA-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}', entry['url']):
+                result.add((current, entry['url'].rsplit('/', 1)[-1]))
+            else:
+                raise ValueError('invalid audit advisory')
+    if not result:
+        raise ValueError('audit graph has no advisory')
+    return sorted(result)
+
+
+def unaffected_minimatch3(paths):
+    # v3 predates the affected optimizationLevel/firstPhasePreProcess routine.
+    # Bind the exception to the reviewed registry source, never just its name.
+    for path in paths:
+        source = (ROOT / path / 'minimatch.js').resolve()
+        if not source.is_relative_to(ROOT / 'node_modules') or not source.is_file():
+            return False
+        raw = source.read_bytes()
+        if hashlib.sha256(raw).hexdigest() != '746849f267c4868a53729225bd85c7dccd387712136fb305fcc0a3eadd4a3d9d':
+            return False
+        if any(marker in raw for marker in (b'firstPhasePreProcess', b'optimizationLevel', b'globParts.push')):
+            return False
+    return bool(paths)
 
 
 def npm_exception(name, vulnerabilities, lock, policy, today):
@@ -124,6 +148,8 @@ def npm_exception(name, vulnerabilities, lock, policy, today):
         paths = vulnerabilities[leaf].get('nodes', [])
         if not paths or not all(lock['packages'].get(p, {}).get('dev') is True and
                                 lock['packages'][p].get('version') == exception['version'] for p in paths):
+            return False
+        if advisory == 'GHSA-g3hv-75wg-m249' and not unaffected_minimatch3(paths):
             return False
     return True
 

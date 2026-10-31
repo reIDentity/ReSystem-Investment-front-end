@@ -1,4 +1,5 @@
 "use client";
+import { publicApiError } from "../public-api-errors";
 import type { SessionResponse } from "./api.generated";
 import { platformErrorMessage } from "./errors";
 export const SESSION_EXPIRED_EVENT = "resystem:investor-session-expired";
@@ -16,10 +17,11 @@ async function read<T>(path: string, options: RequestInit = {}): Promise<T> {
   if (response.ok && response.status === 204) return undefined as T;
   let body; try { body = await response.json(); } catch { throw new PlatformError(mutation ? uncertain : "The platform returned an unreadable response. Please refresh and try again.", response.status); }
   if (!response.ok) {
-    const message = platformErrorMessage(body, response.status);
+    const detail = publicApiError(body);
+    const message = detail.message || platformErrorMessage(body, response.status);
     // A gateway/server failure can happen after a mutation committed. Preserve
     // known, actionable refusals, but do not turn an unknown outcome into a retry.
-    throw new PlatformError(mutation && response.status >= 500 && message === platformErrorMessage({}, response.status) ? uncertain : message, response.status);
+    throw new PlatformError((mutation && response.status >= 500 && !detail.message && message === platformErrorMessage({}, response.status) ? uncertain : message) + (detail.reference ? ` Support reference: ${detail.reference}.` : ""), response.status);
   }
   return body as T;
 }

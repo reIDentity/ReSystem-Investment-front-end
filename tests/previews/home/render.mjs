@@ -50,6 +50,7 @@ export const scenarios = {
   'known-basis': 'Verified synthetic rational acquisition basis at the same canonical portfolio anchor.',
   'gift-basis': 'Gift provenance makes remaining basis unknown even while rewards are verified.',
   'malformed-basis': 'Basis quantity differs from the verified holding; no cost estimate is displayed.',
+  'cashflow-history': 'Verified synthetic twelve-month cumulative purchase and reward history; not valuation.',
   cashflow: 'Verified canonical synthetic gross cash flows, including a negative net after fixed FX.',
   'cashflow-stale': 'Cached financial cash flow with a failed refresh must not be displayed.',
   offline: 'Service disabled and no resource data; no authentication or backend connection.',
@@ -84,12 +85,18 @@ export function fixture(name) {
     h.costBasis = { status: name === 'gift-basis' ? 'unknown' : 'known', method: 'weighted_average', reason: name === 'gift-basis' ? 'gift_or_other_payer' : null, quantity: name === 'malformed-basis' ? '1175' : h.quantity, remaining: name === 'gift-basis' ? null : [{ asset: 'REAED', decimals: 18, numerator: '3600000000000000000', denominator: '3' }, { asset: 'USDT', decimals: 6, numerator: '2000000', denominator: '3' }], acquisitionOutlay: assets('3600000000000000000', '2000000') };
   }
   if (name === 'cashflow' || name === 'cashflow-stale') { resources['wallet/cashflow'] = response(cashflowFixture()); if (name === 'cashflow-stale') resources['wallet/cashflow'].error = unavailable(); }
+  if (name === 'cashflow-history') {
+    const data=cashflowFixture(),asOf=new Date(data.asOf);
+    data.series=Array.from({length:12},(_,i)=>({month:new Date(Date.UTC(asOf.getUTCFullYear(),asOf.getUTCMonth()-11+i,1)).toISOString().slice(0,7),assets:data.assets.map(a=>({asset:a.asset,purchasesAtomic:(BigInt(a.purchasesAtomic)*BigInt(i+1)/12n).toString(),rewardsAtomic:(BigInt(a.payoutsAtomic)*BigInt(i+1)/12n).toString()}))}));
+    resources['wallet/cashflow']=response(data);
+  }
   if (name === 'offline') for (const endpoint of ['portfolio', 'wallet', 'projects']) resources[endpoint] = response(undefined);
   return { name, live: name !== 'offline', resources };
 }
 
 const sourcePaths = [
-  'src/components/invest/HomeExplore.tsx', 'src/components/invest/InvestorUI.tsx', 'src/components/invest/platform/ProjectIcon.tsx',
+  'src/components/invest/HomeExplore.tsx',
+  'src/components/invest/platform/PortfolioHistory.tsx', 'src/components/invest/InvestorUI.tsx', 'src/components/invest/platform/ProjectIcon.tsx',
   'src/components/Logo.tsx', 'src/lib/platform/read-ahead.ts', 'src/lib/platform/money.ts', 'src/lib/platform/media.ts',
   'src/lib/platform/portfolio-values.ts', 'src/lib/platform/valuation.ts', 'src/lib/platform/cashflow-values.ts',
 ];

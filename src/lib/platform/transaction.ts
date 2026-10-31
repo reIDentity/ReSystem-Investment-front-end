@@ -19,6 +19,10 @@ export function transactionPollInterval(intent?: TransactionResponse): number {
 
 /** Explain the next step without exposing provider diagnostics or claiming uncertain outcomes. */
 export function transactionGuidance(intent: TransactionResponse): string {
+  if(intent.command?.type === "APPROVE_USDT") {
+    if(intent.status === "INDEXED") return "Your limited USDT allowance is confirmed. It has not bought shares. Return to the project to review and approve the separate purchase; a second network fee applies.";
+    if(intent.status === "CREATED") return "Step 1: approve only the exact USDT allowance. Step 2: separately review and approve the purchase. Each transaction uses reAED for its network fee.";
+  }
   switch (intent.status) {
     case "CREATED": return "Review the amount, destination and network fee, then request approval. Nothing is sent until you approve in reID.";
     case "SUBMITTING": return "Your approval request is being sent to reID. Keep this request while its status updates; do not create another one.";

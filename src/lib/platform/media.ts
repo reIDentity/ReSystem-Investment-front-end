@@ -5,3 +5,8 @@ export function publicIpfsUrl(cid: unknown): string {
   }
   return `https://ipfs.filebase.io/ipfs/${cid}`;
 }
+
+export function projectArtworkUrl(id:string,cid:string,size:"icon"|"card"="card") {
+  if(!/^[a-zA-Z0-9_-]{1,64}$/.test(id) || !/^[a-zA-Z0-9]{32,120}$/.test(cid)) throw new Error("Invalid public artwork reference");
+  return `/api/artwork/${id}/${cid}?size=${size}`;
+}

@@ -69,10 +69,14 @@ export async function proxyPlatform(request: Request, segments: string[], config
     try { body = await boundedBody(request.body, limit); } catch { return failure("Request body too large.", 413); }
     if (body.length) headers.set("Content-Type", attachmentUpload ? contentType : "application/json");
   }
+  const started = Date.now();
   let upstream: Response;
   try { upstream = await fetcher(`${config.base}${path}${query}`, { method, headers, ...(body?.length ? { body: body as BodyInit } : {}), cache: "no-store", redirect: "manual", signal: AbortSignal.timeout(attachmentUpload ? 45000 : 20000) }); }
   catch { return failure("The platform service is unavailable. Please retry shortly.", 503); }
   const outgoing = new Headers({ "Cache-Control": "private, no-store, max-age=0", Vary: "Cookie", "Referrer-Policy": "no-referrer", "X-Content-Type-Options": "nosniff" });
+  outgoing.set("Server-Timing", `backend;dur=${Date.now()-started}`);
+  const requestId=upstream.headers.get("x-request-id");
+  if(requestId && /^[a-f0-9]{8}-(?:[a-f0-9]{4}-){3}[a-f0-9]{12}$/i.test(requestId)) outgoing.set("X-Request-ID",requestId);
   for (const value of upstream.headers.getSetCookie()) {
     const name = value.split("=", 1)[0] || "";
     if (COOKIES.has(name)) outgoing.append("Set-Cookie", value.replace(/;\s*Domain=[^;]*/gi, "").replace(/;\s*Path=[^;]*/gi, "") + "; Path=/" + (config.origin.startsWith("https:") && !/;\s*Secure(?:;|$)/i.test(value) ? "; Secure" : ""));

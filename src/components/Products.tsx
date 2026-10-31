@@ -9,14 +9,14 @@ import { Container } from "./Container";
 import { Reveal } from "./Reveal";
 import { useInView } from "@/hooks/motion";
 import { categories, products } from "@/data/products";
-import { publicIpfsUrl } from "@/lib/platform/media";
+import { projectArtworkUrl } from "@/lib/platform/media";
 
 function ProductCard({ row }: { row: LandingProject }) {
   const [failedArtwork, setFailedArtwork] = useState<string | null>(null);
   const { project, stats } = row;
   const product = products.find(p => p.projectId === project.id);
   const image = project.media?.find(m => m.mimeType.startsWith("image/") && /^[a-zA-Z0-9]{32,120}$/.test(m.cid));
-  const publicArtwork = image ? publicIpfsUrl(image.cid) : null;
+  const publicArtwork = image ? projectArtworkUrl(project.id, image.cid) : null;
   const artwork = publicArtwork && publicArtwork !== failedArtwork ? publicArtwork : product?.image;
   const badge = stats.sale === "Open" ? "Live" : stats.sale === "Closed" ? "Published" : "—";
   return (

@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { readWalletCashflow, cashflowWidths } from '../src/lib/platform/cashflow-values.ts';
+import { readWalletCashflow, cashflowWidths, readWalletHistory } from '../src/lib/platform/cashflow-values.ts';
 import { portfolioAcquisitionOutlay } from '../src/lib/platform/portfolio-values.ts';
 import { formatSignedUsdEquivalent, formatUsdEquivalent } from '../src/lib/platform/valuation.ts';
 import { cashflowFixture } from './cashflow-fixtures.mjs';
@@ -36,4 +36,19 @@ test('cash-flow BFF is an exact read-only authenticated route and cannot expose 
   assert.equal((await proxyPlatform(make('POST'), ['wallet', 'cashflow'], config, fetcher)).status, 404);
   assert.equal((await proxyPlatform(make(), ['wallet', 'cashflow', wallet], config, fetcher)).status, 404);
   assert.equal(calls, 1);
+});
+
+
+test('history must have contiguous months, unique assets and reconcile cumulative purchases with canonical cash flows', () => {
+  const value = cashflowFixture();
+  const asOf = new Date(value.asOf);
+  value.series = Array.from({length:12}, (_,i) => ({ month: new Date(Date.UTC(asOf.getUTCFullYear(), asOf.getUTCMonth()-11+i,1)).toISOString().slice(0,7), assets: value.assets.map(a => ({asset:a.asset, purchasesAtomic:a.purchasesAtomic, rewardsAtomic:'0'})) }));
+  assert.equal(readWalletHistory(value).length,12);
+  for (const corrupt of [
+    v => {v.series[0].month = '1999-01';},
+    v => {v.series[0].assets[0].purchasesAtomic = '9'.repeat(83);},
+    v => {v.series[11].assets[0].purchasesAtomic = '0';},
+    v => {v.series[1].assets[1] = v.series[1].assets[0];},
+    v => {v.series[0].assets[0].rewardsAtomic = (BigInt(v.assets[0].payoutsAtomic)+1n).toString();}
+  ]) { const bad=structuredClone(value); corrupt(bad); assert.deepEqual(readWalletHistory(bad), []); }
 });

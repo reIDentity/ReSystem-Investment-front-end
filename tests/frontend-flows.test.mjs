@@ -397,7 +397,7 @@ test('project icons use validated public project art, preserve identity and reco
     '../PlatformProvider':{useResource:path=>{reads.push(path);return resource({media:[{cid,mimeType:'image/png'}]});}},'../InvestorUI':ui,
   }).load('src/components/invest/platform/ProjectIcon.tsx');
   let view=render(React.createElement(ProjectIcon,{id:'project-a',title:'Actual project',media:[{cid,mimeType:'image/png'}]}));
-  assert.equal(view.container.querySelector('img').getAttribute('src'),`https://ipfs.filebase.io/ipfs/${cid}`);
+  assert.equal(view.container.querySelector('img').getAttribute('src'),`/api/artwork/project-a/${cid}?size=icon`);
   assert.equal(reads[0],null);fireEvent.error(view.container.querySelector('img'));assert.ok(view.getByText('AC'));view.unmount();
   view=render(React.createElement(ProjectIcon,{id:'project-b',title:'Another project'}));
   assert.ok(reads.includes('projects/project-b'));assert.ok(view.container.querySelector('img'));view.unmount();

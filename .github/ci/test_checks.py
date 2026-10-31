@@ -36,7 +36,7 @@ class SecurityGates(unittest.TestCase):
         self.assertFalse(self.accepted())
 
     def test_unrelated_advisory_cannot_inherit_exception(self):
-        self.vulns['braces']['via'].append({'url': 'https://github.com/advisories/GHSA-new-new-new'})
+        self.vulns['braces']['via'].append({'url': 'https://github.com/advisories/GHSA-aaaa-bbbb-cccc'})
         self.assertFalse(self.accepted())
 
     def test_exception_expiry_is_enforced(self):
@@ -55,6 +55,31 @@ class SecurityGates(unittest.TestCase):
         self.vulns['braces']['via'] = ['parent']
         with self.assertRaises(ValueError):
             self.accepted()
+
+    def test_peer_cycle_with_leaf_checks_every_reachable_advisory(self):
+        self.vulns['parent']['via'].append('peer')
+        self.vulns['peer'] = {'nodes': ['node_modules/peer'], 'via': ['parent', 'braces']}
+        self.assertTrue(self.accepted())
+        self.vulns['peer']['via'].append({'url': 'https://github.com/advisories/GHSA-aaaa-bbbb-cccc'})
+        self.assertFalse(self.accepted())
+
+    def test_missing_graph_node_and_advisory_free_cycle_fail_closed(self):
+        self.vulns['parent']['via'] = ['missing']
+        with self.assertRaises(ValueError): self.accepted()
+
+    def test_unaffected_minimatch_requires_exact_source_and_local_path(self):
+        self.assertFalse(checks.unaffected_minimatch3([]))
+        self.assertFalse(checks.unaffected_minimatch3(['../outside']))
+        with tempfile.TemporaryDirectory() as folder:
+            old_root = checks.ROOT
+            try:
+                checks.ROOT = Path(folder)
+                p = checks.ROOT / 'node_modules/minimatch/minimatch.js'
+                p.parent.mkdir(parents=True)
+                p.write_text('module.exports = function () {}')
+                self.assertFalse(checks.unaffected_minimatch3(['node_modules/minimatch']))
+            finally:
+                checks.ROOT = old_root
 
     def test_sanitizer_drops_sensitive_fields(self):
         raw = {'RuleID': 'test', 'File': 'x', 'StartLine': 1, 'Fingerprint': 'commit:x:test:1', 'Secret': 'private-value', 'Match': 'private-value', 'Author': 'private-person'}
@@ -130,7 +155,7 @@ class SecurityGates(unittest.TestCase):
         self.assertTrue(checks.unaffected_oz(checks.OZ_ADVISORY, checks.OZ_PIN, sources))
         sources[0]['lib/openzeppelin-contracts/contracts/utils/Bytes.sol'] = {}
         self.assertFalse(checks.unaffected_oz(checks.OZ_ADVISORY, checks.OZ_PIN, sources))
-        self.assertFalse(checks.unaffected_oz('GHSA-new-new-new', checks.OZ_PIN, sources))
+        self.assertFalse(checks.unaffected_oz('GHSA-aaaa-bbbb-cccc', checks.OZ_PIN, sources))
         self.assertFalse(checks.unaffected_oz(checks.OZ_ADVISORY, 'changed', sources))
 
 

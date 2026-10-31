@@ -5,12 +5,13 @@ import { useState } from "react";
 import type { ProjectPage, WalletResponse, WalletCashflowResponse } from "@/lib/platform/api.generated";
 import type { Holding, Portfolio, Project, ProjectState } from "@/lib/platform/types";
 import { assetLabel, percentage, units, type PaymentAsset } from "@/lib/platform/money";
-import { publicIpfsUrl } from "@/lib/platform/media";
+import { projectArtworkUrl } from "@/lib/platform/media";
 import { holdingCostBasis, portfolioCostBasis, portfolioAcquisitionOutlay } from "@/lib/platform/portfolio-values";
 import { formatRationalUsdEquivalent, formatSignedUsdEquivalent } from "@/lib/platform/valuation";
 import { readWalletCashflow, cashflowWidths } from "@/lib/platform/cashflow-values";
 import { usePlatform, useResource } from "./PlatformProvider";
 import { Asset, DataState, InvestorShell, Modal, Panel, Tag } from "./InvestorUI";
+import { PortfolioHistory } from "./platform/PortfolioHistory";
 import { ProjectIcon } from "./platform/ProjectIcon";
 import { TransactionReview, type InvestorCommand } from "./platform/Transaction";
 import "./HomeExplore.css";
@@ -134,10 +135,9 @@ export function InvestorHome() {
       </Panel>
 
       <div className="iv-home-middle iv-home-middle">
-        <Panel title="Portfolio performance" subtitle="Value and earnings by month." className="iv-portfolio-chart iv-home-performance">
-          <div className="iv-chart-legend"><span><i />Value</span><span><i />Earnings</span></div>
-          <div className="iv-home-empty-chart" role="img" aria-label="Portfolio performance chart. No verified performance history is available."><div><strong>Your portfolio, over time</strong><p>{verifiedPortfolio && ownedIds.size === 0 ? "Make your first investment to start your portfolio." : "Your performance history will appear here."}</p></div></div>
-          <p className="iv-home-chart-note">No performance history available yet.</p>
+        <Panel title="Portfolio performance" subtitle="Confirmed purchase cost and claimed rewards, not market value." className="iv-portfolio-chart iv-home-performance">
+          <div className="iv-chart-legend"><span><i style={{background:"#0095ff"}} />Purchase cost</span><span><i style={{background:"#00965e"}} />Rewards claimed</span></div>
+          <PortfolioHistory data={flow ? cashflow.data : undefined} />
         </Panel>
         <Panel title="Recommended for you" subtitle="Discover published projects you don’t own yet." className="iv-recommended iv-home-recommended">
           <div className="iv-home-recommendation-list">
@@ -170,7 +170,7 @@ export function ProjectCard({ project, ownedQuantity }: { project: Project; owne
   const issued = supply ? percentage(supply.totalSupply, project.maxFractions) : "—";
   const owned = ownedQuantity && /^[0-9]+$/.test(ownedQuantity) && BigInt(ownedQuantity) > 0n;
   return <Link className="iv-product-card iv-explore-card" href={`/invest/products/${project.id}`}>
-    <div className="iv-product-placeholder iv-explore-image">{image ? <Image src={publicIpfsUrl(image.cid)} alt={project.title} width={640} height={360} unoptimized /> : <span className="sr-only">Project image not supplied</span>}{owned ? <Tag tone="dark">You own {units(ownedQuantity, 0)}</Tag> : <Tag tone="neutral">Published</Tag>}<span className="iv-explore-project-mark" aria-hidden="true" /></div>
+    <div className="iv-product-placeholder iv-explore-image">{image ? <Image src={projectArtworkUrl(project.id, image.cid)} alt={project.title} width={640} height={360} unoptimized /> : <span className="sr-only">Project image not supplied</span>}{owned ? <Tag tone="dark">You own {units(ownedQuantity, 0)}</Tag> : <Tag tone="neutral">Published</Tag>}<span className="iv-explore-project-mark" aria-hidden="true" /></div>
     <h2>{project.title}</h2><small>{project.location || "INFRA project"}</small><p>{project.description}</p>
     <div className="iv-product-supply"><span>{issued === "—" ? chain.isLoading ? "Loading supply…" : "Supply unavailable" : `${issued} issued`}</span><span>{supply ? `${units(supply.remainingSupply, 0)} left` : "—"}</span></div>
     <div className="iv-progress" aria-hidden="true">{issued !== "—" ? <span style={{ width: issued }} /> : null}</div>
