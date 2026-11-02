@@ -9,8 +9,8 @@ const SAFE = new Set(["GET", "HEAD"]);
 const ROUTES: [RegExp, string[]][] = [
   [/^auth\/session$/, ["GET"]], [/^auth\/logout$/, ["POST"]], [/^auth\/reid\/(start|callback)$/, ["GET"]],
   [/^auth\/reid\/device$/, ["POST", "DELETE"]], [/^auth\/reid\/device\/poll$/, ["POST"]],
-  [/^projects(?:\/[a-zA-Z0-9_-]+(?:\/(?:quote|chain|revenue|rewards))?)?$/, ["GET"]],
-  [/^(?:wallet(?:\/(?:deposits|send-quote|cashflow))?|portfolio|earnings|activity|marketplace(?:\/(?:proceeds|[0-9]+(?:\/quote)?))?)$/, ["GET"]],
+  [/^projects(?:\/[a-zA-Z0-9_-]+(?:\/(?:quote|chain|revenue|rewards|phases))?)?$/, ["GET"]],
+  [/^(?:wallet(?:\/(?:deposits|send-quote|cashflow))?|portfolio(?:\/phase-purchases)?|earnings|activity|marketplace(?:\/(?:proceeds|[0-9]+(?:\/quote)?))?)$/, ["GET"]],
   [/^transactions$/, ["GET", "POST"]], [/^transactions\/[a-zA-Z0-9_-]+$/, ["GET"]],
   [/^transactions\/[a-zA-Z0-9_-]+\/submit$/, ["POST"]],
   [/^support$/, ["GET", "POST"]], [/^support\/[a-zA-Z0-9_-]+$/, ["GET"]], [/^support\/[a-zA-Z0-9_-]+\/messages$/, ["POST"]],

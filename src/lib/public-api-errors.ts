@@ -1,5 +1,10 @@
 /** Only known reason codes and UUID request references are safe to display. */
 const REASONS: Record<string, string> = {
+  PHASE_CHANGED: "The phase or price changed during checkout. Close this review, check the updated total and confirm it again.",
+  PHASE_PRIVATE: "This pre-launch phase is open only to approved investors.",
+  PHASE_CLOSED: "This sale phase is not currently open.",
+  PHASE_CAPACITY: "Choose a quantity within the blocks remaining in this phase.",
+
   INSUFFICIENT_GAS:
     "Add enough reAED to cover the payment and network fee. USDT cannot pay the network fee.",
   SALE_CLOSED:

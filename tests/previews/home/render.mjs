@@ -61,6 +61,7 @@ export function fixture(name) {
   const resources = {
     portfolio: response(portfolio([holding()])), wallet: response(wallet()), 'wallet/cashflow': response(undefined),
     projects: response({ items: [], nextCursor: null }),
+    'portfolio/phase-purchases?page=1': response({ items: [], page: 1, nextPage: null }),
     notifications: response({ items: [], nextCursor: null }),
   };
   if (name === 'empty') { resources.portfolio.data = portfolio([]); resources.wallet.data = wallet('0', '0'); }
