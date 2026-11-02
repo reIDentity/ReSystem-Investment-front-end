@@ -48,6 +48,14 @@
 .iv-pd-page .iv-block-controls input { width:92px; min-height:44px; }
 .iv-pd-page .iv-block-controls > div > button { min-width:40px; min-height:44px; }
 .iv-pd-page .iv-block-controls > button { min-height:40px; }
+.iv-share-allocation { margin-bottom:16px; }
+.iv-share-allocation h3 { font-size:16px; margin:0; }
+.iv-share-allocation p { font-size:13px; margin:4px 0; overflow-wrap:anywhere; }
+.iv-share-allocation dl { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:6px 14px; margin:10px 0; }
+.iv-share-allocation dt { color:#52647c; font-size:12px; }
+.iv-share-allocation dd { margin:0; font-weight:600; overflow-wrap:anywhere; }
+.iv-pd-later-key { background:#e7edf5; }
+.iv-pd-reserved-key { background:#8998ad; }
 .iv-pd-issued-key { background:#d7dde7; }
 .iv-pd-page .iv-order-summary dd { overflow-wrap:anywhere; }
 .iv-pd-page .iv-order-total strong { font-size:clamp(19px,2vw,26px); overflow-wrap:anywhere; }
