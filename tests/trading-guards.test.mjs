@@ -53,3 +53,15 @@ test('transaction polling stops at terminal states but continues through broadca
  assert.match(transactionGuidance({status:'FAILED',errorCode:'CHAIN_REVERT'}),/fee may still have been charged/);
  assert.doesNotMatch(transactionGuidance({status:'FAILED',errorCode:'private-diagnostic'}),/private-diagnostic/);
 });
+test('a phased purchase refused after approval asks the investor to review and confirm again', () => {
+ assert.match(transactionGuidance({status:'FAILED',errorCode:'PHASE_CHANGED'}),/price changed.*confirm again/);
+ assert.match(transactionGuidance({status:'FAILED',errorCode:'QUOTE_EXPIRED'}),/refresh the terms and confirm again/);
+ for(const errorCode of ['PHASE_CHANGED','QUOTE_EXPIRED','PHASE_SOLD_OUT','PHASE_NOT_OPEN','PHASE_NOT_ELIGIBLE']){
+  const text=transactionGuidance({status:'FAILED',errorCode});
+  assert.match(text,/No blocks were bought, but a network fee may still have been charged/);
+  assert.doesNotMatch(text,/INFRA rejected this transaction/);
+ }
+ // Codes are only trusted on a failed intent and never echo unknown or inherited keys.
+ assert.doesNotMatch(transactionGuidance({status:'BROADCAST',errorCode:'PHASE_CHANGED'}),/confirm again/);
+ assert.doesNotMatch(transactionGuidance({status:'FAILED',errorCode:'toString'}),/function|undefined/);
+});
