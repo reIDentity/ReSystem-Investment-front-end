@@ -270,9 +270,6 @@ footer { margin-top: 37px; padding-bottom: 30px; }
 .ecosystem-reaed > span { position: absolute; top: 6.94px; left: 6.94px; }
 .ecosystem-fractionaire { display: grid; place-items: center; width: 25.949px; height: 23.354px; border-radius: 3.114px; background: #caff1c; margin-right: 2.14px; }
 .ecosystem-cet { display: grid; place-items: center; width: 24.586px; height: 22.128px; border-radius: 2.95px; background: #6742f8; margin-right: 2.36px; }
-.ecosystem-idos { position: relative; width: 28.947px; height: 28.947px; }
-.ecosystem-idos img { position: absolute; left: 2.227px; top: 2.227px; }
-.ecosystem-idos img:last-child { top: 13.36px; transform: rotate(180deg); }
 .calculator-amount > div:first-child { height: 19px; line-height: 19px; }
 .calculator-amount input { display: block; }
 .calculator-amount > div:nth-of-type(2) { margin-top: 22px; line-height: 16px; }

@@ -11,7 +11,6 @@ const logos = [
   { name: "reInvest", width: 159.468 },
   { name: "reMarketplace", width: 228.590 },
   { name: "Crypto Estate Tech", width: 248.641 },
-  { name: "IDOS", width: 118.641 },
   { name: "21MINE", width: 159.752 },
   { name: "Desert Tech", width: 210.715 },
   { name: "reWallet", width: 161.421 },
@@ -30,7 +29,6 @@ function LogoContent({ name }: { name: string }) {
     case "reInvest": return <><Mark asset="57882" /><span className="ecosystem-re"><Mark asset="352ec" /><span>Invest</span></span></>;
     case "reMarketplace": return <><Mark asset="b1c06" /><span className="ecosystem-re"><Mark asset="89b06" /><span>Marketplace</span></span></>;
     case "Crypto Estate Tech": return <><span className="ecosystem-cet"><Mark asset="bed37" /></span><span>Crypto Estate Tech</span></>;
-    case "IDOS": return <><span className="ecosystem-idos"><Mark asset="62792" /><Mark asset="041e3" /></span><span className="ecosystem-large">IDOS</span></>;
     case "21MINE": return <><Mark asset="bf234" /><span className="ecosystem-large">21MINE</span></>;
     case "Desert Tech": return <><Mark asset="43707" /><span><strong>DESERT</strong> <span className="font-normal">TECH</span></span></>;
     default: return <><Mark asset="ea0a7" /><span className="ecosystem-re"><Mark asset="68d03" /><span>Wallet</span></span></>;
