@@ -1,4 +1,4 @@
-// Generated from OpenAPI 0.1.0; do not hand-edit. SHA-256: f291bcc669cff4876fb3745c45dbbbe4937d41bb9fc0910b23af2105760c0830
+// Generated from OpenAPI 0.1.0; do not hand-edit. SHA-256: 66ee546450df04e800907ec49b471418a48ffa6dbbff51e880933c4131048e64
 export type GroupName = { "name": string; };
 export type EditGroup = { "name"?: string; "archived"?: boolean; };
 export type GroupMember = { "investor": string; "included": boolean; };
@@ -14,6 +14,7 @@ export type WalletVerifyDto = { "challengeId": string; "signature": string; };
 export type CreateProjectDto = { "title": string; "description": string; "location"?: string; "totalValueUsdtAtomic": string; "maxFractions": string; "ownerWallet"?: string; "treasuryWallet": string; };
 export type UpdateProjectDto = { "title"?: string; "description"?: string; "location"?: string; "totalValueUsdtAtomic"?: string; "maxFractions"?: string; "ownerWallet"?: string; "treasuryWallet"?: string; };
 export type PublicMetadataDto = { "publicMetadata": true; "title"?: string; "description"?: string; "location"?: string; };
+export type ReplacementDraftDto = { "reusePublishedMedia"?: boolean; };
 export type PlatformSwitchDto = { "action": "disable" | "request_enable" | "confirm_enable"; "totp": string; "reason"?: string; };
 export type StaffDto = { "username": string; "name": string; };
 export type SuspendDto = { "suspended": boolean; };
@@ -195,7 +196,7 @@ export interface Operations {
 "POST /v1/admin/projects/{id}/approve": {body:never;response:ProjectResponse};
 "POST /v1/admin/projects/{id}/media": {body:FormData;response:ProjectMediaResponse};
 "POST /v1/admin/projects/{id}/metadata": {body:PublicMetadataDto;response:ProjectMetadataResponse};
-"POST /v1/admin/projects/{id}/phased-replacement": {body:never;response:ProjectResponse};
+"POST /v1/admin/projects/{id}/phased-replacement": {body:ReplacementDraftDto;response:ProjectResponse};
 "POST /v1/admin/projects/{id}/archive": {body:never;response:ProjectArchiveResponse};
 "GET /v1/admin/projects/{id}/revisions": {body:never;response:ProjectRevisionPage};
 "GET /v1/admin/projects/{id}/yield-history": {body:never;response:YieldHistoryResponse};
