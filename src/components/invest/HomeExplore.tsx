@@ -2,7 +2,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import type { ProjectPage, WalletResponse, WalletCashflowResponse } from "@/lib/platform/api.generated";
+import type { PhaseEventPage, ProjectPage, WalletResponse, WalletCashflowResponse } from "@/lib/platform/api.generated";
 import type { Holding, Portfolio, Project, ProjectState } from "@/lib/platform/types";
 import { assetLabel, percentage, units, type PaymentAsset } from "@/lib/platform/money";
 import { projectArtworkUrl } from "@/lib/platform/media";
@@ -69,19 +69,17 @@ function HomeHoldingCard({ holding, media }: { holding: Holding; media?: Project
 
 function BlockPurchaseHistory({ showEmpty }: { showEmpty: boolean }) {
   const [page, setPage] = useState(1);
-  const records = useResource<
-    import("@/lib/platform/api.generated").PhaseEventPage
-  >(`portfolio/phase-purchases?page=${page}`);
+  const records = useResource<PhaseEventPage>(`portfolio/phase-purchases?page=${page}`);
   if (!showEmpty && !records.data?.items.length && page === 1) return null;
   return (
-    <section>
+    <section className="iv-home-phase-history" aria-label="Block purchase history">
       <h3>Block purchase history</h3>
       <DataState
         loading={records.isLoading}
         error={records.error}
         onRetry={() => void records.mutate()}
       />
-      {records.data?.items.map((r) => (
+      {!records.error && records.data?.items.map((r) => (
         <p key={r.hash + ":" + r.logIndex}>
           <strong>{r.projectName}</strong> · {r.phaseName} ·{" "}
           {String(r.details.quantity)} blocks at{" "}
