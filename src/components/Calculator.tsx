@@ -6,7 +6,7 @@ import { Reveal } from "./Reveal";
 import { RollingNumber } from "./RollingNumber";
 import { useInView } from "@/hooks/motion";
 import { useLanding } from "./LandingData";
-import { calculatorQuote, displayMoney } from "@/lib/platform/landing-data";
+import { calculatorQuote, displayMoney, purchasableBlocks } from "@/lib/platform/landing-data";
 import { revenueChart } from "@/lib/platform/revenue-values";
 
 export function Calculator() {
@@ -15,7 +15,8 @@ export function Calculator() {
   const [productId, setProductId] = useState<string | null>(null);
   const [quantity, setQuantity] = useState(1);
   const product = investable.find(p => p.project.id === productId) ?? investable[0] ?? null;
-  const max = product ? Number(BigInt(product.chain!.remainingSupply) > BigInt(Number.MAX_SAFE_INTEGER) ? BigInt(Number.MAX_SAFE_INTEGER) : BigInt(product.chain!.remainingSupply)) : 1;
+  const available = purchasableBlocks(product);
+  const max = product ? Number(available > BigInt(Number.MAX_SAFE_INTEGER) ? BigInt(Number.MAX_SAFE_INTEGER) : available) : 1;
   const amount = Math.min(Math.max(quantity, 1), max);
   const result = calculatorQuote(product, amount);
   const presetQuantities = [1, ...[0.1, 0.25, 0.5].map(v => Math.max(1, Math.floor(max * v)))];
