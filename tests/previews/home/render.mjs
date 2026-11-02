@@ -53,6 +53,7 @@ export const scenarios = {
   'cashflow-history': 'Verified synthetic twelve-month cumulative purchase and reward history; not valuation.',
   cashflow: 'Verified canonical synthetic gross cash flows, including a negative net after fixed FX.',
   'cashflow-stale': 'Cached financial cash flow with a failed refresh must not be displayed.',
+  'phased-holding': 'Historic phase purchase for a project outside the first catalogue page.',
   offline: 'Service disabled and no resource data; no authentication or backend connection.',
 };
 
@@ -90,6 +91,14 @@ export function fixture(name) {
     const data=cashflowFixture(),asOf=new Date(data.asOf);
     data.series=Array.from({length:12},(_,i)=>({month:new Date(Date.UTC(asOf.getUTCFullYear(),asOf.getUTCMonth()-11+i,1)).toISOString().slice(0,7),assets:data.assets.map(a=>({asset:a.asset,purchasesAtomic:(BigInt(a.purchasesAtomic)*BigInt(i+1)/12n).toString(),rewardsAtomic:(BigInt(a.payoutsAtomic)*BigInt(i+1)/12n).toString()}))}));
     resources['wallet/cashflow']=response(data);
+  }
+  if (name === 'phased-holding') {
+    resources['portfolio/phase-purchases?page=1'] = response({
+      page: 1, nextPage: null, items: [{
+        hash: '0x' + 'a'.repeat(64), logIndex: 4, projectName: 'Fixture phased project', phaseName: 'Pre-launch',
+        details: { quantity: '2', unitPrice: '25000000', asset: '1', amount: '50000000' },
+      }],
+    });
   }
   if (name === 'offline') for (const endpoint of ['portfolio', 'wallet', 'projects']) resources[endpoint] = response(undefined);
   return { name, live: name !== 'offline', resources };
