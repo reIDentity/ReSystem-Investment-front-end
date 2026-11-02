@@ -126,3 +126,9 @@ test('verified dated history renders an accessible chart and table without prese
  assert.match(text(html),/Monthly values/);
  assert.doesNotMatch(text(html),/Confirmed history is not available yet/);
 });
+
+test('confirmed phase history keeps the paid amount and phase visible outside the catalogue page', () => {
+  const rendered = text(createHomeRenderer().render('phased-holding'));
+  assert.match(rendered, /Fixture phased project.*Pre-launch.*2 blocks at 25 USDT per block.*Paid 50 USDT/);
+  assert.doesNotMatch(text(createHomeRenderer().render('empty')), /Block purchase history/);
+});

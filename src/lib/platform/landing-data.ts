@@ -112,7 +112,13 @@ export function landingTotals(rows: LandingProject[] | null) {
   };
 }
 export const displayMoney = (a: AssetTotals | null) => formatUsdEquivalent(a);
+/** Maximum purchasable now, excluding capacity assigned to other phases. */
+export function purchasableBlocks(row: LandingProject | null) {
+  if (!row?.chain || row.stats.sale !== "Open") return 0n;
+  return BigInt(row.project.businessOpportunity ? row.project.phaseRemaining ?? "0" : row.chain.remainingSupply);
+}
+
 export function calculatorQuote(row: LandingProject | null, quantity: number) {
-  if (!row?.chain || row.stats.sale !== "Open" || !Number.isSafeInteger(quantity) || quantity < 1 || BigInt(quantity) > BigInt(row.chain.remainingSupply)) return null;
-  return { quantity: String(quantity), cost: `$${units((BigInt(row.project.unitPriceUsdtAtomic) * BigInt(quantity)).toString(), 6)}`, ownership: percentage(String(quantity), row.project.maxFractions) === "0.00%" ? "< 0.01%" : percentage(String(quantity), row.project.maxFractions), href: `/invest/products/${row.project.id}` };
+  if (!row?.chain || row.stats.sale !== "Open" || !Number.isSafeInteger(quantity) || quantity < 1 || BigInt(quantity) > purchasableBlocks(row)) return null;
+  return { quantity: String(quantity), cost: `$${units((BigInt(row.project.businessOpportunity ? row.project.phasePriceAtomic! : row.project.unitPriceUsdtAtomic) * BigInt(quantity)).toString(), 6)}`, ownership: percentage(String(quantity), row.project.maxFractions) === "0.00%" ? "< 0.01%" : percentage(String(quantity), row.project.maxFractions), href: `/invest/products/${row.project.id}` };
 }

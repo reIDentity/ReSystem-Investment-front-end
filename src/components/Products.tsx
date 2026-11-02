@@ -70,6 +70,7 @@ function ProductCard({ row }: { row: LandingProject }) {
             <dd className="font-display text-[15px] font-bold text-ink" title={stats.soldTitle} aria-label={stats.sold === "—" ? "Unavailable" : undefined}>{stats.sold}</dd>
           </div>
         </dl>
+        {project.businessOpportunity && <p className="mt-2 text-[14px] text-muted">{project.currentPhase??"No active phase"} · {project.phaseRemaining} blocks remaining · {project.reservedBlocks} Reserved</p>}
         <a
           href={`/invest/products/${project.id}`}
           className="product-link mt-5 flex items-center justify-between font-display text-[14px] font-bold text-brand underline-offset-4 hover:underline"

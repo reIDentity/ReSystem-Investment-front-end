@@ -12,8 +12,8 @@ export function useHeroProject(slug: string) {
   const project = row?.project, chain = row?.chain;
   const count = (value: string | undefined) => value ? BigInt(value).toLocaleString("en-US") : "—";
   const max = project?.maxFractions;
-  const issued = chain?.totalSupply, remaining = chain?.remainingSupply;
-  const price = (value: string | undefined, decimals: number) => value && chain ? units(value, decimals) : "—";
+  const issued = chain?.totalSupply, remaining = project?.businessOpportunity ? project.phaseRemaining ?? undefined : chain?.remainingSupply;
+  const price = (value: string | undefined, decimals: number) => value && chain && (!project?.businessOpportunity || project.phasePriceAtomic) ? units(value, decimals) : "—";
   const cells = 100;
   return {
     href: project ? `/invest/products/${project.id}` : "/invest/explore",

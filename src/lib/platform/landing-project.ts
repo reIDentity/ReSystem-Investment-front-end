@@ -32,10 +32,10 @@ export function landingProjectStats(project: ProjectResponse | null, chain: unkn
   // Public reads arrive after hydration; static empty cards do not read request-time APIs.
   const now = timestamp ?? Date.now();
   const c = chain && typeof chain === "object" ? chain as ProjectChainResponse : null;
-  if (c && c.chainId === 15324 && c.source === "INFRA RPC" && uint(c.headBlock) && BigInt(c.headBlock) >= BigInt(project.publicationBlock!) && uint(c.totalSupply) && uint(c.remainingSupply) && c.maxFractions === project.maxFractions && c.totalValueUSDT === project.totalValueUsdtAtomic && c.unitPriceUSDT === project.unitPriceUsdtAtomic && BigInt(c.totalSupply) + BigInt(c.remainingSupply) === BigInt(project.maxFractions) && typeof c.saleOpen === "boolean" && typeof c.purchasePaused === "boolean") {
+  if (c && c.chainId === 15324 && c.source === "INFRA RPC" && uint(c.headBlock) && BigInt(c.headBlock) >= BigInt(project.publicationBlock!) && uint(c.totalSupply) && uint(c.remainingSupply) && c.maxFractions === project.maxFractions && c.totalValueUSDT === project.totalValueUsdtAtomic && (project.businessOpportunity ? uint(project.reservedBlocks) && uint(c.unitPriceUSDT) : c.unitPriceUSDT === project.unitPriceUsdtAtomic) && BigInt(c.totalSupply) + BigInt(c.remainingSupply) + BigInt(project.businessOpportunity ? project.reservedBlocks! : "0") === BigInt(project.maxFractions) && typeof c.saleOpen === "boolean" && typeof c.purchasePaused === "boolean") {
     result.sold = percentage(c.totalSupply, project.maxFractions);
     result.soldTitle = `${c.totalSupply} of ${project.maxFractions} fractions issued · INFRA block ${c.headBlock}`;
-    result.sale = c.saleOpen && !c.purchasePaused && c.remainingSupply !== "0" ? "Open" : "Closed";
+    result.sale = c.saleOpen && !c.purchasePaused && c.remainingSupply !== "0" && (!project.businessOpportunity || (!!project.currentPhase && uint(project.phasePriceAtomic) && BigInt(project.phasePriceAtomic) > 0n && uint(project.phaseRemaining) && BigInt(project.phaseRemaining) > 0n && BigInt(project.phaseRemaining) <= BigInt(c.remainingSupply))) ? "Open" : "Closed";
     const bps = String(c.indicativeYieldBps);
     if (uint(bps) && BigInt(bps) <= 4294967295n && uint(c.yieldEffectiveAt) && BigInt(c.yieldEffectiveAt) > 0n && BigInt(c.yieldEffectiveAt) <= BigInt(Math.floor(now / 1000)) && /^0x[0-9a-f]{64}$/i.test(c.yieldPeriod) && !/^0x0{64}$/i.test(c.yieldPeriod)) {
       result.yieldPace = `${BigInt(bps) / 100n}.${(BigInt(bps) % 100n).toString().padStart(2, "0")}%`;

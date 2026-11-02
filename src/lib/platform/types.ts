@@ -5,7 +5,7 @@ export type Page<T> = { items: T[]; nextCursor: string | null; provenance?: { so
 export type Holding = PortfolioHolding;
 export type Portfolio = PortfolioResponse;
 export type Project = ProjectResponse & { media?: { cid: string; mimeType: string; filename: string }[]; revisions?: { version: number; metadataUri: string; createdAt: string }[] };
-export type Quote = { projectId?: string; listingId?: string; quantity: string; asset: PaymentAsset; amountAtomic: string; decimals: number; chainId: 15324 };
+export type Quote = { phaseId?:string; phaseRevision?:string; phaseName?:string; projectId?: string; listingId?: string; quantity: string; asset: PaymentAsset; amountAtomic: string; decimals: number; chainId: 15324 };
 export type ProjectState = { totalSupply: string; remainingSupply: string; maxFractions: string; saleOpen: boolean; purchasePaused: boolean; fundingPaused: boolean; headBlock: string; source: string };
 export type ChainActivity = { chain_id: number; tx_hash: string; activity_index: string; block_number: string; timestamp: string; type: string; event_name: string | null; asset: string | null; amount_atomic: string | null; args?: Record<string, string | string[] | number | boolean>; project?: { id: string; title: string; contractAddress: string } | null; direction: "incoming" | "outgoing" | null; status: string; explorerUrl: string };
 export type Projection<T extends Record<string, unknown> = Record<string, unknown>> = { entity_id: string; block_number: string; data: T };

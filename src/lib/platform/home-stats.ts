@@ -10,7 +10,7 @@ export type HomeStats = {
   minimumInvestmentUsd: number | null;
 };
 
-type PublishedProject = { id: string; unitPriceUsdtAtomic: string };
+type PublishedProject = { id: string; unitPriceUsdtAtomic: string; phaseAvailable: boolean };
 type ProjectDetail = PublishedProject & { open: boolean; supply: bigint; max: bigint; revenue: bigint | null };
 const MAX_PAGES = 10;
 const PAGE_SIZE = 50;
@@ -47,7 +47,8 @@ async function publishedProjects(base: string, signal: AbortSignal) {
       const id = p.id.toLowerCase();
       if (ids.has(id)) throw new Error("Duplicate published project");
       ids.add(id);
-      items.push({ id, unitPriceUsdtAtomic: p.unitPriceUsdtAtomic });
+      const phaseAvailable = !p.businessOpportunity || (typeof p.currentPhase === "string" && integer(p.phasePriceAtomic) && BigInt(p.phasePriceAtomic) > 0n && integer(p.phaseRemaining) && BigInt(p.phaseRemaining) > 0n);
+      items.push({ id, unitPriceUsdtAtomic: p.unitPriceUsdtAtomic, phaseAvailable });
     }
     if (body.nextCursor === null) return items;
     if (typeof body.nextCursor !== "string" || !UUID.test(body.nextCursor) || body.items.length !== PAGE_SIZE) throw new Error("Malformed project cursor");
@@ -91,7 +92,7 @@ async function projectDetails(base: string, projects: PublishedProject[], signal
       ]);
       if (!object(chain) || chain.chainId !== 15324 || typeof chain.saleOpen !== "boolean" || typeof chain.purchasePaused !== "boolean" || !integer(chain.totalSupply) || !integer(chain.maxFractions) || BigInt(chain.maxFractions) === 0n || BigInt(chain.totalSupply) > BigInt(chain.maxFractions)) throw new Error("Malformed chain read");
       const supply = BigInt(chain.totalSupply), max = BigInt(chain.maxFractions);
-      details[index] = { ...p, open: chain.saleOpen && !chain.purchasePaused && supply < max, supply, max, revenue: revenueMicroUsd(revenue) };
+      details[index] = { ...p, open: p.phaseAvailable && chain.saleOpen && !chain.purchasePaused && supply < max, supply, max, revenue: revenueMicroUsd(revenue) };
     }
   }
   await Promise.all(Array.from({ length: Math.min(DETAIL_CONCURRENCY, projects.length) }, () => worker()));

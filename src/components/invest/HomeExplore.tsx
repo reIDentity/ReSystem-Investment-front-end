@@ -2,7 +2,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import type { ProjectPage, WalletResponse, WalletCashflowResponse } from "@/lib/platform/api.generated";
+import type { PhaseEventPage, ProjectPage, WalletResponse, WalletCashflowResponse } from "@/lib/platform/api.generated";
 import type { Holding, Portfolio, Project, ProjectState } from "@/lib/platform/types";
 import { assetLabel, percentage, units, type PaymentAsset } from "@/lib/platform/money";
 import { projectArtworkUrl } from "@/lib/platform/media";
@@ -65,6 +65,55 @@ function HomeHoldingCard({ holding, media }: { holding: Holding; media?: Project
     <dl><div><dt>Shares</dt><dd>{isAtomic(holding.quantity) ? units(holding.quantity, 0) : "—"}</dd></div><div><dt>Invested</dt><dd>{formatRationalUsdEquivalent(holdingCostBasis(holding))}</dd></div><div><dt>To claim</dt><dd className="iv-home-claim-amount">{homeCurrency(claimable)}</dd></div></dl>
     <div className="iv-two-buttons"><Link className="iv-button iv-blue" href="/invest/earnings">My earnings</Link><Link className="iv-button iv-primary" href={`/invest/products/${holding.projectId}`}>Buy more</Link></div>
   </article>;
+}
+
+function BlockPurchaseHistory({ showEmpty }: { showEmpty: boolean }) {
+  const [page, setPage] = useState(1);
+  const records = useResource<PhaseEventPage>(`portfolio/phase-purchases?page=${page}`);
+  if (!showEmpty && !records.data?.items.length && page === 1) return null;
+  return (
+    <section className="iv-home-phase-history" aria-label="Block purchase history">
+      <h3>Block purchase history</h3>
+      <DataState
+        loading={records.isLoading}
+        error={records.error}
+        onRetry={() => void records.mutate()}
+      />
+      {!records.error && records.data?.items.map((r) => (
+        <p key={r.hash + ":" + r.logIndex}>
+          <strong>{r.projectName}</strong> · {r.phaseName} ·{" "}
+          {String(r.details.quantity)} blocks at{" "}
+          {units(String(r.details.unitPrice), 6)} USDT per block · Paid{" "}
+          {units(
+            String(r.details.amount),
+            String(r.details.asset) === "0" ? 18 : 6,
+          )}{" "}
+          {String(r.details.asset) === "0" ? "reAED" : "USDT"}
+        </p>
+      ))}
+      {records.data?.items.length === 0 && (
+        <p>No confirmed phase purchases yet.</p>
+      )}
+      {(page > 1 || records.data?.nextPage) && (
+        <div className="iv-two-buttons">
+          <button
+            className="iv-button"
+            disabled={page === 1}
+            onClick={() => setPage(page - 1)}
+          >
+            Previous purchases
+          </button>
+          <button
+            className="iv-button"
+            disabled={!records.data?.nextPage}
+            onClick={() => setPage(page + 1)}
+          >
+            Next purchases
+          </button>
+        </div>
+      )}
+    </section>
+  );
 }
 
 export function InvestorHome() {
@@ -157,7 +206,7 @@ export function InvestorHome() {
           {portfolio.error ? <button className="iv-button" onClick={() => void portfolio.mutate()}>Try again</button> : query.trim() ? <button className="iv-button" onClick={() => setQuery("")}>Clear search</button> : <Link className="iv-button" href="/invest/explore">Explore projects →</Link>}
         </div>}
         <div className="iv-claim-all"><span>Unclaimed earnings across all projects: <strong>{homeCurrency(available)}</strong></span><button className="iv-button iv-dark" disabled={!claimable} onClick={() => setClaimOpen(true)}>Claim all</button></div>
-      </Panel>
+      {live && <BlockPurchaseHistory showEmpty={Boolean(projects.data?.items.some(p => p.businessOpportunity))} />}</Panel>
     </div>
     {claimOpen ? <Modal title="Claim your earnings" onClose={() => setClaimOpen(false)}><p className="iv-muted">Choose the asset to claim. You’ll review the transaction before approving it.</p><div className="iv-home-claim-choices">{HOME_ASSETS.map(asset => { const eligible = allHoldings.filter(holding => (holdingAmounts(holding, "claimable")?.[asset] || 0n) > 0n); const batch = eligible.slice(0, 20); const amount = batch.reduce((total, holding) => total + (holdingAmounts(holding, "claimable")?.[asset] || 0n), 0n); return <div key={asset}><span>{assetLabel(asset)}<strong>{units(amount.toString(), asset === "USDT" ? 6 : 18)}</strong><small>{eligible.length > 20 ? "First 20 projects in this claim" : `${batch.length} ${batch.length === 1 ? "project" : "projects"}`}</small></span><button className="iv-button iv-primary" disabled={amount === 0n} onClick={() => reviewClaims(asset)}>Review claim</button></div>; })}</div></Modal> : null}
     {command ? <TransactionReview command={command} onClose={() => setCommand(null)} /> : null}
@@ -168,13 +217,16 @@ export function ProjectCard({ project, ownedQuantity }: { project: Project; owne
   const image = project.media?.find(m => m.mimeType.startsWith("image/") && /^[a-zA-Z0-9]{32,120}$/.test(m.cid));
   const supply = chain.error ? undefined : chain.data;
   const issued = supply ? percentage(supply.totalSupply, project.maxFractions) : "—";
+  const price = project.businessOpportunity ? project.phasePriceAtomic : project.unitPriceUsdtAtomic;
+  const available = project.businessOpportunity ? project.phaseRemaining : supply?.remainingSupply;
   const owned = ownedQuantity && /^[0-9]+$/.test(ownedQuantity) && BigInt(ownedQuantity) > 0n;
   return <Link className="iv-product-card iv-explore-card" href={`/invest/products/${project.id}`}>
     <div className="iv-product-placeholder iv-explore-image">{image ? <Image src={projectArtworkUrl(project.id, image.cid)} alt={project.title} width={640} height={360} unoptimized /> : <span className="sr-only">Project image not supplied</span>}{owned ? <Tag tone="dark">You own {units(ownedQuantity, 0)}</Tag> : <Tag tone="neutral">Published</Tag>}<span className="iv-explore-project-mark" aria-hidden="true" /></div>
     <h2>{project.title}</h2><small>{project.location || "INFRA project"}</small><p>{project.description}</p>
-    <div className="iv-product-supply"><span>{issued === "—" ? chain.isLoading ? "Loading supply…" : "Supply unavailable" : `${issued} issued`}</span><span>{supply ? `${units(supply.remainingSupply, 0)} left` : "—"}</span></div>
+    <div className="iv-product-supply"><span>{issued === "—" ? chain.isLoading ? "Loading supply…" : "Supply unavailable" : `${issued} issued`}</span><span>{available != null ? `${units(available, 0)} left` : "—"}</span></div>
     <div className="iv-progress" aria-hidden="true">{issued !== "—" ? <span style={{ width: issued }} /> : null}</div>
-    <div className="iv-product-revenue"><span>Price per share</span><strong>{units(project.unitPriceUsdtAtomic, 6)} USDT</strong></div>
+    {project.businessOpportunity && <p>{project.currentPhase??"No active phase"} · {units(project.reservedBlocks??"0",0)} Reserved · {units(project.phaseRemaining??"0",0)} blocks remaining</p>}
+    <div className="iv-product-revenue"><span>Price per share</span><strong>{price != null ? `${units(price, 6)} USDT` : "—"}</strong></div>
   </Link>;
 }
 export function InvestorExplore() {

@@ -457,3 +457,31 @@ test('successful ticket creation remains successful when the follow-up list refr
  assert.equal(calls.length,1);assert.equal(view.queryByRole('dialog',{name:'New ticket'}),null);
  assert.equal(view.queryByText('Synthetic list refresh failed'),null);
 });
+
+test('phased checkout shows the reserved supply and submits the exact reviewed phase, price and revision', () => {
+  const id='phase-project'; let stamp='314'; let command;
+  const phase={id:'2',name:'Public sale',blocks:'4000',sold:'1',remaining:'3999',unitPriceAtomic:'30000000',open:true,whitelist:false,status:'Active'};
+  const {InvestorProduct}=clientRenderer({
+    'next/image':props=>React.createElement('img',props),
+    './PlatformProvider':{useResource:path=>{
+      if(path===`projects/${id}`) return resource({id,title:'Expansion project',description:'Sales in phases',maxFractions:'20001',unitPriceReaedAtomic:'108000000000000000000',unitPriceUsdtAtomic:'30000000',phasePriceAtomic:'30000000',currentPhase:'Public sale',phaseRemaining:'3999',businessOpportunity:true,media:[]});
+      if(path===`projects/${id}/chain`)return resource({totalSupply:'1',maxFractions:'20001',remainingSupply:'13999',saleOpen:true,purchasePaused:false});
+      if(path?.includes('/phases?'))return resource({mode:'phased',totalBlocks:'20001',reservedBlocks:'6001',current:phase,phases:[phase],page:1,nextPage:null});
+      if(path?.includes('/quote?'))return resource({projectId:id,asset:'REAED',quantity:'1',chainId:15324,decimals:18,amountAtomic:'108000000000000000000',phaseId:'2',phaseName:phase.name,phaseRevision:stamp});
+      if(path==='portfolio')return resource({items:[]});
+      if(path==='wallet')return resource({assets:[]});
+      return resource(undefined);
+    }},
+    './InvestorUI':{...ui,Asset:()=>null,CopyButton:()=>null},
+    './platform/Transaction':{TransactionReview:props=>{command=props.command;return null;}},
+    './platform/AssetSelect':{AssetSelect:()=>null},
+  }).load('src/components/invest/ProductDetail.tsx');
+  const view=render(React.createElement(InvestorProduct,{id}));
+  assert.ok(view.getByText(/6,001 Reserved/));
+  assert.ok(view.getByRole('progressbar',{name:'Blocks sold in current phase'}));
+  stamp=undefined;view.rerender(React.createElement(InvestorProduct,{id}));
+  assert.equal(view.getByRole('button',{name:'Review purchase'}).disabled,true);
+  stamp='316';view.rerender(React.createElement(InvestorProduct,{id}));
+  fireEvent.click(view.getByRole('button',{name:'Review purchase'}));
+  assert.deepEqual({...command},{type:'BUY',projectId:id,asset:'REAED',quantity:'1',phaseId:'2',phaseName:'Public sale',phaseRevision:'316',amountAtomic:'108000000000000000000'});
+});

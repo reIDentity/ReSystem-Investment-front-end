@@ -137,7 +137,7 @@ test('desktop sign-in, polling and cancellation pass the real BFF JSON admission
   await waitFor(() => assert.ok(f.view.getByRole('dialog')));
   assert.equal(f.view.queryByRole('alert'), null);
   await f.advance(5000);
-  assert.ok(received.some(r => r.method === 'POST' && r.url.endsWith('/device/poll')));
+  await waitFor(() => assert.ok(received.some(r => r.method === 'POST' && r.url.endsWith('/device/poll'))));
   fireEvent.click(f.view.getByRole('button', { name: 'Close mobile sign-in' }));
   await waitFor(() => assert.ok(received.some(r => r.method === 'DELETE' && r.url.endsWith('/device'))));
   assert.equal(f.view.queryByRole('dialog'), null);

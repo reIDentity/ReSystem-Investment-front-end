@@ -142,3 +142,12 @@ test('a 31-day calendar month can exceed the trailing 30-day total without hidin
   const bad = structuredClone(r); bad.series.assets[1].last30DaysAtomic = '104999999';
   assert.equal(row(project(), chain(), bad, Date.parse(bad.series.asOf)).last30, null);
 });
+
+test('landing quotes use the open phase capacity and reviewed price after supply expansion', () => {
+  const p = {...project(),maxFractions:'20001',businessOpportunity:true,reservedBlocks:'6001',currentPhase:'Pre-launch',phasePriceAtomic:'30000000',phaseRemaining:'2',unitPriceUsdtAtomic:'30000000'};
+  const c = chain({maxFractions:'20001',totalSupply:'2',remainingSupply:'13998'});
+  const live = row(p,c);
+  assert.equal(calculatorQuote(live,2).cost,'$60');
+  assert.equal(calculatorQuote(live,3),null);
+  assert.equal(calculatorQuote(row({...p,phasePriceAtomic:null},c),1),null);
+});
