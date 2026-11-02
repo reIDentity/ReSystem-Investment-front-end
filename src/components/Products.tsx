@@ -8,13 +8,13 @@ import type { LandingProject } from "@/lib/platform/landing-data";
 import { Container } from "./Container";
 import { Reveal } from "./Reveal";
 import { useInView } from "@/hooks/motion";
-import { categories, products } from "@/data/products";
+import { categories, orderedCatalogue, productForProject } from "@/data/products";
 import { projectArtworkUrl } from "@/lib/platform/media";
 
 function ProductCard({ row }: { row: LandingProject }) {
   const [failedArtwork, setFailedArtwork] = useState<string | null>(null);
   const { project, stats } = row;
-  const product = products.find(p => p.projectId === project.id);
+  const product = productForProject(project.id);
   const image = project.media?.find(m => m.mimeType.startsWith("image/") && /^[a-zA-Z0-9]{32,120}$/.test(m.cid));
   const publicArtwork = image ? projectArtworkUrl(project.id, image.cid) : null;
   const artwork = publicArtwork && publicArtwork !== failedArtwork ? publicArtwork : product?.image;
@@ -113,11 +113,8 @@ export function Products() {
   const [active, setActive] = useState<(typeof categories)[number]>("All");
   const { projects, loading, error, retry } = useLanding();
   // Brand artwork/categories are presentation metadata only; catalogue membership comes exclusively from published records.
-  const ordered = projects ? [...projects].sort((a, b) => {
-    const rank = (id: string) => { const i = products.findIndex(p => p.projectId === id); return i < 0 ? products.length : i; };
-    return rank(a.project.id) - rank(b.project.id);
-  }) : [];
-  const visible = active === "All" ? ordered : ordered.filter(p => products.find(a => a.projectId === p.project.id)?.category === active);
+  const ordered = projects ? orderedCatalogue(projects) : [];
+  const visible = active === "All" ? ordered : ordered.filter(row => productForProject(row.project.id)?.category === active);
   const requestedCategory = useRef<(typeof categories)[number]>("All");
   const [list, pill] = useTabPill(active);
   const [grid, gridIn] = useInView<HTMLDivElement>();
