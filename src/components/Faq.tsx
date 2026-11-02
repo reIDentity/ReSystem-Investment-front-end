@@ -13,7 +13,7 @@ const faqs = [
   },
   {
     q: "What is the minimum and maximum?",
-    a: "Buy at least one whole fraction at the project’s current price. The maximum is its remaining primary-sale supply. Prices and availability are checked again before approval.",
+    a: "You can buy whole shares, starting with one. For a phased project, only the shares left in the open phase are for sale. A private phase also requires approval for your wallet. The purchase screen shows what your wallet can buy and checks the price, balance and network fee before you approve.",
   },
   {
     q: "Can I take my money out?",
