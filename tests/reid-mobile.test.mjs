@@ -34,7 +34,11 @@ function screen({ phone = false, status = 'pending' } = {}) {
   const { InvestorSignIn } = clientRenderer({ './InvestorUI': ui, 'next/link': ({ children, ...props }) => React.createElement('a', props, children) }, {}, clock).load('src/components/invest/SignIn.tsx');
   const view = render(React.createElement(InvestorSignIn, { mobileConnect: true, linkOrigin: origin, next: '/invest/wallet' }));
   async function advance(ms) { await act(async () => { now += ms; const due = [...timers].filter(([, task]) => task.due <= now); for (const [id, task] of due) { timers.delete(id); task.callback(); } }); }
-  return { view, calls, navigations, timers, advance };
+  // A visible dialog is committed before React necessarily runs its polling
+  // effect. Wait for the actual scheduled deadline before moving this clock;
+  // otherwise a busy runner can install the first timer after time has advanced.
+  async function scheduledIn(ms) { await waitFor(() => assert.equal([...timers.values()].filter(task => task.due === now + ms).length, 1)); }
+  return { view, calls, navigations, timers, advance, scheduledIn };
 }
 test('desktop starts only on click, shows own QR, sends CSRF and honours server slow-down before navigating after approval', async () => {
   const f = screen(); assert.equal(f.calls.length, 0);
@@ -46,10 +50,17 @@ test('desktop starts only on click, shows own QR, sends CSRF and honours server 
   assert.ok(f.view.getByRole('img', { name: /Scan with the reID app scanner/ }));
   assert.ok(f.view.getByText('BCDF-GHJK'));
   assert.equal(f.view.queryByRole('link', { name: /Open reID on this phone/ }), null);
+  await f.scheduledIn(5000);
+  await f.advance(4999); assert.equal(f.calls.length, 2);
+  await f.advance(1); await waitFor(() => assert.equal(f.calls.length, 3));
+  // Response parsing is asynchronous too: observe the server's new ten-second
+  // deadline before advancing, rather than assuming act drained a fetch body.
+  await f.scheduledIn(10000);
   await f.advance(5000); assert.equal(f.calls.length, 3);
-  await f.advance(5000); assert.equal(f.calls.length, 3);
+  await f.advance(4999); assert.equal(f.calls.length, 3);
   globalThis.fetch = async (path, options) => { f.calls.push({ path, options }); return Response.json({ status: 'approved' }); };
-  await f.advance(5000); assert.deepEqual(f.navigations, ['/invest/wallet']);
+  await f.advance(1); await waitFor(() => assert.deepEqual(f.navigations, ['/invest/wallet']));
+  assert.equal(f.calls.length, 4); assert.match(String(f.calls.at(-1).path), /\/device\/poll$/);
 });
 test('closing the desktop handoff cancels its browser attempt and stops polling', async () => {
   const f = screen(); fireEvent.submit(f.view.getByRole('button', { name: 'Continue with reID' }).closest('form'));
@@ -66,7 +77,7 @@ test('phone continues with the existing PKCE navigation rather than starting a d
 });
 test('denied desktop login removes its QR and cannot create a session by further polling', async () => {
   const f = screen({ status: 'denied' }); fireEvent.submit(f.view.getByRole('button', { name: 'Continue with reID' }).closest('form'));
-  await waitFor(() => assert.ok(f.view.getByRole('dialog'))); await f.advance(5000);
+  await waitFor(() => assert.ok(f.view.getByRole('dialog'))); await f.scheduledIn(5000); await f.advance(5000);
   await waitFor(() => assert.match(f.view.getByRole('status').textContent, /declined/)); assert.equal(f.view.queryByRole('img'), null);
   const count = f.calls.length; await f.advance(5000); assert.equal(f.calls.length, count); assert.equal(f.navigations.length, 0);
 });
@@ -136,6 +147,7 @@ test('desktop sign-in, polling and cancellation pass the real BFF JSON admission
   fireEvent.submit(f.view.getByRole('button', { name: 'Continue with reID' }).closest('form'));
   await waitFor(() => assert.ok(f.view.getByRole('dialog')));
   assert.equal(f.view.queryByRole('alert'), null);
+  await f.scheduledIn(5000);
   await f.advance(5000);
   await waitFor(() => assert.ok(received.some(r => r.method === 'POST' && r.url.endsWith('/device/poll'))));
   fireEvent.click(f.view.getByRole('button', { name: 'Close mobile sign-in' }));
