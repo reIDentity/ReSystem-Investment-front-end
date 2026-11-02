@@ -510,6 +510,7 @@ test('the picker separates phase allocation, wallet approval, and affordable qua
   const refresh=()=>view.rerender(React.createElement(InvestorProduct,{id}));
   const button=name=>view.getByRole('button',{name,exact:true});
   assert.match(view.getByRole('img',{name:/Share allocation:/}).getAttribute('aria-label'),/Reserved · locked, 3,000 shares, 30.00%/);
+  assert.equal(view.container.querySelectorAll('.iv-block-grid-wrap .iv-pd-supply-tiles > i').length, 50, 'the allocation chart must retain the visible share blocks');
   const availability=()=>view.getByLabelText('Purchase availability').textContent;
   assert.match(availability(),/On sale now12 sharesAvailable to you0 shares/);
   assert.equal(view.getByRole('link',{name:/Ask support/}).getAttribute('href'),'/invest/support');
