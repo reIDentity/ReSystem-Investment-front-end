@@ -1,9 +1,12 @@
+import type { LandingProject } from "@/lib/platform/landing-data";
+
 export type Category = "Finance" | "Real-world assets" | "Identity" | "Services" | "Infrastructure";
 
 export interface Product {
   id: string;
   /** Explicit platform record, independent of the marketing slug or project title. */
-  projectId?: string;
+  projectId: string;
+  replacementProjectId: string;
   name: string;
   category: Category;
   description: string;
@@ -27,6 +30,7 @@ export const products: Product[] = [
   {
     id: "infra-global",
     projectId: "3995355b-8601-49cb-84bf-06bea42db23e",
+    replacementProjectId: "6187dbab-0604-43c4-b51e-6b10269d155b",
     name: "INFRA Global",
     category: "Finance",
     description: "Multi-currency stablecoins pegged to USD, EUR, GBP and more.",
@@ -36,6 +40,7 @@ export const products: Product[] = [
   {
     id: "infra-reaed",
     projectId: "b6604ab7-7557-48f4-a7ca-9c83abe02347",
+    replacementProjectId: "0caa794e-1160-40be-97a4-96e3fb1049dd",
     name: "INFRA reAED",
     category: "Finance",
     description: "UAE Dirham stablecoin, live for real-world payments.",
@@ -46,6 +51,7 @@ export const products: Product[] = [
   {
     id: "reid",
     projectId: "4fe22a83-2b4e-44ee-9bbb-c43168baf465",
+    replacementProjectId: "fc1c930c-df85-4b48-9905-1259c734a16e",
     name: "reID",
     category: "Identity",
     description: "Digital identity and merchant passport for the ecosystem.",
@@ -56,6 +62,7 @@ export const products: Product[] = [
   {
     id: "remarketplace",
     projectId: "1a0b121f-198f-43ab-af16-681559c61dcd",
+    replacementProjectId: "d034a3ee-6439-46e6-83d9-90d6da94034e",
     name: "reMARKETPLACE",
     category: "Services",
     description: "White-label marketplace, ready to launch in weeks.",
@@ -63,3 +70,22 @@ export const products: Product[] = [
     image: "/images/figma/20-10178-01dc6.png",
   },
 ];
+
+export function productForProject(id: string) {
+  return products.find(product => product.projectId === id || product.replacementProjectId === id);
+}
+
+/** The original remains featured until retirement. Only a published catalogue record can replace it. */
+export function featuredProject(product: Product | undefined, rows: readonly LandingProject[] | null) {
+  if (!product || !rows) return null;
+  const published = (id: string) => rows.find(row => row.project.id === id && row.project.status === "PUBLISHED");
+  return published(product.projectId) ?? published(product.replacementProjectId) ?? null;
+}
+
+export function orderedCatalogue(rows: readonly LandingProject[]) {
+  const featured = products.flatMap(product => {
+    const row = featuredProject(product, rows);
+    return row ? [row] : [];
+  });
+  return [...featured, ...rows.filter(row => row.project.status === "PUBLISHED" && !productForProject(row.project.id))];
+}

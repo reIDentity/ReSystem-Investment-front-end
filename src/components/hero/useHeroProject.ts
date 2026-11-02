@@ -1,14 +1,13 @@
 "use client";
 import { useLanding } from "../LandingData";
-import { products } from "@/data/products";
+import { featuredProject, products } from "@/data/products";
 import { displayMoney } from "@/lib/platform/landing-data";
 import { percentage, units } from "@/lib/platform/money";
 
 /** Artwork remains the approved brand composition. Only an explicit published record may supply its finance. */
 export function useHeroProject(slug: string) {
   const { projects } = useLanding();
-  const id = products.find(p => p.id === slug)?.projectId;
-  const row = id ? projects?.find(p => p.project.id === id) ?? null : null;
+  const row = featuredProject(products.find(p => p.id === slug), projects);
   const project = row?.project, chain = row?.chain;
   const count = (value: string | undefined) => value ? BigInt(value).toLocaleString("en-US") : "—";
   const max = project?.maxFractions;

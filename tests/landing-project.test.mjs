@@ -21,6 +21,25 @@ test('landing records bind only the explicit published project with a canonical 
   assert.equal(ids.length, 4); assert.equal(new Set(ids).size, 4);
 });
 
+test('featured links keep their original until retirement, then bind only the registered published replacement', () => {
+  const { products, productForProject, featuredProject, orderedCatalogue } = clientRenderer().load('src/data/products.ts');
+  const successors = new Set(products.map(p => p.replacementProjectId));
+  assert.equal(successors.size, 4);
+  for (const product of products) {
+    const row = (id, status) => ({ project: { id, status, title: product.name } });
+    const original = row(product.projectId, 'PUBLISHED');
+    const replacement = row(product.replacementProjectId, 'PUBLISHED');
+    const unrelated = row('another-project', 'PUBLISHED');
+    assert.equal(productForProject(replacement.project.id)?.category, product.category);
+    assert.equal(productForProject(unrelated.project.id), undefined);
+    assert.equal(featuredProject(product, [replacement, original]), original);
+    assert.deepEqual([...orderedCatalogue([unrelated, replacement, original])], [original, unrelated]);
+    assert.equal(featuredProject(product, [row(product.projectId, 'ARCHIVED'), replacement]), replacement);
+    assert.deepEqual([...orderedCatalogue([unrelated, row(product.projectId, 'ARCHIVED'), replacement])], [replacement, unrelated]);
+    assert.equal(featuredProject(product, [row(product.replacementProjectId, 'DRAFT'), unrelated]), null);
+  }
+});
+
 test('actual supply and owner-published yield populate existing slots without using marketing fixture totals', () => {
   const stats = landingProjectStats(project(), chain(), null);
   assert.equal(stats.sold, '12.34%'); assert.equal(stats.yieldPace, '6.50%'); assert.equal(stats.sale, 'Open');
