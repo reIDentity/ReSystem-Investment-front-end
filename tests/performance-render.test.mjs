@@ -77,3 +77,58 @@ test('a matching cached page stays interactive even when SWR still marks its rev
  const {InvestorActivity}=clientRenderer({'./PlatformProvider':{usePlatform:()=>({user}),useResource:path=>path.startsWith('activity?')?{data:payload(),isLoading:true,isValidating:true,error:null,mutate:async()=>{}}:{data:{items:[],nextCursor:null},mutate:async()=>{}}},'./InvestorUI':ui,'./platform/Transaction':{IntentReview:()=>null}}).load('src/components/invest/ActivitySupport.tsx');
  const view=render(React.createElement(InvestorActivity));assert.equal(view.container.querySelector('table').getAttribute('aria-busy'),'false');assert.equal(view.getByRole('button',{name:'Page 2',exact:true}).disabled,false);assert.ok(view.getByText('Showing 1–10 of 30 transactions'));
 });
+
+test('Activity keeps its filter, page and confirmed boundary on reload and Back', async () => {
+  const {history, location} = dom.window;
+  history.replaceState(null, '', '/invest/activity?filter=deposits&intent=review-1');
+  const {InvestorActivity} = clientRenderer({
+    './PlatformProvider': {
+      usePlatform: () => ({user}),
+      useResource(path) {
+        const query = new URL(path, location.href).searchParams;
+        return {data: path.startsWith('activity?') ? payload(Number(query.get('page')) || 1, query.get('filter') || 'all') : {items: []}, mutate: async () => {}};
+      }
+    },
+    './InvestorUI': ui,
+    './platform/Transaction': {IntentReview: () => null}
+  }).load('src/components/invest/ActivitySupport.tsx');
+
+  function mountAtLocation() {
+    const params = new URL(location.href).searchParams;
+    return render(React.createElement(InvestorActivity, {
+      initialIntent: params.get('intent'), initialFilter: params.get('filter'),
+      initialPage: params.get('page'), initialSnapshot: params.get('snapshotBlock')
+    }));
+  }
+
+  try {
+    let view = mountAtLocation();
+    assert.equal(view.getByRole('button', {name: 'Deposits'}).getAttribute('aria-pressed'), 'true');
+    fireEvent.click(view.getByRole('button', {name: 'All', exact: true}));
+    fireEvent.click(view.getByRole('button', {name: 'Page 2', exact: true}));
+    assert.equal(location.search, '?intent=review-1&page=2&snapshotBlock=100');
+    view.unmount();
+    view = mountAtLocation();
+    assert.ok(view.getByText('Showing 11–20 of 30 transactions'));
+    await act(async () => {
+      const restored = new Promise(resolve => dom.window.addEventListener('popstate', resolve, {once: true}));
+      history.back();
+      await restored;
+    });
+    assert.equal(location.search, '?intent=review-1');
+    assert.ok(view.getByText('Showing 1–10 of 30 transactions'));
+    await act(async () => {
+      const restored = new Promise(resolve => dom.window.addEventListener('popstate', resolve, {once: true}));
+      history.back();
+      await restored;
+    });
+    assert.equal(view.getByRole('button', {name: 'Deposits'}).getAttribute('aria-pressed'), 'true');
+    view.unmount();
+    history.replaceState(null, '', '/invest/activity?page=1000001&snapshotBlock=9223372036854775808&filter=invalid');
+    view = mountAtLocation();
+    assert.equal(view.getByRole('button', {name: 'All', exact: true}).getAttribute('aria-pressed'), 'true');
+    assert.ok(view.getByText('Showing 1–10 of 30 transactions'));
+  } finally {
+    history.replaceState(null, '', '/');
+  }
+});
