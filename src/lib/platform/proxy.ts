@@ -9,6 +9,7 @@ const SAFE = new Set(["GET", "HEAD"]);
 const ROUTES: [RegExp, string[]][] = [
   [/^auth\/session$/, ["GET"]], [/^auth\/logout$/, ["POST"]], [/^auth\/reid\/(start|callback)$/, ["GET"]],
   [/^auth\/reid\/device$/, ["POST", "DELETE"]], [/^auth\/reid\/device\/poll$/, ["POST"]],
+  [/^portfolio\/projects\/[a-zA-Z0-9_-]+\/phases$/, ["GET"]],
   [/^projects(?:\/[a-zA-Z0-9_-]+(?:\/(?:quote|chain|revenue|rewards|phases))?)?$/, ["GET"]],
   [/^(?:wallet(?:\/(?:deposits|send-quote|cashflow))?|portfolio(?:\/phase-purchases)?|earnings|activity|marketplace(?:\/(?:proceeds|[0-9]+(?:\/quote)?))?)$/, ["GET"]],
   [/^transactions$/, ["GET", "POST"]], [/^transactions\/[a-zA-Z0-9_-]+$/, ["GET"]],

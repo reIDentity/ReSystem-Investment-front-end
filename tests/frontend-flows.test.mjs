@@ -485,3 +485,44 @@ test('phased checkout shows the reserved supply and submits the exact reviewed p
   fireEvent.click(view.getByRole('button',{name:'Review purchase'}));
   assert.deepEqual({...command},{type:'BUY',projectId:id,asset:'REAED',quantity:'1',phaseId:'2',phaseName:'Public sale',phaseRevision:'316',amountAtomic:'108000000000000000000'});
 });
+
+test('the picker separates phase allocation, wallet approval, and affordable quantity for both payment assets', () => {
+  const id = 'early-access', phase = {id:'1',name:'Pre-launch',blocks:'3000',sold:'2988',remaining:'12',unitPriceAtomic:'25000000',open:true,whitelist:true,status:'Active',startsAt:'0'};
+  let approved = false, paused = false, endpointFailed = false;
+  const {InvestorProduct} = clientRenderer({
+    'next/image':props=>React.createElement('img',props),
+    './PlatformProvider':{useResource(path){
+      if (path === 'projects/'+id) return resource({id,title:'Fixture',maxFractions:'10000',businessOpportunity:true,media:[]});
+      if (path === 'projects/'+id+'/chain') return resource({maxFractions:'10000',totalSupply:'2988',remainingSupply:'4012',saleOpen:true,purchasePaused:paused});
+      if (path === 'portfolio/projects/'+id+'/phases?page=1') return endpointFailed ? {...resource(undefined),error:Error('Try again')} : resource({mode:'phased',totalBlocks:'10000',reservedBlocks:'3000',whitelistBlocks:'3000',publicBlocks:'4000',unallocatedBlocks:'0',walletApproved:approved,current:phase,phases:[phase]});
+      if (path === 'wallet') return resource({assets:[{symbol:'REAED',decimals:18,balanceAtomic:String(900n*10n**18n)},{symbol:'USDT',decimals:6,balanceAtomic:'50000000'}]});
+      if (path?.includes('/quote?')) {
+        const args = new URLSearchParams(path.split('?')[1]); const asset=args.get('asset'),quantity=args.get('quantity');
+        const price = asset === 'USDT' ? 25000000n : 90n*10n**18n;
+        return resource({projectId:id,chainId:15324,asset,quantity,decimals:asset==='USDT'?6:18,phaseId:'1',phaseRevision:'7',phaseName:'Pre-launch',amountAtomic:String(BigInt(quantity)*price)});
+      }
+      return resource(undefined);
+    }},
+    './InvestorUI':{...ui,Asset:()=>null,CopyButton:()=>null},
+    './platform/Transaction':{TransactionReview:()=>null}, './platform/AssetSelect':{AssetSelect:()=>null},
+  }).load('src/components/invest/ProductDetail.tsx');
+  const view=render(React.createElement(InvestorProduct,{id}));
+  const refresh=()=>view.rerender(React.createElement(InvestorProduct,{id}));
+  const button=name=>view.getByRole('button',{name,exact:true});
+  assert.match(view.container.textContent,/3,000 · 30.00%/);
+  assert.ok(view.getByText('12 shares on sale now')); assert.ok(view.getByText('0 shares available to you'));
+  assert.equal(view.getByRole('link',{name:/Ask support/}).getAttribute('href'),'/invest/support');
+  assert.equal(button('Review purchase').disabled,true);
+  approved=true;refresh();
+  assert.ok(view.getByText('10 shares available to you'));assert.equal(button('Review purchase').disabled,false);
+  fireEvent.click(button('10'));assert.equal(button('Increase share quantity').disabled,true);assert.equal(button('50').disabled,true);
+  fireEvent.click(view.getByRole('radio',{name:/USDT/}));assert.ok(view.getByText('2 shares available to you'));
+  assert.equal(button('Review exact USDT allowance').disabled,true);
+  fireEvent.change(view.getByLabelText('Share quantity'),{target:{value:'2'}});
+  assert.equal(button('Review exact USDT allowance').disabled,false);
+  approved=false;refresh();assert.equal(button('Review exact USDT allowance').disabled,true);
+  approved=true;paused=true;refresh();assert.ok(view.getByText('0 shares on sale now'));assert.equal(button('Review purchase').disabled,true);
+  paused=false;phase.open=false;refresh();assert.ok(view.getByText('0 shares on sale now'));
+  phase.open=true;endpointFailed=true;refresh();assert.equal(button('Review purchase').disabled,true);
+  assert.ok(view.getByText('Sale availability unavailable'));
+});

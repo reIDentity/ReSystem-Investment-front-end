@@ -139,6 +139,144 @@
         ]
       }
     },
+    "/v1/portfolio/projects/{id}/phases": {
+      "get": {
+        "operationId": "OpportunityController_investorPhases",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SalePhasesResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Business Opportunity"
+        ]
+      }
+    },
     "/v1/admin/projects/{id}/phases": {
       "get": {
         "operationId": "OpportunityController_adminPhases",
@@ -19284,6 +19422,16 @@
                 "pattern": "^(0|[1-9][0-9]*)$",
                 "description": "Exact integer base units; never convert to a JavaScript number"
               },
+              "whitelistBlocks": {
+                "type": "string",
+                "pattern": "^(0|[1-9][0-9]*)$",
+                "description": "Exact integer base units; never convert to a JavaScript number"
+              },
+              "publicBlocks": {
+                "type": "string",
+                "pattern": "^(0|[1-9][0-9]*)$",
+                "description": "Exact integer base units; never convert to a JavaScript number"
+              },
               "current": {
                 "$ref": "#/components/schemas/SalePhase",
                 "nullable": true
@@ -19305,6 +19453,10 @@
                 "type": "string",
                 "pattern": "^(0|[1-9][0-9]*)$",
                 "description": "Exact integer base units; never convert to a JavaScript number"
+              },
+              "walletApproved": {
+                "type": "boolean",
+                "description": "Only included in the investor's private view of an active whitelist phase."
               }
             },
             "required": [
@@ -19313,6 +19465,8 @@
               "totalBlocks",
               "reservedBlocks",
               "unallocatedBlocks",
+              "whitelistBlocks",
+              "publicBlocks",
               "current",
               "phases",
               "page",
