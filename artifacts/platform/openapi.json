@@ -6848,6 +6848,16 @@
             "description": "Token from GET /v1/auth/session; configured Origin must also be forwarded"
           }
         ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReplacementDraftDto"
+              }
+            }
+          }
+        },
         "responses": {
           "201": {
             "description": "Success",
@@ -18036,6 +18046,16 @@
         "required": [
           "publicMetadata"
         ]
+      },
+      "ReplacementDraftDto": {
+        "type": "object",
+        "properties": {
+          "reusePublishedMedia": {
+            "type": "boolean",
+            "default": true,
+            "description": "Carry forward the original published artwork and documents."
+          }
+        }
       },
       "PlatformSwitchDto": {
         "type": "object",
