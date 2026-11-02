@@ -1,4 +1,4 @@
-// Generated from OpenAPI 0.1.0; do not hand-edit. SHA-256: 6de1267219ef48451bbf8d510afd41492e6ad3f94f45b66fc1811f6406254072
+// Generated from OpenAPI 0.1.0; do not hand-edit. SHA-256: f291bcc669cff4876fb3745c45dbbbe4937d41bb9fc0910b23af2105760c0830
 export type GroupName = { "name": string; };
 export type EditGroup = { "name"?: string; "archived"?: boolean; };
 export type GroupMember = { "investor": string; "included": boolean; };
@@ -146,7 +146,7 @@ export type OperationsQueue = { "asOf": string; "since": string; "failed24h": nu
 export type WhitelistGroupsPage = { "items": Array<WhitelistGroup>; "page": number; "nextPage": (number) | null; };
 export type WhitelistLinkedGroupsPage = { "items": Array<WhitelistLinkedGroup>; "page": number; "nextPage": (number) | null; };
 export type WhitelistMembersPage = { "items": Array<WhitelistMember>; "page": number; "nextPage": (number) | null; };
-export type WhitelistRosterPage = { "items": Array<WhitelistRosterEntry>; "page": number; "nextPage": (number) | null; "block": string; };
+export type WhitelistRosterPage = { "items": Array<WhitelistRosterEntry>; "page": number; "nextPage": (number) | null; "block": (string) | null; };
 export interface Operations {
 "GET /v1/projects/{id}/phases": {body:never;response:SalePhasesResponse};
 "GET /v1/portfolio/projects/{id}/phases": {body:never;response:SalePhasesResponse};
