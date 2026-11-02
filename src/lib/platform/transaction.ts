@@ -17,6 +17,15 @@ export function transactionPollInterval(intent?: TransactionResponse): number {
   return intent && ["INDEXED", "FAILED", "REJECTED", "EXPIRED"].includes(intent.status) ? 0 : 4000;
 }
 
+/** Phased purchases the contract refused after reID approval; the investor must review current terms again. */
+const FAILED_PURCHASE: Record<string, string> = {
+  PHASE_CHANGED: "The sale phase or block price changed before INFRA processed your purchase. Close this window, review the current price and confirm again.",
+  QUOTE_EXPIRED: "Your purchase review expired before INFRA processed it. Close this window, refresh the terms and confirm again.",
+  PHASE_SOLD_OUT: "Not enough blocks were left in this sale phase when INFRA processed your purchase. Close this window and review the blocks still available.",
+  PHASE_NOT_OPEN: "This sale phase was not open when INFRA processed your purchase. Close this window and check the current phase before trying again.",
+  PHASE_NOT_ELIGIBLE: "Your wallet was not approved for this private sale phase when INFRA processed your purchase. Contact Support about access before trying again.",
+};
+
 /** Explain the next step without exposing provider diagnostics or claiming uncertain outcomes. */
 export function transactionGuidance(intent: TransactionResponse): string {
   if(intent.command?.type === "APPROVE_USDT") {
@@ -32,7 +41,7 @@ export function transactionGuidance(intent: TransactionResponse): string {
     case "INDEXED": return "Your transaction is confirmed and recorded. View your latest balances in Wallet and the transaction details in Activity.";
     case "REJECTED": return "The approval was rejected. Check Activity before preparing a new request if you want to try again.";
     case "EXPIRED": return "This review expired. Do not approve its old link. Check Activity before preparing a new review.";
-    case "FAILED": return intent.errorCode === "CHAIN_REVERT" ? "INFRA rejected this transaction. Its changes were not applied, but a network fee may still have been charged. Check the receipt before trying again." : "This request could not be completed. Check its transaction receipt or contact Support before trying again.";
+    case "FAILED": return intent.errorCode && Object.hasOwn(FAILED_PURCHASE, intent.errorCode) ? `${FAILED_PURCHASE[intent.errorCode]} No blocks were bought, but a network fee may still have been charged.` : intent.errorCode === "CHAIN_REVERT" ? "INFRA rejected this transaction. Its changes were not applied, but a network fee may still have been charged. Check the receipt before trying again." : "This request could not be completed. Check its transaction receipt or contact Support before trying again.";
     case "RECONCILIATION_REQUIRED": return "The service is checking whether the approval request reached reID. Keep this intent; do not submit a replacement transaction.";
     default: return "Check this request in Activity for its latest status.";
   }

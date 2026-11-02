@@ -715,6 +715,152 @@
         ]
       }
     },
+    "/v1/admin/projects/{id}/phase-investors": {
+      "get": {
+        "operationId": "OpportunityController_investors",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "through",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PhaseInvestorsPage"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Business Opportunity"
+        ]
+      }
+    },
     "/v1/portfolio/phase-purchases": {
       "get": {
         "operationId": "OpportunityController_purchases",
@@ -18240,6 +18386,10 @@
           "phaseStatus": {
             "type": "string"
           },
+          "phaseReason": {
+            "type": "string",
+            "description": "Staff note recorded with a phase status change"
+          },
           "whitelistOnly": {
             "type": "boolean"
           },
@@ -21166,12 +21316,21 @@
                 "closed": {
                   "type": "boolean"
                 },
+                "closeReason": {
+                  "type": "string",
+                  "nullable": true
+                },
                 "nativeRaised": {
                   "type": "string",
                   "pattern": "^(0|[1-9][0-9]*)$",
                   "description": "Exact integer base units; never convert to a JavaScript number"
                 },
                 "usdtRaised": {
+                  "type": "string",
+                  "pattern": "^(0|[1-9][0-9]*)$",
+                  "description": "Exact integer base units; never convert to a JavaScript number"
+                },
+                "grossRaisedUsdt": {
                   "type": "string",
                   "pattern": "^(0|[1-9][0-9]*)$",
                   "description": "Exact integer base units; never convert to a JavaScript number"
@@ -21184,8 +21343,146 @@
                 "sold",
                 "remaining",
                 "closed",
+                "closeReason",
                 "nativeRaised",
-                "usdtRaised"
+                "usdtRaised",
+                "grossRaisedUsdt"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "totals": {
+            "type": "object",
+            "properties": {
+              "sold": {
+                "type": "string",
+                "pattern": "^(0|[1-9][0-9]*)$",
+                "description": "Exact integer base units; never convert to a JavaScript number"
+              },
+              "nativeRaised": {
+                "type": "string",
+                "pattern": "^(0|[1-9][0-9]*)$",
+                "description": "Exact integer base units; never convert to a JavaScript number"
+              },
+              "usdtRaised": {
+                "type": "string",
+                "pattern": "^(0|[1-9][0-9]*)$",
+                "description": "Exact integer base units; never convert to a JavaScript number"
+              },
+              "grossRaisedUsdt": {
+                "type": "string",
+                "pattern": "^(0|[1-9][0-9]*)$",
+                "description": "Exact integer base units; never convert to a JavaScript number"
+              }
+            },
+            "required": [
+              "sold",
+              "nativeRaised",
+              "usdtRaised",
+              "grossRaisedUsdt"
+            ],
+            "additionalProperties": false
+          },
+          "page": {
+            "type": "integer"
+          },
+          "nextPage": {
+            "type": "integer",
+            "nullable": true
+          },
+          "through": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "items",
+          "totals",
+          "page",
+          "nextPage",
+          "through"
+        ],
+        "additionalProperties": false
+      },
+      "PhaseInvestorsPage": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "wallet": {
+                  "type": "string"
+                },
+                "investorName": {
+                  "type": "string",
+                  "nullable": true
+                },
+                "blocks": {
+                  "type": "string",
+                  "pattern": "^(0|[1-9][0-9]*)$",
+                  "description": "Exact integer base units; never convert to a JavaScript number"
+                },
+                "nativePaid": {
+                  "type": "string",
+                  "pattern": "^(0|[1-9][0-9]*)$",
+                  "description": "Exact integer base units; never convert to a JavaScript number"
+                },
+                "usdtPaid": {
+                  "type": "string",
+                  "pattern": "^(0|[1-9][0-9]*)$",
+                  "description": "Exact integer base units; never convert to a JavaScript number"
+                },
+                "grossPaidUsdt": {
+                  "type": "string",
+                  "pattern": "^(0|[1-9][0-9]*)$",
+                  "description": "Exact integer base units; never convert to a JavaScript number"
+                },
+                "firstPurchaseAt": {
+                  "type": "string"
+                },
+                "lastPurchaseAt": {
+                  "type": "string"
+                },
+                "phases": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "phaseId": {
+                        "type": "string",
+                        "pattern": "^(0|[1-9][0-9]*)$",
+                        "description": "Exact integer base units; never convert to a JavaScript number"
+                      },
+                      "phaseName": {
+                        "type": "string",
+                        "nullable": true
+                      },
+                      "blocks": {
+                        "type": "string",
+                        "pattern": "^(0|[1-9][0-9]*)$",
+                        "description": "Exact integer base units; never convert to a JavaScript number"
+                      }
+                    },
+                    "required": [
+                      "phaseId",
+                      "phaseName",
+                      "blocks"
+                    ],
+                    "additionalProperties": false
+                  }
+                }
+              },
+              "required": [
+                "wallet",
+                "investorName",
+                "blocks",
+                "nativePaid",
+                "usdtPaid",
+                "grossPaidUsdt",
+                "firstPurchaseAt",
+                "lastPurchaseAt",
+                "phases"
               ],
               "additionalProperties": false
             }
@@ -21231,6 +21528,17 @@
                   "type": "string",
                   "nullable": true
                 },
+                "outcome": {
+                  "type": "string",
+                  "enum": [
+                    "initial",
+                    "applied",
+                    "scheduled",
+                    "superseded"
+                  ],
+                  "description": "Price-history rows only",
+                  "nullable": true
+                },
                 "hash": {
                   "type": "string"
                 },
@@ -21250,6 +21558,7 @@
                 "projectName",
                 "phaseName",
                 "staffUsername",
+                "outcome",
                 "hash",
                 "logIndex",
                 "timestamp",
@@ -23484,6 +23793,50 @@
           "failed24h": {
             "type": "integer"
           },
+          "phases": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "projectId": {
+                  "type": "string"
+                },
+                "projectTitle": {
+                  "type": "string"
+                },
+                "phaseId": {
+                  "type": "string",
+                  "pattern": "^(0|[1-9][0-9]*)$",
+                  "description": "Exact integer base units; never convert to a JavaScript number"
+                },
+                "phaseName": {
+                  "type": "string"
+                },
+                "reason": {
+                  "type": "string",
+                  "enum": [
+                    "ENDED",
+                    "SOLD_OUT"
+                  ]
+                },
+                "endsAt": {
+                  "type": "string",
+                  "pattern": "^(0|[1-9][0-9]*)$",
+                  "description": "Exact integer base units; never convert to a JavaScript number"
+                }
+              },
+              "required": [
+                "projectId",
+                "projectTitle",
+                "phaseId",
+                "phaseName",
+                "reason",
+                "endsAt"
+              ],
+              "additionalProperties": false
+            },
+            "nullable": true
+          },
           "requests": {
             "type": "array",
             "items": {
@@ -23585,6 +23938,7 @@
           "asOf",
           "since",
           "failed24h",
+          "phases",
           "requests",
           "support"
         ],
