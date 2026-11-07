@@ -11,6 +11,7 @@ import { Asset, DataState, InvestorLogo, Panel } from "./InvestorUI";
 import { ProjectOverview, SupplyTiles } from "./ProjectOverview";
 import { ShareAllocation } from "./ShareAllocation";
 import "./ProductDetail.css";
+import "./PublicProject.css";
 
 const readOptions = { shouldRetryOnError: false, refreshInterval: 30000 };
 function ProjectPage({ id }: { id: string }) {
@@ -26,8 +27,8 @@ function ProjectPage({ id }: { id: string }) {
   const documents = p?.media?.filter(m => m.mimeType === "application/pdf" && /^[a-zA-Z0-9]{32,120}$/.test(m.cid)) ?? [];
   const unavailable = project.error instanceof PublicProjectError && project.error.status === 404;
   return <div className="investor-app iv-product iv-public-project"><div className="iv-frame">
-    <header className="iv-header"><Link href="/" aria-label="reSystem Investment website"><InvestorLogo /></Link><nav aria-label="Project navigation"><Link href="/#where">All projects</Link></nav><Link className="iv-button iv-primary" href={signIn} prefetch={false}>Connect with reID</Link></header>
-    <div className="iv-page-heading"><div><h1>{p?.title ?? (unavailable ? "Project unavailable" : "Project details")}</h1><p>Explore the project. Connect with reID when you’re ready to invest.</p></div>{p && <div className="iv-heading-actions"><Link className="iv-button iv-primary" href={signIn} prefetch={false}>Contribute</Link></div>}</div>
+    <header className="iv-header iv-public-header"><Link href="/" aria-label="reSystem Investment website"><InvestorLogo /></Link><nav aria-label="Project navigation"><Link href="/#where">All projects</Link></nav><Link className="iv-button iv-primary" href={signIn} prefetch={false}>Connect with reID</Link></header>
+    <div className="iv-page-heading iv-public-heading"><div><h1>{p?.title ?? (unavailable ? "Project unavailable" : "Project details")}</h1><p>Explore the project. Connect with reID when you’re ready to invest.</p></div>{p && <div className="iv-heading-actions"><Link className="iv-button iv-primary" href={signIn} prefetch={false}>Contribute</Link></div>}</div>
     <main className="iv-content">
       <DataState publicView loading={project.isLoading} error={project.error} onRetry={() => void project.mutate()} />
       {p && <div className="iv-product-detail iv-pd-page">
