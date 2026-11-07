@@ -1,0 +1,49 @@
+/* Public navigation has one link, rather than the dashboard's six-tab menu. */
+.iv-public-project .iv-public-header {
+  flex-wrap:nowrap;
+  gap:20px;
+  padding:14px 18px;
+}
+.iv-public-project .iv-public-header > nav {
+  order:0;
+  flex:0 0 auto;
+  width:auto;
+  margin-left:auto;
+  padding:0;
+  background:transparent;
+  overflow:visible;
+}
+.iv-public-project .iv-public-header > nav a { min-height:44px; padding:0 12px; }
+.iv-public-project .iv-public-header > .iv-button { flex-shrink:0; }
+.iv-public-project .iv-public-heading {
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+  align-items:center;
+  gap:24px;
+  padding:28px 4px 24px;
+}
+.iv-public-project .iv-public-heading h1 { overflow-wrap:anywhere; }
+.iv-public-project .iv-public-heading p { max-width:60ch; }
+.iv-public-project .iv-public-heading .iv-heading-actions {
+  display:flex;
+  width:auto;
+  margin:0;
+  justify-content:flex-end;
+}
+.iv-public-project .iv-public-heading .iv-button { min-width:144px; }
+
+@media(max-width:700px) {
+  .iv-public-project .iv-public-header {
+    display:grid;
+    grid-template-columns:minmax(0,1fr) auto;
+    gap:12px;
+    padding:16px;
+  }
+  .iv-public-project .iv-public-header > a:first-child { grid-column:1 / -1; }
+  .iv-public-project .iv-public-header > nav { margin:0; }
+  .iv-public-project .iv-public-header > nav a { justify-content:flex-start; padding:0 4px; }
+  .iv-public-project .iv-public-header > .iv-button { padding:10px 16px; }
+  .iv-public-project .iv-public-heading { grid-template-columns:minmax(0,1fr); gap:16px; padding:24px 2px; }
+  .iv-public-project .iv-public-heading .iv-heading-actions,
+  .iv-public-project .iv-public-heading .iv-button { width:100%; }
+}
