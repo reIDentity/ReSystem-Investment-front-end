@@ -25,7 +25,7 @@ test('calculator project selection, quantity, presets and refreshed supply use t
   assert.equal(slider.max, '100');
   fireEvent.change(slider, { target: { value: '50' } });
   assert.match(slider.getAttribute('aria-valuetext'), /50 fractions for \$0.05 USDT/);
-  assert.equal(view.container.querySelector('.calculator-invest').getAttribute('href'), `/invest/products/${other.project.id}`);
+  assert.equal(view.container.querySelector('.calculator-invest').getAttribute('href'), `/projects/${other.project.id}`);
   fireEvent.click(view.getByRole('button', { name: '$0.01', exact: true }));
   assert.equal(slider.value, '10');
   projects = [known, make(other.project.id, other.project.title, '9999')];

@@ -15,6 +15,7 @@ const user={id:'synthetic-investor',name:'Synthetic QA',wallet:'0x'+'1'.repeat(4
 const fragment=({children})=>React.createElement(React.Fragment,null,children);
 function sharedUI(notices){
  return clientRenderer({
+  '../ActionFeedback':{useActionFeedback:()=>({notify:message=>notices.push(message),available:false}),useFeedbackMessage:()=>{}},
   'next/image':()=>null,'next/navigation':{usePathname:()=>'/invest/home',useRouter:()=>({})},
   '@/components/Logo':{Logo:()=>null},
   './PlatformProvider':{usePlatform:()=>({user,live:true,notify:message=>notices.push(message)}),useResource:()=>({data:{items:[]},mutate:async()=>{}})},

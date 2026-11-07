@@ -3,6 +3,7 @@ import { useLanding } from "../LandingData";
 import { featuredProject, products } from "@/data/products";
 import { displayMoney } from "@/lib/platform/landing-data";
 import { percentage, units } from "@/lib/platform/money";
+import { publicProjectPath } from "@/lib/platform/public-project";
 
 /** Artwork remains the approved brand composition. Only an explicit published record may supply its finance. */
 export function useHeroProject(slug: string) {
@@ -15,7 +16,7 @@ export function useHeroProject(slug: string) {
   const price = (value: string | undefined, decimals: number) => value && chain && (!project?.businessOpportunity || project.phasePriceAtomic) ? units(value, decimals) : "—";
   const cells = 100;
   return {
-    href: project ? `/invest/products/${project.id}` : "/invest/explore",
+    href: project ? publicProjectPath(project.id) : "/#where",
     status: project ? row!.stats.sale === "Open" ? "Sale open" : row!.stats.sale === "Closed" ? "Sale closed" : "Unavailable" : "Not listed",
     maximum: count(max), issued: count(issued), remaining: count(remaining),
     sold: issued && max ? percentage(issued, max) : "—",
