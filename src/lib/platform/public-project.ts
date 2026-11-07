@@ -1,8 +1,27 @@
 import { publishedLandingProject, landingProjectStats } from "./landing-project";
 import type { Project, ProjectState } from "./types";
 import type { SalePhasesResponse } from "./api.generated";
+import { products } from "@/data/products";
 
-export const publicProjectPath = (id: string) => `/projects/${encodeURIComponent(id)}`;
+/** Branded aliases stay bound to their original record, never a same-name replacement. */
+export const publicProjectAliasId = (slug: string) => products.find(p => p.id === slug.toLowerCase())?.projectId;
+export function publicProjectPath(id: string, title: string, suffixLength: 12 | 32 = 12) {
+  const alias = products.find(p => p.projectId === id);
+  if (alias) return `/projects/${alias.id}`;
+  const name = title.normalize("NFKD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 80).replace(/-+$/g, "") || "project";
+  return `/projects/${name}-${id.replaceAll("-", "").slice(0, suffixLength).toLowerCase()}`;
+}
+export function projectIdFromSlug(slug: string, catalogue: readonly Pick<Project, "id">[]) {
+  const suffix = /-([0-9a-f]{32}|[0-9a-f]{12})$/.exec(slug.toLowerCase())?.[1];
+  if (!suffix) return null;
+  const matches = catalogue.filter(p => p.id.replaceAll("-", "").startsWith(suffix));
+  return matches.length === 1 ? matches[0].id : null;
+}
+export function catalogueProjectPath(project: Pick<Project, "id" | "title">, catalogue: readonly Pick<Project, "id">[]) {
+  const prefix = project.id.replaceAll("-", "").slice(0, 12);
+  const collision = catalogue.filter(p => p.id.replaceAll("-", "").startsWith(prefix)).length > 1;
+  return publicProjectPath(project.id, project.title, collision ? 32 : 12);
+}
 export const projectContributionPath = (id: string) => `/invest?next=${encodeURIComponent(`/invest/products/${id}#invest`)}`;
 export const validProjectId = (id: string) => /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id);
 
@@ -14,7 +33,7 @@ export class PublicProjectError extends Error {
 
 const record = (v: unknown): v is Record<string, unknown> => !!v && typeof v === "object" && !Array.isArray(v);
 const uint = (v: unknown): v is string => typeof v === "string" && /^(0|[1-9][0-9]{0,77})$/.test(v) && BigInt(v) < 2n ** 256n;
-function validPublicResponse(section: string, data: unknown) {
+export function validPublicResponse(section: string, data: unknown) {
   if (!record(data)) return false;
   if (section === "details") return data.media === undefined || (Array.isArray(data.media) && data.media.every(m => record(m) && typeof m.cid === "string" && typeof m.filename === "string" && typeof m.mimeType === "string"));
   if (section === "chain") return uint(data.totalSupply) && uint(data.remainingSupply) && uint(data.maxFractions) && typeof data.saleOpen === "boolean" && typeof data.purchasePaused === "boolean";

@@ -64,7 +64,7 @@ test('malformed successful public responses become honest unavailable states', a
 });
 
 test('contribution links retain the project and purchase anchor through safe reID return paths', () => {
-  assert.equal(publicProjectPath(id), `/projects/${id}`);
+  assert.equal(publicProjectPath(id, 'Public project'), '/projects/remarketplace');
   const url = new URL(projectContributionPath(id), 'https://investor.invalid');
   assert.equal(url.pathname, '/invest');
   const target = url.searchParams.get('next');

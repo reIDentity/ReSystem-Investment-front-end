@@ -1,6 +1,11 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  async rewrites() {
+    // Resolve legacy IDs before rendering so redirects retain their HTTP status
+    // rather than becoming a meta redirect after the public shell streams.
+    return { beforeFiles: [{ source: "/projects/:id([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})", destination: "/api/public/project-redirect/:id" }] };
+  },
   async headers() {
     return [{ source: "/:path*", headers: [
       { key: "X-Content-Type-Options", value: "nosniff" },

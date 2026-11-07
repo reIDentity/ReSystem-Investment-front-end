@@ -13,13 +13,20 @@ import { MotionEffects } from "@/components/MotionEffects";
 import { Products } from "@/components/Products";
 import { Stats } from "@/components/Stats";
 import { WhyInvest } from "@/components/WhyInvest";
+import { Suspense, type ReactNode } from "react";
+import { getInitialLandingCatalogue } from "@/lib/platform/landing-server";
+import { connection } from "next/server";
+
+async function PublishedLanding({ children }: { children: ReactNode }) {
+  await connection();
+  let initialCatalogue;
+  try { initialCatalogue = await getInitialLandingCatalogue(); }
+  catch { /* The existing public loading/retry state remains usable on an outage. */ }
+  return <LandingData initialCatalogue={initialCatalogue}>{children}</LandingData>;
+}
 
 export default function Home() {
-  return (
-    <>
-      <Header />
-      <LandingData>
-      <main>
+  const content = <main>
         <Hero />
         <Ecosystem />
         <Stats />
@@ -31,8 +38,11 @@ export default function Home() {
         <HowItWorks />
         <Faq />
         <CtaBanner />
-      </main>
-      </LandingData>
+      </main>;
+  return (
+    <>
+      <Header />
+      <Suspense fallback={<LandingData>{content}</LandingData>}><PublishedLanding>{content}</PublishedLanding></Suspense>
       <Footer />
       <MotionEffects />
     </>

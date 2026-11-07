@@ -10,9 +10,9 @@ import { Reveal } from "./Reveal";
 import { useInView } from "@/hooks/motion";
 import { categories, orderedCatalogue, productForProject } from "@/data/products";
 import { projectArtworkUrl } from "@/lib/platform/media";
-import { publicProjectPath } from "@/lib/platform/public-project";
+import { catalogueProjectPath, publicProjectPath } from "@/lib/platform/public-project";
 
-function ProductCard({ row }: { row: LandingProject }) {
+function ProductCard({ row, publicPath }: { row: LandingProject; publicPath?: string }) {
   const [failedArtwork, setFailedArtwork] = useState<string | null>(null);
   const { project, stats } = row;
   const product = productForProject(project.id);
@@ -73,7 +73,7 @@ function ProductCard({ row }: { row: LandingProject }) {
         </dl>
         {project.businessOpportunity && <p className="mt-2 text-[14px] text-muted">{project.currentPhase??"No active phase"} · {project.phaseRemaining} blocks remaining · {project.reservedBlocks} Reserved</p>}
         <a
-          href={publicProjectPath(project.id)}
+          href={publicPath ?? publicProjectPath(project.id, project.title)}
           className="product-link mt-5 flex items-center justify-between font-display text-[14px] font-bold text-brand underline-offset-4 hover:underline"
         >
           See where, why and how much{" "}
@@ -188,7 +188,7 @@ export function Products() {
                 } as CSSProperties
               }
             >
-              <ProductCard row={p} />
+              <ProductCard row={p} publicPath={catalogueProjectPath(p.project, projects?.map(row => row.project) ?? [])} />
             </div>
           ))}
         </div>

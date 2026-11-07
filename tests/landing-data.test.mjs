@@ -88,26 +88,26 @@ test('all landing modules render production markup from the same public snapshot
   assert.match(html, /0\.001/); assert.match(html, /105\.00/); assert.match(html, /uat.scan.infraworld.org\/tx\/0x8{64}/);
   assert.doesNotMatch(html.replace(/<[^>]+>/g, ""), /\$2,000|\$353\.06|25 shares just claimed|Pre-Launch Price|Post-Launch Price|0\.50|0\.75|Illustrative example|Twelve products/);
   assert.match(html, /Your share of the project/); assert.match(html, /New fractions earn only from future allocations/);
-  assert.match(html, /\/projects\/4fe22a83-2b4e-44ee-9bbb-c43168baf465/);
+  assert.match(html, /\/projects\/reid/);
   const { FigmaFractionaire } = renderer.load('src/components/hero/FigmaFractionaire.tsx');
   const unlisted = renderToStaticMarkup(React.createElement(FigmaFractionaire));
   assert.doesNotMatch(unlisted, />1,000<|>500<|>20%<|>30%</); assert.match(unlisted, /\/#where/);
   assert.equal((unlisted.match(/background-color:#475569/g) || []).length, 100);
 });
 
-test('public transport omits cookies, has a shared deadline, rejects redirects/errors and caps streamed response bytes', async () => {
-  const transport = clientRenderer({ './landing-data': { loadLanding: read => read('projects') } }).load('src/lib/platform/landing-public.ts');
+test('public transport makes one credential-free snapshot request, rejects redirects/errors and caps streamed response bytes', async () => {
+  const transport = clientRenderer().load('src/lib/platform/landing-public.ts');
   const original = globalThis.fetch;
   try {
     globalThis.fetch = async (url, options) => {
-      assert.equal(url, '/api/platform/projects'); assert.equal(options.method, 'GET'); assert.equal(options.credentials, 'omit'); assert.equal(options.redirect, 'error'); assert.equal(options.cache, 'no-store'); assert.ok(options.signal instanceof AbortSignal); assert.deepEqual(Object.keys(options.headers), ['Accept']);
-      return Response.json({ items: [], nextCursor: null });
+      assert.equal(url, '/api/public/catalogue'); assert.equal(options.method, 'GET'); assert.equal(options.credentials, 'omit'); assert.equal(options.redirect, 'error'); assert.equal(options.cache, 'no-store'); assert.ok(options.signal instanceof AbortSignal); assert.deepEqual(Object.keys(options.headers), ['Accept']);
+      return Response.json({ items: [], fetchedAt: Date.now() });
     };
-    assert.equal((await transport.fetchLanding()).nextCursor, null);
+    assert.equal((await transport.fetchLanding()).projects.length, 0);
     globalThis.fetch = async () => Response.json({ error: 'private upstream content' }, { status: 500 });
     await assert.rejects(transport.fetchLanding(), /Public project data unavailable/);
     let cancelled = false;
-    globalThis.fetch = async () => new Response(new ReadableStream({ start(c) { c.enqueue(new Uint8Array(2097153)); }, cancel() { cancelled = true; } }));
+    globalThis.fetch = async () => new Response(new ReadableStream({ start(c) { c.enqueue(new Uint8Array(8 * 1024 * 1024 + 1)); }, cancel() { cancelled = true; } }));
     await assert.rejects(transport.fetchLanding(), /exceeds limit/); assert.equal(cancelled, true);
   } finally { globalThis.fetch = original; }
 });
