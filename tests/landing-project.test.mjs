@@ -88,8 +88,8 @@ test('actual landing card renders the shared verified snapshot and removes unava
   const render = row => renderToStaticMarkup(React.createElement(ProductCard, { row }));
   const series = revenueSeries();
   const live = render(verifiedLandingProject(project(), chain(), { series }, Date.parse(series.asOf)));
-  assert.ok(live.includes(`/projects/${id}`)); assert.ok(live.includes('12.34%')); assert.ok(live.includes('6.50%')); assert.ok(!live.includes('11.2k')); assert.ok(!live.includes('37%'));
+  assert.ok(live.includes('/projects/infra-global')); assert.ok(live.includes('12.34%')); assert.ok(live.includes('6.50%')); assert.ok(!live.includes('11.2k')); assert.ok(!live.includes('37%'));
   const unavailable = render(verifiedLandingProject(project(), null, null, Date.parse(series.asOf)));
-  assert.ok(unavailable.includes(`/projects/${id}`)); assert.ok(!unavailable.includes('12.34%')); assert.ok(!unavailable.includes('6.50%'));
+  assert.ok(unavailable.includes('/projects/infra-global')); assert.ok(!unavailable.includes('12.34%')); assert.ok(!unavailable.includes('6.50%'));
   assert.equal((unavailable.match(/aria-label="Unavailable"/g) || []).length, 3);
 });

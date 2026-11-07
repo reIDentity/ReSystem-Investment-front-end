@@ -14,8 +14,8 @@ import "./ProductDetail.css";
 import "./PublicProject.css";
 
 const readOptions = { shouldRetryOnError: false, refreshInterval: 30000 };
-function ProjectPage({ id }: { id: string }) {
-  const project = useSWR(["public-project", id], () => readPublicProject<Project>(id), readOptions);
+function ProjectPage({ id, initialProject }: { id: string; initialProject?: Project }) {
+  const project = useSWR(["public-project", id], () => readPublicProject<Project>(id), { ...readOptions, ...(initialProject ? { fallbackData: initialProject, revalidateOnMount: false } : {}) });
   const p = project.error ? undefined : project.data;
   const state = useSWR(p ? ["public-project-chain", id] : null, () => readPublicProject<ProjectState>(id, "chain"), readOptions);
   const revenue = useSWR(p ? ["public-project-revenue", id] : null, () => readPublicProject<RewardView>(id, "revenue"), readOptions);
@@ -45,4 +45,4 @@ function ProjectPage({ id }: { id: string }) {
   </div></div>;
 }
 
-export function PublicProject({ id }: { id: string }) { return <ActionFeedbackProvider><ProjectPage id={id} /></ActionFeedbackProvider>; }
+export function PublicProject({ id, initialProject }: { id: string; initialProject?: Project }) { return <ActionFeedbackProvider><ProjectPage id={id} initialProject={initialProject} /></ActionFeedbackProvider>; }

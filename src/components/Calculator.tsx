@@ -18,7 +18,7 @@ export function Calculator() {
   const available = purchasableBlocks(product);
   const max = product ? Number(available > BigInt(Number.MAX_SAFE_INTEGER) ? BigInt(Number.MAX_SAFE_INTEGER) : available) : 1;
   const amount = Math.min(Math.max(quantity, 1), max);
-  const result = calculatorQuote(product, amount);
+  const result = calculatorQuote(product, amount, projects?.map(row => row.project) ?? []);
   const presetQuantities = [1, ...[0.1, 0.25, 0.5].map(v => Math.max(1, Math.floor(max * v)))];
   const fill = max > 1 ? (amount - 1) / (max - 1) * 100 : 0;
   const chart = product?.series ? revenueChart(product.series).points.slice(-12) : [];

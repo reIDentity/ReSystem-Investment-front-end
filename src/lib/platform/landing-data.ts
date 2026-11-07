@@ -1,4 +1,4 @@
-import { publicProjectPath } from "./public-project";
+import { catalogueProjectPath } from "./public-project";
 import type { ProjectChainResponse } from "./api.generated";
 import type { Project } from "./types";
 import { publishedLandingProject, landingProjectStats } from "./landing-project";
@@ -119,7 +119,7 @@ export function purchasableBlocks(row: LandingProject | null) {
   return BigInt(row.project.businessOpportunity ? row.project.phaseRemaining ?? "0" : row.chain.remainingSupply);
 }
 
-export function calculatorQuote(row: LandingProject | null, quantity: number) {
+export function calculatorQuote(row: LandingProject | null, quantity: number, catalogue: readonly Pick<Project, "id">[] = []) {
   if (!row?.chain || row.stats.sale !== "Open" || !Number.isSafeInteger(quantity) || quantity < 1 || BigInt(quantity) > purchasableBlocks(row)) return null;
-  return { quantity: String(quantity), cost: `$${units((BigInt(row.project.businessOpportunity ? row.project.phasePriceAtomic! : row.project.unitPriceUsdtAtomic) * BigInt(quantity)).toString(), 6)}`, ownership: percentage(String(quantity), row.project.maxFractions) === "0.00%" ? "< 0.01%" : percentage(String(quantity), row.project.maxFractions), href: publicProjectPath(row.project.id) };
+  return { quantity: String(quantity), cost: `$${units((BigInt(row.project.businessOpportunity ? row.project.phasePriceAtomic! : row.project.unitPriceUsdtAtomic) * BigInt(quantity)).toString(), 6)}`, ownership: percentage(String(quantity), row.project.maxFractions) === "0.00%" ? "< 0.01%" : percentage(String(quantity), row.project.maxFractions), href: catalogueProjectPath(row.project, catalogue) };
 }
