@@ -64,7 +64,7 @@ export function Panel({ children, className = "", title, subtitle }: { children:
 export function Tag({ children, tone = "green" }: { children: ReactNode; tone?: string }) { return <span className={`iv-tag iv-tag-${tone}`}>{children}</span>; }
 export function Initials({ name, tone = "blue" }: { name: string; tone?: string }) { return <span className={`iv-initials iv-initials-${tone}`}>{name}</span>; }
 export function CopyButton({ value, children = "Copy address" }: { value: string; children?: ReactNode }) {
-  const [copied, setCopied] = useState<string | null>(null); const { notify } = usePlatform();
+  const [copied, setCopied] = useState<string | null>(null); const { notify } = useActionFeedback();
   const pending = useRef(false);
   useEffect(() => { if (!copied) return; const timer = setTimeout(() => setCopied(null), 2500); return () => clearTimeout(timer); }, [copied]);
   return <button type="button" className="iv-button iv-small" aria-live="polite" onClick={async () => {
@@ -80,7 +80,18 @@ export function Modal({ title, children, onClose }: { title: string; children: R
   useEffect(() => { const dialog = ref.current; if (!dialog) return; dialog.showModal(); const release = registerDialog(dialog); return () => { release(); dialog.close(); }; }, [registerDialog]);
   return <dialog ref={ref} className="iv-modal" onCancel={onClose} aria-labelledby={id} onClick={e => { if (e.target === e.currentTarget) onClose(); }}><div className="iv-modal-heading"><h2 id={id}>{title}</h2><button onClick={onClose} aria-label="Close dialog">×</button></div>{children}</dialog>;
 }
-export function DataState({ loading, error, empty, onRetry, children }: { loading?: boolean; error?: unknown; empty?: boolean; onRetry?: () => void; children?: ReactNode }) {
+type DataStateProps = { loading?: boolean; error?: unknown; empty?: boolean; onRetry?: () => void; children?: ReactNode };
+export function DataState({ publicView = false, ...props }: DataStateProps & { publicView?: boolean }) {
+  return publicView ? <PublicDataState {...props} /> : <PrivateDataState {...props} />;
+}
+function PublicDataState({ loading, error, empty, onRetry, children }: DataStateProps) {
+  useFeedbackMessage(error ? error instanceof Error ? error.message : "Project information is temporarily unavailable." : "");
+  if (error) return <div className="iv-form-error"><p>{error instanceof Error ? error.message : "Project information is temporarily unavailable."}</p>{onRetry && <button className="iv-button iv-small" onClick={onRetry}>Retry</button>}</div>;
+  if (loading) return <div className="iv-loading-state" role="status"><span className="iv-skeleton" />Loading verified data…</div>;
+  if (empty) return <p className="iv-empty">{children || "No records yet."}</p>;
+  return null;
+}
+function PrivateDataState({ loading, error, empty, onRetry, children }: DataStateProps) {
   const { live } = usePlatform();
   const { available: feedbackAvailable } = useActionFeedback();
   useFeedbackMessage(live && error ? error instanceof Error ? error.message : "Data is temporarily unavailable." : "");

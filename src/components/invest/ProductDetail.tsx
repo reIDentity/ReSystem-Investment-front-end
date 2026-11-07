@@ -2,45 +2,22 @@
 import type { SalePhasesResponse } from "@/lib/platform/api.generated";
 import { useActionError, useFeedbackMessage } from "../ActionFeedback";
 
-import Image from "next/image";
-import Link from "next/link";
 import { useState, type FormEvent } from "react";
 import type { WalletResponse } from "@/lib/platform/api.generated";
 import type { Portfolio, Project, ProjectState, Quote, RewardView } from "@/lib/platform/types";
-import { assetLabel, atomic, contractAsset, decimals, expiryTimestamp, percentage, safeAddress, units, whole, validWhole, type PaymentAsset } from "@/lib/platform/money";
-import { formatUsdEquivalent, type AssetTotals } from "@/lib/platform/valuation";
-import { publicIpfsUrl, projectArtworkUrl } from "@/lib/platform/media";
+import { assetLabel, atomic, decimals, expiryTimestamp, percentage, safeAddress, units, whole, validWhole, type PaymentAsset } from "@/lib/platform/money";
+import type { AssetTotals } from "@/lib/platform/valuation";
+import { publicIpfsUrl } from "@/lib/platform/media";
 import { useResource } from "./PlatformProvider";
-import { Asset, CopyButton, DataState, InvestorShell, Panel, Tag } from "./InvestorUI";
+import { Asset, DataState, InvestorShell, Panel } from "./InvestorUI";
 import { AssetSelect } from "./platform/AssetSelect";
 import { TransactionReview, type InvestorCommand } from "./platform/Transaction";
 import { ShareAllocation } from "./ShareAllocation";
+import { ProjectOverview, SupplyTiles } from "./ProjectOverview";
 import "./ProductDetail.css";
 
 const validAtomic = (value: string | null | undefined): value is string => typeof value === "string" && /^[0-9]+$/.test(value);
 const amount = (value: string | null | undefined, places: number) => validAtomic(value) ? units(value, places) : "—";
-
-function revenueAmounts(revenue: RewardView | undefined, field: "fundedAtomic" | "claimedTotalAtomic" | "reserveAtomic"): AssetTotals | null {
-  const native = revenue?.assets.find(item => item.asset === "REAED" && item.decimals === 18);
-  const usdt = revenue?.assets.find(item => item.asset === "USDT" && item.decimals === 6);
-  return validAtomic(native?.[field]) && validAtomic(usdt?.[field]) ? { REAED: BigInt(native![field]), USDT: BigInt(usdt![field]) } : null;
-}
-
-/** A proportional overview, never a map of individually reserved token IDs. */
-function SupplyTiles({ issued, maximum, selected = "0", reserved = "0", onSale, cells = 50, className = "" }: { issued?: string; maximum?: string; selected?: string; reserved?: string; onSale?: string; cells?: 50 | 100; className?: string }) {
-  const known = validAtomic(issued) && validAtomic(maximum) && BigInt(maximum) > 0n && BigInt(issued) <= BigInt(maximum);
-  const total = known ? BigInt(maximum) : 1n, minted = known ? BigInt(issued) : 0n;
-  const locked = known && validAtomic(reserved) ? BigInt(reserved) : 0n;
-  const available = onSale === undefined ? total - minted - locked : validAtomic(onSale) ? BigInt(onSale) : 0n;
-  const consistent = known && available >= 0n && minted + available + locked <= total;
-  const chosen = consistent && validAtomic(selected) && BigInt(selected) <= available ? BigInt(selected) : 0n;
-  const fill = (value: bigint) => { const clamped = value < 0n ? 0n : value > total ? total : value; const bps = clamped * 10000n / total; return `${bps / 100n}.${(bps % 100n).toString().padStart(2, "0")}%`; };
-  return <div className={`iv-pd-supply-tiles ${className}`} aria-hidden="true">{Array.from({ length: cells }, (_, index) => {
-    const start = BigInt(index) * total, issuedFill = fill(minted * BigInt(cells) - start), selectedFill = fill((minted + chosen) * BigInt(cells) - start);
-    const availableFill = fill((minted + available) * BigInt(cells) - start), reserveStart = fill((total - locked) * BigInt(cells) - start);
-    return <i key={index} style={consistent ? { background: `linear-gradient(to right,#d7dde7 0% ${issuedFill},#0091ff ${issuedFill} ${selectedFill},#fff ${selectedFill} ${availableFill},#e7edf5 ${availableFill} ${reserveStart},#8998ad ${reserveStart} 100%)` } : undefined} />;
-  })}</div>;
-}
 
 function PhaseAvailability({ id, initial }: { id: string; initial: SalePhasesResponse }) {
   const [page, setPage] = useState(1);
@@ -126,7 +103,7 @@ function PhaseAvailability({ id, initial }: { id: string; initial: SalePhasesRes
 export function InvestorProduct({ id }: { id: string }) {
   const project = useResource<Project>(`projects/${id}`), state = useResource<ProjectState>(`projects/${id}/chain`), revenue = useResource<RewardView>(`projects/${id}/revenue`);
   const portfolio = useResource<Portfolio>("portfolio"), wallet = useResource<WalletResponse>("wallet");
-  const p = project.error ? undefined : project.data, supply = state.error ? undefined : state.data, funding = revenue.error ? undefined : revenue.data;
+  const p = project.error ? undefined : project.data, supply = state.error ? undefined : state.data;
   const h = portfolio.error ? undefined : portfolio.data?.items.find(item => item.projectId === id);
   const [quantity, setQuantity] = useState("1"), [asset, setAsset] = useState<PaymentAsset>("REAED"), [command, setCommand] = useState<InvestorCommand | null>(null), [, setError] = useActionError();
   const [recipient, setRecipient] = useState(""), [transferQuantity, setTransferQuantity] = useState("1");
@@ -159,15 +136,10 @@ export function InvestorProduct({ id }: { id: string }) {
   const previewTotal = (!p?.businessOpportunity || phase?.open) && validQuantity && validAtomic(publishedUnitPrice) && BigInt(publishedUnitPrice) > 0n && validAtomic(p?.maxFractions) && BigInt(quantity) <= BigInt(p.maxFractions) ? (BigInt(publishedUnitPrice) * BigInt(quantity)).toString() : null;
   const displayedTotal = currentQuote?.amountAtomic ?? previewTotal;
   const issuedPercent = p && supply ? percentage(supply.totalSupply, p.maxFractions) : "—";
-  const funded = revenueAmounts(funding, "fundedAtomic"), paid = revenueAmounts(funding, "claimedTotalAtomic");
-  const images = p?.media?.filter(media => media.mimeType.startsWith("image/") && /^[a-zA-Z0-9]{32,120}$/.test(media.cid)) || [];
   const documents = p?.media?.filter(media => media.mimeType === "application/pdf" && /^[a-zA-Z0-9]{32,120}$/.test(media.cid)) || [];
-  const deposits = funding?.history.status === "available" ? funding.history.items || [] : null;
   const ownsShares = h && validAtomic(h.quantity) && BigInt(h.quantity) > 0n;
-  const saleAvailable = saleLimit !== null && saleLimit > 0n;
   const termsChanged = Boolean(p?.businessOpportunity && currentQuote && phase && (currentQuote.phaseId !== phase.id || currentQuote.amountAtomic !== previewTotal));
   const canBuy = Boolean(quantityAllowed && currentQuote && !termsChanged && (!p?.businessOpportunity || (phase && currentQuote.phaseId === phase.id && currentQuote.phaseRevision)));
-  const indicativeYield = p?.indicativeYieldBps != null && Number.isSafeInteger(p.indicativeYieldBps) && p.indicativeYieldBps >= 0 ? `${units(String(p.indicativeYieldBps), 2)}%` : "—";
   const nativeClaim = h?.claimable.find(item => item.asset === "REAED" && item.decimals === 18), usdtClaim = h?.claimable.find(item => item.asset === "USDT" && item.decimals === 6);
   const claimTotals: AssetTotals | null = validAtomic(nativeClaim?.amountAtomic) && validAtomic(usdtClaim?.amountAtomic) ? { REAED: BigInt(nativeClaim.amountAtomic), USDT: BigInt(usdtClaim.amountAtomic) } : !portfolio.error && portfolio.data && !h ? { REAED: 0n, USDT: 0n } : null;
   const yourShares = h ? amount(h.quantity, 0) : portfolio.data && !portfolio.error ? "0" : "—";
@@ -182,24 +154,7 @@ export function InvestorProduct({ id }: { id: string }) {
   return <InvestorShell page="product" title={p?.title || "Project details"} subtitle="Explore the project. Own a share of what comes next." networkBlock={supply?.headBlock}>
     <DataState loading={project.isLoading} error={project.error} onRetry={() => void project.mutate()} />
     <div className="iv-product-detail iv-pd-page">
-      <section className="iv-product-hero"><div><Link className="iv-button iv-small" href="/invest/explore"><Asset name="6f807" width={16} />All products</Link><div className="iv-product-badges"><Tag tone={saleAvailable ? "green" : "neutral"}>{p ? saleAvailable ? "Open for investment" : saleLimit === null ? "Availability unverified" : "Purchases closed" : "Project unavailable"}</Tag>{ownsShares ? <Tag tone="dark">You own {yourShares} shares</Tag> : null}</div><h2>{p?.title || "Project details"}</h2><p>{p?.description || "Project information is temporarily unavailable. Please try again shortly."}</p><div className="iv-product-features"><span>FRACTIONAL OWNERSHIP</span><span>INFRA NETWORK</span><span>WALLET APPROVAL</span></div></div><div className="iv-product-poster"><div>{images[0] ? <Image src={projectArtworkUrl(p!.id, images[0].cid)} alt={p?.title || "Project image"} width={500} height={888} unoptimized /> : <span className="iv-pd-image-empty">Project image not supplied</span>}</div><span><i />{saleLimit !== null ? `${amount(saleLimit.toString(), 0)} SHARES ON SALE` : "AVAILABILITY UNAVAILABLE"}</span></div></section>
-
-      <Panel className="iv-product-moneyflow"><div className="iv-mono-heading"><span>MONEY FLOW · {p?.title.toUpperCase() || "PROJECT"}</span>{funding ? <b><i />Confirmed on INFRA</b> : null}</div><div className="iv-flow-columns">
-        <div className="iv-flow-feed"><span>REVENUE DEPOSITS</span>{deposits?.length ? deposits.slice(0, 6).map(row => { const paymentAsset = contractAsset(row.args_json.asset); return <a className="iv-pd-deposit" href={`https://uat.scan.infraworld.org/tx/${row.tx_hash}`} target="_blank" rel="noopener noreferrer" key={`${row.tx_hash}:${row.args_json.fundingReference}`}><i /><code>{row.tx_hash.slice(0, 8)}…{row.tx_hash.slice(-4)}</code><b>{paymentAsset && validAtomic(row.args_json.amount) ? `+${amount(row.args_json.amount, decimals(paymentAsset))} ${assetLabel(paymentAsset)}` : "Amount unavailable"}</b></a>; }) : <div className="iv-pd-empty">{revenue.isLoading ? "Loading revenue…" : deposits ? "No revenue deposits yet." : "Revenue history unavailable."}</div>}</div>
-        <div className="iv-flow-pool"><div><span>REVENUE FUNDED</span><strong>{formatUsdEquivalent(funded)}</strong></div><div className="iv-pd-pool-empty"><strong>Revenue reaches shareholders</strong><p>Confirmed project deposits fund the earnings you can claim.</p></div><footer><b>FUNDED ON INFRA</b><span>USDT EQUIVALENT</span></footer></div>
-        <div className="iv-holder-blocks"><div><span>HOLDER DISTRIBUTION</span></div><div className="iv-pd-holder-empty"><span>Holder distribution is not available yet.</span></div></div>
-      </div><div className="iv-flow-totals">{[["TOTAL FUNDED", formatUsdEquivalent(funded)], ["ISSUED SHARES", amount(supply?.totalSupply, 0)], ["PAID CLAIMS", formatUsdEquivalent(paid)], ["YOUR SHARES", yourShares]].map(([label, value]) => <div key={label}><small>{label}</small><strong>{value}</strong></div>)}</div><DataState loading={revenue.isLoading} error={revenue.error} onRetry={() => void revenue.mutate()} /></Panel>
-
-
-      <Panel className="iv-launch"><div><p className="iv-eyebrow">PRICE PER SHARE</p><div className="iv-launch-prices"><div><small>Pay with reAED</small><strong>{amount(nativePrice, 18)} <em>reAED</em></strong></div><div><small>Or pay with USDT</small><strong>{amount(usdtPrice, 6)} <em>USDT</em></strong></div></div><div className="iv-launch-progress" aria-hidden="true">{issuedPercent !== "—" ? <span style={{ width: issuedPercent }} /> : null}</div><p className="iv-pd-small">Fixed exchange rate · 1 USDT = 3.6 reAED</p></div><div className="iv-launch-stats">{[[amount(p?.maxFractions, 0), "Maximum shares"], [amount(supply?.totalSupply, 0), "Issued shares"], [amount(saleLimit?.toString(), 0), "Still available"], [yourShares, "Your shares"]].map(([value, label]) => <div key={label}><strong>{value}</strong><small>{label}</small></div>)}</div></Panel>
-
-      <div className="iv-bento-halves"><Panel className="iv-why-invest"><p className="iv-eyebrow">WHY INVEST</p>{[["Real revenue", "Earnings depend on revenue the project actually funds."], ["Your ownership", "Whole shares are held in your INFRA wallet."], ["Your decision", "Review project information and every wallet approval."]].map(([title, text]) => <div key={title}><h3>{title}</h3><p>{text}</p></div>)}</Panel><Panel className="iv-core-features"><p className="iv-eyebrow">CORE FEATURES</p>{[["Fractional ownership", "Choose a whole number of project shares."], ["Wallet approvals", "Review purchases and transfers before signing."], ["On-chain earnings", "Claim funded rewards in reAED or USDT."]].map(([title, text]) => <div key={title}><h3>{title}</h3><p>{text}</p></div>)}</Panel></div>
-
-      <div className="iv-bento-thirds"><Panel className="iv-price-growth"><p className="iv-eyebrow">SHARE PRICING</p><div className="iv-pd-price-reference"><strong>{amount(usdtPrice, 6)}</strong><span>USDT per share</span></div>{[["Clear pricing", "See the exact quote before you buy."], ["Whole shares", "Choose a quantity that fits your investment."], ["Future returns", "Project value and indicative yield do not guarantee a return."]].map(([title, text]) => <div key={title}><h3>{title}</h3><p>{text}</p></div>)}</Panel><Panel className="iv-allocation"><div className="iv-mono-heading"><span>INVESTMENT OPPORTUNITY</span><small>Supply overview · 1% per tile</small></div><div className="iv-allocation-content"><SupplyTiles issued={saleLimit === null ? undefined : supply?.totalSupply} maximum={supplyTotal} reserved={view?.reservedBlocks} onSale={saleLimit?.toString()} cells={100} className="iv-pd-allocation-tiles" /><dl>{[["Maximum shares", amount(p?.maxFractions, 0)], ["Issued shares", amount(supply?.totalSupply, 0)], ["Available shares", amount(saleLimit?.toString(), 0)], ["Issued", issuedPercent]].map(([label, value]) => <div key={label}><dt>{label}</dt><dd>{value}</dd></div>)}</dl></div><DataState error={state.error} onRetry={() => void state.mutate()} /></Panel></div>
-
-      <div className="iv-bento-thirds iv-bento-reverse"><Panel className="iv-revenue-so-far"><div className="iv-mono-heading"><span>REVENUE SO FAR</span>{funding ? <b><i />Confirmed on INFRA</b> : null}</div><div className="iv-revenue-summary">{[["Last month", "—"], ["Indicative yield", indicativeYield], ["Issued", issuedPercent], ["Investors", "—"]].map(([label, value]) => <div key={label}><small>{label}</small><strong>{value}</strong></div>)}</div><div className="iv-pd-revenue-empty">No revenue trend is available yet.</div><p className="iv-pd-small">Indicative yield is entered by the project owner. Actual earnings depend on funded revenue.</p></Panel><Panel className="iv-how-earn"><p className="iv-eyebrow">HOW YOU EARN</p><p>Project revenue is allocated to shareholders. Your funded earnings remain yours after a transfer or sale.</p><div><small>Your available earnings</small><strong>{formatUsdEquivalent(claimTotals)}</strong><small>Claim in the original asset</small></div><Link className="iv-text-link" href="/invest/earnings">View your earnings →</Link><small>No monthly payout or resale buyer is guaranteed.</small></Panel></div>
-
-      <div className="iv-bento-halves"><Panel className="iv-roadmap"><p className="iv-eyebrow">ROADMAP</p><div><i /><span><strong>Project milestones</strong><small>No roadmap has been published for this project yet.</small></span></div></Panel><Panel className="iv-product-wallet"><p className="iv-eyebrow">PROJECT CONTRACT ON INFRA</p><code>{p?.contractAddress || "Unavailable"}</code><p>Verify the project’s ownership and revenue transactions on the INFRA explorer.</p>{p?.contractAddress ? <><CopyButton value={p.contractAddress} /><a className="iv-text-link iv-pd-contract-link" href={`https://uat.scan.infraworld.org/address/${p.contractAddress}`} target="_blank" rel="noopener noreferrer">View contract ↗</a></> : null}</Panel></div>
+      <ProjectOverview project={project} state={state} revenue={revenue} saleLimit={saleLimit} supplyTotal={supplyTotal} nativePrice={nativePrice} usdtPrice={usdtPrice} issuedPercent={issuedPercent} view={view} yourShares={yourShares} claimTotals={claimTotals} ownsShares={!!ownsShares} />
 
       <Panel className="iv-invest-panel"><div id="invest" className="iv-invest-anchor" /><div className="iv-panel-toolbar"><div><p className="iv-eyebrow">INVEST / {p?.title.toUpperCase() || "PROJECT"}</p><h2>Choose your shares</h2></div><div className="iv-document-links">{documents.length ? documents.map(document => <a className="iv-button iv-document" href={publicIpfsUrl(document.cid)} target="_blank" rel="noopener noreferrer" key={document.cid}><Asset name="92135" width={16} />{document.filename} ↗</a>) : <span className="iv-pd-document-empty"><Asset name="92135" width={16} />No documents published</span>}</div></div>
         <div className="iv-order-layout"><div className="iv-block-selector"><ShareAllocation total={supplyTotal} issued={supply?.totalSupply} remaining={supply?.remainingSupply} phased={!!p?.businessOpportunity} view={view} saleLimit={saleLimit} walletLimit={walletLimit} asset={asset} saleOpen={supply?.saleOpen} paused={supply?.purchasePaused} noGas={noGas} phasedLoading={phases.isLoading} selected={quantityAllowed ? quantity : undefined}/>

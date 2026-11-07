@@ -88,10 +88,10 @@ test('all landing modules render production markup from the same public snapshot
   assert.match(html, /0\.001/); assert.match(html, /105\.00/); assert.match(html, /uat.scan.infraworld.org\/tx\/0x8{64}/);
   assert.doesNotMatch(html.replace(/<[^>]+>/g, ""), /\$2,000|\$353\.06|25 shares just claimed|Pre-Launch Price|Post-Launch Price|0\.50|0\.75|Illustrative example|Twelve products/);
   assert.match(html, /Your share of the project/); assert.match(html, /New fractions earn only from future allocations/);
-  assert.match(html, /\/invest\/products\/4fe22a83-2b4e-44ee-9bbb-c43168baf465/);
+  assert.match(html, /\/projects\/4fe22a83-2b4e-44ee-9bbb-c43168baf465/);
   const { FigmaFractionaire } = renderer.load('src/components/hero/FigmaFractionaire.tsx');
   const unlisted = renderToStaticMarkup(React.createElement(FigmaFractionaire));
-  assert.doesNotMatch(unlisted, />1,000<|>500<|>20%<|>30%</); assert.match(unlisted, /\/invest\/explore/);
+  assert.doesNotMatch(unlisted, />1,000<|>500<|>20%<|>30%</); assert.match(unlisted, /\/#where/);
   assert.equal((unlisted.match(/background-color:#475569/g) || []).length, 100);
 });
 

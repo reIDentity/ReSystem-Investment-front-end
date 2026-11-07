@@ -12,6 +12,14 @@ When the API base is configured, the backend owns OAuth exchange, investor sessi
 
 ## Versioned API
 
+### Public project discovery — 7 November 2026
+
+Landing project cards, featured-project links and calculator links open `/projects/{id}` without a session. This route sits outside the authenticated investor layout and shares the approved project presentation, allocation chart and 50-block supply grid. It reads only the published project, chain state, revenue and public phases through bounded anonymous GETs with credentials omitted. Invalid, draft and archived records are not rendered; failed or malformed responses show an unavailable state.
+
+Contribute and Connect with reID link to `/invest?next=...`, retaining `/invest/products/{id}#invest` as the validated return destination. Existing signed-in users continue to that project; guests complete the existing mobile/QR sign-in flow first. Login routes are not prefetched from the public page. No transaction is created by browsing or selecting Contribute.
+
+Wallet balances, personal holdings/rewards, whitelist eligibility, quotes and financial controls remain on the authenticated project page. A guest's availability is described as “Sign in to check”, never as zero holdings or a rejected whitelist entry. `tests/public-project.test.mjs` covers transport boundaries, safe return navigation, malformed/unpublished data, public render and whitelist guidance; existing checkout regression tests cover the unchanged authenticated transaction flow.
+
 The independent backend's generated OpenAPI/types are vendored, without cross-repository runtime imports:
 
 - `artifacts/platform/openapi.json`

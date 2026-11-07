@@ -24,6 +24,7 @@ export function ShareAllocation({
   noGas,
   phasedLoading,
   selected,
+  publicView = false,
 }: {
   total?: string;
   issued?: string;
@@ -38,6 +39,7 @@ export function ShareAllocation({
   noGas: boolean;
   phasedLoading: boolean;
   selected?: string;
+  publicView?: boolean;
 }) {
   const allocation = shareAllocationSegments({ total, issued, remaining, phased, allocation: view, saleLimit });
   const phase = view?.current;
@@ -70,7 +72,7 @@ export function ShareAllocation({
               : "Unavailable"
             : `${count(String(saleLimit))} shares`}
         </strong></dd></div>
-        <div><dt>Available to you</dt><dd><strong>{walletLimit === null ? "Unavailable" : `${count(String(walletLimit))} shares`}</strong></dd></div>
+        <div><dt>{publicView ? "Your eligibility" : "Available to you"}</dt><dd><strong>{publicView ? "Sign in to check" : walletLimit === null ? "Unavailable" : `${count(String(walletLimit))} shares`}</strong></dd></div>
       </dl>
       <div className="iv-share-sale-details">
       {paused ? (
@@ -82,14 +84,15 @@ export function ShareAllocation({
           <p>
             {phase.name} · {units(phase.unitPriceAtomic, 6)} USDT per share ·{" "}
             {phase.whitelist
-              ? view?.walletApproved === true
+              ? publicView ? "Sign in to check early-access eligibility."
+                : view?.walletApproved === true
                 ? "Your wallet is approved for early access."
                 : view?.walletApproved === false
                   ? "Your wallet is not on this phase’s whitelist."
                   : "Wallet approval could not be verified."
               : "Open to all investors."}
             {!phase.open && " This phase is not accepting purchases."}
-            {phase.whitelist && view?.walletApproved === false && (
+            {!publicView && phase.whitelist && view?.walletApproved === false && (
               <>
                 {" "}
                 <Link className="iv-text-link" href="/invest/support">
@@ -107,7 +110,7 @@ export function ShareAllocation({
       {noGas && saleLimit !== null && saleLimit > 0n && (
         <p>Your wallet needs reAED to pay the network fee.</p>
       )}
-      {walletLimit !== null ? walletLimit > 0n && (
+      {publicView ? <p>Connect with reID to check your balance and review an investment. No funds move until you approve.</p> : walletLimit !== null ? walletLimit > 0n && (
         <p>Your limit uses your {assetLabel(asset)} balance before network fees. Final costs are checked at review.</p>
       ) : (
         saleLimit !== null &&
