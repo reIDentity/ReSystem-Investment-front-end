@@ -261,6 +261,7 @@ footer { margin-top: 37px; padding-bottom: 30px; }
 .money-dashboard .text-ink { color: #0f172a; }
 .ecosystem-window { position: relative; margin: 18px auto 0; height: 60.208px; overflow: hidden; mask-image: linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent); }
 @media (min-width: 1280px) { .ecosystem-window { width: calc(100% - 48px); } }
+@media (min-width: 85rem) { .ecosystem-window { width: calc(100% - 96px); } }
 .ecosystem-strip { display: flex; width: max-content; gap: 11.805px; padding-right: 11.805px; margin-left: -310.64px; }
 .ecosystem-pill { display: flex; flex-shrink: 0; height: 60.208px; align-items: center; justify-content: center; gap: 4.722px; padding: 11.805px; border: 1.181px solid #eceef2; border-radius: 21.25px; background: white; color: black; font-family: var(--font-plex),sans-serif; font-size: 21.892px; font-weight: 600; line-height: 28px; white-space: nowrap; }
 .ecosystem-pill img { flex-shrink: 0; max-width: none; }
