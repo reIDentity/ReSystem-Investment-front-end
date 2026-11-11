@@ -166,7 +166,7 @@
 .cta-art { min-height: 500px; border-radius: 12px; display: flex; align-items: center; justify-content: center; }
 .cta-icon { position: relative; }
 footer { margin-top: 37px; padding-bottom: 30px; }
-.footer-panel { max-width: 1331px; min-height: 233px; padding: 31px 24px 26px; border-radius: 8.43px; background: #3d3d3d; }
+.footer-panel { min-height: 233px; padding: 31px 24px 26px; border-radius: 8.43px; background: #3d3d3d; }
 .footer-columns { grid-template-columns: 39% 22.1% 22.8% 16.1%; gap: 0; }
 .footer-columns > div:first-child p { max-width: 383px; margin-top: 31px; font-size: 12.647px; line-height: 14px; font-weight: 500; color: #e7e7e7; }
 .footer-columns > div:nth-child(2) p, .footer-columns > div:nth-child(3) p { font-family: var(--font-plex),sans-serif; font-size: 13.49px; line-height: 18px; font-weight: 700; color: #808080; }
@@ -259,7 +259,8 @@ footer { margin-top: 37px; padding-bottom: 30px; }
 }
 .money-dashboard { font-family: var(--font-jakarta),sans-serif; }
 .money-dashboard .text-ink { color: #0f172a; }
-.ecosystem-window { position: relative; max-width: 1352px; margin: 18px auto 0; height: 60.208px; overflow: hidden; mask-image: linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent); }
+.ecosystem-window { position: relative; margin: 18px auto 0; height: 60.208px; overflow: hidden; mask-image: linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent); }
+@media (min-width: 1280px) { .ecosystem-window { width: calc(100% - 48px); } }
 .ecosystem-strip { display: flex; width: max-content; gap: 11.805px; padding-right: 11.805px; margin-left: -310.64px; }
 .ecosystem-pill { display: flex; flex-shrink: 0; height: 60.208px; align-items: center; justify-content: center; gap: 4.722px; padding: 11.805px; border: 1.181px solid #eceef2; border-radius: 21.25px; background: white; color: black; font-family: var(--font-plex),sans-serif; font-size: 21.892px; font-weight: 600; line-height: 28px; white-space: nowrap; }
 .ecosystem-pill img { flex-shrink: 0; max-width: none; }
