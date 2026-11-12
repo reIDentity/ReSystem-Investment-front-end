@@ -1,5 +1,19 @@
 # reSystem Investment - start here
 
+## 12 November 2026 — reviewed landing changes authorized for GitHub
+
+The owner authorized pushing the reviewed local changes. Publish them on a review branch and open a PR against `dev`; this request does not merge the PR or promote a production deployment. Keep the restored public site in place until a separate applicable release instruction. Do not automatically redeploy `dev` merely because its source is newer than the restored live deployment.
+
+The reviewed changes cap the landing Container at 1680px and ecosystem content at 1584px, retaining 20px phone/24px intermediate/48px large-screen gutters. Header bottom padding is 16px, matching its visible sticky top gap. Hero top padding is 24px desktop/16px below 1280px, giving 40px/32px navbar-to-heading gaps. All three hero artwork cards share equal statistics columns and aligned feature rows within their original 55.931px/145.735px panels. Exact live values and unknown states, feature copy, artwork, rotations, positions and financial behavior remain. Long values fit without truncation and retain a fixed value-line height so their units remain aligned.
+
+All 221 tests, lint, TypeScript and the production build passed for the local review. Actual browser checks cover balanced landing widths from 320px to 2560px; the final card/title-spacing proof at 2560/390/320 confirms no document or panel overflow. Dated evidence remains in ignored workspace `.runtime/landing-balanced-width-20261111/` and `.runtime/landing-hero-alignment-20261111/`; these are local evidence locations, not published build artifacts. The current GitHub PR/check evidence is recorded in the private project task after publication. Keep other repositories, FP services, QA gates and wallets untouched for this layout-only work.
+
+## 11 November 2026 — pre-width version restored live
+
+The owner requested the version from before that day's full-width changes back on the public site, and instructed that further refinement stay local until authorized to push. The production alias was restored directly to existing Vercel deployment `Dq7DwjjSRrAnR1YHo7ow55YyozC6`, source `ddfcade0de8acbbe11366a5d0239d58cf96d527f`, without a rollback commit or Git push. Actual browser verification confirmed the original 1352px landing container and 1331px footer cap. Already-published `dev` source `e3fa51ce69950396706b6063b9ee8f41e9a1c428` is intentionally distinct from that live version.
+
+The owner reviewed subsequent width, edge-spacing, navbar and hero-card refinements through a temporary Cloudflare tunnel to the local public-page preview. Its loopback proxy strips cookies/authorization, permits anonymous public pages/assets/reads only, blocks private/auth/env paths and mutations, and redirects sign-in to the stable live app. Tunnel/process details stay in ignored runtime records; the temporary link depends on the Mac and its processes remaining running. Stop the task-owned tunnel/proxy/preview when the owner ends local review. The 12 November push authorization above supersedes the Git-upload hold only; production promotion remains separate.
+
 ## 29 October 2026 — six projects restored; approved investor smoke complete
 
 The fresh-chain restoration is verified: **six published projects, all six sales open**, three original drafts and one archived negative test retained. All19 approved broadcasts succeeded canonically; the16 app intents are INDEXED. Mobile reID native buy, exact0.001USDT approval, USDT buy and one-fraction transfer passed. At confirmed anchor111897, walletA and walletB each hold1 lifecycle fraction, supply is2 and remaining USDT allowance is0. Gross reserve1.368050071032501910reAED / actual gross1.009299999998739820reAED and0.002USDT gross outflow stay within the approved2reAED+0.01USDT cap. The19-broadcast allowance is exhausted; no further assistant transaction is inferred.

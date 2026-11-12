@@ -8,7 +8,7 @@
   --color-brand: #0091ff;
   --color-panel: #424242;
 }
-.site-header { padding-top: 52px; padding-bottom: 0; top: -36px; background: #f6f6f6e6; }
+.site-header { padding-top: 52px; padding-bottom: 16px; top: -36px; background: #f6f6f6e6; }
 [data-header-progress] { display: none; }
 .header-row { min-height: 56px; }
 .header-brand { height: 46.609px; padding: 0 12.598px; border: .634px solid #f6f6f6; border-radius: 10.919px; }
@@ -28,7 +28,7 @@
 .header-nav a:nth-child(3) { width: 88.309px; text-align: center; }
 .header-invest { display: inline-flex; align-items: center; justify-content: center; height: 36px; padding: 10px 16px; font-family: var(--font-plex),sans-serif; font-size: 16px; font-weight: 600; line-height: 1; letter-spacing: -.64px; }
 .header-invest { width: 134px; color: white; background: #0091ff; border: .5px solid #e6e6e6; border-radius: 8px; }
-.hero-section { padding-top: 65px; }
+.hero-section { padding-top: 24px; }
 .hero-heading { max-width: 914px; font-size: 60px; line-height: 1.2; font-weight: 600; letter-spacing: -.6px; }
 .hero-description { max-width: 914px; margin-top: 16px; font-size: 24px; line-height: 1.2; letter-spacing: .24px; }
 .hero-perks { margin-top: 16px; column-gap: 25px; font-size: 18.372px; line-height: 24px; font-weight: 500; color: #475569; }
@@ -77,7 +77,7 @@
 @media (max-width: 1279px) {
   .header-links { display: none; }
   .site-header { padding-top: 16px; top: 0; }
-  .hero-section { padding-top: 40px; }
+  .hero-section { padding-top: 16px; }
   .stats-panel { padding: 24px; gap: 24px; }
   .product-link { font-size: 14px; }
 }
@@ -259,7 +259,7 @@ footer { margin-top: 37px; padding-bottom: 30px; }
 }
 .money-dashboard { font-family: var(--font-jakarta),sans-serif; }
 .money-dashboard .text-ink { color: #0f172a; }
-.ecosystem-window { position: relative; margin: 18px auto 0; height: 60.208px; overflow: hidden; mask-image: linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent); }
+.ecosystem-window { position: relative; max-width: 1584px; margin: 18px auto 0; height: 60.208px; overflow: hidden; mask-image: linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent); }
 @media (min-width: 1280px) { .ecosystem-window { width: calc(100% - 48px); } }
 @media (min-width: 85rem) { .ecosystem-window { width: calc(100% - 96px); } }
 .ecosystem-strip { display: flex; width: max-content; gap: 11.805px; padding-right: 11.805px; margin-left: -310.64px; }

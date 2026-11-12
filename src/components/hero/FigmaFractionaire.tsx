@@ -1,5 +1,6 @@
 "use client";
 import { useHeroProject } from "./useHeroProject";
+import { HeroCardFeatures, HeroCardStats } from "./HeroCardDetails";
 /* Exact static artwork layers from Figma; laid out inside the scaled hero canvas. */
 /* eslint-disable @next/next/no-img-element */
 export function FigmaFractionaire() {
@@ -60,148 +61,8 @@ export function FigmaFractionaire() {
             </p>
           </div>
         </div>
-        <div className="backdrop-blur-[7.436px] bg-[rgba(0,0,0,0.2)] border-[0.161px] border-solid border-white content-stretch flex flex-col h-[55.931px] items-center justify-center py-[3.859px] relative rounded-[6.431px] shrink-0 w-full" data-node-id="20:8543">
-          <div className="content-stretch flex gap-[8.665px] items-center relative shrink-0 w-[373.396px]" data-node-id="20:8544">
-            <div className="[word-break:break-word] content-stretch flex flex-col gap-[4.727px] items-center justify-center leading-[1.16] relative shrink-0 text-center w-[44.902px]" data-node-id="20:8545">
-              <p className="font-sans font-medium relative shrink-0 text-[9.847px] text-white tracking-[0.6893px] w-[44.558px]" data-node-id="20:8546" style={{ fontVariationSettings: '"wdth" 100' }}>{`Total fractions`}</p>
-              <p className="font-sans font-semibold min-w-full relative shrink-0 text-[#f6ff00] text-[13.786px] tracking-[0.965px] w-[min-content]" data-node-id="20:8547" style={{ fontVariationSettings: '"wdth" 100' }}>{hero.maximum}</p>
-            </div>
-            <div className="h-[43.72px] relative shrink-0 w-0" data-node-id="20:8548">
-              <div className="absolute inset-[0_-0.07px]">
-                <img alt="" className="block max-w-none size-full" src="/images/figma/20-8518-27b28.svg" />
-              </div>
-            </div>
-            <div className="[word-break:break-word] content-stretch flex flex-col gap-[4.727px] items-center relative shrink-0 text-center text-white w-[81.927px]" data-node-id="20:8549">
-              <p className="font-sans font-medium leading-[1.16] relative shrink-0 text-[9.847px] tracking-[0.6893px] w-[89.806px]" data-node-id="20:8550" style={{ fontVariationSettings: '"wdth" 100' }}>Available fractions</p>
-              <p className="font-sans font-semibold leading-[0] min-w-full relative shrink-0 text-[0px] tracking-[0.8795px] w-[min-content]" data-node-id="20:8551" style={{ fontVariationSettings: '"wdth" 100' }}>
-                <span className="leading-[1.16] text-[#f6ff00] text-[13.786px]">{hero.remaining}</span>
-                <span className="leading-[1.16] text-[7.09px]" style={{ fontVariationSettings: '"wdth" 100' }}>fractions</span>
-              </p>
-            </div>
-            <div className="h-[43.72px] relative shrink-0 w-0" data-node-id="20:8552">
-              <div className="absolute inset-[0_-0.07px]">
-                <img alt="" className="block max-w-none size-full" src="/images/figma/20-8518-27b28.svg" />
-              </div>
-            </div>
-            <div className="[word-break:break-word] content-stretch flex flex-col gap-[4.727px] items-center relative shrink-0 text-center text-white w-[94.531px]" data-node-id="20:8553">
-              <p className="font-sans font-medium leading-[1.16] relative shrink-0 text-[9.847px] tracking-[0.6893px] w-[59.509px]" data-node-id="20:8554" style={{ fontVariationSettings: '"wdth" 100' }}>Price per fraction</p>
-              <p className="font-sans font-semibold leading-[0] relative shrink-0 text-[0px] tracking-[0.8795px] whitespace-nowrap" data-node-id="20:8555" style={{ fontVariationSettings: '"wdth" 100' }}>
-                <span className="font-sans font-medium leading-[1.16] text-[7.09px]" style={{ fontVariationSettings: '"wdth" 100' }}>
-                  reAED
-                </span>
-                <span className="leading-[1.16] text-[#f6ff00] text-[13.786px]">{hero.priceNative}</span>
-                <span className="font-sans font-medium leading-[1.16] text-[7.09px]" style={{ fontVariationSettings: '"wdth" 100' }}>per fraction</span>
-              </p>
-            </div>
-            <div className="h-[43.72px] relative shrink-0 w-0" data-node-id="20:8556">
-              <div className="absolute inset-[0_-0.07px]">
-                <img alt="" className="block max-w-none size-full" src="/images/figma/20-8518-27b28.svg" />
-              </div>
-            </div>
-            <div className="[word-break:break-word] content-stretch flex flex-col gap-[4.727px] items-center relative shrink-0 text-center text-white w-[89.41px]" data-node-id="20:8557">
-              <p className="font-sans font-medium leading-[1.16] min-w-full relative shrink-0 text-[9.847px] tracking-[0.6893px] w-[min-content]" data-node-id="20:8558" style={{ fontVariationSettings: '"wdth" 100' }}>Price per fraction</p>
-              <p className="font-sans font-semibold leading-[0] relative shrink-0 text-[0px] tracking-[0.8795px] whitespace-nowrap" data-node-id="20:8559" style={{ fontVariationSettings: '"wdth" 100' }}>
-                <span className="leading-[1.16] text-[7.09px]">USDT</span>
-                <span className="leading-[1.16] text-[#f6ff00] text-[13.786px]">{hero.priceUsdt}</span>
-                <span className="leading-[1.16] text-[7.09px]" style={{ fontVariationSettings: '"wdth" 100' }}>per fraction</span>
-              </p>
-            </div>
-          </div>
-        </div>
-        <div className="bg-[rgba(0,0,0,0.5)] border-[0.394px] border-[rgba(255,255,255,0.22)] border-solid h-[145.735px] overflow-clip relative rounded-[5.908px] shrink-0 w-full" data-node-id="20:8560">
-          <p className="[word-break:break-word] absolute font-sans font-semibold leading-[1.16] left-[11.57px] text-[#9d9d9d] text-[9.847px] top-[7.3px] tracking-[0.6893px] whitespace-nowrap" data-node-id="20:8561" style={{ fontVariationSettings: '"wdth" 100' }}>
-            Why Invest
-          </p>
-          <p className="[word-break:break-word] absolute font-sans font-semibold leading-[1.16] left-[146.52px] text-[#9d9d9d] text-[9.847px] top-[7.3px] tracking-[0.6893px] whitespace-nowrap" data-node-id="20:8562" style={{ fontVariationSettings: '"wdth" 100' }}>
-            Core Features
-          </p>
-          <p className="[word-break:break-word] absolute font-sans font-semibold leading-[1.16] left-[282.31px] text-[#9d9d9d] text-[9.847px] top-[7.3px] tracking-[0.6893px] whitespace-nowrap" data-node-id="20:8563" style={{ fontVariationSettings: '"wdth" 100' }}>
-            How rewards work
-          </p>
-          <div className="absolute h-0 left-[11.57px] top-[22.99px] w-[368.027px]" data-node-id="20:8564">
-            <div className="absolute inset-[-0.05px_0]">
-              <img alt="" className="block max-w-none size-full" src="/images/figma/20-8518-8fa67.svg" />
-            </div>
-          </div>
-          <div className="[word-break:break-word] absolute content-stretch flex flex-col gap-[7.484px] items-start leading-[1.16] left-[11.42px] top-[30.46px] w-[97.682px]" data-node-id="20:8565">
-            <div className="content-stretch flex flex-col gap-[3.939px] items-start relative shrink-0 w-[97.682px]" data-node-id="20:8566">
-              <p className="font-sans font-semibold min-w-full relative shrink-0 text-[8.665px] text-white tracking-[0.6066px] w-[min-content]" data-node-id="20:8567" style={{ fontVariationSettings: '"wdth" 100' }}>
-                Growing RWA Market
-              </p>
-              <p className="font-sans font-normal relative shrink-0 text-[#bababa] text-[7.09px] tracking-[0.4963px] w-[97.682px]" data-node-id="20:8568" style={{ fontVariationSettings: '"wdth" 100' }}>
-                Demand for tokenised assets is growing.
-              </p>
-            </div>
-            <div className="content-stretch flex flex-col gap-[3.939px] items-start relative shrink-0 w-full" data-node-id="20:8569">
-              <p className="font-sans font-semibold relative shrink-0 text-[8.665px] text-white tracking-[0.6066px] w-full" data-node-id="20:8570" style={{ fontVariationSettings: '"wdth" 100' }}>
-                Marketplace Revenue
-              </p>
-              <p className="font-sans font-normal relative shrink-0 text-[#bababa] text-[7.09px] tracking-[0.4963px] w-full" data-node-id="20:8571" style={{ fontVariationSettings: '"wdth" 100' }}>
-                Earn from every asset trade and listing.
-              </p>
-            </div>
-            <div className="content-stretch flex flex-col gap-[3.939px] items-start relative shrink-0 w-full" data-node-id="20:8572">
-              <p className="font-sans font-semibold relative shrink-0 text-[8.665px] text-white tracking-[0.6066px] w-full" data-node-id="20:8573" style={{ fontVariationSettings: '"wdth" 100' }}>
-                Global Expansion
-              </p>
-              <p className="font-sans font-normal relative shrink-0 text-[#bababa] text-[7.09px] tracking-[0.4963px] w-full" data-node-id="20:8574" style={{ fontVariationSettings: '"wdth" 100' }}>
-                Built to scale across global markets.
-              </p>
-            </div>
-          </div>
-          <div className="-translate-x-1/2 [word-break:break-word] absolute content-stretch flex flex-col gap-[7.484px] items-start leading-[1.16] left-[calc(50%+5.71px)] top-[30.46px] w-[106.741px]" data-node-id="20:8575">
-            <div className="content-stretch flex flex-col gap-[3.939px] items-start relative shrink-0 w-[110.286px]" data-node-id="20:8576">
-              <p className="font-sans font-semibold relative shrink-0 text-[8.665px] text-white tracking-[0.6066px] w-full" data-node-id="20:8577" style={{ fontVariationSettings: '"wdth" 100' }}>
-                Fractional Ownership
-              </p>
-              <p className="font-sans font-normal relative shrink-0 text-[#bababa] text-[7.09px] tracking-[0.4963px] w-full" data-node-id="20:8578" style={{ fontVariationSettings: '"wdth" 100' }}>
-                Own valuable assets from small investments.
-              </p>
-            </div>
-            <div className="content-stretch flex flex-col gap-[3.939px] items-start relative shrink-0 w-[106.741px]" data-node-id="20:8579">
-              <p className="font-sans font-semibold relative shrink-0 text-[8.665px] text-white tracking-[0.6066px] w-full" data-node-id="20:8580" style={{ fontVariationSettings: '"wdth" 100' }}>
-                Smart Contracts
-              </p>
-              <p className="font-sans font-normal relative shrink-0 text-[#bababa] text-[7.09px] tracking-[0.4963px] w-full" data-node-id="20:8581" style={{ fontVariationSettings: '"wdth" 100' }}>
-                Secure, automated ownership and settlements.
-              </p>
-            </div>
-            <div className="content-stretch flex flex-col gap-[3.939px] items-start relative shrink-0 w-[106.741px]" data-node-id="20:8582">
-              <p className="font-sans font-semibold relative shrink-0 text-[8.665px] text-white tracking-[0.6066px] w-full" data-node-id="20:8583" style={{ fontVariationSettings: '"wdth" 100' }}>
-                Global Marketplace
-              </p>
-              <p className="font-sans font-normal relative shrink-0 text-[#bababa] text-[7.09px] tracking-[0.4963px] w-full" data-node-id="20:8584" style={{ fontVariationSettings: '"wdth" 100' }}>
-                Secure, automated ownership and settlements.
-              </p>
-            </div>
-          </div>
-          <div className="[word-break:break-word] absolute content-stretch flex flex-col gap-[7.484px] items-start leading-[1.16] left-[282.31px] top-[30.46px] w-[97.288px]" data-node-id="20:8585">
-            <div className="content-stretch flex flex-col gap-[3.939px] items-start relative shrink-0 w-full" data-node-id="20:8586">
-              <p className="font-sans font-semibold relative shrink-0 text-[8.665px] text-white tracking-[0.6066px] w-full" data-node-id="20:8587" style={{ fontVariationSettings: '"wdth" 100' }}>
-                More Assets
-              </p>
-              <p className="font-sans font-normal relative shrink-0 text-[#bababa] text-[7.09px] tracking-[0.4963px] w-full" data-node-id="20:8588" style={{ fontVariationSettings: '"wdth" 100' }}>
-                Every asset attracts more investors.
-              </p>
-            </div>
-            <div className="content-stretch flex flex-col gap-[3.939px] items-start relative shrink-0 w-full" data-node-id="20:8589">
-              <p className="font-sans font-semibold relative shrink-0 text-[8.665px] text-white tracking-[0.6066px] w-full" data-node-id="20:8590" style={{ fontVariationSettings: '"wdth" 100' }}>
-                Higher Trading
-              </p>
-              <p className="font-sans font-normal relative shrink-0 text-[#bababa] text-[7.09px] tracking-[0.4963px] w-full" data-node-id="20:8591" style={{ fontVariationSettings: '"wdth" 100' }}>
-                Every asset attracts more investors.
-              </p>
-            </div>
-            <div className="content-stretch flex flex-col gap-[3.939px] items-start relative shrink-0 w-full" data-node-id="20:8592">
-              <p className="font-sans font-semibold relative shrink-0 text-[8.665px] text-white tracking-[0.6066px] w-full" data-node-id="20:8593" style={{ fontVariationSettings: '"wdth" 100' }}>
-                Network Growth
-              </p>
-              <p className="font-sans font-normal relative shrink-0 text-[#bababa] text-[7.09px] tracking-[0.4963px] w-full" data-node-id="20:8594" style={{ fontVariationSettings: '"wdth" 100' }}>
-                Only funded revenue is allocated to holders.
-              </p>
-            </div>
-          </div>
-        </div>
+        <HeroCardStats values={hero} />
+        <HeroCardFeatures project="fractionaire" />
         <div className="content-stretch flex flex-col gap-[9.847px] items-start relative shrink-0 w-[381.273px]" data-node-id="20:8595">
           <div className="content-stretch flex flex-col gap-[14.573px] items-center relative shrink-0 w-full" data-node-id="20:8596">
             <div className="content-stretch flex flex-col gap-[1.576px] items-center relative shrink-0 w-[177.812px]" data-node-id="20:8597">
@@ -220,8 +81,8 @@ export function FigmaFractionaire() {
                 </div>
                 <p className="[word-break:break-word] font-sans font-semibold leading-[1.16] relative shrink-0 text-[11.816px] text-center text-white tracking-[0.8271px] whitespace-nowrap" data-node-id="20:8605" style={{ fontVariationSettings: '"wdth" 100' }}>{hero.rows[0].ratio}</p>
                 <p className="[word-break:break-word] font-sans font-semibold leading-[0] relative shrink-0 text-[0px] text-right text-white tracking-[0.8271px] whitespace-nowrap" data-node-id="20:8606" style={{ fontVariationSettings: '"wdth" 100' }}>
-                  <span className="leading-[1.16] text-[11.816px]">{hero.rows[0].value}</span>
-                  <span className="font-sans font-medium leading-[1.16] text-[7.878px]" style={{ fontVariationSettings: '"wdth" 100' }}>{hero.rows[0].unit}</span>
+                  <span className="leading-[1.16] text-[11.816px]">{hero.rows[0].value}</span>{" "}
+                  <span className="hero-card-ledger-unit font-sans font-medium leading-[1.16] text-[7.878px]" style={{ fontVariationSettings: '"wdth" 100' }}>{hero.rows[0].unit}</span>
                 </p>
               </div>
               <div className="h-0 relative shrink-0 w-full" data-node-id="20:8607">
@@ -236,8 +97,8 @@ export function FigmaFractionaire() {
                 </div>
                 <p className="[word-break:break-word] font-sans font-semibold leading-[1.16] relative shrink-0 text-[11.816px] text-center text-white tracking-[0.8271px] whitespace-nowrap" data-node-id="20:8612" style={{ fontVariationSettings: '"wdth" 100' }}>{hero.rows[1].ratio}</p>
                 <p className="[word-break:break-word] font-sans font-semibold leading-[0] relative shrink-0 text-[0px] text-right text-white tracking-[0.8271px] whitespace-nowrap" data-node-id="20:8613" style={{ fontVariationSettings: '"wdth" 100' }}>
-                  <span className="leading-[1.16] text-[11.816px]">{hero.rows[1].value}</span>
-                  <span className="font-sans font-medium leading-[1.16] text-[7.878px]" style={{ fontVariationSettings: '"wdth" 100' }}>{hero.rows[1].unit}</span>
+                  <span className="leading-[1.16] text-[11.816px]">{hero.rows[1].value}</span>{" "}
+                  <span className="hero-card-ledger-unit font-sans font-medium leading-[1.16] text-[7.878px]" style={{ fontVariationSettings: '"wdth" 100' }}>{hero.rows[1].unit}</span>
                 </p>
               </div>
               <div className="h-0 relative shrink-0 w-full" data-node-id="20:8614">
@@ -252,8 +113,8 @@ export function FigmaFractionaire() {
                 </div>
                 <p className="[word-break:break-word] font-sans font-semibold leading-[1.16] relative shrink-0 text-[11.816px] text-center text-white tracking-[0.8271px] whitespace-nowrap" data-node-id="20:8619" style={{ fontVariationSettings: '"wdth" 100' }}>{hero.rows[2].ratio}</p>
                 <p className="[word-break:break-word] font-sans font-semibold leading-[0] relative shrink-0 text-[0px] text-right text-white tracking-[0.8271px] whitespace-nowrap" data-node-id="20:8620" style={{ fontVariationSettings: '"wdth" 100' }}>
-                  <span className="leading-[1.16] text-[11.816px]">{hero.rows[2].value}</span>
-                  <span className="font-sans font-medium leading-[1.16] text-[7.878px]" style={{ fontVariationSettings: '"wdth" 100' }}>{hero.rows[2].unit}</span>
+                  <span className="leading-[1.16] text-[11.816px]">{hero.rows[2].value}</span>{" "}
+                  <span className="hero-card-ledger-unit font-sans font-medium leading-[1.16] text-[7.878px]" style={{ fontVariationSettings: '"wdth" 100' }}>{hero.rows[2].unit}</span>
                 </p>
               </div>
               <div className="h-0 relative shrink-0 w-full" data-node-id="20:8621">
@@ -268,8 +129,8 @@ export function FigmaFractionaire() {
                 </div>
                 <p className="[word-break:break-word] font-sans font-semibold leading-[1.16] relative shrink-0 text-[11.816px] text-center text-white tracking-[0.8271px] whitespace-nowrap" data-node-id="20:8626" style={{ fontVariationSettings: '"wdth" 100' }}>{hero.rows[3].ratio}</p>
                 <p className="[word-break:break-word] font-sans font-semibold leading-[0] relative shrink-0 text-[0px] text-right text-white tracking-[0.8271px] whitespace-nowrap" data-node-id="20:8627" style={{ fontVariationSettings: '"wdth" 100' }}>
-                  <span className="leading-[1.16] text-[11.816px]">{hero.rows[3].value}</span>
-                  <span className="font-sans font-medium leading-[1.16] text-[7.878px]" style={{ fontVariationSettings: '"wdth" 100' }}>{hero.rows[3].unit}</span>
+                  <span className="leading-[1.16] text-[11.816px]">{hero.rows[3].value}</span>{" "}
+                  <span className="hero-card-ledger-unit font-sans font-medium leading-[1.16] text-[7.878px]" style={{ fontVariationSettings: '"wdth" 100' }}>{hero.rows[3].unit}</span>
                 </p>
               </div>
               <div className="h-0 relative shrink-0 w-full" data-node-id="20:8628">
@@ -284,8 +145,8 @@ export function FigmaFractionaire() {
                 </div>
                 <p className="[word-break:break-word] font-sans font-semibold leading-[1.16] relative shrink-0 text-[11.816px] text-center text-white tracking-[0.8271px] whitespace-nowrap" data-node-id="20:8633" style={{ fontVariationSettings: '"wdth" 100' }}>{hero.rows[4].ratio}</p>
                 <p className="[word-break:break-word] font-sans font-semibold leading-[0] relative shrink-0 text-[0px] text-right text-white tracking-[0.8271px] whitespace-nowrap" data-node-id="20:8634" style={{ fontVariationSettings: '"wdth" 100' }}>
-                  <span className="leading-[1.16] text-[11.816px]">{hero.rows[4].value}</span>
-                  <span className="font-sans font-medium leading-[1.16] text-[7.878px]" style={{ fontVariationSettings: '"wdth" 100' }}>{hero.rows[4].unit}</span>
+                  <span className="leading-[1.16] text-[11.816px]">{hero.rows[4].value}</span>{" "}
+                  <span className="hero-card-ledger-unit font-sans font-medium leading-[1.16] text-[7.878px]" style={{ fontVariationSettings: '"wdth" 100' }}>{hero.rows[4].unit}</span>
                 </p>
               </div>
               <div className="h-0 relative shrink-0 w-full" data-node-id="20:8635">
@@ -304,8 +165,8 @@ export function FigmaFractionaire() {
                 </div>
                 <p className="[word-break:break-word] font-sans font-semibold leading-[1.16] relative shrink-0 text-[11.816px] text-center text-white tracking-[0.8271px] whitespace-nowrap" data-node-id="20:8640" style={{ fontVariationSettings: '"wdth" 100' }}>{hero.rows[5].ratio}</p>
                 <p className="[word-break:break-word] font-sans font-semibold leading-[0] relative shrink-0 text-[0px] text-right text-white tracking-[0.8271px] whitespace-nowrap" data-node-id="20:8641" style={{ fontVariationSettings: '"wdth" 100' }}>
-                  <span className="leading-[1.16] text-[11.816px]">{hero.rows[5].value}</span>
-                  <span className="font-sans font-medium leading-[1.16] text-[7.878px]" style={{ fontVariationSettings: '"wdth" 100' }}>{hero.rows[5].unit}</span>
+                  <span className="leading-[1.16] text-[11.816px]">{hero.rows[5].value}</span>{" "}
+                  <span className="hero-card-ledger-unit font-sans font-medium leading-[1.16] text-[7.878px]" style={{ fontVariationSettings: '"wdth" 100' }}>{hero.rows[5].unit}</span>
                 </p>
               </div>
             </div>
