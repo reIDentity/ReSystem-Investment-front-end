@@ -1,0 +1,68 @@
+.hero-card-stats {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  flex-shrink: 0;
+  width: 100%;
+  height: 55.931px;
+  padding: 3.859px 3px;
+  border: 0.161px solid white;
+  border-radius: 6.431px;
+  background: #0003;
+  backdrop-filter: blur(7.436px);
+  font-family: var(--font-plex), system-ui, sans-serif;
+  font-variation-settings: "wdth" 100;
+  line-height: 1.16;
+  text-align: center;
+  color: white;
+}
+
+.hero-card-stat { min-width: 0; padding-inline: 3px; }
+.hero-card-stat + .hero-card-stat { border-left: 0.14px solid #ffffff50; }
+.hero-card-stat dt { font-size: 9.847px; font-weight: 500; letter-spacing: 0.6893px; }
+.hero-card-stat dt span { display: block; }
+.hero-card-stat dd { margin: 0; }
+.hero-card-stat strong {
+  display: block;
+  white-space: nowrap;
+  color: #f6ff00;
+  font-size: 13.786px;
+  line-height: 16px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.0435em;
+}
+.hero-card-stat dd > span { display: block; font-size: 7.09px; font-weight: 500; letter-spacing: 0.4963px; }
+
+.hero-card-features {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-rows: 16px repeat(3, minmax(min-content, 1fr));
+  column-gap: 14px;
+  row-gap: 5px;
+  flex-shrink: 0;
+  width: 100%;
+  height: 145.735px;
+  padding: 7.31px 11.42px;
+  overflow: hidden;
+  border: 0.394px solid #ffffff38;
+  border-radius: 5.908px;
+  background: #00000080;
+  font-family: var(--font-plex), system-ui, sans-serif;
+  font-variation-settings: "wdth" 100;
+  line-height: 1.16;
+}
+.hero-card-feature-column {
+  display: grid;
+  grid-row: span 4;
+  grid-template-rows: subgrid;
+  min-width: 0;
+  min-height: 0;
+}
+.hero-card-feature-heading { color: #9d9d9d; font-size: 9.847px; font-weight: 600; letter-spacing: 0.6893px; white-space: nowrap; }
+.hero-card-feature { min-width: 0; }
+.hero-card-feature-title { color: white; font-size: 8.665px; font-weight: 600; letter-spacing: 0.6066px; }
+.hero-card-feature-description { margin-top: 2px; color: #bababa; font-size: 7.09px; font-weight: 400; letter-spacing: 0.4963px; }
+
+.hero-card-ledger-unit { margin-left: 3px; }

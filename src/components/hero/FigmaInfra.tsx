@@ -1,5 +1,6 @@
 "use client";
 import { useHeroProject } from "./useHeroProject";
+import { HeroCardFeatures, HeroCardStats } from "./HeroCardDetails";
 /* Exact static artwork layers from Figma; laid out inside the scaled hero canvas. */
 /* eslint-disable @next/next/no-img-element */
 export function FigmaInfra() {
@@ -28,8 +29,8 @@ export function FigmaInfra() {
           </div>
           <p className="[word-break:break-word] font-sans font-semibold leading-[1.16] relative shrink-0 text-[11.816px] text-center text-white tracking-[0.8271px] whitespace-nowrap" data-node-id="20:8770" style={{ fontVariationSettings: '"wdth" 100' }}>{hero.rows[0].ratio}</p>
           <p className="[word-break:break-word] font-sans font-semibold leading-[0] relative shrink-0 text-[0px] text-right text-white tracking-[0.8271px] whitespace-nowrap" data-node-id="20:8771" style={{ fontVariationSettings: '"wdth" 100' }}>
-            <span className="leading-[1.16] text-[11.816px]">{hero.rows[0].value}</span>
-            <span className="font-sans font-medium leading-[1.16] text-[7.878px]" style={{ fontVariationSettings: '"wdth" 100' }}>{hero.rows[0].unit}</span>
+            <span className="leading-[1.16] text-[11.816px]">{hero.rows[0].value}</span>{" "}
+            <span className="hero-card-ledger-unit font-sans font-medium leading-[1.16] text-[7.878px]" style={{ fontVariationSettings: '"wdth" 100' }}>{hero.rows[0].unit}</span>
           </p>
         </div>
         <div className="h-0 relative shrink-0 w-full" data-node-id="20:8772">
@@ -44,8 +45,8 @@ export function FigmaInfra() {
           </div>
           <p className="[word-break:break-word] font-sans font-semibold leading-[1.16] relative shrink-0 text-[11.816px] text-center text-white tracking-[0.8271px] whitespace-nowrap" data-node-id="20:8777" style={{ fontVariationSettings: '"wdth" 100' }}>{hero.rows[1].ratio}</p>
           <p className="[word-break:break-word] font-sans font-semibold leading-[0] relative shrink-0 text-[0px] text-right text-white tracking-[0.8271px] whitespace-nowrap" data-node-id="20:8778" style={{ fontVariationSettings: '"wdth" 100' }}>
-            <span className="leading-[1.16] text-[11.816px]">{hero.rows[1].value}</span>
-            <span className="font-sans font-medium leading-[1.16] text-[7.878px]" style={{ fontVariationSettings: '"wdth" 100' }}>{hero.rows[1].unit}</span>
+            <span className="leading-[1.16] text-[11.816px]">{hero.rows[1].value}</span>{" "}
+            <span className="hero-card-ledger-unit font-sans font-medium leading-[1.16] text-[7.878px]" style={{ fontVariationSettings: '"wdth" 100' }}>{hero.rows[1].unit}</span>
           </p>
         </div>
         <div className="h-0 relative shrink-0 w-full" data-node-id="20:8779">
@@ -60,8 +61,8 @@ export function FigmaInfra() {
           </div>
           <p className="[word-break:break-word] font-sans font-semibold leading-[1.16] relative shrink-0 text-[11.816px] text-center text-white tracking-[0.8271px] whitespace-nowrap" data-node-id="20:8784" style={{ fontVariationSettings: '"wdth" 100' }}>{hero.rows[2].ratio}</p>
           <p className="[word-break:break-word] font-sans font-semibold leading-[0] relative shrink-0 text-[0px] text-right text-white tracking-[0.8271px] whitespace-nowrap" data-node-id="20:8785" style={{ fontVariationSettings: '"wdth" 100' }}>
-            <span className="leading-[1.16] text-[11.816px]">{hero.rows[2].value}</span>
-            <span className="font-sans font-medium leading-[1.16] text-[7.878px]" style={{ fontVariationSettings: '"wdth" 100' }}>{hero.rows[2].unit}</span>
+            <span className="leading-[1.16] text-[11.816px]">{hero.rows[2].value}</span>{" "}
+            <span className="hero-card-ledger-unit font-sans font-medium leading-[1.16] text-[7.878px]" style={{ fontVariationSettings: '"wdth" 100' }}>{hero.rows[2].unit}</span>
           </p>
         </div>
         <div className="h-0 relative shrink-0 w-full" data-node-id="20:8786">
@@ -76,8 +77,8 @@ export function FigmaInfra() {
           </div>
           <p className="[word-break:break-word] font-sans font-semibold leading-[1.16] relative shrink-0 text-[11.816px] text-center text-white tracking-[0.8271px] whitespace-nowrap" data-node-id="20:8791" style={{ fontVariationSettings: '"wdth" 100' }}>{hero.rows[3].ratio}</p>
           <p className="[word-break:break-word] font-sans font-semibold leading-[0] relative shrink-0 text-[0px] text-right text-white tracking-[0.8271px] whitespace-nowrap" data-node-id="20:8792" style={{ fontVariationSettings: '"wdth" 100' }}>
-            <span className="leading-[1.16] text-[11.816px]">{hero.rows[3].value}</span>
-            <span className="font-sans font-medium leading-[1.16] text-[7.878px]" style={{ fontVariationSettings: '"wdth" 100' }}>{hero.rows[3].unit}</span>
+            <span className="leading-[1.16] text-[11.816px]">{hero.rows[3].value}</span>{" "}
+            <span className="hero-card-ledger-unit font-sans font-medium leading-[1.16] text-[7.878px]" style={{ fontVariationSettings: '"wdth" 100' }}>{hero.rows[3].unit}</span>
           </p>
         </div>
         <div className="h-0 relative shrink-0 w-full" data-node-id="20:8793">
@@ -92,8 +93,8 @@ export function FigmaInfra() {
           </div>
           <p className="[word-break:break-word] font-sans font-semibold leading-[1.16] relative shrink-0 text-[11.816px] text-center text-white tracking-[0.8271px] whitespace-nowrap" data-node-id="20:8798" style={{ fontVariationSettings: '"wdth" 100' }}>{hero.rows[4].ratio}</p>
           <p className="[word-break:break-word] font-sans font-semibold leading-[0] relative shrink-0 text-[0px] text-right text-white tracking-[0.8271px] whitespace-nowrap" data-node-id="20:8799" style={{ fontVariationSettings: '"wdth" 100' }}>
-            <span className="leading-[1.16] text-[11.816px]">{hero.rows[4].value}</span>
-            <span className="font-sans font-medium leading-[1.16] text-[7.878px]" style={{ fontVariationSettings: '"wdth" 100' }}>{hero.rows[4].unit}</span>
+            <span className="leading-[1.16] text-[11.816px]">{hero.rows[4].value}</span>{" "}
+            <span className="hero-card-ledger-unit font-sans font-medium leading-[1.16] text-[7.878px]" style={{ fontVariationSettings: '"wdth" 100' }}>{hero.rows[4].unit}</span>
           </p>
         </div>
         <div className="h-0 relative shrink-0 w-full" data-node-id="20:8800">
@@ -112,8 +113,8 @@ export function FigmaInfra() {
           </div>
           <p className="[word-break:break-word] font-sans font-semibold leading-[1.16] relative shrink-0 text-[11.816px] text-center text-white tracking-[0.8271px] whitespace-nowrap" data-node-id="20:8805" style={{ fontVariationSettings: '"wdth" 100' }}>{hero.rows[5].ratio}</p>
           <p className="[word-break:break-word] font-sans font-semibold leading-[0] relative shrink-0 text-[0px] text-right text-white tracking-[0.8271px] whitespace-nowrap" data-node-id="20:8806" style={{ fontVariationSettings: '"wdth" 100' }}>
-            <span className="leading-[1.16] text-[11.816px]">{hero.rows[5].value}</span>
-            <span className="font-sans font-medium leading-[1.16] text-[7.878px]" style={{ fontVariationSettings: '"wdth" 100' }}>{hero.rows[5].unit}</span>
+            <span className="leading-[1.16] text-[11.816px]">{hero.rows[5].value}</span>{" "}
+            <span className="hero-card-ledger-unit font-sans font-medium leading-[1.16] text-[7.878px]" style={{ fontVariationSettings: '"wdth" 100' }}>{hero.rows[5].unit}</span>
           </p>
         </div>
       </div>
@@ -282,148 +283,8 @@ export function FigmaInfra() {
             </div>
           </div>
         </div>
-        <div className="backdrop-blur-[7.436px] bg-[rgba(0,0,0,0.2)] border-[0.161px] border-solid border-white content-stretch flex flex-col h-[55.931px] items-center justify-center py-[3.859px] relative rounded-[6.431px] shrink-0 w-full" data-node-id="20:8930">
-          <div className="content-stretch flex gap-[8.665px] items-center relative shrink-0 w-[373.396px]" data-node-id="20:8931">
-            <div className="[word-break:break-word] content-stretch flex flex-col gap-[4.727px] items-center justify-center leading-[1.16] relative shrink-0 text-center w-[44.902px]" data-node-id="20:8932">
-              <p className="font-sans font-medium relative shrink-0 text-[9.847px] text-white tracking-[0.6893px] w-[44.558px]" data-node-id="20:8933" style={{ fontVariationSettings: '"wdth" 100' }}>{`Total fractions`}</p>
-              <p className="font-sans font-semibold min-w-full relative shrink-0 text-[#f6ff00] text-[13.786px] tracking-[0.965px] w-[min-content]" data-node-id="20:8934" style={{ fontVariationSettings: '"wdth" 100' }}>{hero.maximum}</p>
-            </div>
-            <div className="h-[43.72px] relative shrink-0 w-0" data-node-id="20:8935">
-              <div className="absolute inset-[0_-0.07px]">
-                <img alt="" className="block max-w-none size-full" src="/images/figma/20-8761-c41ed.svg" />
-              </div>
-            </div>
-            <div className="[word-break:break-word] content-stretch flex flex-col gap-[4.727px] items-center relative shrink-0 text-center text-white w-[81.927px]" data-node-id="20:8936">
-              <p className="font-sans font-medium leading-[1.16] relative shrink-0 text-[9.847px] tracking-[0.6893px] w-[89.806px]" data-node-id="20:8937" style={{ fontVariationSettings: '"wdth" 100' }}>Available fractions</p>
-              <p className="font-sans font-semibold leading-[0] min-w-full relative shrink-0 text-[0px] tracking-[0.8795px] w-[min-content]" data-node-id="20:8938" style={{ fontVariationSettings: '"wdth" 100' }}>
-                <span className="leading-[1.16] text-[#f6ff00] text-[13.786px]">{hero.remaining}</span>
-                <span className="leading-[1.16] text-[7.09px]" style={{ fontVariationSettings: '"wdth" 100' }}>fractions</span>
-              </p>
-            </div>
-            <div className="h-[43.72px] relative shrink-0 w-0" data-node-id="20:8939">
-              <div className="absolute inset-[0_-0.07px]">
-                <img alt="" className="block max-w-none size-full" src="/images/figma/20-8761-c41ed.svg" />
-              </div>
-            </div>
-            <div className="[word-break:break-word] content-stretch flex flex-col gap-[4.727px] items-center relative shrink-0 text-center text-white w-[94.531px]" data-node-id="20:8940">
-              <p className="font-sans font-medium leading-[1.16] relative shrink-0 text-[9.847px] tracking-[0.6893px] w-[59.509px]" data-node-id="20:8941" style={{ fontVariationSettings: '"wdth" 100' }}>Price per fraction</p>
-              <p className="font-sans font-semibold leading-[0] relative shrink-0 text-[0px] tracking-[0.8795px] whitespace-nowrap" data-node-id="20:8942" style={{ fontVariationSettings: '"wdth" 100' }}>
-                <span className="font-sans font-medium leading-[1.16] text-[7.09px]" style={{ fontVariationSettings: '"wdth" 100' }}>
-                  reAED
-                </span>
-                <span className="leading-[1.16] text-[#f6ff00] text-[13.786px]">{hero.priceNative}</span>
-                <span className="font-sans font-medium leading-[1.16] text-[7.09px]" style={{ fontVariationSettings: '"wdth" 100' }}>per fraction</span>
-              </p>
-            </div>
-            <div className="h-[43.72px] relative shrink-0 w-0" data-node-id="20:8943">
-              <div className="absolute inset-[0_-0.07px]">
-                <img alt="" className="block max-w-none size-full" src="/images/figma/20-8761-c41ed.svg" />
-              </div>
-            </div>
-            <div className="[word-break:break-word] content-stretch flex flex-col gap-[4.727px] items-center relative shrink-0 text-center text-white w-[89.41px]" data-node-id="20:8944">
-              <p className="font-sans font-medium leading-[1.16] min-w-full relative shrink-0 text-[9.847px] tracking-[0.6893px] w-[min-content]" data-node-id="20:8945" style={{ fontVariationSettings: '"wdth" 100' }}>Price per fraction</p>
-              <p className="font-sans font-semibold leading-[0] relative shrink-0 text-[0px] tracking-[0.8795px] whitespace-nowrap" data-node-id="20:8946" style={{ fontVariationSettings: '"wdth" 100' }}>
-                <span className="leading-[1.16] text-[7.09px]">USDT</span>
-                <span className="leading-[1.16] text-[#f6ff00] text-[13.786px]">{hero.priceUsdt}</span>
-                <span className="leading-[1.16] text-[7.09px]" style={{ fontVariationSettings: '"wdth" 100' }}>per fraction</span>
-              </p>
-            </div>
-          </div>
-        </div>
-        <div className="bg-[rgba(0,0,0,0.5)] border-[0.394px] border-[rgba(255,255,255,0.22)] border-solid h-[145.735px] overflow-clip relative rounded-[5.908px] shrink-0 w-full" data-node-id="20:8947">
-          <p className="[word-break:break-word] absolute font-sans font-semibold leading-[1.16] left-[11.57px] text-[#9d9d9d] text-[9.847px] top-[7.3px] tracking-[0.6893px] whitespace-nowrap" data-node-id="20:8948" style={{ fontVariationSettings: '"wdth" 100' }}>
-            Why Invest
-          </p>
-          <div className="[word-break:break-word] absolute content-stretch flex flex-col gap-[7.484px] items-start leading-[1.16] left-[11.42px] top-[29.54px] w-[122.496px]" data-node-id="20:8949">
-            <div className="content-stretch flex flex-col gap-[3.939px] items-start relative shrink-0 w-[105.165px]" data-node-id="20:8950">
-              <p className="font-sans font-semibold relative shrink-0 text-[8.665px] text-white tracking-[0.6066px] w-full" data-node-id="20:8951" style={{ fontVariationSettings: '"wdth" 100' }}>
-                Real Demand
-              </p>
-              <p className="font-sans font-normal relative shrink-0 text-[#bababa] text-[7.09px] tracking-[0.4963px] w-full" data-node-id="20:8952" style={{ fontVariationSettings: '"wdth" 100' }}>
-                Revenue is allocated only from funded deposits.
-              </p>
-            </div>
-            <div className="content-stretch flex flex-col gap-[3.939px] items-start relative shrink-0 w-[119.345px]" data-node-id="20:8953">
-              <p className="font-sans font-semibold relative shrink-0 text-[8.665px] text-white tracking-[0.6066px] w-full" data-node-id="20:8954" style={{ fontVariationSettings: '"wdth" 100' }}>
-                Enterprise Coins
-              </p>
-              <p className="font-sans font-normal relative shrink-0 text-[#bababa] text-[7.09px] tracking-[0.4963px] w-full" data-node-id="20:8955" style={{ fontVariationSettings: '"wdth" 100' }}>
-                Companies launch stablecoins. INFRA captures fees.
-              </p>
-            </div>
-            <div className="content-stretch flex flex-col gap-[3.939px] items-start relative shrink-0 w-[105.165px]" data-node-id="20:8956">
-              <p className="font-sans font-semibold relative shrink-0 text-[8.665px] text-white tracking-[0.6066px] w-full" data-node-id="20:8957" style={{ fontVariationSettings: '"wdth" 100' }}>
-                Regulatory
-              </p>
-              <p className="font-sans font-normal relative shrink-0 text-[#bababa] text-[7.09px] tracking-[0.4963px] w-full" data-node-id="20:8958" style={{ fontVariationSettings: '"wdth" 100' }}>
-                INFRA UAT blockchain network, chain ID 15324.
-              </p>
-            </div>
-          </div>
-          <div className="-translate-x-1/2 [word-break:break-word] absolute content-stretch flex flex-col gap-[7.484px] items-start leading-[1.16] left-[calc(50%+3.94px)] top-[29.54px] w-[86.653px]" data-node-id="20:8959">
-            <div className="content-stretch flex flex-col gap-[3.939px] items-start relative shrink-0 w-full" data-node-id="20:8960">
-              <p className="font-sans font-semibold relative shrink-0 text-[8.665px] text-white tracking-[0.6066px] w-full" data-node-id="20:8961" style={{ fontVariationSettings: '"wdth" 100' }}>
-                Stable
-              </p>
-              <p className="font-sans font-normal relative shrink-0 text-[#bababa] text-[7.09px] tracking-[0.4963px] w-full" data-node-id="20:8962" style={{ fontVariationSettings: '"wdth" 100' }}>
-                Pay with native reAED or USDT on INFRA.
-              </p>
-            </div>
-            <div className="content-stretch flex flex-col gap-[3.939px] items-start relative shrink-0 w-full" data-node-id="20:8963">
-              <p className="font-sans font-semibold relative shrink-0 text-[8.665px] text-white tracking-[0.6066px] w-full" data-node-id="20:8964" style={{ fontVariationSettings: '"wdth" 100' }}>
-                Predictable
-              </p>
-              <p className="font-sans font-normal relative shrink-0 text-[#bababa] text-[7.09px] tracking-[0.4963px] w-full" data-node-id="20:8965" style={{ fontVariationSettings: '"wdth" 100' }}>
-                Review the current network fee before approval.
-              </p>
-            </div>
-            <div className="content-stretch flex flex-col gap-[3.939px] items-start relative shrink-0 w-full" data-node-id="20:8966">
-              <p className="font-sans font-semibold relative shrink-0 text-[8.665px] text-white tracking-[0.6066px] w-full" data-node-id="20:8967" style={{ fontVariationSettings: '"wdth" 100' }}>
-                Composable
-              </p>
-              <p className="font-sans font-normal relative shrink-0 text-[#bababa] text-[7.09px] tracking-[0.4963px] w-full" data-node-id="20:8968" style={{ fontVariationSettings: '"wdth" 100' }}>
-                Custom stablecoins. Enterprise control.
-              </p>
-            </div>
-          </div>
-          <div className="[word-break:break-word] absolute content-stretch flex flex-col gap-[7.484px] items-start leading-[1.16] left-[282.02px] top-[29.54px] w-[97.682px]" data-node-id="20:8969">
-            <div className="content-stretch flex flex-col gap-[3.939px] items-start relative shrink-0 w-full" data-node-id="20:8970">
-              <p className="font-sans font-semibold relative shrink-0 text-[8.665px] text-white tracking-[0.6066px] w-full" data-node-id="20:8971" style={{ fontVariationSettings: '"wdth" 100' }}>
-                Volume
-              </p>
-              <p className="font-sans font-normal relative shrink-0 text-[#bababa] text-[7.09px] tracking-[0.4963px] w-full" data-node-id="20:8972" style={{ fontVariationSettings: '"wdth" 100' }}>
-                Future revenue depends on actual project funding.
-              </p>
-            </div>
-            <div className="content-stretch flex flex-col gap-[3.939px] items-start relative shrink-0 w-full" data-node-id="20:8973">
-              <p className="font-sans font-semibold relative shrink-0 text-[8.665px] text-white tracking-[0.6066px] w-full" data-node-id="20:8974" style={{ fontVariationSettings: '"wdth" 100' }}>
-                Network
-              </p>
-              <p className="font-sans font-normal relative shrink-0 text-[#bababa] text-[7.09px] tracking-[0.4963px] w-full" data-node-id="20:8975" style={{ fontVariationSettings: '"wdth" 100' }}>
-                Rewards require actual funded deposits.
-              </p>
-            </div>
-            <div className="content-stretch flex flex-col gap-[3.939px] items-start relative shrink-0 w-full" data-node-id="20:8976">
-              <p className="font-sans font-semibold relative shrink-0 text-[8.665px] text-white tracking-[0.6066px] w-full" data-node-id="20:8977" style={{ fontVariationSettings: '"wdth" 100' }}>
-                Liquidity
-              </p>
-              <p className="font-sans font-normal relative shrink-0 text-[#bababa] text-[7.09px] tracking-[0.4963px] w-full" data-node-id="20:8978" style={{ fontVariationSettings: '"wdth" 100' }}>
-                Resale needs a willing buyer.
-              </p>
-            </div>
-          </div>
-          <p className="[word-break:break-word] absolute font-sans font-semibold leading-[1.16] left-[154.79px] text-[#9d9d9d] text-[9.847px] top-[7.31px] tracking-[0.6893px] whitespace-nowrap" data-node-id="20:8979" style={{ fontVariationSettings: '"wdth" 100' }}>
-            Core Features
-          </p>
-          <p className="[word-break:break-word] absolute font-sans font-semibold leading-[1.16] left-[282.02px] text-[#9d9d9d] text-[9.847px] top-[7.3px] tracking-[0.6893px] whitespace-nowrap" data-node-id="20:8980" style={{ fontVariationSettings: '"wdth" 100' }}>
-            How rewards work
-          </p>
-          <div className="absolute h-0 left-[11.57px] top-[23px] w-[368.027px]" data-node-id="20:8981">
-            <div className="absolute inset-[-0.05px_0]">
-              <img alt="" className="block max-w-none size-full" src="/images/figma/20-8761-759a1.svg" />
-            </div>
-          </div>
-        </div>
+        <HeroCardStats values={hero} />
+        <HeroCardFeatures project="infra" />
       </div>
       <div className="-translate-x-1/2 absolute content-stretch flex items-center justify-between left-1/2 top-[692.88px] w-[381.273px]" data-node-id="20:8982">
         <p className="[word-break:break-word] font-sans font-semibold leading-[1.16] mr-[-48.841px] relative shrink-0 text-[9.847px] text-white tracking-[0.6893px] whitespace-nowrap" data-node-id="20:8983" style={{ fontVariationSettings: '"wdth" 100' }}>
