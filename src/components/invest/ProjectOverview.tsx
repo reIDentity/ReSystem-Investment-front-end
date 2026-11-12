@@ -7,6 +7,8 @@ import { formatUsdEquivalent, type AssetTotals } from "@/lib/platform/valuation"
 import { projectArtworkUrl } from "@/lib/platform/media";
 import { projectContributionPath } from "@/lib/platform/public-project";
 import { Asset, CopyButton, DataState, Panel, Tag } from "./InvestorUI";
+import { ProjectAllocation } from "./ProjectAllocation";
+export { SupplyTiles } from "./SupplyTiles";
 
 export type ProjectOverviewResource<T> = {
   data?: T;
@@ -28,6 +30,7 @@ export type ProjectOverviewProps = {
   claimTotals?: AssetTotals | null;
   ownsShares?: boolean;
   publicView?: boolean;
+  allocationLoading?: boolean;
 };
 
 const validAtomic = (value: string | null | undefined): value is string => typeof value === "string" && /^[0-9]+$/.test(value);
@@ -39,24 +42,8 @@ function revenueAmounts(revenue: RewardView | undefined, field: "fundedAtomic" |
   return validAtomic(native?.[field]) && validAtomic(usdt?.[field]) ? { REAED: BigInt(native![field]), USDT: BigInt(usdt![field]) } : null;
 }
 
-/** A proportional overview, never a map of individually reserved token IDs. */
-export function SupplyTiles({ issued, maximum, selected = "0", reserved = "0", onSale, cells = 50, className = "" }: { issued?: string; maximum?: string; selected?: string; reserved?: string; onSale?: string; cells?: 50 | 100; className?: string }) {
-  const known = validAtomic(issued) && validAtomic(maximum) && BigInt(maximum) > 0n && BigInt(issued) <= BigInt(maximum);
-  const total = known ? BigInt(maximum) : 1n, minted = known ? BigInt(issued) : 0n;
-  const locked = known && validAtomic(reserved) ? BigInt(reserved) : 0n;
-  const available = onSale === undefined ? total - minted - locked : validAtomic(onSale) ? BigInt(onSale) : 0n;
-  const consistent = known && available >= 0n && minted + available + locked <= total;
-  const chosen = consistent && validAtomic(selected) && BigInt(selected) <= available ? BigInt(selected) : 0n;
-  const fill = (value: bigint) => { const clamped = value < 0n ? 0n : value > total ? total : value; const bps = clamped * 10000n / total; return `${bps / 100n}.${(bps % 100n).toString().padStart(2, "0")}%`; };
-  return <div className={`iv-pd-supply-tiles ${className}`} aria-hidden="true">{Array.from({ length: cells }, (_, index) => {
-    const start = BigInt(index) * total, issuedFill = fill(minted * BigInt(cells) - start), selectedFill = fill((minted + chosen) * BigInt(cells) - start);
-    const availableFill = fill((minted + available) * BigInt(cells) - start), reserveStart = fill((total - locked) * BigInt(cells) - start);
-    return <i key={index} style={consistent ? { background: `linear-gradient(to right,#d7dde7 0% ${issuedFill},#0091ff ${issuedFill} ${selectedFill},#fff ${selectedFill} ${availableFill},#e7edf5 ${availableFill} ${reserveStart},#8998ad ${reserveStart} 100%)` } : undefined} />;
-  })}</div>;
-}
-
 /** Shared published-project presentation. Personal data is supplied only by the authenticated page. */
-export function ProjectOverview({ project, state, revenue, saleLimit, supplyTotal, nativePrice, usdtPrice, issuedPercent, view, yourShares: personalShares = "—", claimTotals = null, ownsShares = false, publicView = false }: ProjectOverviewProps) {
+export function ProjectOverview({ project, state, revenue, saleLimit, supplyTotal, nativePrice, usdtPrice, issuedPercent, view, yourShares: personalShares = "—", claimTotals = null, ownsShares = false, publicView = false, allocationLoading = false }: ProjectOverviewProps) {
   const p = project.error ? undefined : project.data;
   const supply = state.error ? undefined : state.data;
   const funding = revenue.error ? undefined : revenue.data;
@@ -81,7 +68,7 @@ export function ProjectOverview({ project, state, revenue, saleLimit, supplyTota
 
       <div className="iv-bento-halves"><Panel className="iv-why-invest"><p className="iv-eyebrow">WHY INVEST</p>{[["Real revenue", "Earnings depend on revenue the project actually funds."], ["Your ownership", "Whole shares are held in your INFRA wallet."], ["Your decision", "Review project information and every wallet approval."]].map(([title, text]) => <div key={title}><h3>{title}</h3><p>{text}</p></div>)}</Panel><Panel className="iv-core-features"><p className="iv-eyebrow">CORE FEATURES</p>{[["Fractional ownership", "Choose a whole number of project shares."], ["Wallet approvals", "Review purchases and transfers before signing."], ["On-chain earnings", "Claim funded rewards in reAED or USDT."]].map(([title, text]) => <div key={title}><h3>{title}</h3><p>{text}</p></div>)}</Panel></div>
 
-      <div className="iv-bento-thirds"><Panel className="iv-price-growth"><p className="iv-eyebrow">SHARE PRICING</p><div className="iv-pd-price-reference"><strong>{amount(usdtPrice, 6)}</strong><span>USDT per share</span></div>{[["Clear pricing", "See the exact quote before you buy."], ["Whole shares", "Choose a quantity that fits your investment."], ["Future returns", "Project value and indicative yield do not guarantee a return."]].map(([title, text]) => <div key={title}><h3>{title}</h3><p>{text}</p></div>)}</Panel><Panel className="iv-allocation"><div className="iv-mono-heading"><span>INVESTMENT OPPORTUNITY</span><small>Supply overview · 1% per tile</small></div><div className="iv-allocation-content"><SupplyTiles issued={saleLimit === null ? undefined : supply?.totalSupply} maximum={supplyTotal} reserved={view?.reservedBlocks} onSale={saleLimit?.toString()} cells={100} className="iv-pd-allocation-tiles" /><dl>{[["Maximum shares", amount(p?.maxFractions, 0)], ["Issued shares", amount(supply?.totalSupply, 0)], ["Available shares", amount(saleLimit?.toString(), 0)], ["Issued", issuedPercent]].map(([label, value]) => <div key={label}><dt>{label}</dt><dd>{value}</dd></div>)}</dl></div><DataState publicView={publicView} error={state.error} onRetry={() => void state.mutate()} /></Panel></div>
+      <div className="iv-bento-thirds"><Panel className="iv-price-growth"><p className="iv-eyebrow">SHARE PRICING</p><div className="iv-pd-price-reference"><strong>{amount(usdtPrice, 6)}</strong><span>USDT per share</span></div>{[["Clear pricing", "See the exact quote before you buy."], ["Whole shares", "Choose a quantity that fits your investment."], ["Future returns", "Project value and indicative yield do not guarantee a return."]].map(([title, text]) => <div key={title}><h3>{title}</h3><p>{text}</p></div>)}</Panel><Panel className="iv-allocation"><div className="iv-mono-heading"><span>INVESTMENT OPPORTUNITY</span><small>Supply overview · 1% per tile</small></div><ProjectAllocation total={supplyTotal} issued={supply?.totalSupply} remaining={supply?.remainingSupply} phased={!!p?.businessOpportunity} view={view} saleLimit={saleLimit} loading={state.isLoading || allocationLoading} /><DataState publicView={publicView} error={state.error} onRetry={() => void state.mutate()} /></Panel></div>
 
       <div className="iv-bento-thirds iv-bento-reverse"><Panel className="iv-revenue-so-far"><div className="iv-mono-heading"><span>REVENUE SO FAR</span>{funding ? <b><i />Confirmed on INFRA</b> : null}</div><div className="iv-revenue-summary">{[["Last month", "—"], ["Indicative yield", indicativeYield], ["Issued", issuedPercent], ["Investors", "—"]].map(([label, value]) => <div key={label}><small>{label}</small><strong>{value}</strong></div>)}</div><div className="iv-pd-revenue-empty">No revenue trend is available yet.</div><p className="iv-pd-small">Indicative yield is entered by the project owner. Actual earnings depend on funded revenue.</p></Panel><Panel className="iv-how-earn"><p className="iv-eyebrow">HOW YOU EARN</p><p>Project revenue is allocated to shareholders. Your funded earnings remain yours after a transfer or sale.</p><div><small>Your available earnings</small><strong>{publicView ? "Sign in to view" : formatUsdEquivalent(claimTotals)}</strong><small>Claim in the original asset</small></div><Link className="iv-text-link" href={publicView ? signInHref : "/invest/earnings"} prefetch={publicView ? false : null}>{publicView ? "Sign in to view your earnings →" : "View your earnings →"}</Link><small>No monthly payout or resale buyer is guaranteed.</small></Panel></div>
 

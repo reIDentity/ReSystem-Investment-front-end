@@ -1,7 +1,7 @@
 "use client";
 import { useLanding } from "../LandingData";
 import { featuredProject, products } from "@/data/products";
-import { displayMoney } from "@/lib/platform/landing-data";
+import { displayMoney, landingPriceUsdtAtomic } from "@/lib/platform/landing-data";
 import { percentage, units } from "@/lib/platform/money";
 import { catalogueProjectPath } from "@/lib/platform/public-project";
 
@@ -13,21 +13,23 @@ export function useHeroProject(slug: string) {
   const count = (value: string | undefined) => value ? BigInt(value).toLocaleString("en-US") : "—";
   const max = project?.maxFractions;
   const issued = chain?.totalSupply, remaining = project?.businessOpportunity ? project.phaseRemaining ?? undefined : chain?.remainingSupply;
-  const price = (value: string | undefined, decimals: number) => value && chain && (!project?.businessOpportunity || project.phasePriceAtomic) ? units(value, decimals) : "—";
+  const priceUsdt = landingPriceUsdtAtomic(project);
+  const priceNative = project?.businessOpportunity ? priceUsdt ? (BigInt(priceUsdt) * 3600000000000n).toString() : null : project?.unitPriceReaedAtomic;
+  const price = (value: string | null | undefined, decimals: number) => value && chain ? units(value, decimals) : "—";
   const cells = 100;
   return {
     href: project ? catalogueProjectPath(project, projects?.map(row => row.project) ?? []) : "/#where",
     status: project ? row!.stats.sale === "Open" ? "Sale open" : row!.stats.sale === "Closed" ? "Sale closed" : "Unavailable" : "Not listed",
     maximum: count(max), issued: count(issued), remaining: count(remaining),
     sold: issued && max ? percentage(issued, max) : "—",
-    priceNative: price(project?.unitPriceReaedAtomic, 18), priceUsdt: price(project?.unitPriceUsdtAtomic, 6),
+    priceNative: price(priceNative, 18), priceUsdt: price(priceUsdt, 6),
     // Cells are equal shares of maximum supply, not imaginary investor allocations.
     cell: (index: number) => ({ backgroundColor: issued && max && BigInt(index + 1) * BigInt(max) <= BigInt(issued) * BigInt(cells) ? "#0091ff" : "#475569" }),
     rows: [
       { label: "Issued fractions", ratio: issued && max ? percentage(issued, max) : "—", value: count(issued), unit: "fractions" },
       { label: "Available fractions", ratio: remaining && max ? percentage(remaining, max) : "—", value: count(remaining), unit: "fractions" },
       { label: "Total project value", ratio: "", value: project ? units(project.totalValueUsdtAtomic, 6) : "—", unit: "USDT" },
-      { label: "Price per fraction", ratio: "", value: price(project?.unitPriceUsdtAtomic, 6), unit: "USDT" },
+      { label: "Price per fraction", ratio: "", value: price(priceUsdt, 6), unit: "USDT" },
       { label: "Revenue funded", ratio: "", value: displayMoney(row?.funded ?? null), unit: "USD eq." },
       { label: "Rewards claimed", ratio: "", value: displayMoney(row?.claimed ?? null), unit: "USD eq." },
     ],

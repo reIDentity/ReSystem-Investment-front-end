@@ -30,6 +30,33 @@ export function allocationPercentage(value: string, total: string): string {
   return `${basisPoints / 100n}.${(basisPoints % 100n).toString().padStart(2, "0")}%`;
 }
 
+/** A disjoint, exact partition: issued and reserved blocks are never buyable. */
+export function supplyAvailabilitySegments({ total, issued, remaining, reserved, saleLimit }: {
+  total?: string;
+  issued?: string;
+  remaining?: string;
+  reserved?: string;
+  saleLimit: bigint | null;
+}): AllocationSegment[] | null {
+  const maximum = whole(total), minted = whole(issued), unsold = whole(remaining), locked = whole(reserved);
+  if (maximum === null || maximum === 0n || minted === null || unsold === null || locked === null ||
+    minted + unsold + locked !== maximum || saleLimit === null || saleLimit < 0n || saleLimit > unsold) return null;
+  const parts: [string, string, bigint][] = [
+    ["issued", "Issued blocks", minted],
+    ["sale", "Available now", saleLimit],
+    ["future", "Not on sale", unsold - saleLimit],
+    ["reserved", "Reserved · locked", locked],
+  ];
+  let cumulative = 0n;
+  return parts.map(([key, label, count]) => {
+    const start = cumulative * 10000n / maximum;
+    cumulative += count;
+    const end = cumulative * 10000n / maximum;
+    return { key, label, count: String(count), percentage: allocationPercentage(String(count), String(maximum)),
+      start: Number(start), size: Number(end - start) };
+  });
+}
+
 /**
  * A non-overlapping partition of the observed supply. In phased projects the
  * issued shares already belong to the phase allocations, so they are not added

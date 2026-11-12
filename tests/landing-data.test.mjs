@@ -151,3 +151,34 @@ test('landing quotes use the open phase capacity and reviewed price after supply
   assert.equal(calculatorQuote(live,3),null);
   assert.equal(calculatorQuote(row({...p,phasePriceAtomic:null},c),1),null);
 });
+
+test('phased replacements advertise the current phase price in hero artwork and minimum investment, not reference economics', () => {
+  const p = { ...project('fc1c930c-df85-4b48-9905-1259c734a16e'), replacesProjectId: id, businessOpportunity: true, reservedBlocks: '3000', currentPhase: 'Pre-launch', phasePriceAtomic: '30000001', phaseRemaining: '2978', totalValueUsdtAtomic: '250000000000', unitPriceUsdtAtomic: '25000000', unitPriceReaedAtomic: '90000000000000000000' };
+  const c = chain({ totalSupply: '22', remainingSupply: '6978', totalValueUSDT: '250000000000', unitPriceUSDT: '25000000' });
+  const live = row(p, c);
+  const projects = [live];
+  const { useHeroProject } = clientRenderer({ '../LandingData': { useLanding: () => ({ projects }) } }).load('src/components/hero/useHeroProject.ts');
+  let currentHero;
+  function HeroRead() { currentHero = useHeroProject('reid'); return null; }
+  const readHero = () => { renderToStaticMarkup(React.createElement(HeroRead)); return currentHero; };
+  const hero = readHero();
+  assert.equal(live.stats.sale, 'Open');
+  assert.equal(landingTotals(projects).minimum, '$30.000001');
+  assert.equal(calculatorQuote(live, 2).cost, '$60.000002');
+  assert.equal(hero.priceUsdt, '30.000001');
+  assert.equal(hero.priceNative, '108.0000036');
+  assert.equal(hero.rows.find(item => item.label === 'Price per fraction').value, '30.000001');
+  assert.equal(hero.remaining, '2,978');
+  assert.equal(hero.href, '/projects/reid-fc1c930cdf85');
+
+  for (const phasePriceAtomic of [undefined, null, '0', 'not-a-price']) {
+    projects[0] = row({ ...p, phasePriceAtomic }, c);
+    assert.equal(landingTotals(projects).minimum, '—');
+    const unavailable = readHero();
+    assert.equal(unavailable.priceUsdt, '—');
+    assert.equal(unavailable.priceNative, '—');
+  }
+  projects[0] = row(p, null);
+  assert.equal(readHero().priceUsdt, '—');
+  assert.equal(landingTotals(projects).minimum, '—');
+});
