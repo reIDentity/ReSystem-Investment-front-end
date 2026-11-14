@@ -26,9 +26,9 @@ test('featured links keep their original until retirement, then bind only the re
   const successors = new Set(products.map(p => p.replacementProjectId));
   assert.equal(successors.size, 4);
   for (const product of products) {
-    const row = (id, status) => ({ project: { id, status, title: product.name } });
+    const row = (id, status, changes = {}) => ({ project: { id, status, title: product.name, ...changes } });
     const original = row(product.projectId, 'PUBLISHED');
-    const replacement = row(product.replacementProjectId, 'PUBLISHED');
+    const replacement = row(product.replacementProjectId, 'PUBLISHED', { businessOpportunity: true, replacesProjectId: product.projectId, title: 'Renamed published replacement' });
     const unrelated = row('another-project', 'PUBLISHED');
     assert.equal(productForProject(replacement.project.id)?.category, product.category);
     assert.equal(productForProject(unrelated.project.id), undefined);
@@ -37,6 +37,11 @@ test('featured links keep their original until retirement, then bind only the re
     assert.equal(featuredProject(product, [row(product.projectId, 'ARCHIVED'), replacement]), replacement);
     assert.deepEqual([...orderedCatalogue([unrelated, row(product.projectId, 'ARCHIVED'), replacement])], [replacement, unrelated]);
     assert.equal(featuredProject(product, [row(product.replacementProjectId, 'DRAFT'), unrelated]), null);
+    for (const changes of [{ businessOpportunity: false }, { replacesProjectId: null }, { replacesProjectId: 'unrelated-original' }, { id: 'same-title-unregistered-successor' }]) {
+      const invalid = { project: { ...replacement.project, ...changes, title: product.name } };
+      assert.equal(featuredProject(product, [invalid]), null);
+    }
+    assert.equal(featuredProject(product, [row(product.replacementProjectId, 'PUBLISHED')]), null);
   }
 });
 

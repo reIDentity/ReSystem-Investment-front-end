@@ -79,7 +79,10 @@ export function productForProject(id: string) {
 export function featuredProject(product: Product | undefined, rows: readonly LandingProject[] | null) {
   if (!product || !rows) return null;
   const published = (id: string) => rows.find(row => row.project.id === id && row.project.status === "PUBLISHED");
-  return published(product.projectId) ?? published(product.replacementProjectId) ?? null;
+  const original = published(product.projectId);
+  if (original) return original;
+  const replacement = published(product.replacementProjectId);
+  return replacement?.project.businessOpportunity === true && replacement.project.replacesProjectId === product.projectId ? replacement : null;
 }
 
 export function orderedCatalogue(rows: readonly LandingProject[]) {

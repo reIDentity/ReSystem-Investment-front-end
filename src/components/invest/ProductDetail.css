@@ -106,3 +106,31 @@
 @media(max-width:1279px) { .iv-pd-page .iv-flow-columns { gap:16px; } .iv-pd-allocation-tiles { flex-basis:200px; } .iv-pd-page .iv-product-hero h2 { font-size:48px; } }
 @media(max-width:1023px) { .iv-pd-page .iv-product-hero h2 { font-size:40px; } .iv-pd-page .iv-flow-columns { grid-template-columns:1fr 1fr; } .iv-pd-page .iv-holder-blocks { grid-column:1 / -1; } .iv-pd-holder-empty { min-height:130px; } .iv-pd-page .iv-allocation-content { flex-direction:column; } .iv-pd-allocation-tiles { flex-basis:auto; width:min(100%,250px); } .iv-pd-page .iv-flow-totals { grid-template-columns:1fr 1fr; } }
 @media(max-width:767px) { .iv-pd-page .iv-product-hero { min-height:0; } .iv-pd-page .iv-product-hero h2 { font-size:38px; } .iv-pd-page .iv-product-poster { min-height:350px; } .iv-pd-page .iv-product-poster > div { width:190px; height:338px; } .iv-pd-page .iv-product-poster > span { left:50%; bottom:24px; transform:translateX(-50%); max-width:95%; white-space:normal; text-align:center; } .iv-pd-page .iv-flow-columns { grid-template-columns:1fr; margin-bottom:20px; } .iv-pd-page .iv-product-moneyflow { min-height:0; } .iv-pd-page .iv-holder-blocks { grid-column:auto; } .iv-pd-pool-empty { min-height:160px; } .iv-pd-empty { min-height:120px; } .iv-pd-page .iv-launch-prices strong { font-size:27px; } .iv-pd-page .iv-launch-prices { flex-wrap:wrap; } .iv-pd-page .iv-launch-stats strong { overflow-wrap:anywhere; } .iv-pd-page .iv-allocation-content { flex-direction:row; gap:12px; } .iv-pd-allocation-tiles { flex:0 0 42%; } .iv-pd-page .iv-allocation dl > div { flex-direction:column; align-items:flex-start; font-size:10px; } .iv-pd-page .iv-revenue-summary strong { font-size:20px; overflow-wrap:anywhere; } .iv-pd-page .iv-block-grid-wrap { padding:12px; } .iv-pd-page .iv-order-summary { min-width:0; } .iv-pd-contract-link { margin:12px 0 0; display:block; } .iv-pd-manage { padding:16px; } .iv-pd-page .iv-invest-panel { min-height:0; } }
+
+/* The opportunity graphic uses the same exact supply partition as its legend. */
+.iv-project-allocation-total { margin:16px 0 0; font-size:14px; color:#061b2e; }
+.iv-project-allocation .iv-allocation-content { display:grid; grid-template-columns:minmax(0,250px) minmax(0,1fr); gap:20px; align-items:start; }
+.iv-project-allocation-graphic { min-width:0; }
+.iv-project-allocation .iv-pd-allocation-tiles { width:100%; }
+.iv-project-allocation-graphic > p,.iv-project-allocation-note,.iv-project-allocation-purpose > p,.iv-project-allocation-phases > p { margin:10px 0 0; font-size:12px; line-height:1.6; color:#52647c; }
+.iv-pd-page .iv-allocation .iv-allocation-status-legend { margin:0; min-width:0; }
+.iv-pd-page .iv-allocation .iv-allocation-status-legend > div { display:grid; grid-template-columns:minmax(0,1fr) auto; align-items:center; gap:12px; padding:12px 0; font-size:13px; }
+.iv-pd-page .iv-allocation .iv-allocation-status-legend dt { display:flex; align-items:center; gap:8px; min-width:0; }
+.iv-pd-page .iv-allocation .iv-allocation-status-legend dt i { width:11px; height:11px; flex-shrink:0; margin:0; border-radius:3px; }
+.iv-pd-page .iv-allocation .iv-allocation-status-legend dd { display:flex; flex-direction:column; gap:3px; text-align:right; min-width:0; }
+.iv-allocation-status-legend dd strong { font-size:16px; overflow-wrap:anywhere; }
+.iv-allocation-status-legend dd span { font-size:12px; font-weight:400; color:#52647c; }
+.iv-project-allocation-purpose,.iv-project-allocation-phases { margin-top:20px; padding-top:20px; border-top:1px solid #e6eaf0; }
+.iv-project-allocation h3 { margin:0 0 12px; font-size:16px; }
+.iv-project-allocation-bar { display:flex; height:16px; border-radius:6px; overflow:hidden; background:#edf0f4; }
+.iv-project-allocation-bar > span { display:block; flex-shrink:0; }
+.iv-project-allocation-phases article { padding:14px; margin-top:12px; border:1px solid #e0e7ef; border-radius:10px; }
+.iv-project-allocation-phases article > div { display:flex; align-items:baseline; justify-content:space-between; flex-wrap:wrap; gap:6px 12px; }
+.iv-project-allocation-phases h4 { margin:0; font-size:14px; }
+.iv-project-allocation-phases article p,.iv-project-allocation-phases article span { font-size:12px; line-height:1.6; color:#52647c; }
+.iv-project-allocation-phases article p { margin:8px 0 0; }
+.iv-project-allocation-phases article p:last-child { display:flex; justify-content:space-between; flex-wrap:wrap; gap:4px 12px; }
+.iv-project-allocation-phases progress { display:block; width:100%; height:8px; margin-top:12px; accent-color:#0091ff; }
+.iv-project-allocation-empty { padding:24px 0; font-size:13px; line-height:1.6; color:#52647c; }
+@media(max-width:1279px) { .iv-project-allocation .iv-allocation-content { grid-template-columns:minmax(0,200px) minmax(0,1fr); gap:16px; } }
+@media(max-width:1023px) { .iv-project-allocation .iv-allocation-content { grid-template-columns:1fr; } .iv-project-allocation-graphic { width:min(100%,300px); margin-inline:auto; } }

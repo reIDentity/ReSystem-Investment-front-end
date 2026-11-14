@@ -1,0 +1,75 @@
+.allocation{display:flex;flex-direction:column;gap:22px;min-width:0;padding:28px;border:1px solid #dce3ed;border-radius:26px;background:#f7f8fa;color:#0a1f30}
+.heading{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.eyebrow{font-size:12px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:#667085}
+.heading h2{margin:6px 0 0;font-size:28px;line-height:1.2;letter-spacing:-.03em}
+.heading p{margin:8px 0 0;font-size:14px;line-height:1.5;color:#667085}
+.summaryBadge{padding:8px 12px;border-radius:999px;background:#e8f1ff;font-size:12px;font-weight:700;color:#175cd3;white-space:nowrap}
+.purposeBar{display:flex;gap:3px;height:46px;overflow:hidden;border-radius:14px;background:#fff}
+.segment{position:relative;flex-basis:0;min-width:0;display:flex;align-items:center;overflow:hidden;color:#fff}
+.segment>span{position:relative;z-index:1;display:flex;align-items:center;gap:6px;padding:0 14px;font-size:12px;font-weight:700;white-space:nowrap;text-shadow:0 1px 2px #0004}
+.soldOverlay{position:absolute;inset:0 auto 0 0;background:#fdb022}
+.hatched{background-image:repeating-linear-gradient(135deg,#ffffff29 0 3px,transparent 3px 7px)}
+.allocation .purposeLegend{display:flex;flex:none;gap:10px 22px;flex-wrap:wrap;margin:0}
+.allocation .purposeLegend>div{min-width:0;display:flex;flex-direction:column;align-items:stretch;justify-content:initial;gap:5px;padding:0;border:0}
+.purposeLegend dt{display:flex;align-items:center;gap:6px;font-size:12px;color:#667085}
+.purposeLegend dt i,.groupHeading>i,.cardHeading>i,.colorKey i{display:inline-block;flex:none;width:10px;height:10px;border-radius:3px}
+.purposeLegend dd{margin:0;font-size:14px;font-weight:700}
+.purposeLegend dd span{margin-left:6px;font-size:12px;font-weight:400;color:#667085}
+.body{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:24px;align-items:start}
+.gridWrap{align-self:stretch;display:flex;flex-direction:column;gap:14px;min-width:0;padding:16px;border:1px solid #dce3ed;border-radius:18px;background:#fff}
+.groupedGrid{display:flex;flex:1;flex-direction:column;justify-content:space-between;gap:18px}
+.tileGroup{display:flex;flex-direction:column;gap:8px;min-width:0}
+.groupHeading{display:flex;align-items:center;gap:7px;flex-wrap:wrap;font-size:12px;line-height:1.4}
+.groupHeading b{font-weight:600}
+.groupHeading>span{flex:1;color:#667085;font-variant-numeric:tabular-nums}
+.groupHeading small{display:inline-flex;align-items:center;gap:4px;border-radius:99px;padding:3px 7px;background:#475467;color:#fff;font-size:10px;font-weight:600}
+.groupHeading small svg{width:10px;height:10px}
+.tiles{display:grid;grid-template-columns:repeat(10,minmax(0,1fr));gap:4px}
+.tile{position:relative;display:block;aspect-ratio:1;border-radius:5px;box-shadow:inset 0 0 0 1px #0000000d;transition:transform 150ms ease;min-width:0}
+.tile:hover{z-index:1;transform:scale(1.12)}
+.tileCaption,.tinyAllocation{margin:0;font-size:11px;line-height:1.6;color:#667085}
+.colorKey{display:flex;gap:8px 16px;flex-wrap:wrap;color:#475467;font-size:11px}
+.colorKey span{display:inline-flex;align-items:center;gap:6px}
+.colorKey svg{width:11px;height:11px}
+.cards{display:flex;flex-direction:column;gap:12px;min-width:0}
+.card{display:flex;flex-direction:column;gap:12px;min-width:0;padding:16px 18px;border:1px solid #dce3ed;border-radius:18px;background:#fff;overflow:hidden}
+.reserveCard{background:repeating-linear-gradient(135deg,#fafbfc 0 10px,#f2f4f7 10px 20px)}
+.cardHeading{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.cardHeading h3{flex:1;margin:0;font-size:15px;font-weight:700;line-height:1.4}
+.cardHeading>span{padding:3px 8px;border-radius:99px;background:#f2f4f7;color:#475467;font-size:11px;font-weight:600}
+.cardCount{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;margin:0}
+.cardCount strong{font-size:26px;letter-spacing:-.02em;line-height:1.2;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.cardCount>span,.phaseRemaining>span{color:#667085;font-size:12px;line-height:1.5}
+.phase{display:flex;flex-direction:column;gap:10px;padding-top:12px;border-top:1px solid #e9edf3;min-width:0}
+.phaseHeading{display:flex;align-items:center;gap:10px;justify-content:space-between;flex-wrap:wrap}
+.phaseHeading h4{margin:0;font-size:15px;font-weight:700;line-height:1.4}
+.phaseHeading>span{font-size:11px;color:#667085}
+.phaseRemaining{display:flex;align-items:baseline;gap:6px;flex-wrap:wrap;margin:0}
+.phaseRemaining strong{font-size:23px;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.progress{height:7px;border-radius:8px;overflow:hidden;background:#edf1f7}
+.progress i{display:block;height:100%;border-radius:8px}
+.phaseFooter{display:flex;justify-content:space-between;gap:10px;color:#667085;font-size:11px}
+.lockCallout{display:flex;align-items:flex-start;gap:10px;padding:12px;border-radius:12px;background:#f2f4f7;color:#475467}
+.lockCallout>svg{flex:none;margin-top:2px}
+.lockCallout b{display:block;font-size:12px;line-height:1.5}
+.lockCallout p{margin:3px 0 0;font-size:12px;line-height:1.6}
+.reserveCard .lockCallout{background:#475467;color:#fff}
+.whitelistCard .lockCallout{background:#087f8c;color:#fff}
+.publicCard .lockCallout{background:linear-gradient(90deg,#9a3412,#c2410c);color:#fff}
+.contribute{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:44px;padding:11px 14px;border-radius:12px;background:var(--color-brand,#0091ff);color:#fff!important;text-decoration:none!important;font-size:13px;font-weight:700;transition:filter 150ms ease,transform 150ms ease}
+.contribute:hover{filter:brightness(1.08);transform:translateY(-1px)}
+.contribute:focus-visible{outline:3px solid #98a2b3;outline-offset:3px}
+.accessNote,.unpublished{margin:0;color:#667085;font-size:12px;line-height:1.6}
+.unpublished{padding:10px 12px;border-radius:10px;background:#f7f8fa}
+.allocation .availability{display:grid;flex:none;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin:0;padding:16px;border:1px solid #e5e9f0;border-radius:14px;background:#fff}
+.allocation .availability>div{display:block;min-width:0;padding:0;border:0}
+.availability dt{font-size:11px;line-height:1.5;color:#667085}
+.availability dd{display:flex;align-items:baseline;gap:7px;flex-wrap:wrap;margin:5px 0 0}
+.availability strong{font-size:17px;overflow-wrap:anywhere;font-variant-numeric:tabular-nums}
+.availability dd span{font-size:11px;color:#667085}
+.notes{margin:0;color:#667085;font-size:12px;line-height:1.6}
+.notes p{margin:0 0 5px}
+.empty{padding:20px;border:1px dashed #d0d5dd;border-radius:18px;background:#f7f8fa;color:#667085;font-size:14px;line-height:1.6}
+@media(max-width:860px){.allocation{padding:20px}.body{grid-template-columns:1fr}.purposeBar{height:20px;border-radius:9px}.segment>span{display:none}.groupedGrid{gap:18px}.allocation .availability{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:480px){.allocation{padding:18px 14px;gap:18px}.heading h2{font-size:24px}.heading p{font-size:13px}.gridWrap{padding:14px}.card{padding:16px 14px}.allocation .purposeLegend{gap:12px 18px}.allocation .availability{padding:14px;gap:14px 10px}.groupHeading b{font-size:11px}.groupHeading small{font-size:9px}.cardCount strong{font-size:24px}}
+@media(prefers-reduced-motion:reduce){.tile,.contribute{transition:none}.tile:hover,.contribute:hover{transform:none}}

@@ -1,18 +1,29 @@
 # reSystem Investment - start here
 
-## 12 November 2026 — reviewed landing changes authorized for GitHub
+## 14 November 2026 — investor design PR preparation
 
-The owner authorized pushing the reviewed local changes. Publish them on a review branch and open a PR against `dev`; this request does not merge the PR or promote a production deployment. Keep the restored public site in place until a separate applicable release instruction. Do not automatically redeploy `dev` merely because its source is newer than the restored live deployment.
+Production PR correction: PR20 merged the candidate into the isolated restored-production branch. The owner requested a PR that can release it, so `fix/production-project-design` now targets `dev`. Its application source, configuration and dependency files exactly match the reviewed `996c647` tree; it explicitly restores the accepted width while retaining the new pages, carousel and allocation fixes. Do not merge or promote automatically; the owner will review the production PR. The source below remains historical local verification evidence.
 
-The reviewed changes cap the landing Container at 1680px and ecosystem content at 1584px, retaining 20px phone/24px intermediate/48px large-screen gutters. Header bottom padding is 16px, matching its visible sticky top gap. Hero top padding is 24px desktop/16px below 1280px, giving 40px/32px navbar-to-heading gaps. All three hero artwork cards share equal statistics columns and aligned feature rows within their original 55.931px/145.735px panels. Exact live values and unknown states, feature copy, artwork, rotations, positions and financial behavior remain. Long values fit without truncation and retain a fixed value-line height so their units remain aligned.
+The owner authorized publishing the reviewed inner-page, blue-theme, whole-card navigation and real-data hero carousel changes as a GitHub PR. The latest instruction is **push and open PR only**; keep the live deployment unchanged. This branch retains the restored production width and is based on `ba898a0`, rather than the wider `dev` layout. All262 tests, repository lint, production build/TypeScript and desktop/phone checks pass. The two implementation records below contain the scoped visual exceptions and verification. FP services, signing policies and blockchain actions are outside this PR.
 
-All 221 tests, lint, TypeScript and the production build passed for the local review. Actual browser checks cover balanced landing widths from 320px to 2560px; the final card/title-spacing proof at 2560/390/320 confirms no document or panel overflow. Dated evidence remains in ignored workspace `.runtime/landing-balanced-width-20261111/` and `.runtime/landing-hero-alignment-20261111/`; these are local evidence locations, not published build artifacts. The current GitHub PR/check evidence is recorded in the private project task after publication. Keep other repositories, FP services, QA gates and wallets untouched for this layout-only work.
+## 14 November 2026 — supplied hero carousel, local only
 
-## 11 November 2026 — pre-width version restored live
+The owner requested replacing the landing hero with the desktop/portrait reference animation. `docs/planning/HERO_CAROUSEL_20261114.md` records the responsive real-data carousel, controls, motion/accessibility safeguards and verification. All262 tests, lint and production build/TypeScript pass. The owner review preview runs at http://127.0.0.1:4321. Keep it available for testing. No push, deployment or financial action is included; earlier local inner-page/card changes remain preserved.
 
-The owner requested the version from before that day's full-width changes back on the public site, and instructed that further refinement stay local until authorized to push. The production alias was restored directly to existing Vercel deployment `Dq7DwjjSRrAnR1YHo7ow55YyozC6`, source `ddfcade0de8acbbe11366a5d0239d58cf96d527f`, without a rollback commit or Git push. Actual browser verification confirmed the original 1352px landing container and 1331px footer cap. Already-published `dev` source `e3fa51ce69950396706b6063b9ee8f41e9a1c428` is intentionally distinct from that live version.
+## 14 November 2026 — supplied project inner-page design, local only
 
-The owner reviewed subsequent width, edge-spacing, navbar and hero-card refinements through a temporary Cloudflare tunnel to the local public-page preview. Its loopback proxy strips cookies/authorization, permits anonymous public pages/assets/reads only, blocks private/auth/env paths and mutations, and redirects sign-in to the stable live app. Tunnel/process details stay in ignored runtime records; the temporary link depends on the Mac and its processes remaining running. Stop the task-owned tunnel/proxy/preview when the owner ends local review. The 12 November push authorization above supersedes the Git-upload hold only; production promotion remains separate.
+The owner explicitly requested the `infra-global.html` design for project inner pages. The implementation and verification are in `docs/planning/PROJECT_INNER_DESIGN_20261114.md`, on `local/project-inner-design-20261114` from published stable `ba898a0`. Public and authenticated project details use scoped styles and real data; the existing financial review flow remains intact. All248 tests, lint, production build/TypeScript and desktop/phone checks pass. Screenshots are retained locally.
+
+This work is uncommitted and unpublished. Preserve the original allocation-review checkout and its uncommitted work. No FP service, QA gate, contract, project status or wallet was changed. The separate six-product replacement plan remains incomplete; earlier financial reviews must not be reused. Read current runtime/financial evidence independently before continuing it. The older checkpoints below describe the source baseline and are not proof of today's deployment.
+
+## 12 November 2026 — phased replacement preparation
+
+Read `docs/planning/PHASED_REPLACEMENT_20261112.md` before continuing the block-allocation correction. The original PDF was reread; six existing replacement drafts match its 10,000 / 3,000 reserved / 3,000 whitelist / 4,000 public structure and 250,000 USDT valuation. Fresh read-only FP and immutable public metadata/artwork checks match all six drafts. The six legacy listings and their holder history remain intact.
+
+The exact owner-approved V3 activation is confirmed at block724699, transaction `0x1c2b5856d7d9aa0dac851284d215cecf86c1141cad1a725600647649728fc4d7`, fee2reAED; the three-step release spent6of7.5reAED. Compatible isolated-signer rollout, phase permissions/limits, funding and replacement publication are still separate pending authorizations. Do not reuse expired reviews or infer financial authority from activation approval.
+
+Local allocation/link/current-phase-price fixes are isolated on `local/project-allocation-stable` from restored live `ddfcade`, preserving its width and leaving draft PR18 separate. These changes are not yet pushed or deployed. Current public source remains intentionally distinct from newer `dev` history. Preserve the original `local/project-allocation-review` working tree and all unrelated services.
+
 
 ## 29 October 2026 — six projects restored; approved investor smoke complete
 

@@ -15,7 +15,7 @@ const originalId = '3995355b-8601-49cb-84bf-06bea42db23e';
 const replacementId = '6187dbab-0604-43c4-b51e-6b10269d155b';
 const genericId = '89abcdef-0123-4567-89ab-cdef01234567';
 const pure = clientRenderer();
-const { publicProjectPath, publicProjectAliasId, projectIdFromSlug, catalogueProjectPath } = pure.load('src/lib/platform/public-project.ts');
+const { publicProjectPath, publicProjectAliasId, publicProjectReplacementId, projectIdFromSlug, catalogueProjectPath } = pure.load('src/lib/platform/public-project.ts');
 const project = (id = genericId, changes = {}) => ({ id, title: 'Café Renewable Energy', description: 'Published project description.', status: 'PUBLISHED', contractAddress: `0x${'3'.repeat(40)}`, publicationBlock: '100', publicationTxHash: `0x${'4'.repeat(64)}`, maxFractions: '10000', totalValueUsdtAtomic: '10000000', unitPriceUsdtAtomic: '1000', unitPriceReaedAtomic: '3600000000000000', media: [], ...changes });
 
 // Execute the actual server module with a synthetic environment and explicit
@@ -58,6 +58,8 @@ test('clean branded aliases bind only their immutable original project, not name
   assert.equal(publicProjectPath(originalId, 'Renamed Global'), '/projects/infra-global');
   assert.equal(publicProjectAliasId('INFRA-GLOBAL'), originalId);
   assert.equal(publicProjectAliasId('not-a-registered-alias'), undefined);
+  assert.equal(publicProjectReplacementId(originalId), replacementId);
+  assert.equal(publicProjectReplacementId(genericId), undefined);
   assert.equal(publicProjectPath(replacementId, 'INFRA Global'), '/projects/infra-global-6187dbab0604');
   assert.equal(publicProjectPath(genericId, 'INFRA Global'), '/projects/infra-global-89abcdef0123');
 });
@@ -85,6 +87,7 @@ test('ambiguous compact prefixes fail closed while full-ID slugs remain distinct
   assert.equal(projectIdFromSlug('renewables-89abcdef0123', [first, second]), null);
   assert.equal(catalogueProjectPath(first, [first, second]), publicProjectPath(first.id, first.title, 32));
   assert.equal(catalogueProjectPath(second, [first, second]), publicProjectPath(second.id, second.title, 32));
+  assert.equal(catalogueProjectPath(first, [second]), publicProjectPath(first.id, first.title, 32));
   assert.equal(catalogueProjectPath(project(originalId), [project(originalId), project(replacementId)]), '/projects/infra-global');
   assert.equal(projectIdFromSlug('renewables-ffffffffffff', [first, second]), null);
   assert.equal(projectIdFromSlug(publicProjectPath(first.id, first.title, 32).split('/').at(-1), [first, second]), first.id);
@@ -147,6 +150,98 @@ test('server resolver preserves exact identity, rejects drafts and distinguishes
   assert.equal(await api.getPublicProject('../../wallet'), null);
   assert.equal(await api.getPublicProject('unknown-title-without-id'), null);
   assert.equal(calls.length, count);
+});
+
+test('retired branded aliases redirect only to their registered published phased successor with an explicit relation', async () => {
+  const api = serverModule(), calls = [];
+  const successor = project(replacementId, { title: 'Renamed INFRA project', businessOpportunity: true, replacesProjectId: originalId });
+  globalThis.fetch = async url => {
+    calls.push(url);
+    if (url.endsWith(`/projects/${originalId}`)) return new Response('', { status: 404 });
+    if (url.endsWith(`/projects/${replacementId}`)) return Response.json(successor);
+    assert.ok(url.endsWith('/projects'));
+    return Response.json({ items: [successor], nextCursor: null });
+  };
+  const found = await api.getPublicProject('infra-global');
+  assert.equal(found.project.id, replacementId);
+  assert.equal(found.canonical, '/projects/renamed-infra-project-6187dbab0604');
+  assert.deepEqual(calls, [`https://api.example.invalid/v1/projects/${originalId}`, `https://api.example.invalid/v1/projects/${replacementId}`, 'https://api.example.invalid/v1/projects']);
+  const page = pageModule(async () => found);
+  await assert.rejects(page.default({ params: Promise.resolve({ slug: 'infra-global' }) }), error => error.status === 308 && error.location === found.canonical);
+  const content = await page.default({ params: Promise.resolve({ slug: found.canonical.split('/').at(-1) }) });
+  assert.equal(content.props.id, replacementId);
+});
+
+test('a retained ARCHIVED200 original permits its branded alias to resolve the verified successor', async () => {
+  const api = serverModule(), calls = [];
+  const archived = project(originalId, { status: 'ARCHIVED', title: 'Original INFRA Global' });
+  const successor = project(replacementId, { title: 'New INFRA Global', businessOpportunity: true, replacesProjectId: originalId });
+  globalThis.fetch = async url => {
+    calls.push(url);
+    if (url.endsWith(`/projects/${originalId}`)) return Response.json(archived);
+    if (url.endsWith(`/projects/${replacementId}`)) return Response.json(successor);
+    assert.ok(url.endsWith('/projects'));
+    return Response.json({ items: [successor], nextCursor: null });
+  };
+  const found = await api.getPublicProject('infra-global');
+  assert.equal(found.project.id, replacementId);
+  assert.equal(found.canonical, '/projects/new-infra-global-6187dbab0604');
+  assert.equal(archived.status, 'ARCHIVED');
+  assert.deepEqual(calls, [`https://api.example.invalid/v1/projects/${originalId}`, `https://api.example.invalid/v1/projects/${replacementId}`, 'https://api.example.invalid/v1/projects']);
+});
+
+test('alias succession refuses drafts, wrong relations, unregistered same-name records and outages', async () => {
+  const api = serverModule();
+  const successor = project(replacementId, { title: 'INFRA Global', businessOpportunity: true, replacesProjectId: originalId });
+  for (const archived of [false, true]) {
+    for (const changes of [{ status: 'DRAFT' }, { status: 'ARCHIVED' }, { businessOpportunity: false }, { replacesProjectId: undefined }, { replacesProjectId: genericId }, { id: genericId }, { publicationTxHash: null }]) {
+      const calls = [];
+      globalThis.fetch = async url => {
+        calls.push(url);
+        if (url.endsWith(`/projects/${originalId}`)) return archived ? Response.json(project(originalId, { status: 'ARCHIVED' })) : new Response('', { status: 404 });
+        return Response.json({ ...successor, ...changes });
+      };
+      assert.equal(await api.getPublicProject('infra-global'), null);
+      assert.deepEqual(calls, [`https://api.example.invalid/v1/projects/${originalId}`, `https://api.example.invalid/v1/projects/${replacementId}`]);
+    }
+  }
+  const calls = [];
+  globalThis.fetch = async url => { calls.push(url); return new Response('', { status: 503 }); };
+  await assert.rejects(api.getPublicProject('infra-global'), error => error.status === 503);
+  assert.deepEqual(calls, [`https://api.example.invalid/v1/projects/${originalId}`]);
+  globalThis.fetch = async url => new Response('', { status: url.endsWith(`/projects/${originalId}`) ? 404 : 503 });
+  await assert.rejects(api.getPublicProject('infra-global'), error => error.status === 503);
+  globalThis.fetch = async () => new Response('', { status: 404 });
+  assert.equal(await api.getPublicProject('infra-global'), null);
+});
+
+test('UUID and ID-suffixed historical requests never become successor identities', async () => {
+  const api = serverModule();
+  const successor = project(replacementId, { title: 'INFRA Global', businessOpportunity: true, replacesProjectId: originalId });
+  for (const archived of [false, true]) {
+    const calls = [];
+    globalThis.fetch = async url => {
+      calls.push(url);
+      if (url.endsWith('/projects')) return Response.json({ items: [successor], nextCursor: null });
+      assert.ok(url.endsWith(`/projects/${originalId}`));
+      return archived ? Response.json(project(originalId, { status: 'ARCHIVED' })) : new Response('', { status: 404 });
+    };
+    assert.equal(await api.getPublicProject(originalId), null);
+    assert.equal(await api.getPublicProject(`infra-global-${originalId.replaceAll('-', '').slice(0, 12)}`), null);
+    assert.equal(await api.getPublicProject(`infra-global-${originalId.replaceAll('-', '')}`), null);
+    assert.ok(!calls.some(url => url.endsWith(`/projects/${replacementId}`)));
+  }
+});
+
+test('a still-published original, draft or malformed archived response never triggers alias succession', async () => {
+  const api = serverModule();
+  for (const changes of [{}, { status: 'DRAFT' }, { publicationTxHash: null }, { status: 'ARCHIVED', publicationTxHash: null }, { status: 'ARCHIVED', id: genericId }, { status: 'ARCHIVED', maxFractions: '0' }, { status: 'ARCHIVED', media: [{ cid: 'not-a-complete-media-record' }] }]) {
+    const calls = [];
+    globalThis.fetch = async url => { calls.push(url); return Response.json(project(originalId, changes)); };
+    const found = await api.getPublicProject('infra-global');
+    assert.equal(found?.project.id ?? null, Object.keys(changes).length ? null : originalId);
+    assert.deepEqual(calls, [`https://api.example.invalid/v1/projects/${originalId}`]);
+  }
 });
 
 test('legacy UUIDs and renamed readable URLs resolve to the current canonical identity', async () => {
