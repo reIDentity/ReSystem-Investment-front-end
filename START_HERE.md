@@ -1,5 +1,11 @@
 # reSystem Investment - start here
 
+## 14 November 2026 — ZIP animation reference correction, local only
+
+Publication update: the owner authorized pushing this correction and opening a PR into `dev`, which now contains merged PR21. Keep it unmerged for owner review; the local-only statement below records the implementation checkpoint. All279 tests, lint and production build/TypeScript pass for the correction.
+
+The owner clarified that the carousel must follow the supplied `invest-showcase.zip`, not just rotate cards. The local `fix/showcase-reference-motion` branch recreates its cursor-led three-drag timeline, exact desktop/portrait geometry, card tint/tilt/lift, popup and decorative effects with real published projects. The walkthrough remains explicitly illustrative; real project links work, and no automatic investment-success claim or wallet action is introduced. See the follow-up in `docs/planning/HERO_CAROUSEL_20261114.md`. This correction is not yet pushed or deployed; the earlier production PR is separate.
+
 ## 14 November 2026 — investor design PR preparation
 
 Production PR correction: PR20 merged the candidate into the isolated restored-production branch. The owner requested a PR that can release it, so `fix/production-project-design` now targets `dev`. Its application source, configuration and dependency files exactly match the reviewed `996c647` tree; it explicitly restores the accepted width while retaining the new pages, carousel and allocation fixes. Do not merge or promote automatically; the owner will review the production PR. The source below remains historical local verification evidence.
