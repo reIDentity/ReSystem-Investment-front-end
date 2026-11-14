@@ -3,7 +3,7 @@ import { cache } from "react";
 import { cacheLife } from "next/cache";
 import { proxyConfig } from "./proxy";
 import { publishedLandingProject } from "./landing-project";
-import { catalogueProjectPath, projectIdFromSlug, publicProjectAliasId, publicProjectPath, PublicProjectError, validProjectId, validPublicResponse } from "./public-project";
+import { catalogueProjectPath, projectIdFromSlug, publicProjectAliasId, publicProjectReplacementId, publicProjectPath, PublicProjectError, validProjectId, validPublicResponse } from "./public-project";
 import type { Project } from "./types";
 
 /** Fixed public endpoints, without user cookies, credentials or arbitrary destinations. */
@@ -46,6 +46,14 @@ export async function getPublicCatalogue(): Promise<Project[]> {
   throw new PublicProjectError(502);
 }
 
+function verifiedArchivedProject(id: string, body: unknown) {
+  if (!body || typeof body !== "object" || Array.isArray(body)) return false;
+  const archived = body as Record<string, unknown>;
+  if (archived.id !== id || archived.status !== "ARCHIVED") return false;
+  // Validate the retained publication identity without changing or serving its archived status.
+  return publishedLandingProject(id, { ...archived, status: "PUBLISHED" }) !== null && validPublicResponse("details", body);
+}
+
 export const getPublicProject = cache(async (slug: string): Promise<{ project: Project; canonical: string } | null> => {
   if (slug.length > 140 || !/^[a-zA-Z0-9-]+$/.test(slug)) return null;
   const aliasId = publicProjectAliasId(slug);
@@ -57,10 +65,28 @@ export const getPublicProject = cache(async (slug: string): Promise<{ project: P
   if (!id) return null;
   if (!aliasId && !catalogue) catalogue = await getPublicCatalogue();
   let body: unknown;
-  try { body = await readPublicApi(`projects/${id}`); } catch (error) { if (error instanceof PublicProjectError && error.status === 404) return null; throw error; }
+  let missing = false;
+  let replacementFor: string | undefined;
+  try { body = await readPublicApi(`projects/${id}`); } catch (error) {
+    if (!(error instanceof PublicProjectError && error.status === 404)) throw error;
+    missing = true;
+  }
+  if (aliasId && (missing || verifiedArchivedProject(aliasId, body))) {
+    const replacementId = publicProjectReplacementId(aliasId);
+    // UUID and ID-suffixed requests retain their own identity, including after archival.
+    if (!replacementId) return null;
+    replacementFor = aliasId;
+    id = replacementId;
+    try { body = await readPublicApi(`projects/${id}`); } catch (error) {
+      if (error instanceof PublicProjectError && error.status === 404) return null;
+      throw error;
+    }
+  } else if (missing) return null;
   const project = publishedLandingProject(id, body) as Project | null;
   if (!project) return null;
+  if (replacementFor && (project.businessOpportunity !== true || project.replacesProjectId !== replacementFor)) return null;
   if (!validPublicResponse("details", body)) throw new PublicProjectError(502);
+  if (replacementFor) catalogue = await getPublicCatalogue();
   return { project, canonical: catalogue ? catalogueProjectPath(project, catalogue) : publicProjectPath(id, project.title) };
 });
 

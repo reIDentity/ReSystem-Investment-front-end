@@ -1,5 +1,28 @@
 # reSystem Investment - start here
 
+## 14 November 2026 — investor design PR preparation
+
+The owner authorized publishing the reviewed inner-page, blue-theme, whole-card navigation and real-data hero carousel changes as a GitHub PR. The latest instruction is **push and open PR only**; keep the live deployment unchanged. This branch retains the restored production width and is based on `ba898a0`, rather than the wider `dev` layout. All262 tests, repository lint, production build/TypeScript and desktop/phone checks pass. The two implementation records below contain the scoped visual exceptions and verification. FP services, signing policies and blockchain actions are outside this PR.
+
+## 14 November 2026 — supplied hero carousel, local only
+
+The owner requested replacing the landing hero with the desktop/portrait reference animation. `docs/planning/HERO_CAROUSEL_20261114.md` records the responsive real-data carousel, controls, motion/accessibility safeguards and verification. All262 tests, lint and production build/TypeScript pass. The owner review preview runs at http://127.0.0.1:4321. Keep it available for testing. No push, deployment or financial action is included; earlier local inner-page/card changes remain preserved.
+
+## 14 November 2026 — supplied project inner-page design, local only
+
+The owner explicitly requested the `infra-global.html` design for project inner pages. The implementation and verification are in `docs/planning/PROJECT_INNER_DESIGN_20261114.md`, on `local/project-inner-design-20261114` from published stable `ba898a0`. Public and authenticated project details use scoped styles and real data; the existing financial review flow remains intact. All248 tests, lint, production build/TypeScript and desktop/phone checks pass. Screenshots are retained locally.
+
+This work is uncommitted and unpublished. Preserve the original allocation-review checkout and its uncommitted work. No FP service, QA gate, contract, project status or wallet was changed. The separate six-product replacement plan remains incomplete; earlier financial reviews must not be reused. Read current runtime/financial evidence independently before continuing it. The older checkpoints below describe the source baseline and are not proof of today's deployment.
+
+## 12 November 2026 — phased replacement preparation
+
+Read `docs/planning/PHASED_REPLACEMENT_20261112.md` before continuing the block-allocation correction. The original PDF was reread; six existing replacement drafts match its 10,000 / 3,000 reserved / 3,000 whitelist / 4,000 public structure and 250,000 USDT valuation. Fresh read-only FP and immutable public metadata/artwork checks match all six drafts. The six legacy listings and their holder history remain intact.
+
+The exact owner-approved V3 activation is confirmed at block724699, transaction `0x1c2b5856d7d9aa0dac851284d215cecf86c1141cad1a725600647649728fc4d7`, fee2reAED; the three-step release spent6of7.5reAED. Compatible isolated-signer rollout, phase permissions/limits, funding and replacement publication are still separate pending authorizations. Do not reuse expired reviews or infer financial authority from activation approval.
+
+Local allocation/link/current-phase-price fixes are isolated on `local/project-allocation-stable` from restored live `ddfcade`, preserving its width and leaving draft PR18 separate. These changes are not yet pushed or deployed. Current public source remains intentionally distinct from newer `dev` history. Preserve the original `local/project-allocation-review` working tree and all unrelated services.
+
+
 ## 29 October 2026 — six projects restored; approved investor smoke complete
 
 The fresh-chain restoration is verified: **six published projects, all six sales open**, three original drafts and one archived negative test retained. All19 approved broadcasts succeeded canonically; the16 app intents are INDEXED. Mobile reID native buy, exact0.001USDT approval, USDT buy and one-fraction transfer passed. At confirmed anchor111897, walletA and walletB each hold1 lifecycle fraction, supply is2 and remaining USDT allowance is0. Gross reserve1.368050071032501910reAED / actual gross1.009299999998739820reAED and0.002USDT gross outflow stay within the approved2reAED+0.01USDT cap. The19-broadcast allowance is exhausted; no further assistant transaction is inferred.

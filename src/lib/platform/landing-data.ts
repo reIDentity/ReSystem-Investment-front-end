@@ -24,6 +24,12 @@ export type LandingProject = {
 };
 export type LandingSnapshot = { projects: LandingProject[]; fetchedAt: number };
 
+/** Phased projects advertise their current price, never their initial reference valuation. */
+export function landingPriceUsdtAtomic(project: Project | undefined): string | null {
+  const value = project?.businessOpportunity ? project.phasePriceAtomic : project?.unitPriceUsdtAtomic;
+  return uint(value) && (!project?.businessOpportunity || BigInt(value) > 0n) ? value : null;
+}
+
 /** Whitelist only confirmed published records. A corrupt or incomplete page cannot stand in for the catalogue. */
 export async function loadLanding(read: (path: string) => Promise<unknown>, now: () => number = Date.now): Promise<LandingSnapshot> {
   const projects: Project[] = [], ids = new Set<string>(), cursors = new Set<string>();
@@ -98,7 +104,8 @@ export function landingTotals(rows: LandingProject[] | null) {
   const states = rows?.every(p => p.chain !== null) ? rows : null;
   const supply = states?.reduce((a, p) => a + BigInt(p.chain!.totalSupply), 0n), maximum = states?.reduce((a, p) => a + BigInt(p.project.maxFractions), 0n);
   const open = states?.filter(p => p.stats.sale === "Open") ?? null;
-  const minimum = open?.reduce<bigint | null>((a, p) => a === null || BigInt(p.project.unitPriceUsdtAtomic) < a ? BigInt(p.project.unitPriceUsdtAtomic) : a, null) ?? null;
+  const prices = open?.map(p => landingPriceUsdtAtomic(p.project));
+  const minimum = prices?.every(price => price !== null) ? prices.reduce<bigint | null>((a, price) => a === null || BigInt(price) < a ? BigInt(price) : a, null) : null;
   // Calendar metrics can only combine series covering the same UTC day, with a fresh anchor in every project.
   const dates = rows?.map(p => p.series?.asOf.slice(0, 10));
   const seriesReady = rows !== null && rows.every(p => p.series !== null) && new Set(dates).size <= 1;
