@@ -54,7 +54,7 @@ export function ShareAllocation({
             <circle className="iv-share-ring-track" cx="60" cy="60" r="47" fill="none" strokeWidth="15" />
             {allocation.filter(part => part.size > 0).map(part => <circle key={part.key} className={`iv-share-ring-${part.key}`} cx="60" cy="60" r="47" fill="none" strokeWidth="15" pathLength="10000" strokeDasharray={`${part.size} ${10000 - part.size}`} strokeDashoffset={-part.start} transform="rotate(-90 60 60)" />)}
           </svg>
-          <div aria-hidden="true"><strong>100%</strong><span>of shares</span></div>
+          <div aria-hidden="true"><strong>{count(total)}</strong><span>total shares</span></div>
         </div>
         <dl className="iv-share-allocation-legend">
           {allocation.map(part => <div key={part.key}><dt><i className={`iv-share-key-${part.key}`} aria-hidden="true" />{part.label}</dt><dd><strong>{count(part.count)}</strong><span>{part.percentage}</span></dd></div>)}

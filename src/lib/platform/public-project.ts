@@ -5,6 +5,8 @@ import { products } from "@/data/products";
 
 /** Branded aliases stay bound to their original record, never a same-name replacement. */
 export const publicProjectAliasId = (slug: string) => products.find(p => p.id === slug.toLowerCase())?.projectId;
+/** A successor requires a missing or verified archived original and an explicit replacement relation. */
+export const publicProjectReplacementId = (originalId: string) => products.find(p => p.projectId === originalId)?.replacementProjectId;
 export function publicProjectPath(id: string, title: string, suffixLength: 12 | 32 = 12) {
   const alias = products.find(p => p.projectId === id);
   if (alias) return `/projects/${alias.id}`;
@@ -19,7 +21,7 @@ export function projectIdFromSlug(slug: string, catalogue: readonly Pick<Project
 }
 export function catalogueProjectPath(project: Pick<Project, "id" | "title">, catalogue: readonly Pick<Project, "id">[]) {
   const prefix = project.id.replaceAll("-", "").slice(0, 12);
-  const collision = catalogue.filter(p => p.id.replaceAll("-", "").startsWith(prefix)).length > 1;
+  const collision = catalogue.some(p => p.id !== project.id && p.id.replaceAll("-", "").startsWith(prefix));
   return publicProjectPath(project.id, project.title, collision ? 32 : 12);
 }
 export const projectContributionPath = (id: string) => `/invest?next=${encodeURIComponent(`/invest/products/${id}#invest`)}`;
