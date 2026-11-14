@@ -274,14 +274,14 @@ function Breakdown({ shown, projects, live }: { shown: boolean; projects: Landin
       <div className="mt-4 flex h-[26px] overflow-hidden rounded-md" role="img" aria-label="Revenue share by product">
         {breakdown.map((b, i) => (
           <span
-            key={b.name}
-            onMouseEnter={() => setHover(b.name)}
+            key={b.id}
+            onMouseEnter={() => setHover(b.id)}
             onMouseLeave={() => setHover(null)}
             style={{
               width: shown ? `${b.pct ?? 0}%` : "0%",
               background: b.color,
               transitionDelay: `${i * 90}ms`,
-              opacity: hover && hover !== b.name ? 0.35 : 1,
+              opacity: hover && hover !== b.id ? 0.35 : 1,
             }}
             className="border-r-2 border-white transition-[width,opacity] duration-[1100ms] ease-[var(--ease-smooth)] last:border-0"
           />
@@ -290,12 +290,12 @@ function Breakdown({ shown, projects, live }: { shown: boolean; projects: Landin
       <ul className="mt-5 grid grid-cols-2 gap-x-6 gap-y-4 sm:grid-cols-4">
         {breakdown.map((b, i) => (
           <li
-            key={b.name}
-            onMouseEnter={() => setHover(b.name)}
+            key={b.id}
+            onMouseEnter={() => setHover(b.id)}
             onMouseLeave={() => setHover(null)}
             className="transition-[opacity,transform] duration-500 ease-[var(--ease-smooth)]"
             style={{
-              opacity: shown ? (hover && hover !== b.name ? 0.4 : 1) : 0,
+              opacity: shown ? (hover && hover !== b.id ? 0.4 : 1) : 0,
               transform: shown ? "none" : "translateY(10px)",
               transitionDelay: shown && !hover ? `${400 + i * 70}ms` : "0ms",
             }}
