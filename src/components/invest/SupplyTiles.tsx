@@ -8,11 +8,11 @@ export function SupplyTiles({ issued, maximum, selected = "0", reserved = "0", o
   const available = onSale === undefined ? total - minted - locked : validAtomic(onSale) ? BigInt(onSale) : 0n;
   const consistent = known && available >= 0n && minted + available + locked <= total;
   const chosen = consistent && validAtomic(selected) && BigInt(selected) <= available ? BigInt(selected) : 0n;
-  const colors = emphasizeAvailable ? { issued: "#13a56b", sale: "#0091ff", reserved: "#7c8da5" } : { issued: "#d7dde7", sale: "#fff", reserved: "#8998ad" };
+  const colors = emphasizeAvailable ? { issued: "#13a56b", sale: "#0091ff", reserved: "#7c8da5" } : { issued: "var(--supply-issued,#d7dde7)", sale: "var(--supply-sale,#fff)", reserved: "var(--supply-reserved,#8998ad)" };
   const fill = (value: bigint) => { const clamped = value < 0n ? 0n : value > total ? total : value; const bps = clamped * 10000n / total; return `${bps / 100n}.${(bps % 100n).toString().padStart(2, "0")}%`; };
   return <div className={`iv-pd-supply-tiles ${className}`} aria-hidden="true">{Array.from({ length: cells }, (_, index) => {
     const start = BigInt(index) * total, issuedFill = fill(minted * BigInt(cells) - start), selectedFill = fill((minted + chosen) * BigInt(cells) - start);
     const availableFill = fill((minted + available) * BigInt(cells) - start), reserveStart = fill((total - locked) * BigInt(cells) - start);
-    return <i key={index} style={consistent ? { background: `linear-gradient(to right,${colors.issued} 0% ${issuedFill},#0091ff ${issuedFill} ${selectedFill},${colors.sale} ${selectedFill} ${availableFill},#e7edf5 ${availableFill} ${reserveStart},${colors.reserved} ${reserveStart} 100%)` } : undefined} />;
+    return <i key={index} style={consistent ? { background: `linear-gradient(to right,${colors.issued} 0% ${issuedFill},#0091ff ${issuedFill} ${selectedFill},${colors.sale} ${selectedFill} ${availableFill},var(--supply-future,#e7edf5) ${availableFill} ${reserveStart},${colors.reserved} ${reserveStart} 100%)` } : undefined} />;
   })}</div>;
 }

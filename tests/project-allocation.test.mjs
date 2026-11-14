@@ -98,7 +98,7 @@ test('the overview exposes every block state with counts and percentages instead
   assert.match(availability.textContent, /99\.78%/);
   assert.match(availability.textContent, /Not on sale/);
   assert.match(availability.textContent, /Reserved/);
-  assert.equal(document.querySelectorAll('.iv-pd-supply-tiles > i').length, 100, 'the overview retains the requested 1%-per-tile block graphic');
+  assert.equal(document.querySelectorAll('[data-allocation-tile]').length, 100, 'the overview retains the requested 1%-per-tile block graphic');
   assert.equal(named(document, 'Allocation by purpose'), null, 'legacy projects must not receive fictional phases');
   assert.doesNotMatch(text, /30\.00%|40\.00%|Pre-launch/);
 });
@@ -157,4 +157,80 @@ test('missing phased observations stay unavailable rather than fabricating the P
     assert.doesNotMatch(text, /30\.00%|40\.00%|99\.78%/);
   }
   assert.match(render({ phased: true, saleLimit: null, loading: true }).text, /Checking|Loading/i);
+});
+
+test('only real open current-phase eligibility enables an investment link', () => {
+  const props = { ...phased, phased: true, view: { ...phaseView, walletApproved: true }, contributionHref: '#invest' };
+  const approved = render(props);
+  assert.equal(approved.document.querySelector('a')?.getAttribute('href'), '#invest');
+  assert.match(approved.text, /Your wallet is approved/);
+
+  for (const walletApproved of [false, undefined]) {
+    const denied = render({ ...props, view: { ...phaseView, walletApproved } });
+    assert.equal(denied.document.querySelector('a'), null);
+    assert.match(denied.text, walletApproved === false ? /not whitelisted/ : /access unverified/);
+  }
+  for (const status of ['Draft', 'Paused', 'Closed']) {
+    const phase = { ...current, status, open: false };
+    const closed = render({ ...props, saleLimit: 0n, view: { ...phaseView, walletApproved: true, current: phase, phases: [phase] } });
+    assert.equal(closed.document.querySelector('a'), null);
+    assert.match(named(closed.document, 'Block availability').textContent, /Available now0/);
+  }
+  assert.equal(render({ ...props, contributionHref: 'javascript:alert(1)' }).document.querySelector('a'), null);
+  assert.equal(render({ ...props, contributionHref: '/\\external.example' }).document.querySelector('a'), null);
+});
+
+test('public visitors may connect to check eligibility without being called whitelisted or denied', () => {
+  const guest = render({ ...phased, phased: true, view: phaseView, publicView: true, contributionHref: '/invest?project=example' });
+  assert.equal(guest.document.querySelector('a')?.getAttribute('href'), '/invest?project=example');
+  assert.match(guest.text, /Connect to check your access/);
+  assert.doesNotMatch(guest.text, /Your wallet is approved|Your wallet is not whitelisted/);
+  assert.match(guest.document.querySelector('[data-allocation-group="whitelist"] small').textContent, /Sign in to check/);
+  assert.equal(guest.document.querySelectorAll('button').length, 0, 'design preview switches must never change real access');
+});
+
+test('a purpose containing both open and future phases is not presented as fully unlocked', () => {
+  const active = { ...current, blocks: '1000', remaining: '946' };
+  const future = { ...current, id: '2', name: 'Later early access', blocks: '2000', sold: '0', remaining: '2000', open: false, status: 'Draft' };
+  const result = render({ ...phased, phased: true, saleLimit: 946n, contributionHref: '#invest', view: { ...phaseView, walletApproved: true, current: active, phases: [active, future] } });
+  assert.match(result.document.querySelector('[data-allocation-group="whitelist"] small').textContent, /Includes locked phases/);
+  assert.equal(result.document.querySelectorAll('a').length, 1, 'only the active eligible phase links to the purchase flow');
+  assert.match(result.text, /Later early access/);
+  assert.equal(result.document.querySelectorAll('[data-allocation-tile]').length, 100);
+});
+
+test('unknown hidden-phase sold counts stay unknown while known allocations still color all 100 tiles', () => {
+  const { document, text } = render({ ...phased, phased: true, view: phaseView });
+  assert.equal(document.querySelectorAll('[data-allocation-tile]').length, 100);
+  assert.match(text, /complete sold, remaining and pricing breakdown.*not published/);
+  assert.doesNotMatch(text, /4,000 of 4,000 left|Public.*0 sold/);
+  assert.match(text, /Reserved and unissued/);
+  assert.doesNotMatch(text, /Held by the holding company|Never for sale/);
+});
+
+test('expanded, huge and uneven live supplies keep exactly 100 proportional tiles and exact totals', () => {
+  for (const total of [7n, 20001n, 1000000000000000000n]) {
+    const reserved = total / 5n, whitelist = total / 3n, publicBlocks = total / 3n;
+    const unallocated = total - reserved - whitelist - publicBlocks;
+    const phase = { ...current, blocks: String(whitelist), sold: '1', remaining: String(whitelist - 1n) };
+    const observed = {
+      total: String(total), issued: '1', remaining: String(total - reserved - 1n), saleLimit: whitelist - 1n, phased: true,
+      view: { ...phaseView, totalBlocks: String(total), reservedBlocks: String(reserved), whitelistBlocks: String(whitelist), publicBlocks: String(publicBlocks), unallocatedBlocks: String(unallocated), current: phase, phases: [phase] },
+    };
+    const { document } = render(observed);
+    assert.equal(document.querySelectorAll('[data-allocation-tile]').length, 100);
+    assert.match(named(document, 'Allocation by purpose').textContent, /Unallocated/);
+    assert.equal([...named(document, 'Block availability').querySelectorAll('strong')].map(el => BigInt(el.textContent.replaceAll(',', ''))).reduce((sum, value) => sum + value, 0n), total);
+  }
+});
+
+test('contradictory visible phase observations cannot expose an actionable allocation', () => {
+  const tooLarge = { ...current, blocks: '3001', remaining: '2947' };
+  const tooManySold = { ...current, sold: '55', remaining: '2945' };
+  for (const phase of [tooLarge, tooManySold]) {
+    const result = render({ ...phased, phased: true, contributionHref: '#invest', view: { ...phaseView, walletApproved: true, current: phase, phases: [phase] } });
+    assert.match(result.text, /unavailable/);
+    assert.equal(result.document.querySelector('a'), null);
+    assert.equal(result.document.querySelectorAll('[data-allocation-tile]').length, 0);
+  }
 });

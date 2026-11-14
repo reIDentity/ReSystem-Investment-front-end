@@ -1,5 +1,19 @@
 # reSystem Investment - start here
 
+## 14 November 2026 — investor design PR preparation
+
+The owner authorized publishing the reviewed inner-page, blue-theme, whole-card navigation and real-data hero carousel changes as a GitHub PR. The latest instruction is **push and open PR only**; keep the live deployment unchanged. This branch retains the restored production width and is based on `ba898a0`, rather than the wider `dev` layout. All262 tests, repository lint, production build/TypeScript and desktop/phone checks pass. The two implementation records below contain the scoped visual exceptions and verification. FP services, signing policies and blockchain actions are outside this PR.
+
+## 14 November 2026 — supplied hero carousel, local only
+
+The owner requested replacing the landing hero with the desktop/portrait reference animation. `docs/planning/HERO_CAROUSEL_20261114.md` records the responsive real-data carousel, controls, motion/accessibility safeguards and verification. All262 tests, lint and production build/TypeScript pass. The owner review preview runs at http://127.0.0.1:4321. Keep it available for testing. No push, deployment or financial action is included; earlier local inner-page/card changes remain preserved.
+
+## 14 November 2026 — supplied project inner-page design, local only
+
+The owner explicitly requested the `infra-global.html` design for project inner pages. The implementation and verification are in `docs/planning/PROJECT_INNER_DESIGN_20261114.md`, on `local/project-inner-design-20261114` from published stable `ba898a0`. Public and authenticated project details use scoped styles and real data; the existing financial review flow remains intact. All248 tests, lint, production build/TypeScript and desktop/phone checks pass. Screenshots are retained locally.
+
+This work is uncommitted and unpublished. Preserve the original allocation-review checkout and its uncommitted work. No FP service, QA gate, contract, project status or wallet was changed. The separate six-product replacement plan remains incomplete; earlier financial reviews must not be reused. Read current runtime/financial evidence independently before continuing it. The older checkpoints below describe the source baseline and are not proof of today's deployment.
+
 ## 12 November 2026 — phased replacement preparation
 
 Read `docs/planning/PHASED_REPLACEMENT_20261112.md` before continuing the block-allocation correction. The original PDF was reread; six existing replacement drafts match its 10,000 / 3,000 reserved / 3,000 whitelist / 4,000 public structure and 250,000 USDT valuation. Fresh read-only FP and immutable public metadata/artwork checks match all six drafts. The six legacy listings and their holder history remain intact.

@@ -21,7 +21,9 @@ function ProductCard({ row, publicPath }: { row: LandingProject; publicPath?: st
   const artwork = publicArtwork && publicArtwork !== failedArtwork ? publicArtwork : product?.image;
   const badge = stats.sale === "Open" ? "Live" : stats.sale === "Closed" ? "Published" : "—";
   return (
-    <article
+    <a
+      href={publicPath ?? publicProjectPath(project.id, project.title)}
+      aria-label={`View ${project.title} project details`}
       data-spotlight
       data-tilt
       className="product-card group relative flex h-full flex-col rounded-[22px] bg-white p-2.5 shadow-[0_1px_0_rgba(0,0,0,0.03)]"
@@ -72,15 +74,14 @@ function ProductCard({ row, publicPath }: { row: LandingProject; publicPath?: st
           </div>
         </dl>
         {project.businessOpportunity && <p className="mt-2 text-[14px] text-muted">{project.currentPhase??"No active phase"} · {project.phaseRemaining} blocks remaining · {project.reservedBlocks} Reserved</p>}
-        <a
-          href={publicPath ?? publicProjectPath(project.id, project.title)}
-          className="product-link mt-5 flex items-center justify-between font-display text-[14px] font-bold text-brand underline-offset-4 hover:underline"
+        <span
+          className="product-link mt-5 flex items-center justify-between font-display text-[14px] font-bold text-brand underline-offset-4 group-hover:underline group-focus-visible:underline"
         >
           See where, why and how much{" "}
           <span aria-hidden="true" className="transition-transform duration-500 ease-[var(--ease-spring)] group-hover:translate-x-1.5 group-focus-within:translate-x-1.5">→</span>
-        </a>
+        </span>
       </div>
-    </article>
+    </a>
   );
 }
 

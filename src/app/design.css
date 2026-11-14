@@ -63,6 +63,8 @@
 .product-tabs button[aria-selected=true] { color: white; }
 .product-grid { gap: 20.34px 16.95px; margin-top: 20.8px; }
 .product-card { padding: 15.82px; border-radius: 27.122px; box-shadow: none; font-family: var(--font-jakarta),sans-serif; min-height: 435px; }
+.product-card { color: inherit; text-decoration: none; }
+.product-card:focus-visible { outline: 3px solid #0091ff; outline-offset: 4px; }
 .product-cover { height: 169.51px; border-radius: 20.34px; flex-shrink: 0; }
 .product-content { padding: 13.56px 6.78px 0; }
 .product-card h3 { font-size: 20.34px; line-height: 26px; color: #0f172a; }
