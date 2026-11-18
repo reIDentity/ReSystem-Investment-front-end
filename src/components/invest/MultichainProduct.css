@@ -1,0 +1,13 @@
+.iv-mc { display:grid; gap:20px; }
+.iv-mc-stats { display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:12px; margin:16px 0; }
+.iv-mc-stats div { padding:12px 14px; border:1px solid #eef0f4; border-radius:12px; background:#fff; }
+.iv-mc-stats dt { font-size:12px; color:#5b6b7c; }
+.iv-mc-stats dd { margin:4px 0 0; font-size:18px; font-weight:700; }
+.iv-mc-chips { display:flex; flex-wrap:wrap; gap:8px; margin:8px 0 16px; }
+.iv-mc-chip { display:inline-flex; align-items:center; gap:6px; min-height:40px; padding:8px 14px; border:1px solid #dfe5ec; border-radius:20px; background:#fff; color:#061b2e; font-size:13px; font-weight:600; cursor:pointer; }
+.iv-mc-chip.is-active { border-color:var(--iv-accent); background:#e9f4ff; color:#0074cc; }
+.iv-mc-chip.is-soon { border-style:dashed; color:#8a97a5; cursor:default; }
+.iv-mc-table { width:100%; border-collapse:collapse; margin-top:12px; font-size:14px; }
+.iv-mc-table th, .iv-mc-table td { padding:10px 8px; border-bottom:1px solid #eef0f4; text-align:left; }
+.iv-mc-error { color:#b42318; }
+@media(max-width:767px) { .iv-mc-table { font-size:13px; } .iv-mc-table th:nth-child(3), .iv-mc-table td:nth-child(3) { white-space:nowrap; } }
