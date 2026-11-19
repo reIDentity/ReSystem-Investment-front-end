@@ -11,7 +11,7 @@ const require = createRequire(import.meta.url);
 const ts = require('typescript');
 const originalFetch = globalThis.fetch;
 afterEach(() => { globalThis.fetch = originalFetch; });
-const originalId = '3995355b-8601-49cb-84bf-06bea42db23e';
+const originalId = 'd306fba1-1194-4791-9c96-73dc1ecac5b1';
 const replacementId = '6187dbab-0604-43c4-b51e-6b10269d155b';
 const genericId = '89abcdef-0123-4567-89ab-cdef01234567';
 const pure = clientRenderer();

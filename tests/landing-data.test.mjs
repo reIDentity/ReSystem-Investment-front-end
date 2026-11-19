@@ -6,7 +6,7 @@ import { clientRenderer } from './client-renderer.mjs';
 import { revenueSeries } from './revenue-fixtures.mjs';
 
 const { loadLanding, verifiedLandingProject, landingTotals, calculatorQuote } = clientRenderer().load('src/lib/platform/landing-data.ts');
-const id = '4fe22a83-2b4e-44ee-9bbb-c43168baf465';
+const id = 'f0e5fac9-540a-4efd-b85a-3b877785389d';
 const project = (n = id) => ({ id: n, title: 'reID', description: 'Published project', status: 'PUBLISHED', contractAddress: `0x${'3'.repeat(40)}`, publicationBlock: '100', publicationTxHash: `0x${'4'.repeat(64)}`, maxFractions: '10000', totalValueUsdtAtomic: '10000000', unitPriceUsdtAtomic: '1000', unitPriceReaedAtomic: '3600000000000000' });
 const chain = changes => ({ chainId: 15324, source: 'INFRA RPC', headBlock: '7337162', totalSupply: '1000', remainingSupply: '9000', maxFractions: '10000', totalValueUSDT: '10000000', unitPriceUSDT: '1000', saleOpen: true, purchasePaused: false, indicativeYieldBps: 0, yieldEffectiveAt: '0', yieldPeriod: `0x${'0'.repeat(64)}`, ...changes });
 function revenue(zero = false) {

@@ -53,7 +53,7 @@ export async function loadLanding(read: (path: string) => Promise<unknown>, now:
   async function worker() {
     while (index < projects.length) {
       const i = index++, project = projects[i];
-      const [chain, revenue] = await Promise.all([read(`projects/${project.id}/chain`).catch(() => null), read(`projects/${project.id}/revenue`).catch(() => null)]);
+      const [chain, revenue] = project.deploymentMode === "MULTICHAIN" ? [null, null] : await Promise.all([read(`projects/${project.id}/chain`).catch(() => null), read(`projects/${project.id}/revenue`).catch(() => null)]);
       rows[i] = verifiedLandingProject(project, chain, revenue, now());
     }
   }

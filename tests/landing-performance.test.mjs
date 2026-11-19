@@ -10,7 +10,7 @@ for (const [key, value] of Object.entries({ window: dom.window, self: dom.window
 globalThis.IS_REACT_ACT_ENVIRONMENT = true;
 const { render, cleanup } = await import('@testing-library/react');
 afterEach(cleanup);
-const id = '3995355b-8601-49cb-84bf-06bea42db23e';
+const id = 'd306fba1-1194-4791-9c96-73dc1ecac5b1';
 const project = () => ({ id, title: 'INFRA Global', description: 'Actual published description', status: 'PUBLISHED', contractAddress: `0x${'3'.repeat(40)}`, publicationBlock: '100', publicationTxHash: `0x${'4'.repeat(64)}`, maxFractions: '10000', totalValueUsdtAtomic: '10000000', unitPriceUsdtAtomic: '1000', unitPriceReaedAtomic: '3600000000000000' });
 const chain = () => ({ chainId: 15324, source: 'INFRA RPC', headBlock: '200', totalSupply: '50', remainingSupply: '9950', maxFractions: '10000', totalValueUSDT: '10000000', unitPriceUSDT: '1000', saleOpen: true, purchasePaused: false });
 const { verifiedLandingProject } = clientRenderer().load('src/lib/platform/landing-data.ts');

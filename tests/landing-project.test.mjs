@@ -8,7 +8,7 @@ import * as ReactDOM from 'react-dom';
 import { renderToStaticMarkup } from 'react-dom/server';
 
 const { publishedLandingProject, landingProjectStats } = clientRenderer().load('src/lib/platform/landing-project.ts');
-const id = '3995355b-8601-49cb-84bf-06bea42db23e';
+const id = 'd306fba1-1194-4791-9c96-73dc1ecac5b1';
 const project = () => ({ id, title: 'INFRA Global', description: 'Public description', status: 'PUBLISHED', contractAddress: `0x${'3'.repeat(40)}`, publicationBlock: '100', publicationTxHash: `0x${'4'.repeat(64)}`, maxFractions: '10000', totalValueUsdtAtomic: '10000000', unitPriceUsdtAtomic: '1000', unitPriceReaedAtomic: '3600000000000000' });
 const chain = () => ({ chainId: 15324, source: 'INFRA RPC', headBlock: '200', totalSupply: '1234', remainingSupply: '8766', maxFractions: '10000', totalValueUSDT: '10000000', unitPriceUSDT: '1000', saleOpen: true, purchasePaused: false, indicativeYieldBps: 650, yieldEffectiveAt: '1', yieldPeriod: `0x${'5'.repeat(64)}` });
 
@@ -19,6 +19,24 @@ test('landing records bind only the explicit published project with a canonical 
   const source = readFileSync(new URL('../src/data/products.ts', import.meta.url), 'utf8');
   const ids = [...source.matchAll(/projectId: "([a-f0-9-]+)"/g)].map(m => m[1]);
   assert.equal(ids.length, 4); assert.equal(new Set(ids).size, 4);
+});
+
+test('published multichain records need no INFRA publication identity, but INFRA records still do', () => {
+  const multichain = { ...project(), deploymentMode: 'MULTICHAIN', contractAddress: null, publicationBlock: null, publicationTxHash: null };
+  assert.ok(publishedLandingProject(id, multichain));
+  for (const change of [{ status: 'PUBLISH_PENDING' }, { status: 'DRAFT' }, { title: ' ' }, { maxFractions: '0' }, { deploymentMode: 'INFRA' }, { deploymentMode: undefined }]) assert.equal(publishedLandingProject(id, { ...multichain, ...change }), null);
+  assert.equal(landingProjectStats(multichain, null, null, Date.now()).sold, '—');
+});
+
+test('the landing loader does not read INFRA chain or revenue facts for multichain projects', async () => {
+  const { loadLanding } = clientRenderer().load('src/lib/platform/landing-data.ts');
+  const multichain = { ...project(), deploymentMode: 'MULTICHAIN', contractAddress: null, publicationBlock: null, publicationTxHash: null };
+  const reads = [];
+  const snapshot = await loadLanding(async path => { reads.push(path); if (path === 'projects') return { items: [multichain], nextCursor: null }; throw new Error('INFRA-only read'); });
+  assert.deepEqual(reads, ['projects']);
+  assert.equal(snapshot.projects.length, 1);
+  assert.equal(snapshot.projects[0].project.id, id);
+  assert.equal(snapshot.projects[0].chain, null);
 });
 
 test('featured links keep their original until retirement, then bind only the registered published replacement', () => {

@@ -10,7 +10,7 @@ const { cleanup, render, fireEvent } = await import('@testing-library/react');
 afterEach(cleanup);
 const { verifiedLandingProject, landingTotals } = clientRenderer().load('src/lib/platform/landing-data.ts');
 const make = (id, title, issued = '0') => verifiedLandingProject({ id, title, description: 'Public project content', status: 'PUBLISHED', contractAddress: `0x${'3'.repeat(40)}`, publicationBlock: '100', publicationTxHash: `0x${'4'.repeat(64)}`, maxFractions: '10000', totalValueUsdtAtomic: '10000000', unitPriceUsdtAtomic: '1000', unitPriceReaedAtomic: '3600000000000000' }, { chainId: 15324, source: 'INFRA RPC', headBlock: '200', totalSupply: issued, remainingSupply: (10000n - BigInt(issued)).toString(), maxFractions: '10000', totalValueUSDT: '10000000', unitPriceUSDT: '1000', saleOpen: true, purchasePaused: false }, null, Date.now());
-const known = make('4fe22a83-2b4e-44ee-9bbb-c43168baf465', 'reID');
+const known = make('f0e5fac9-540a-4efd-b85a-3b877785389d', 'reID');
 const other = make('00000000-0000-4000-8000-000000000001', 'New published project', '9900');
 const motion = { useInView: () => [React.useRef(null), true], usePrefersReducedMotion: () => true };
 
