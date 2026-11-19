@@ -2,7 +2,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import type { PhaseEventPage, ProjectPage, WalletResponse, WalletCashflowResponse } from "@/lib/platform/api.generated";
+import type { PhaseEventPage, ProjectPage, ProjectSupplyResponse, WalletResponse, WalletCashflowResponse } from "@/lib/platform/api.generated";
+import { multichainSaleLimit, multichainState } from "@/lib/platform/multichain-view";
 import type { Holding, Portfolio, Project, ProjectState } from "@/lib/platform/types";
 import { assetLabel, percentage, units, type PaymentAsset } from "@/lib/platform/money";
 import { projectArtworkUrl } from "@/lib/platform/media";
@@ -213,18 +214,25 @@ export function InvestorHome() {
   </InvestorShell>;
 }
 export function ProjectCard({ project, ownedQuantity }: { project: Project; ownedQuantity?: string }) {
-  const chain = useResource<ProjectState>(`projects/${project.id}/chain`, 60000);
+  const multichain = project.deploymentMode === "MULTICHAIN";
+  const chain = useResource<ProjectState>(multichain ? null : `projects/${project.id}/chain`, 60000);
+  const shared = useResource<ProjectSupplyResponse>(multichain ? `projects/${project.id}/supply` : null, 60000);
+  const [now] = useState(() => Date.now());
   const image = project.media?.find(m => m.mimeType.startsWith("image/") && /^[a-zA-Z0-9]{32,120}$/.test(m.cid));
-  const supply = chain.error ? undefined : chain.data;
+  const sharedSupply = shared.error ? undefined : shared.data;
+  const supply = multichain ? (sharedSupply ? multichainState(sharedSupply) : undefined) : chain.error ? undefined : chain.data;
+  const current = sharedSupply ? multichainSaleLimit(sharedSupply, now).current : undefined;
   const issued = supply ? percentage(supply.totalSupply, project.maxFractions) : "—";
-  const price = project.businessOpportunity ? project.phasePriceAtomic : project.unitPriceUsdtAtomic;
-  const available = project.businessOpportunity ? project.phaseRemaining : supply?.remainingSupply;
+  const price = multichain ? current?.priceUsdtMicros ?? null : project.businessOpportunity ? project.phasePriceAtomic : project.unitPriceUsdtAtomic;
+  const available = multichain ? supply?.remainingSupply : project.businessOpportunity ? project.phaseRemaining : supply?.remainingSupply;
+  const loading = multichain ? shared.isLoading : chain.isLoading;
   const owned = ownedQuantity && /^[0-9]+$/.test(ownedQuantity) && BigInt(ownedQuantity) > 0n;
   return <Link className="iv-product-card iv-explore-card" href={`/invest/products/${project.id}`}>
     <div className="iv-product-placeholder iv-explore-image">{image ? <Image src={projectArtworkUrl(project.id, image.cid)} alt={project.title} width={640} height={360} unoptimized /> : <span className="sr-only">Project image not supplied</span>}{owned ? <Tag tone="dark">You own {units(ownedQuantity, 0)}</Tag> : <Tag tone="neutral">Published</Tag>}<span className="iv-explore-project-mark" aria-hidden="true" /></div>
-    <h2>{project.title}</h2><small>{project.location || "INFRA project"}</small><p>{project.description}</p>
-    <div className="iv-product-supply"><span>{issued === "—" ? chain.isLoading ? "Loading supply…" : "Supply unavailable" : `${issued} issued`}</span><span>{available != null ? `${units(available, 0)} left` : "—"}</span></div>
+    <h2>{project.title}</h2><small>{project.location || (multichain ? "BNB · Ethereum · TRON" : "Project")}</small><p>{project.description}</p>
+    <div className="iv-product-supply"><span>{issued === "—" ? loading ? "Loading supply…" : "Supply unavailable" : `${issued} issued`}</span><span>{available != null ? `${units(available, 0)} left` : "—"}</span></div>
     <div className="iv-progress" aria-hidden="true">{issued !== "—" ? <span style={{ width: issued }} /> : null}</div>
+    {multichain && sharedSupply && <p>{current?.name ?? "No active phase"} · {units(sharedSupply.reservedBlocks, 0)} Reserved · {units(current?.available ?? "0", 0)} blocks remaining</p>}
     {project.businessOpportunity && <p>{project.currentPhase??"No active phase"} · {units(project.reservedBlocks??"0",0)} Reserved · {units(project.phaseRemaining??"0",0)} blocks remaining</p>}
     <div className="iv-product-revenue"><span>Price per share</span><strong>{price != null ? `${units(price, 6)} USDT` : "—"}</strong></div>
   </Link>;

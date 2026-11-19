@@ -38,7 +38,7 @@ const reasons: Reason[] = [
     id: "on-chain",
     iconAsset: "/images/figma/why-onchain.svg",
     title: "Every dollar visible on-chain",
-    body: "Each published project has a contract on INFRA. Check its confirmed revenue deposits and reward claims before and after you invest.",
+    body: "Each published project has a contract on every network it is sold on. Check its confirmed revenue deposits and reward claims before and after you invest.",
     image: "/images/why-3-onchain.jpg",
     fallback: "radial-gradient(70% 80% at 35% 20%, #5a4328 0%, #2b2014 55%, #0f0b08 100%)",
   },

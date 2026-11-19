@@ -76,7 +76,7 @@ function ShareholderPool({ live, shown, loading }: { live: Totals; shown: boolea
         <h3 className="font-display text-[15px] font-bold">Shareholder pool</h3>
         <span className="flex items-center gap-1.5 rounded-full border border-white/20 px-2.5 py-1 text-[11px] text-white/80">
           <span className="h-3 w-3 animate-spin rounded-full border-2 border-brand border-t-transparent [animation-duration:1.4s]" />
-          <span className="text-shimmer">{loading ? "Syncing INFRA" : live.reserve ? "INFRA verified" : "Unavailable"}</span>
+          <span className="text-shimmer">{loading ? "Syncing networks" : live.reserve ? "Verified on-chain" : "Unavailable"}</span>
         </span>
       </div>
       <div className="mt-4 rounded-2xl bg-[#eaf5ff] p-4 text-ink">
@@ -329,7 +329,7 @@ function Transparent({ payment }: { payment: LandingPayment | null }) {
         data-magnetic
         className="btn btn-shine mt-6 flex items-center justify-center gap-2 rounded-2xl bg-brand py-3.5 font-display text-[14px] font-bold text-white"
       >
-        View on INFRA
+        View on explorer
         <ArrowUpRight size={16} className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
       </a>
     </div>
@@ -348,7 +348,7 @@ export function MoneyFlow() {
         </Reveal>
         <Reveal variant="blur" delay={80}>
           <p className="mt-3 max-w-[820px] text-[19px] leading-snug text-ink-soft">
-            Confirmed project revenue on INFRA is allocated to the fractions held at funding time. Follow actual deposits, unclaimed rewards and holder payouts below. Values combine USDT and reAED at 1 USDT = 3.6 reAED.
+            Confirmed project revenue is paid in USDT on each network and allocated to the shares held at funding time. Follow actual deposits, unclaimed rewards and holder payouts below.
           </p>
         </Reveal>
 

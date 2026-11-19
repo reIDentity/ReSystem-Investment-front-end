@@ -20,7 +20,7 @@ export function CtaBanner() {
                 Own project fractions.
               </h2>
               <p className="mt-6 max-w-[330px] text-[22px] leading-[1.25] text-[#8a8a8a]">
-                Sign in with reID, deposit reAED or USDT, and pick the products you believe in.
+                Sign in with reID, pay with USDT, BNB, ETH or TRX, and pick the products you believe in.
               </p>
             </div>
             <a

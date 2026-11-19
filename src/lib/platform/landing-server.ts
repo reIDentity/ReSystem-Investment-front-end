@@ -38,7 +38,7 @@ export async function getLandingPublicSnapshot(): Promise<PublicLandingSnapshot>
       return value;
     });
     if (controller.signal.aborted) throw new Error("Public snapshot exceeds limit");
-    const result = { fetchedAt: snapshot.fetchedAt, items: snapshot.projects.map(({ project }) => ({ project, chain: facts.get(`projects/${project.id}/chain`) ?? null, revenue: facts.get(`projects/${project.id}/revenue`) ?? null })) };
+    const result = { fetchedAt: snapshot.fetchedAt, items: snapshot.projects.map(({ project }) => ({ project, chain: facts.get(`projects/${project.id}/${project.deploymentMode === "MULTICHAIN" ? "supply" : "chain"}`) ?? null, revenue: facts.get(`projects/${project.id}/revenue`) ?? null })) };
     if (Buffer.byteLength(JSON.stringify(result)) > 8 * 1024 * 1024) throw new Error("Public snapshot exceeds limit");
     return result;
   } finally { controller.abort(); }

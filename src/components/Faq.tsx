@@ -9,7 +9,7 @@ import { Reveal } from "./Reveal";
 const faqs = [
   {
     q: "How are my earnings calculated?",
-    a: "Authorized project operators deposit actual revenue on INFRA. Each new allocation is shared by the issued fractions held at funding time. Historical allocations stay with their original holder after a transfer.",
+    a: "Authorized project operators deposit actual revenue in USDT on each network. Each new allocation is shared by the issued fractions held at funding time. Historical allocations stay with their original holder after a transfer.",
   },
   {
     q: "What is the minimum and maximum?",
@@ -21,7 +21,7 @@ const faqs = [
   },
   {
     q: "How do I pay?",
-    a: "Deposit reAED or USDT to your wallet address on INFRA, then confirm each purchase with reID.",
+    a: "Add USDT or the network coin to your reID wallet on BNB Smart Chain, Ethereum or TRON, then confirm each purchase with reID.",
   },
   {
     q: "Are returns guaranteed?",

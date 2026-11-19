@@ -48,7 +48,7 @@ function ProductCard({ row, publicPath }: { row: LandingProject; publicPath?: st
         {(product?.status || !product) && (
           <span
             className="product-badge absolute top-2 right-2 flex items-center gap-1.5 rounded-full bg-white px-2.5 py-1 font-display text-[11px] font-semibold text-forest"
-            title={stats.sale === "Open" ? "Primary sale is open on INFRA." : stats.sale === "Closed" ? "Published project; the primary sale is currently closed." : "Purchase availability is unavailable."}
+            title={stats.sale === "Open" ? "Primary sale is open." : stats.sale === "Closed" ? "Published project; the primary sale is currently closed." : "Purchase availability is unavailable."}
             aria-label={badge === "—" ? "Published investment status unavailable" : badge}
           >
             {badge}
@@ -139,7 +139,7 @@ export function Products() {
         </Reveal>
         <Reveal variant="blur" delay={80}>
           <p className="section-description mt-4 max-w-[820px] text-[21px] leading-snug text-ink-soft">
-            Review published projects on INFRA across finance, real-world assets, identity and services to
+            Review published projects on BNB Smart Chain, Ethereum and TRON across finance, real-world assets, identity and services to
             see their confirmed revenue before you buy.
           </p>
         </Reveal>

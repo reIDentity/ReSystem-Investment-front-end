@@ -1,5 +1,6 @@
-import { catalogueProjectPath } from "./public-project";
-import type { ProjectChainResponse } from "./api.generated";
+import { catalogueProjectPath, validPublicResponse } from "./public-project";
+import type { ProjectChainResponse, ProjectSupplyResponse } from "./api.generated";
+import { multichainSaleLimit, multichainState } from "./multichain-view";
 import type { Project } from "./types";
 import { publishedLandingProject, landingProjectStats } from "./landing-project";
 import { readRevenueSeries, type VerifiedRevenueSeries } from "./revenue-values";
@@ -17,17 +18,19 @@ export const valuation = (a: AssetTotals) => a.REAED * 5n + a.USDT * 18n * 10n *
 export const publicExplorer = "https://uat.scan.infraworld.org";
 export type LandingPayment = { id: string; projectId: string; name: string; hash: string; block: string; asset: "REAED" | "USDT"; amount: string; display: string };
 export type LandingProject = {
-  project: Project; chain: ProjectChainResponse | null; series: VerifiedRevenueSeries | null;
+  project: Project; chain: LandingChain | null; series: VerifiedRevenueSeries | null;
   stats: ReturnType<typeof landingProjectStats>;
   funded: AssetTotals | null; claimed: AssetTotals | null; reserve: AssetTotals | null; last30: AssetTotals | null;
   payments: LandingPayment[] | null;
 };
 export type LandingSnapshot = { projects: LandingProject[]; fetchedAt: number };
+export type LandingChain = Pick<ProjectChainResponse, "totalSupply" | "remainingSupply" | "maxFractions" | "saleOpen" | "purchasePaused">;
 
 /** Phased projects advertise their current price, never their initial reference valuation. */
 export function landingPriceUsdtAtomic(project: Project | undefined): string | null {
-  const value = project?.businessOpportunity ? project.phasePriceAtomic : project?.unitPriceUsdtAtomic;
-  return uint(value) && (!project?.businessOpportunity || BigInt(value) > 0n) ? value : null;
+  const phased = project?.businessOpportunity || project?.deploymentMode === "MULTICHAIN";
+  const value = phased ? project?.phasePriceAtomic : project?.unitPriceUsdtAtomic;
+  return uint(value) && (!phased || BigInt(value) > 0n) ? value : null;
 }
 
 /** Whitelist only confirmed published records. A corrupt or incomplete page cannot stand in for the catalogue. */
@@ -53,7 +56,7 @@ export async function loadLanding(read: (path: string) => Promise<unknown>, now:
   async function worker() {
     while (index < projects.length) {
       const i = index++, project = projects[i];
-      const [chain, revenue] = project.deploymentMode === "MULTICHAIN" ? [null, null] : await Promise.all([read(`projects/${project.id}/chain`).catch(() => null), read(`projects/${project.id}/revenue`).catch(() => null)]);
+      const [chain, revenue] = project.deploymentMode === "MULTICHAIN" ? [await read(`projects/${project.id}/supply`).catch(() => null), null] : await Promise.all([read(`projects/${project.id}/chain`).catch(() => null), read(`projects/${project.id}/revenue`).catch(() => null)]);
       rows[i] = verifiedLandingProject(project, chain, revenue, now());
     }
   }
@@ -63,6 +66,7 @@ export async function loadLanding(read: (path: string) => Promise<unknown>, now:
 
 /** Never infer totals from a truncated history, an inconsistent ledger or an old canonical anchor. */
 export function verifiedLandingProject(project: Project, chain: unknown, revenue: unknown, now: number): LandingProject {
+  if (project.deploymentMode === "MULTICHAIN") return multichainLandingProject(project, chain, now);
   const stats = landingProjectStats(project, chain, revenue, now);
   const state = stats.sale !== null ? chain as ProjectChainResponse : null;
   let series = object(revenue) ? readRevenueSeries(revenue.series) : null;
@@ -96,6 +100,15 @@ export function verifiedLandingProject(project: Project, chain: unknown, revenue
     }
   }
   return { project, chain: state, series, stats, funded, claimed, reserve, last30, payments };
+}
+
+function multichainLandingProject(project: Project, supply: unknown, now: number): LandingProject {
+  const empty = { project, chain: null, series: null, stats: landingProjectStats(project, null, null, now), funded: null, claimed: null, reserve: null, last30: null, payments: null };
+  if (!validPublicResponse("supply", supply) || (supply as ProjectSupplyResponse).projectId !== project.id || (supply as ProjectSupplyResponse).maxFractions !== project.maxFractions) return empty;
+  const shared = supply as ProjectSupplyResponse, state = multichainState(shared), { current, limit } = multichainSaleLimit(shared, now);
+  const priced = { ...project, currentPhase: current?.name ?? null, phasePriceAtomic: current?.priceUsdtMicros ?? null, phaseRemaining: current?.available ?? "0", reservedBlocks: shared.reservedBlocks };
+  const sold = percentage(state.totalSupply, state.maxFractions);
+  return { ...empty, project: priced, chain: state, stats: { ...empty.stats, sold, soldTitle: `${state.totalSupply} of ${state.maxFractions} shares issued across all networks`, sale: limit > 0n ? "Open" : "Closed" } };
 }
 
 /** All-project figures require all project reads; individual cards may still show their independent verified values. */
