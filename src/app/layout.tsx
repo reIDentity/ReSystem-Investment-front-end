@@ -46,7 +46,7 @@ const montserrat = localFont({
 export const metadata: Metadata = {
   title: "reSystem Investment — Own a share of the products that earn real revenue",
   description:
-    "Buy fractions in published reSystem projects on INFRA. Review current prices, confirmed revenue funding and allocated holder rewards.",
+    "Buy fractions in published reSystem projects on BNB Smart Chain, Ethereum and TRON. Review current prices, confirmed revenue funding and allocated holder rewards.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

@@ -169,7 +169,7 @@ test('the autonomous preview and bounded celebratory illustration never assert a
   assert.equal(preview.querySelector('a').getAttribute('href'), href([alpha, beta, gamma][f.selectedIndex()]));
   f.untilPhase('ready');
   assert.match(preview.textContent, /Review and approve/);
-  assert.match(preview.textContent, /only after confirmation on INFRA/);
+  assert.match(preview.textContent, /only after confirmation on the network/);
   assert.doesNotMatch(preview.textContent, /You're in|You’re in|unlocked|Thanks for investing|Guaranteed/i);
   assert.equal(f.view.container.querySelectorAll('.hero-showcase-confetti > i').length, 48);
   assert.equal(f.view.container.querySelectorAll('.hero-showcase-cursor').length, 1);

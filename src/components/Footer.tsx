@@ -41,7 +41,7 @@ export function Footer() {
               <Logo tone="light" className="text-[23.25px]" />
               <p className="mt-6 max-w-[290px] text-[11px] leading-snug text-white/80">
                 Desert Tech Cloud Services LLC, Dubai, UAE. Investing in product shares carries risk, including loss of the
-                amount invested. Past or current revenue does not guarantee future earnings. Indicative yield is entered by the project operator and is not a guaranteed return. This platform currently uses INFRA UAT testnet.
+                amount invested. Past or current revenue does not guarantee future earnings. Indicative yield is entered by the project operator and is not a guaranteed return. This platform currently uses the BNB Smart Chain, Ethereum Sepolia and TRON Nile testnets; INFRA is coming soon.
               </p>
             </div>
             {columns.map((c, i) => (

@@ -47,7 +47,7 @@ function barHeight(value: string | undefined, total: string | undefined): string
   return `${hundredths / 100n}.${String(hundredths % 100n).padStart(2, "0")}%`;
 }
 function IconBox({ children, className = "" }: { children: ReactNode; className?: string }) { return <span className={`${styles.icon} ${className}`}>{children}</span>; }
-function Confirmed({ available }: { available: boolean }) { return available ? <span className={styles.confirmed}><i />Confirmed on INFRA</span> : null; }
+function Confirmed({ available }: { available: boolean }) { return available ? <span className={styles.confirmed}><i />Confirmed on-chain</span> : null; }
 function NetworkContracts({ networks }: { networks: ProjectNetwork[] }) {
   return <section className={`${styles.card} ${styles.contract}`} aria-label="Project contracts on each network"><div className={styles.contractHeading}><IconBox><ShieldCheck size={23} aria-hidden="true" /></IconBox><div><span className={styles.label}>Project contracts</span><p>One project and one share supply, sold on each network below. Verify each contract on its explorer.</p></div></div>{networks.map(network => <div key={network.chainId}><div className={styles.contractField}><span>{network.name}</span><code>{network.contract || "Unavailable"}</code></div>{network.contract ? <div className={styles.contractActions}><CopyButton value={network.contract} />{network.explorerUrl ? <a href={network.explorerUrl} target="_blank" rel="noopener noreferrer">View contract<ArrowUpRight size={17} aria-hidden="true" /></a> : null}</div> : null}</div>)}</section>;
 }

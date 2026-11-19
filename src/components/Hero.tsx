@@ -30,6 +30,13 @@ export function Hero() {
             </li>
           ))}
         </ul>
+        <div style={{ "--d": "480ms" } as CSSProperties} className="enter mt-5 flex flex-wrap items-center gap-2 text-[13px] font-medium text-ink-soft" aria-label="Supported networks">
+          <span className="mr-1">Live on</span>
+          {["BNB Smart Chain", "Ethereum", "TRON"].map(name => (
+            <span key={name} className="rounded-full border border-black/10 bg-white px-3 py-1 text-ink">{name}</span>
+          ))}
+          <span className="rounded-full border border-dashed border-black/20 px-3 py-1 text-[#9c9c9c]">INFRA · coming soon</span>
+        </div>
 
         <HeroVisual />
 

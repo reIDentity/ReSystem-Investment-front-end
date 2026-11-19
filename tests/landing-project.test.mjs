@@ -28,15 +28,22 @@ test('published multichain records need no INFRA publication identity, but INFRA
   assert.equal(landingProjectStats(multichain, null, null, Date.now()).sold, '—');
 });
 
-test('the landing loader does not read INFRA chain or revenue facts for multichain projects', async () => {
+test('the landing loader reads only public supply for multichain projects and derives card stats from it', async () => {
   const { loadLanding } = clientRenderer().load('src/lib/platform/landing-data.ts');
   const multichain = { ...project(), deploymentMode: 'MULTICHAIN', contractAddress: null, publicationBlock: null, publicationTxHash: null };
-  const reads = [];
-  const snapshot = await loadLanding(async path => { reads.push(path); if (path === 'projects') return { items: [multichain], nextCursor: null }; throw new Error('INFRA-only read'); });
-  assert.deepEqual(reads, ['projects']);
-  assert.equal(snapshot.projects.length, 1);
-  assert.equal(snapshot.projects[0].project.id, id);
-  assert.equal(snapshot.projects[0].chain, null);
+  const supply = (changes = {}) => ({ projectId: id, maxFractions: '10000', reservedBlocks: '3000', sold: '1000', available: '6000',
+    chains: [{ chainId: 97, network: 'bsc-testnet', name: 'BNB Smart Chain Testnet', status: 'DEPLOYED', contract: `0x${'7'.repeat(40)}`, explorerUrl: null, saleOpen: true }],
+    phases: [{ number: 2, name: 'Public sale', status: 'ACTIVE', whitelist: false, blocks: '4000', sold: '1000', available: '3000', priceUsdtMicros: '25000000', startsAt: null, endsAt: null }], ...changes });
+  const run = async (value) => { const reads = []; const snapshot = await loadLanding(async path => { reads.push(path); if (path === 'projects') return { items: [multichain], nextCursor: null }; if (path.endsWith('/supply')) return value; throw new Error('INFRA-only read'); }); return { reads, row: snapshot.projects[0] }; };
+  const open = await run(supply());
+  assert.deepEqual(open.reads, ['projects', `projects/${id}/supply`]);
+  assert.equal(open.row.stats.sale, 'Open');
+  assert.equal(open.row.stats.sold, '10.00%');
+  assert.equal(open.row.chain.totalSupply, '1000');
+  assert.equal(open.row.project.phasePriceAtomic, '25000000');
+  assert.equal((await run(supply({ chains: [{ ...supply().chains[0], saleOpen: false }] }))).row.stats.sale, 'Closed');
+  assert.equal((await run(supply({ projectId: 'another' }))).row.chain, null);
+  assert.equal((await run(null)).row.chain, null);
 });
 
 test('featured links keep their original until retirement, then bind only the registered published replacement', () => {

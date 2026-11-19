@@ -10,8 +10,8 @@ const steps = [
   },
   {
     n: "02",
-    title: "Deposit reAED or USDT",
-    body: "Send stablecoins to your wallet address on INFRA. Funds become available after network confirmation.",
+    title: "Fund your reID wallet",
+    body: "Add USDT, or the network coin (BNB, ETH or TRX), to your reID wallet on BNB Smart Chain, Ethereum or TRON. Funds are ready after network confirmation.",
   },
   {
     n: "03",
@@ -21,7 +21,7 @@ const steps = [
   {
     n: "04",
     title: "Claim or withdraw",
-    body: "Review rewards allocated from confirmed revenue deposits. Claim to your wallet, buy more, or withdraw to any INFRA address.",
+    body: "Review rewards allocated from confirmed revenue deposits. Claim USDT to your wallet on each network, or buy more.",
   },
 ];
 

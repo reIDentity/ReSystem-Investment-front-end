@@ -109,6 +109,7 @@ const sourcePaths = [
   'src/components/invest/platform/PortfolioHistory.tsx', 'src/components/invest/InvestorUI.tsx', 'src/components/invest/platform/ProjectIcon.tsx',
   'src/components/ActionFeedback.tsx', 'src/components/Logo.tsx', 'src/lib/platform/read-ahead.ts', 'src/lib/platform/money.ts', 'src/lib/platform/media.ts',
   'src/lib/platform/portfolio-values.ts', 'src/lib/platform/valuation.ts', 'src/lib/platform/cashflow-values.ts',
+  'src/lib/platform/multichain-view.ts',
 ];
 export function hashFile(relative) { return createHash('sha256').update(fs.readFileSync(path.join(repository, relative))).digest('hex'); }
 export function sourceHashes() { return sourcePaths.map(file => ({ file, sha256: hashFile(file) })); }
