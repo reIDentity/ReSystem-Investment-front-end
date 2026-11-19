@@ -10,7 +10,7 @@ const project = () => ({ id, title: 'Public project', description: 'Published de
 const chain = () => ({ chainId: 15324, source: 'INFRA RPC', headBlock: '200', totalSupply: '54', remainingSupply: '9946', maxFractions: '10000', totalValueUSDT: '10000000', unitPriceUSDT: '1000', saleOpen: true, purchasePaused: false });
 const originalFetch = globalThis.fetch;
 afterEach(() => { globalThis.fetch = originalFetch; });
-const { readPublicProject, publicSale, projectContributionPath, publicProjectPath } = clientRenderer().load('src/lib/platform/public-project.ts');
+const { readPublicProject, publicSale, projectContributionPath, publicProjectPath, validPublicResponse, readPublicChains } = clientRenderer().load('src/lib/platform/public-project.ts');
 
 test('anonymous project reads are bounded public GETs with no credentials or private endpoints', async () => {
   const calls = [];
@@ -122,4 +122,40 @@ test('public early-access phases ask for sign-in and never classify an anonymous
   assert.match(html, /Sign in to check early-access eligibility/); assert.match(html, /2,946 shares/);
   assert.ok(!html.includes('Your wallet is not on')); assert.ok(!html.includes('Wallet approval could not be verified'));
   assert.deepEqual(requested, ['public-project', 'public-project-chain', 'public-project-revenue', 'public-project-phases']);
+});
+
+test('public multichain reads validate supply and chains, and the shared view reflects closed and open sales', () => {
+  const supply = () => ({ projectId: id, maxFractions: '10000', reservedBlocks: '3000', saleable: '7000', sold: '0', pendingReservations: '0', available: '7000', issuedOnChains: '0',
+    chains: [{ chainId: 97, network: 'bsc-testnet', name: 'BNB Smart Chain Testnet', status: 'DEPLOYED', contract: `0x${'7'.repeat(40)}`, explorerUrl: 'https://testnet.bscscan.com/address/x', issued: null, chainCap: null, saleOpen: false },
+      { chainId: 11155111, network: 'sepolia', name: 'Ethereum Sepolia', status: 'PENDING', contract: null, explorerUrl: null, issued: null, chainCap: null, saleOpen: null }],
+    phases: [{ number: 1, name: 'Pre-launch', status: 'DRAFT', whitelist: true, blocks: '3000', sold: '0', reserved: '0', available: '3000', priceUsdtMicros: '25000000', startsAt: null, endsAt: null },
+      { number: 2, name: 'Public sale', status: 'DRAFT', whitelist: false, blocks: '4000', sold: '0', reserved: '0', available: '4000', priceUsdtMicros: '25000000', startsAt: null, endsAt: null }] });
+  assert.equal(validPublicResponse('supply', supply()), true);
+  for (const change of [{ maxFractions: '-1' }, { chains: [{ chainId: 'x' }] }, { phases: [{ number: 1, name: 'x', status: 'DRAFT', whitelist: 'no', blocks: '1', sold: '0', available: '1', priceUsdtMicros: null }] }, { projectId: 1 }])
+    assert.equal(validPublicResponse('supply', { ...supply(), ...change }), false);
+  assert.equal(validPublicResponse('chains', { chains: [{ chainId: 97, name: 'BNB Smart Chain Testnet', nativeSymbol: 'BNB' }] }), true);
+  assert.equal(validPublicResponse('chains', { chains: [{ chainId: 97 }] }), false);
+
+  const view = clientRenderer().load('src/lib/platform/multichain-view.ts');
+  const now = Date.parse('2026-11-19T12:00:00Z');
+  const chains = [{ chainId: 97, name: 'BNB Smart Chain Testnet', nativeSymbol: 'BNB' }, { chainId: 11155111, name: 'Ethereum Sepolia', nativeSymbol: 'ETH' }];
+  assert.deepEqual(view.multichainNetworks(supply(), chains).map(n => n.chainId), [97]);
+  assert.equal(view.multichainState(supply()).saleOpen, false);
+  assert.equal(view.multichainSaleLimit(supply(), now).limit, 0n);
+  const phased = view.phasedView(supply(), now);
+  assert.equal(phased.reservedBlocks, '3000'); assert.equal(phased.whitelistBlocks, '3000'); assert.equal(phased.publicBlocks, '4000'); assert.equal(phased.unallocatedBlocks, '0');
+  const open = supply();
+  open.chains[0].saleOpen = true; open.phases[1].status = 'ACTIVE';
+  assert.equal(view.multichainState(open).saleOpen, true);
+  assert.equal(view.multichainSaleLimit(open, now).limit, 4000n);
+  assert.equal(view.multichainSaleLimit({ ...open, phases: [{ ...open.phases[1], startsAt: '2026-11-20T00:00:00Z' }] }, now).limit, 0n);
+});
+
+test('anonymous multichain reads use only the public supply and chains endpoints', async () => {
+  const calls = [];
+  globalThis.fetch = async (url, options) => { calls.push({ url, options }); return Response.json(url.endsWith('/chains') ? { chains: [] } : { projectId: id, maxFractions: '1', reservedBlocks: '0', sold: '0', available: '1', chains: [], phases: [] }); };
+  await readPublicProject(id, 'supply');
+  await readPublicChains();
+  assert.deepEqual(calls.map(c => c.url), [`/api/platform/projects/${id}/supply`, '/api/platform/chains']);
+  for (const { options } of calls) { assert.equal(options.credentials, 'omit'); assert.equal(options.method, 'GET'); }
 });

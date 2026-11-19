@@ -41,6 +41,10 @@ export function validPublicResponse(section: string, data: unknown) {
   if (section === "chain") return uint(data.totalSupply) && uint(data.remainingSupply) && uint(data.maxFractions) && typeof data.saleOpen === "boolean" && typeof data.purchasePaused === "boolean";
   if (section === "revenue") return Array.isArray(data.assets) && data.assets.every(a => record(a) && ["REAED", "USDT"].includes(String(a.asset)) && a.decimals === (a.asset === "REAED" ? 18 : 6) && [a.fundedAtomic, a.claimedTotalAtomic, a.reserveAtomic].every(uint))
     && record(data.history) && ["available", "unavailable"].includes(String(data.history.status)) && (data.history.items === null || (Array.isArray(data.history.items) && data.history.items.every(h => record(h) && typeof h.tx_hash === "string" && /^0x[0-9a-f]{64}$/i.test(h.tx_hash) && record(h.args_json))));
+  if (section === "supply") return typeof data.projectId === "string" && [data.maxFractions, data.reservedBlocks, data.sold, data.available].every(uint)
+    && Array.isArray(data.chains) && data.chains.every(c => record(c) && Number.isSafeInteger(c.chainId) && typeof c.name === "string" && typeof c.status === "string" && (c.contract === null || typeof c.contract === "string") && (c.explorerUrl === null || typeof c.explorerUrl === "string"))
+    && Array.isArray(data.phases) && data.phases.every(p => record(p) && Number.isSafeInteger(p.number) && typeof p.name === "string" && typeof p.status === "string" && typeof p.whitelist === "boolean" && [p.blocks, p.sold, p.available].every(uint) && (p.priceUsdtMicros === null || uint(p.priceUsdtMicros)));
+  if (section === "chains") return Array.isArray(data.chains) && data.chains.every(c => record(c) && Number.isSafeInteger(c.chainId) && typeof c.name === "string" && typeof c.nativeSymbol === "string");
   if (["legacy", "excluded"].includes(String(data.mode))) return true;
   const phase = (p: unknown) => record(p) && typeof p.id === "string" && typeof p.name === "string" && [p.blocks, p.sold, p.remaining, p.unitPriceAtomic].every(uint) && typeof p.open === "boolean" && typeof p.whitelist === "boolean";
   return data.mode === "phased" && [data.totalBlocks, data.reservedBlocks, data.unallocatedBlocks, data.whitelistBlocks, data.publicBlocks].every(uint)
@@ -48,11 +52,19 @@ export function validPublicResponse(section: string, data: unknown) {
 }
 
 /** Anonymous reads only. Never forward a session or accept an arbitrary API path. */
-export async function readPublicProject<T>(id: string, section: "details" | "chain" | "revenue" | "phases" = "details", page = 1): Promise<T> {
-  if (!validProjectId(id) || !["details", "chain", "revenue", "phases"].includes(section) || !Number.isSafeInteger(page) || page < 1 || page > 100000) throw new PublicProjectError(404);
+export async function readPublicProject<T>(id: string, section: "details" | "chain" | "revenue" | "phases" | "supply" = "details", page = 1): Promise<T> {
+  if (!validProjectId(id) || !["details", "chain", "revenue", "phases", "supply"].includes(section) || !Number.isSafeInteger(page) || page < 1 || page > 100000) throw new PublicProjectError(404);
   const suffix = section === "details" ? "" : `/${section}${section === "phases" ? `?page=${page}` : ""}`;
+  return readPublic<T>(`projects/${id}${suffix}`, section, data => section !== "details" || publishedLandingProject(id, data) !== null);
+}
+
+export function readPublicChains<T>(): Promise<T> {
+  return readPublic<T>("chains", "chains", () => true);
+}
+
+async function readPublic<T>(path: string, section: string, exists: (data: unknown) => boolean): Promise<T> {
   try {
-    const response = await fetch(`/api/platform/projects/${id}${suffix}`, { method: "GET", credentials: "omit", cache: "no-store", redirect: "error", headers: { Accept: "application/json" }, signal: AbortSignal.timeout(10000) });
+    const response = await fetch(`/api/platform/${path}`, { method: "GET", credentials: "omit", cache: "no-store", redirect: "error", headers: { Accept: "application/json" }, signal: AbortSignal.timeout(10000) });
     if (!response.ok) { await response.body?.cancel(); throw new PublicProjectError(response.status); }
     const reader = response.body?.getReader();
     if (!reader) throw new PublicProjectError(502);
@@ -68,7 +80,7 @@ export async function readPublicProject<T>(id: string, section: "details" | "cha
     const bytes = new Uint8Array(size); let offset = 0;
     for (const part of parts) { bytes.set(part, offset); offset += part.byteLength; }
     const data: unknown = JSON.parse(new TextDecoder().decode(bytes));
-    if (section === "details" && !publishedLandingProject(id, data)) throw new PublicProjectError(404);
+    if (!exists(data)) throw new PublicProjectError(404);
     if (!validPublicResponse(section, data)) throw new PublicProjectError(502);
     return data as T;
   } catch (error) { throw error instanceof PublicProjectError ? error : new PublicProjectError(502); }

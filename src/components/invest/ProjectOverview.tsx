@@ -129,7 +129,7 @@ export function ProjectOverview({ project, state, revenue, saleLimit, supplyTota
       ].map(({ Icon, title, text }) => <div key={title}><IconBox><Icon size={20} aria-hidden="true" /></IconBox><p><strong>{title}</strong><span>{text}</span></p></div>)}</div>
     </section>
 
-    <section className={`${styles.card} ${styles.allocation}`} aria-label="Project share allocation"><ProjectAllocation total={supplyTotal} issued={supply?.totalSupply} remaining={supply?.remainingSupply} phased={!!p?.businessOpportunity} view={view} saleLimit={saleLimit} loading={state.isLoading || allocationLoading} publicView={publicView} contributionHref={contributeHref} /><DataState publicView={publicView} error={state.error} onRetry={() => void state.mutate()} /></section>
+    <section className={`${styles.card} ${styles.allocation}`} aria-label="Project share allocation"><ProjectAllocation total={supplyTotal} issued={supply?.totalSupply} remaining={supply?.remainingSupply} phased={!!p?.businessOpportunity || !!networks} view={view} saleLimit={saleLimit} loading={state.isLoading || allocationLoading} publicView={publicView} contributionHref={contributeHref} /><DataState publicView={publicView} error={state.error} onRetry={() => void state.mutate()} /></section>
 
     <div className={styles.revenueGrid}>
       <section className={`${styles.card} ${styles.revenue}`} aria-label="Revenue so far"><div className={styles.sectionHeading}><span className={styles.label}>Revenue so far</span><Confirmed available={!!funding} /></div><div className={styles.revenueMetrics}>{[
