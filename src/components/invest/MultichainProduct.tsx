@@ -7,7 +7,6 @@ import type {
   ProjectSupplyResponse,
   TransactionResponse,
 } from "@/lib/platform/api.generated";
-import type { SalePhase, SalePhasesResponse } from "@/lib/platform/api.generated";
 import type { Project, ProjectState, RewardView } from "@/lib/platform/types";
 import { api } from "@/lib/platform/client";
 import { percentage, safeApproval, units, validWhole } from "@/lib/platform/money";
@@ -17,6 +16,7 @@ import { usePlatform, useResource } from "./PlatformProvider";
 import { Asset as AssetIcon, DataState, InvestorShell, Modal, Panel, Tag } from "./InvestorUI";
 import { ReidApprovalQr } from "./platform/ReidMobile";
 import { ProjectOverview, SupplyTiles, type ProjectNetwork } from "./ProjectOverview";
+import { isOpen, phasedView } from "@/lib/platform/multichain-view";
 import { ShareAllocation } from "./ShareAllocation";
 import "./MultichainProduct.css";
 import styles from "./ProjectPageDesign.module.css";
@@ -47,60 +47,7 @@ const STATUS: Record<string, string> = {
 const FINAL = ["CONFIRMED", "INDEXED", "REJECTED", "FAILED", "EXPIRED"];
 const validAtomic = (v: string | null | undefined): v is string => typeof v === "string" && /^[0-9]+$/.test(v);
 const count = (v: string | null | undefined) => (validAtomic(v) ? units(v, 0) : "—");
-const PHASE_STATUS: Record<string, SalePhase["status"]> = { DRAFT: "Draft", ACTIVE: "Active", CLOSED: "Closed" };
 const NO_REVENUE = { data: undefined as RewardView | undefined, isLoading: false, error: undefined, mutate: () => undefined };
-type SupplyPhase = ProjectSupplyResponse["phases"][number];
-const seconds = (value: string | null) => (value ? String(Math.floor(Date.parse(value) / 1000)) : "0");
-const isOpen = (phase: SupplyPhase, now: number) =>
-  phase.status === "ACTIVE" &&
-  (!phase.startsAt || Date.parse(phase.startsAt) <= now) &&
-  (!phase.endsAt || Date.parse(phase.endsAt) > now) &&
-  validAtomic(phase.available) &&
-  BigInt(phase.available) > 0n;
-
-function salePhase(phase: SupplyPhase, now: number): SalePhase {
-  return {
-    id: String(phase.number),
-    revision: "0",
-    name: phase.name,
-    blocks: phase.blocks,
-    sold: phase.sold,
-    remaining: phase.available,
-    unitPriceAtomic: phase.priceUsdtMicros,
-    scheduledPriceAtomic: null,
-    scheduledAt: null,
-    startsAt: seconds(phase.startsAt),
-    endsAt: seconds(phase.endsAt),
-    whitelist: phase.whitelist,
-    visible: true,
-    open: isOpen(phase, now),
-    status: PHASE_STATUS[phase.status] ?? "Draft",
-    nativeRaised: "0",
-    usdtRaised: "0",
-  };
-}
-
-function phasedView(supply: ProjectSupplyResponse, now: number): Extract<SalePhasesResponse, { mode: "phased" }> {
-  const phases = supply.phases.map((phase) => salePhase(phase, now));
-  const sum = (whitelist: boolean) => phases.filter((phase) => phase.whitelist === whitelist).reduce((total, phase) => total + BigInt(phase.blocks), 0n);
-  const whitelistBlocks = sum(true), publicBlocks = sum(false);
-  const unallocated = BigInt(supply.maxFractions) - BigInt(supply.reservedBlocks) - whitelistBlocks - publicBlocks;
-  return {
-    mode: "phased",
-    phaseCount: phases.length,
-    totalBlocks: supply.maxFractions,
-    reservedBlocks: supply.reservedBlocks,
-    unallocatedBlocks: (unallocated > 0n ? unallocated : 0n).toString(),
-    whitelistBlocks: whitelistBlocks.toString(),
-    publicBlocks: publicBlocks.toString(),
-    current: phases.find((phase) => phase.status === "Active") ?? null,
-    phases,
-    page: 1,
-    nextPage: null,
-    block: "",
-  };
-}
-
 function usdtSix(atomic: string | null, places: number) {
   if (!validAtomic(atomic)) return 0n;
   return places >= 6 ? BigInt(atomic) / 10n ** BigInt(places - 6) : BigInt(atomic) * 10n ** BigInt(6 - places);
