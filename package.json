@@ -15,7 +15,7 @@
     "fpreid-connect-sdk": "0.4.0",
     "jose": "^6.2.12",
     "lucide-react": "^1.57.0",
-    "next": "16.4.1",
+    "next": "16.4.6",
     "qrcode": "^1.5.4",
     "react": "19.3.0",
     "react-dom": "19.3.0",
@@ -30,7 +30,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
-    "eslint-config-next": "16.4.1",
+    "eslint-config-next": "16.4.6",
     "jsdom": "26.1.0",
     "tailwindcss": "^4",
     "typescript": "^5"
