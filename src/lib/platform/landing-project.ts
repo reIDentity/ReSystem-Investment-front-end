@@ -22,7 +22,8 @@ function compactMoney(full: string) {
 export function publishedLandingProject(id: string | undefined, value: unknown): ProjectResponse | null {
   if (!id || !value || typeof value !== "object") return null;
   const p = value as ProjectResponse;
-  if (p.id !== id || p.status !== "PUBLISHED" || !address(p.contractAddress) || !uint(p.publicationBlock) || p.publicationBlock === "0" || typeof p.publicationTxHash !== "string" || !/^0x[0-9a-f]{64}$/i.test(p.publicationTxHash) || typeof p.title !== "string" || !p.title.trim() || typeof p.description !== "string" || !uint(p.maxFractions) || p.maxFractions === "0" || !uint(p.totalValueUsdtAtomic) || p.totalValueUsdtAtomic === "0" || !uint(p.unitPriceUsdtAtomic) || !uint(p.unitPriceReaedAtomic)) return null;
+  const infraPublication = address(p.contractAddress) && uint(p.publicationBlock) && p.publicationBlock !== "0" && typeof p.publicationTxHash === "string" && /^0x[0-9a-f]{64}$/i.test(p.publicationTxHash);
+  if (p.id !== id || p.status !== "PUBLISHED" || !(p.deploymentMode === "MULTICHAIN" || infraPublication) || typeof p.title !== "string" || !p.title.trim() || typeof p.description !== "string" || !uint(p.maxFractions) || p.maxFractions === "0" || !uint(p.totalValueUsdtAtomic) || p.totalValueUsdtAtomic === "0" || !uint(p.unitPriceUsdtAtomic) || !uint(p.unitPriceReaedAtomic)) return null;
   return p;
 }
 

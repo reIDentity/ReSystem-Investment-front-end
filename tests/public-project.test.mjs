@@ -5,7 +5,7 @@ import { renderToStaticMarkup } from 'react-dom/server';
 import { clientRenderer } from './client-renderer.mjs';
 import { safeInvestorPath } from '../src/lib/auth/security.ts';
 
-const id = '1a0b121f-198f-43ab-af16-681559c61dcd';
+const id = 'e0e0ef54-206b-4bd4-bc83-609bcb43a193';
 const project = () => ({ id, title: 'Public project', description: 'Published description', status: 'PUBLISHED', contractAddress: `0x${'3'.repeat(40)}`, publicationBlock: '100', publicationTxHash: `0x${'4'.repeat(64)}`, maxFractions: '10000', totalValueUsdtAtomic: '10000000', unitPriceUsdtAtomic: '1000', unitPriceReaedAtomic: '3600000000000000', media: [] });
 const chain = () => ({ chainId: 15324, source: 'INFRA RPC', headBlock: '200', totalSupply: '54', remainingSupply: '9946', maxFractions: '10000', totalValueUSDT: '10000000', unitPriceUSDT: '1000', saleOpen: true, purchasePaused: false });
 const originalFetch = globalThis.fetch;

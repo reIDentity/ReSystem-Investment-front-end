@@ -29,7 +29,7 @@ export const categories: Array<"All" | Category> = [
 export const products: Product[] = [
   {
     id: "infra-global",
-    projectId: "3995355b-8601-49cb-84bf-06bea42db23e",
+    projectId: "d306fba1-1194-4791-9c96-73dc1ecac5b1",
     replacementProjectId: "6187dbab-0604-43c4-b51e-6b10269d155b",
     name: "INFRA Global",
     category: "Finance",
@@ -39,7 +39,7 @@ export const products: Product[] = [
   },
   {
     id: "infra-reaed",
-    projectId: "b6604ab7-7557-48f4-a7ca-9c83abe02347",
+    projectId: "662ee2b5-3fc1-4d48-8125-aa2e47925c13",
     replacementProjectId: "0caa794e-1160-40be-97a4-96e3fb1049dd",
     name: "INFRA reAED",
     category: "Finance",
@@ -50,7 +50,7 @@ export const products: Product[] = [
   },
   {
     id: "reid",
-    projectId: "4fe22a83-2b4e-44ee-9bbb-c43168baf465",
+    projectId: "f0e5fac9-540a-4efd-b85a-3b877785389d",
     replacementProjectId: "fc1c930c-df85-4b48-9905-1259c734a16e",
     name: "reID",
     category: "Identity",
@@ -61,7 +61,7 @@ export const products: Product[] = [
   },
   {
     id: "remarketplace",
-    projectId: "1a0b121f-198f-43ab-af16-681559c61dcd",
+    projectId: "e0e0ef54-206b-4bd4-bc83-609bcb43a193",
     replacementProjectId: "d034a3ee-6439-46e6-83d9-90d6da94034e",
     name: "reMARKETPLACE",
     category: "Services",

@@ -5,7 +5,7 @@ import { renderToStaticMarkup } from 'react-dom/server';
 import { JSDOM } from 'jsdom';
 import { clientRenderer } from './client-renderer.mjs';
 
-const id = '3995355b-8601-49cb-84bf-06bea42db23e';
+const id = 'd306fba1-1194-4791-9c96-73dc1ecac5b1';
 const address = `0x${'ab'.repeat(20)}`;
 const p = { id, title: 'Live project', description: 'Verified project description', maxFractions: '10000', contractAddress: address, media: [] };
 const resource = data => ({ data, mutate() {} });
