@@ -7,14 +7,19 @@ import type {
   ProjectSupplyResponse,
   TransactionResponse,
 } from "@/lib/platform/api.generated";
-import type { Project } from "@/lib/platform/types";
+import type { SalePhase, SalePhasesResponse } from "@/lib/platform/api.generated";
+import type { Project, ProjectState, RewardView } from "@/lib/platform/types";
 import { api } from "@/lib/platform/client";
-import { safeApproval, units, validWhole } from "@/lib/platform/money";
+import { percentage, safeApproval, units, validWhole } from "@/lib/platform/money";
+import { publicIpfsUrl } from "@/lib/platform/media";
 import { useActionError, useActionFeedback } from "../ActionFeedback";
 import { usePlatform, useResource } from "./PlatformProvider";
-import { DataState, InvestorShell, Modal, Panel, Tag } from "./InvestorUI";
+import { Asset as AssetIcon, DataState, InvestorShell, Modal, Panel, Tag } from "./InvestorUI";
 import { ReidApprovalQr } from "./platform/ReidMobile";
+import { ProjectOverview, SupplyTiles, type ProjectNetwork } from "./ProjectOverview";
+import { ShareAllocation } from "./ShareAllocation";
 import "./MultichainProduct.css";
+import styles from "./ProjectPageDesign.module.css";
 
 type Chain = ChainsResponse["chains"][number];
 type Asset = "USDT" | "NATIVE";
@@ -42,134 +47,217 @@ const STATUS: Record<string, string> = {
 const FINAL = ["CONFIRMED", "INDEXED", "REJECTED", "FAILED", "EXPIRED"];
 const validAtomic = (v: string | null | undefined): v is string => typeof v === "string" && /^[0-9]+$/.test(v);
 const count = (v: string | null | undefined) => (validAtomic(v) ? units(v, 0) : "—");
+const PHASE_STATUS: Record<string, SalePhase["status"]> = { DRAFT: "Draft", ACTIVE: "Active", CLOSED: "Closed" };
+const NO_REVENUE = { data: undefined as RewardView | undefined, isLoading: false, error: undefined, mutate: () => undefined };
+type SupplyPhase = ProjectSupplyResponse["phases"][number];
+const seconds = (value: string | null) => (value ? String(Math.floor(Date.parse(value) / 1000)) : "0");
+const isOpen = (phase: SupplyPhase, now: number) =>
+  phase.status === "ACTIVE" &&
+  (!phase.startsAt || Date.parse(phase.startsAt) <= now) &&
+  (!phase.endsAt || Date.parse(phase.endsAt) > now) &&
+  validAtomic(phase.available) &&
+  BigInt(phase.available) > 0n;
+
+function salePhase(phase: SupplyPhase, now: number): SalePhase {
+  return {
+    id: String(phase.number),
+    revision: "0",
+    name: phase.name,
+    blocks: phase.blocks,
+    sold: phase.sold,
+    remaining: phase.available,
+    unitPriceAtomic: phase.priceUsdtMicros,
+    scheduledPriceAtomic: null,
+    scheduledAt: null,
+    startsAt: seconds(phase.startsAt),
+    endsAt: seconds(phase.endsAt),
+    whitelist: phase.whitelist,
+    visible: true,
+    open: isOpen(phase, now),
+    status: PHASE_STATUS[phase.status] ?? "Draft",
+    nativeRaised: "0",
+    usdtRaised: "0",
+  };
+}
+
+function phasedView(supply: ProjectSupplyResponse, now: number): Extract<SalePhasesResponse, { mode: "phased" }> {
+  const phases = supply.phases.map((phase) => salePhase(phase, now));
+  const sum = (whitelist: boolean) => phases.filter((phase) => phase.whitelist === whitelist).reduce((total, phase) => total + BigInt(phase.blocks), 0n);
+  const whitelistBlocks = sum(true), publicBlocks = sum(false);
+  const unallocated = BigInt(supply.maxFractions) - BigInt(supply.reservedBlocks) - whitelistBlocks - publicBlocks;
+  return {
+    mode: "phased",
+    phaseCount: phases.length,
+    totalBlocks: supply.maxFractions,
+    reservedBlocks: supply.reservedBlocks,
+    unallocatedBlocks: (unallocated > 0n ? unallocated : 0n).toString(),
+    whitelistBlocks: whitelistBlocks.toString(),
+    publicBlocks: publicBlocks.toString(),
+    current: phases.find((phase) => phase.status === "Active") ?? null,
+    phases,
+    page: 1,
+    nextPage: null,
+    block: "",
+  };
+}
+
+function usdtSix(atomic: string | null, places: number) {
+  if (!validAtomic(atomic)) return 0n;
+  return places >= 6 ? BigInt(atomic) / 10n ** BigInt(places - 6) : BigInt(atomic) * 10n ** BigInt(6 - places);
+}
 
 export function MultichainProduct({ id }: { id: string }) {
   const project = useResource<Project>(`projects/${id}`);
   const supply = useResource<ProjectSupplyResponse>(`projects/${id}/supply`, 15000);
   const chains = useResource<ChainsResponse>("chains", 0);
   const portfolio = useResource<MultichainPortfolioResponse>("multichain/portfolio", 15000);
-  const live = (chains.data?.chains ?? []).filter((c) => supply.data?.chains.some((d) => d.chainId === c.chainId && d.status === "DEPLOYED"));
+  const [now] = useState(() => Date.now());
+  const deployments = supply.data?.chains.filter((d) => d.status === "DEPLOYED") ?? [];
+  const live = (chains.data?.chains ?? []).filter((c) => deployments.some((d) => d.chainId === c.chainId));
   const [chainId, setChainId] = useState<number | null>(null);
-  const chain: Chain | undefined = live.find((c) => c.chainId === chainId) ?? live[0];
+  const chain: Chain | undefined = live.find((c) => c.chainId === chainId) ?? live.find((c) => deployments.find((d) => d.chainId === c.chainId)?.saleOpen) ?? live[0];
+  const deployment = deployments.find((d) => d.chainId === chain?.chainId);
   const [asset, setAsset] = useState<Asset>("USDT");
   const [quantity, setQuantity] = useState("1");
   const [command, setCommand] = useState<Command | null>(null);
-  const valid = validWhole(quantity);
-  const quote = useResource<MultichainQuoteResponse>(
-    chain && valid ? `projects/${id}/multichain-quote?chainId=${chain.chainId}&asset=${asset}&quantity=${quantity}` : null,
-    15000,
-  );
   const p = project.error ? undefined : project.data;
   const s = supply.error ? undefined : supply.data;
   const current = s?.phases.find((ph) => ph.status === "ACTIVE");
-  const holding = portfolio.data?.items.find((i) => i.projectId === id);
-  const q = quote.error ? undefined : quote.data;
+  const view = s ? phasedView(s, now) : undefined;
+  const anyOpen = deployments.some((d) => d.saleOpen);
+  const saleLimit = !s ? null : !current || !isOpen(current, now) || !deployment?.saleOpen ? 0n : BigInt(current.available);
+  const valid = validWhole(quantity);
+  const allowed = valid && saleLimit !== null && BigInt(quantity) <= saleLimit;
+  const quote = useResource<MultichainQuoteResponse>(
+    chain && allowed ? `projects/${id}/multichain-quote?chainId=${chain.chainId}&asset=${asset}&quantity=${quantity}` : null,
+    15000,
+  );
+  const q = !quote.error && quote.data?.quantity === quantity && quote.data.asset === asset && quote.data.chainId === chain?.chainId ? quote.data : undefined;
+  const holding = portfolio.error ? undefined : portfolio.data?.items.find((i) => i.projectId === id);
+  const owned = holding && validAtomic(holding.totalShares) && BigInt(holding.totalShares) > 0n;
+  const claimable = holding ? holding.chains.reduce((total, h) => total + usdtSix(h.claimableAtomic, h.usdtDecimals), 0n) : 0n;
+  const state: ProjectState | undefined = s ? { totalSupply: s.sold, remainingSupply: s.available, maxFractions: s.maxFractions, saleOpen: anyOpen, purchasePaused: false, fundingPaused: false, headBlock: "", source: "multichain" } : undefined;
+  const networks: ProjectNetwork[] = live.map((c) => {
+    const d = deployments.find((item) => item.chainId === c.chainId);
+    return { chainId: c.chainId, name: c.name, nativeSymbol: c.nativeSymbol, contract: d?.contract ?? null, explorerUrl: d?.explorerUrl ?? null };
+  });
+  const documents = p?.media?.filter((media) => media.mimeType === "application/pdf" && /^[a-zA-Z0-9]{32,120}$/.test(media.cid)) || [];
+  const issuedPercent = s ? percentage(s.sold, s.maxFractions) : "—";
   const symbol = asset === "USDT" ? "USDT" : chain?.nativeSymbol ?? "";
+  const canBuy = Boolean(chain && allowed && q);
+  function adjust(change: bigint) {
+    const next = (valid ? BigInt(quantity) : 0n) + change;
+    if (next > 0n && (change < 0n || (saleLimit !== null && next <= saleLimit))) setQuantity(next.toString());
+  }
 
   return (
     <InvestorShell page="product" title={p?.title || "Project details"} subtitle="One project, available on several networks. Shares bought on any network come from the same supply.">
       <DataState loading={project.isLoading || supply.isLoading} error={project.error || supply.error} onRetry={() => { void project.mutate(); void supply.mutate(); }} />
-      {p && s ? (
-        <div className="iv-mc">
-          <Panel title="About this project">
-            <p className="iv-muted">{p.description}</p>
-            <dl className="iv-mc-stats">
-              <div><dt>Total shares</dt><dd>{count(s.maxFractions)}</dd></div>
-              <div><dt>Sold</dt><dd>{count(s.sold)}</dd></div>
-              <div><dt>Available now</dt><dd>{count(current ? current.available : "0")}</dd></div>
-              <div><dt>Price per share</dt><dd>{current ? `${units(current.priceUsdtMicros, 6)} USDT` : "—"}</dd></div>
-            </dl>
-            {current ? (
-              <p className="iv-muted">
-                {current.name}
-                {current.whitelist ? " · approved investors only" : " · open to everyone"}
-                {current.endsAt ? ` · ends ${new Date(current.endsAt).toLocaleString()}` : ""}
-              </p>
-            ) : (
-              <p className="iv-muted">No sale phase is open right now.</p>
-            )}
-          </Panel>
+      <div className={`iv-product-detail iv-pd-page ${styles.content}`}>
+        <ProjectOverview
+          project={project}
+          state={{ data: state, error: supply.error, isLoading: supply.isLoading, mutate: () => supply.mutate() }}
+          revenue={NO_REVENUE}
+          saleLimit={saleLimit}
+          supplyTotal={s?.maxFractions}
+          nativePrice={null}
+          usdtPrice={current?.priceUsdtMicros}
+          issuedPercent={issuedPercent}
+          view={view}
+          yourShares={holding ? count(holding.totalShares) : portfolio.data && !portfolio.error ? "0" : "—"}
+          claimTotals={portfolio.data && !portfolio.error ? { REAED: 0n, USDT: claimable } : null}
+          ownsShares={!!owned}
+          allocationLoading={supply.isLoading}
+          networks={networks}
+        />
 
-          <Panel title="Choose a network" subtitle="Pay on the network where you hold funds. Your reID wallet uses the same account on every network.">
-            <div className="iv-mc-chips" role="radiogroup" aria-label="Network">
-              {live.map((c) => (
-                <button key={c.chainId} type="button" role="radio" aria-checked={chain?.chainId === c.chainId} className={`iv-mc-chip${chain?.chainId === c.chainId ? " is-active" : ""}`} onClick={() => setChainId(c.chainId)}>
-                  {c.name}
-                </button>
-              ))}
-              {chains.data?.comingSoon.map((c) => (
-                <span key={c.chainId} className="iv-mc-chip is-soon" aria-disabled="true">
-                  {c.name} <Tag tone="amber">Coming soon</Tag>
-                </span>
-              ))}
-            </div>
-            {chain ? (
-              <div className="iv-live-form">
-                <div className="iv-mc-chips" role="radiogroup" aria-label="Pay with">
-                  {(["USDT", "NATIVE"] as Asset[]).map((a) => (
-                    <button key={a} type="button" role="radio" aria-checked={asset === a} className={`iv-mc-chip${asset === a ? " is-active" : ""}`} onClick={() => setAsset(a)}>
-                      {a === "USDT" ? "USDT" : chain.nativeSymbol}
-                    </button>
-                  ))}
+        <Panel className={`iv-invest-panel ${styles.choosePanel}`}>
+          <div id="invest" className="iv-invest-anchor" />
+          <div className={styles.chooseLayout}>
+            <div className={styles.chooseSummary}>
+              <div className="iv-panel-toolbar">
+                <div><p className="iv-eyebrow">INVEST / {p?.title.toUpperCase() || "PROJECT"}</p><h2>Choose your shares</h2></div>
+                <div className="iv-document-links">
+                  {documents.length ? documents.map((document) => <a className="iv-button iv-document" href={publicIpfsUrl(document.cid)} target="_blank" rel="noopener noreferrer" key={document.cid}><AssetIcon name="92135" width={16} />{document.filename} ↗</a>) : <span className="iv-pd-document-empty"><AssetIcon name="92135" width={16} />No documents published</span>}
                 </div>
-                <label htmlFor="mc-quantity">Shares</label>
-                <input id="mc-quantity" inputMode="numeric" value={quantity} onChange={(e) => setQuantity(e.target.value.replace(/\D/g, ""))} />
-                {!valid ? <p className="iv-muted">Enter a whole number of shares.</p> : null}
-                <DataState error={quote.error} onRetry={() => void quote.mutate()} />
-                {q ? (
-                  <dl className="iv-exact-summary">
-                    <div><dt>You pay</dt><dd>{q.costDisplay} {q.symbol}</dd></div>
-                    <div><dt>Value</dt><dd>{units(q.usdMicros, 6)} USDT</dd></div>
-                    {asset === "NATIVE" ? <div><dt>Rate</dt><dd>{q.nativeUsdMicros ? `1 ${q.symbol} ≈ ${units(q.nativeUsdMicros, 6)} USDT` : "—"}</dd></div> : null}
-                    <div><dt>Price held for</dt><dd>{Math.round(q.validForSeconds / 60)} minutes after you confirm</dd></div>
-                  </dl>
-                ) : null}
-                <div className="iv-two-buttons">
-                  {asset === "USDT" ? (
-                    <button type="button" className="iv-button" disabled={!q} onClick={() => q && setCommand({ type: "APPROVE_USDT", projectId: id, chainId: chain.chainId, amountAtomic: q.costAtomic })}>
-                      Step 1 · Allow USDT
-                    </button>
-                  ) : null}
-                  <button type="button" className="iv-button iv-primary" disabled={!q} onClick={() => setCommand({ type: "BUY", projectId: id, chainId: chain.chainId, asset, quantity })}>
-                    {asset === "USDT" ? "Step 2 · Buy shares" : `Buy with ${symbol}`}
-                  </button>
-                </div>
-                <p className="iv-muted">Network fees are paid in {chain.nativeSymbol} from your wallet on {chain.name}.</p>
               </div>
-            ) : (
-              <p className="iv-muted">This project is not live on any network yet.</p>
-            )}
-          </Panel>
+              <ShareAllocation total={s?.maxFractions} issued={s?.sold} remaining={s?.available} phased view={view} saleLimit={saleLimit} walletLimit={null} asset="USDT" saleOpen={anyOpen} paused={false} noGas={false} phasedLoading={supply.isLoading} selected={allowed ? quantity : undefined} />
+            </div>
+            <div className={styles.chooseActions}>
+              <div className={styles.supplyPanel}>
+                <div className="iv-block-legend"><span><i className="iv-pd-issued-key" />ISSUED</span><span><i className="iv-legend-available" />ON SALE</span><span><i className="iv-pd-later-key" />NOT ON SALE</span><span><i className="iv-pd-reserved-key" />RESERVED</span><span><i className="iv-legend-selected" />SELECTED</span><span>SUPPLY OVERVIEW · 2% PER TILE</span></div>
+                <div className="iv-block-progress" aria-hidden="true">{issuedPercent !== "—" ? <span style={{ width: issuedPercent }} /> : null}</div>
+                <div className="iv-block-grid-wrap"><SupplyTiles issued={s?.sold} maximum={s?.maxFractions} selected={allowed ? quantity : "0"} reserved={s?.reservedBlocks} onSale={saleLimit?.toString()} /></div>
+                <div className="iv-block-controls">
+                  <div>
+                    <button type="button" aria-label="Decrease share quantity" disabled={!valid || BigInt(quantity) <= 1n} onClick={() => adjust(-1n)}>−</button>
+                    <input id="buy-quantity" type="text" inputMode="numeric" aria-label="Share quantity" value={quantity} onChange={(event) => setQuantity(event.target.value.replace(/\D/g, ""))} />
+                    <button type="button" aria-label="Increase share quantity" disabled={!valid || saleLimit === null || BigInt(quantity) >= saleLimit} onClick={() => adjust(1n)}>+</button>
+                  </div>
+                  <span>SHARES</span>
+                  {["1", "10", "50"].map((value) => <button type="button" aria-pressed={quantity === value} disabled={saleLimit === null || BigInt(value) > saleLimit} key={value} onClick={() => setQuantity(value)}>{value}</button>)}
+                </div>
+                {!valid ? <p className="iv-form-error" role="alert">Enter a whole share quantity greater than zero.</p> : saleLimit !== null && saleLimit > 0n && !allowed ? <p className="iv-form-error">Choose up to {units(String(saleLimit), 0)} shares.</p> : null}
+              </div>
+              <div className={`iv-order-summary ${styles.orderSummary}`}>
+                <p className="iv-eyebrow">ORDER SUMMARY</p>
+                <div className="iv-mc-chips" role="radiogroup" aria-label="Network">
+                  {live.map((c) => (
+                    <button key={c.chainId} type="button" role="radio" aria-checked={chain?.chainId === c.chainId} className={`iv-mc-chip${chain?.chainId === c.chainId ? " is-active" : ""}`} onClick={() => setChainId(c.chainId)}>{c.name}</button>
+                  ))}
+                  {chains.data?.comingSoon.map((c) => <span key={c.chainId} className="iv-mc-chip is-soon" aria-disabled="true">{c.name} <Tag tone="amber">Coming soon</Tag></span>)}
+                </div>
+                <dl>
+                  <div><dt>Shares</dt><dd>{valid ? count(quantity) : "—"}</dd></div>
+                  <div><dt>Price per share</dt><dd>{current ? `${units(current.priceUsdtMicros, 6)} USDT` : "—"}</dd></div>
+                  <div><dt>Selected project share</dt><dd>{s && valid ? percentage(quantity, s.maxFractions) : "—"}</dd></div>
+                  <div><dt>Network</dt><dd>{chain?.name ?? "—"}</dd></div>
+                </dl>
+                <fieldset className="iv-order-assets">
+                  <legend className="sr-only">Payment asset</legend>
+                  {(["USDT", "NATIVE"] as Asset[]).map((value) => (
+                    <label className={asset === value ? "iv-asset-selected" : ""} key={value}>
+                      <input type="radio" name="payment-asset" value={value} checked={asset === value} onChange={() => setAsset(value)} />
+                      <strong>{value === "USDT" ? "USDT" : chain?.nativeSymbol ?? "Coin"}</strong>
+                      <span>{value === "USDT" ? "Fixed phase price" : "At the live rate"}</span>
+                    </label>
+                  ))}
+                </fieldset>
+                <div className="iv-order-total">
+                  <span>TOTAL</span>
+                  <div>
+                    <strong aria-live="polite" aria-busy={quote.isLoading}>{q ? `${q.costDisplay} ${q.symbol}` : quote.isLoading ? "Loading…" : "—"}</strong>
+                    <small>{q ? `${units(q.usdMicros, 6)} USDT · price held ${Math.round(q.validForSeconds / 60)} min · gas in ${chain?.nativeSymbol}` : `Network gas is paid separately in ${chain?.nativeSymbol ?? "the network coin"}`}</small>
+                  </div>
+                </div>
+                <DataState error={quote.error} onRetry={() => void quote.mutate()} />
+                {asset === "USDT" ? <button className="iv-button iv-full iv-pd-allowance" disabled={!canBuy} onClick={() => q && chain && setCommand({ type: "APPROVE_USDT", projectId: id, chainId: chain.chainId, amountAtomic: q.costAtomic })}>Review exact USDT allowance</button> : null}
+                <button className="iv-button iv-primary iv-full" disabled={!canBuy} onClick={() => chain && setCommand({ type: "BUY", projectId: id, chainId: chain.chainId, asset, quantity })}>{asset === "USDT" ? "Review purchase" : `Review purchase with ${symbol}`}</button>
+                <p className="iv-muted">{saleLimit === 0n ? (current && chain && !deployment?.saleOpen ? `Sales aren't open on ${chain.name} right now.` : "There are no shares on sale now.") : `Approve with reID. Shares arrive in your wallet on ${chain?.name ?? "the chosen network"} after confirmation.`}</p>
+                <small>Returns depend on future revenue. Review the exact transaction before signing.</small>
+              </div>
+            </div>
+          </div>
+        </Panel>
 
-          <Panel title="Your shares" subtitle={portfolio.data?.tronWallet ? `EVM ${portfolio.data.wallet} · TRON ${portfolio.data.tronWallet}` : undefined}>
-            <DataState loading={portfolio.isLoading} error={portfolio.error} onRetry={() => void portfolio.mutate()} />
-            {holding ? (
-              <>
-                <p><strong>{count(holding.totalShares)}</strong> shares across all networks</p>
-                <table className="iv-mc-table">
-                  <thead><tr><th>Network</th><th>Shares</th><th>Revenue to claim</th><th /></tr></thead>
-                  <tbody>
-                    {holding.chains.map((h) => (
-                      <tr key={h.chainId}>
-                        <td>{chains.data?.chains.find((c) => c.chainId === h.chainId)?.name ?? h.network}</td>
-                        <td>{count(h.shares)}</td>
-                        <td>{validAtomic(h.claimableAtomic) ? `${units(h.claimableAtomic, h.usdtDecimals)} USDT` : "—"}</td>
-                        <td>
-                          {validAtomic(h.claimableAtomic) && BigInt(h.claimableAtomic) > 0n ? (
-                            <button type="button" className="iv-button" onClick={() => setCommand({ type: "CLAIM", projectId: id, chainId: h.chainId })}>Claim</button>
-                          ) : null}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </>
-            ) : !portfolio.isLoading && !portfolio.error ? (
-              <p className="iv-muted">You don&apos;t hold shares in this project yet.</p>
-            ) : null}
+        {owned && holding ? (
+          <Panel title="Your shares on each network" subtitle={portfolio.data?.tronWallet ? `EVM ${portfolio.data.wallet} · TRON ${portfolio.data.tronWallet}` : undefined}>
+            <table className="iv-mc-table">
+              <thead><tr><th>Network</th><th>Shares</th><th>Revenue to claim</th><th /></tr></thead>
+              <tbody>
+                {holding.chains.map((h) => (
+                  <tr key={h.chainId}>
+                    <td>{chains.data?.chains.find((c) => c.chainId === h.chainId)?.name ?? h.network}</td>
+                    <td>{count(h.shares)}</td>
+                    <td>{validAtomic(h.claimableAtomic) ? `${units(h.claimableAtomic, h.usdtDecimals)} USDT` : "—"}</td>
+                    <td>{validAtomic(h.claimableAtomic) && BigInt(h.claimableAtomic) > 0n ? <button type="button" className="iv-button" onClick={() => setCommand({ type: "CLAIM", projectId: id, chainId: h.chainId })}>Claim</button> : null}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </Panel>
-        </div>
-      ) : null}
+        ) : null}
+      </div>
       {command ? (
         <MultichainReview
           command={command}
