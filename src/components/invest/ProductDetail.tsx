@@ -13,6 +13,7 @@ import { Asset, DataState, InvestorShell, Panel } from "./InvestorUI";
 import { AssetSelect } from "./platform/AssetSelect";
 import { TransactionReview, type InvestorCommand } from "./platform/Transaction";
 import { ShareAllocation } from "./ShareAllocation";
+import { MultichainProduct } from "./MultichainProduct";
 import { ProjectOverview, SupplyTiles } from "./ProjectOverview";
 import "./ProductDetail.css";
 import styles from "./ProjectPageDesign.module.css";
@@ -102,6 +103,13 @@ function PhaseAvailability({ id, initial }: { id: string; initial: SalePhasesRes
 }
 
 export function InvestorProduct({ id }: { id: string }) {
+  const project = useResource<Project>(`projects/${id}`);
+  if (project.data?.deploymentMode === "MULTICHAIN") return <MultichainProduct id={id} />;
+  if (!project.data && !project.error) return <InvestorShell page="product" title="Project details" subtitle="Explore the project. Own a share of what comes next."><DataState loading /></InvestorShell>;
+  return <InfraProduct id={id} />;
+}
+
+function InfraProduct({ id }: { id: string }) {
   const project = useResource<Project>(`projects/${id}`), state = useResource<ProjectState>(`projects/${id}/chain`), revenue = useResource<RewardView>(`projects/${id}/revenue`);
   const portfolio = useResource<Portfolio>("portfolio"), wallet = useResource<WalletResponse>("wallet");
   const p = project.error ? undefined : project.data, supply = state.error ? undefined : state.data;
