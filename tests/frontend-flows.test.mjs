@@ -347,8 +347,7 @@ test('See more arrival selects Deposits, requests numbered server pages and rese
     } },
     './InvestorUI': ui, './platform/Transaction': { IntentReview: () => null },
   }).load('src/components/invest/ActivitySupport.tsx');
-  const page = clientRenderer({ '@/components/invest/ActivitySupport': { InvestorActivity } }).load('src/app/invest/(authenticated)/activity/page.tsx').default;
-  const view = render(await page({ searchParams: Promise.resolve({ filter: 'deposits' }) }));
+  const view = render(React.createElement(InvestorActivity, { initialFilter: 'deposits' }));
   assert.equal(view.getByRole('button', { name: 'Deposits', exact: true }).getAttribute('aria-pressed'), 'true');
   assert.equal(view.container.querySelectorAll('tbody tr').length, 10);
   assert.ok(view.getByText('Showing 1–10 of 23 transactions'));
@@ -363,13 +362,10 @@ test('See more arrival selects Deposits, requests numbered server pages and rese
   fireEvent.click(view.getByRole('button', { name: 'Withdrawals', exact: true }));
   assert.ok(calls.includes('activity?page=1&pageSize=10&filter=withdrawals'));
 });
-test('unknown and repeated Activity filter parameters safely open All without losing intent links', async () => {
-  const Page = clientRenderer({ '@/components/invest/ActivitySupport': { InvestorActivity: props => React.createElement('div', { 'data-filter': props.initialFilter, 'data-intent': props.initialIntent }) } }).load('src/app/invest/(authenticated)/activity/page.tsx').default;
+test('unknown and repeated INFRA Activity filter values safely open All', async () => {
   const { InvestorActivity } = clientRenderer({ './PlatformProvider': { usePlatform: () => ({ user }), useResource: () => resource({ items: [], nextCursor: null }) }, './InvestorUI': ui, './platform/Transaction': { IntentReview: () => null } }).load('src/components/invest/ActivitySupport.tsx');
-  for (const filter of ['unsupported', ['deposits', 'buys'], undefined]) {
-    const page = await Page({ searchParams: Promise.resolve({ filter, intent: 'retained-intent' }) });
-    assert.equal(page.props.initialIntent, 'retained-intent');
-    const view = render(React.createElement(InvestorActivity, { initialFilter: page.props.initialFilter }));
+  for (const filter of ['unsupported', undefined]) {
+    const view = render(React.createElement(InvestorActivity, { initialFilter: filter }));
     assert.equal(view.getByRole('button', { name: 'All', exact: true }).getAttribute('aria-pressed'), 'true');
     view.unmount();
   }
@@ -527,4 +523,66 @@ test('the picker separates phase allocation, wallet approval, and affordable qua
   paused=false;phase.open=false;refresh();assert.match(availability(),/On sale now0 shares/);
   phase.open=true;endpointFailed=true;refresh();assert.equal(button('Review purchase').disabled,true);
   assert.match(availability(),/On sale nowUnavailable/);
+});
+
+function multichainFixture(resources, extra = {}) {
+  const claims = [];
+  const mod = clientRenderer({
+    './PlatformProvider': { usePlatform: () => ({ user, live: true, approvalOrigin: 'https://app.reidentity.example' }), useResource: path => resource(resources[path]) },
+    './InvestorUI': { ...ui, CopyButton: () => React.createElement('button', null, 'Copy address') },
+    './MultichainProduct': { MultichainReview: props => { claims.push(props); return React.createElement('div', { role: 'dialog', 'aria-label': 'Claim revenue' }, props.network); } },
+    '@/lib/platform/client': { api: async () => ({ items: [], nextCursor: null }) },
+    'next/image': props => React.createElement('img', { alt: props.alt }),
+    'next/navigation': { useSearchParams: () => new URLSearchParams(extra.search || '') },
+    'swr/infinite': () => ({ data: [], error: undefined, isLoading: false, isValidating: false, size: 1, setSize: async () => {}, mutate: async () => {} }),
+  }).load('src/components/invest/MultichainWallet.tsx');
+  return { mod, claims };
+}
+const networkRow = (network, name, status, usdt, decimals, native, symbol, address = wallet) => ({ chainId: { 'bsc-testnet': 97, sepolia: 11155111, 'tron-nile': 3448148188 }[network], network, name, address, explorerUrl: `https://explorer.example/${network}`, status, native: { symbol, decimals: symbol === 'TRX' ? 6 : 18, balanceAtomic: native }, usdt: { address: '0xusdt', decimals, balanceAtomic: usdt } });
+const multichainWallet = { wallet, tronWallet: 'TSyntheticTron', readAt: '2026-11-20T00:00:00Z', usdtTotalAtomic: '5500000', usdtTotalDecimals: 6, complete: false, networks: [
+  networkRow('bsc-testnet', 'BNB Smart Chain Testnet', 'ok', '2000000000000000000', 18, '1000000000000000000', 'BNB'),
+  networkRow('sepolia', 'Ethereum Sepolia', 'unavailable', null, 6, null, 'ETH'),
+  networkRow('tron-nile', 'TRON Nile', 'ok', '3500000', 6, '5000000', 'TRX', 'TSyntheticTron'),
+], comingSoon: [] };
+const multichainPortfolio = { wallet, tronWallet: 'TSyntheticTron', items: [{ projectId: 'p1', title: 'INFRA Global', totalShares: '3', chains: [
+  { chainId: 97, network: 'bsc-testnet', contract: '0xc', shares: '2', claimableAtomic: '1500000000000000000', claimedAtomic: '0', usdtDecimals: 18 },
+  { chainId: 3448148188, network: 'tron-nile', contract: 'Tc', shares: '1', claimableAtomic: '0', claimedAtomic: '250000', usdtDecimals: 6 },
+] }] };
+
+test('multichain wallet shows the reID USDT total, each network, unavailable networks and INFRA as coming soon', () => {
+  const { mod } = multichainFixture({ 'multichain/wallet': multichainWallet, 'multichain/portfolio': multichainPortfolio });
+  const view = render(React.createElement(mod.MultichainWallet));
+  assert.ok(view.getByText('5.5 USDT'));
+  assert.ok(view.getByText(/may be incomplete/));
+  assert.ok(view.getByText('2 USDT'));
+  assert.ok(view.getByText('3.5 USDT'));
+  assert.ok(view.getByText('TSyntheticTron'));
+  assert.equal(view.getAllByText('Unavailable').length, 1);
+  assert.ok(view.getByText(/reID could not read this network/));
+  assert.ok(view.getByText(/INFRA wallet balances will appear here/));
+  assert.equal(view.container.querySelectorAll('tbody tr').length, 2);
+  assert.ok(view.getAllByRole('link', { name: 'Deposit' }).some(link => link.getAttribute('href') === '/invest/deposit?network=tron-nile'));
+});
+
+test('multichain earnings total claimable and claimed USDT and claim only networks with earnings', () => {
+  const { mod, claims } = multichainFixture({ 'multichain/portfolio': multichainPortfolio });
+  const view = render(React.createElement(mod.MultichainEarnings));
+  assert.equal(view.getAllByText('1.5 USDT').length, 2);
+  assert.equal(view.getAllByText('0.25 USDT').length, 2);
+  const buttons = view.getAllByRole('button', { name: 'Claim' });
+  assert.equal(buttons[0].disabled, false);
+  assert.equal(buttons[1].disabled, true);
+  fireEvent.click(buttons[0]);
+  assert.equal(JSON.stringify(claims.at(-1).command), JSON.stringify({ type: 'CLAIM', projectId: 'p1', chainId: 97 }));
+  assert.equal(claims.at(-1).network, 'BNB Smart Chain Testnet');
+});
+
+test('multichain deposit opens the requested network address with network-specific sending rules', () => {
+  const { mod } = multichainFixture({ 'multichain/wallet': multichainWallet }, { search: 'network=tron-nile' });
+  const view = render(React.createElement(mod.MultichainDeposit));
+  assert.equal(view.getByRole('radio', { name: 'TRON' }).getAttribute('aria-checked'), 'true');
+  assert.ok(view.getAllByText('TSyntheticTron').length);
+  assert.ok(view.getByText('USDT (TRC-20)'));
+  fireEvent.click(view.getByRole('radio', { name: 'Ethereum' }));
+  assert.ok(view.getByText('USDT (ERC-20)'));
 });

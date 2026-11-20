@@ -1,4 +1,4 @@
-import { InvestorDeposit } from "@/components/invest/Deposit";
+import { MultichainDeposit as InvestorDeposit } from "@/components/invest/MultichainWallet";
 export default function Page() { return <InvestorDeposit />; }
 
 // Validate the backend session at request time on every protected navigation.

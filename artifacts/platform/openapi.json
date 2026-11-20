@@ -17903,6 +17903,283 @@
         ]
       }
     },
+    "/v1/multichain/wallet": {
+      "get": {
+        "operationId": "MultichainPublicController_wallet",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MultichainWalletResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "cookie": []
+          }
+        ],
+        "tags": [
+          "Multichain"
+        ]
+      }
+    },
+    "/v1/multichain/activity": {
+      "get": {
+        "operationId": "MultichainPublicController_activity",
+        "parameters": [
+          {
+            "name": "cursor",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "network",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "type",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MultichainActivityResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "cookie": []
+          }
+        ],
+        "tags": [
+          "Multichain"
+        ]
+      }
+    },
     "/v1/multichain/portfolio": {
       "get": {
         "operationId": "MultichainPublicController_portfolio",
@@ -20157,6 +20434,295 @@
         ]
       }
     },
+    "/v1/admin/projects/{id}/multichain/intents": {
+      "get": {
+        "operationId": "MultichainAdminController_openIntents",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MultichainIntentList"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "cookie": []
+          }
+        ],
+        "tags": [
+          "Multichain admin"
+        ]
+      }
+    },
+    "/v1/admin/projects/{id}/multichain/intents/approve": {
+      "post": {
+        "operationId": "MultichainAdminController_approveIntents",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-CSRF-Token",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Token from GET /v1/auth/session; configured Origin must also be forwarded"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MultichainApprovalDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MultichainApprovalResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Validated, permission, conflict, throttling or dependency error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "cookie": []
+          }
+        ],
+        "tags": [
+          "Multichain admin"
+        ]
+      }
+    },
     "/v1/admin/projects/{id}/multichain/deployments": {
       "get": {
         "operationId": "MultichainAdminController_deployments",
@@ -21007,6 +21573,40 @@
         },
         "required": [
           "token"
+        ]
+      },
+      "MultichainApprovalItemDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "reviewKey": {
+            "type": "string",
+            "description": "The exact frozen review JSON the approver acknowledged; it must match the server view"
+          }
+        },
+        "required": [
+          "id",
+          "reviewKey"
+        ]
+      },
+      "MultichainApprovalDto": {
+        "type": "object",
+        "properties": {
+          "totp": {
+            "type": "string"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MultichainApprovalItemDto"
+            }
+          }
+        },
+        "required": [
+          "totp",
+          "items"
         ]
       },
       "JsonValue": {
@@ -26281,6 +26881,35 @@
         ],
         "additionalProperties": false
       },
+      "MultichainApprovalResult": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "intent": {
+                  "$ref": "#/components/schemas/TransactionResponse"
+                },
+                "error": {
+                  "type": "string",
+                  "nullable": true
+                }
+              },
+              "required": [
+                "intent",
+                "error"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "items"
+        ],
+        "additionalProperties": false
+      },
       "MultichainPhase": {
         "type": "object",
         "properties": {
@@ -26570,6 +27199,12 @@
                         "description": "Exact integer base units; never convert to a JavaScript number",
                         "nullable": true
                       },
+                      "claimedAtomic": {
+                        "type": "string",
+                        "pattern": "^(0|[1-9][0-9]*)$",
+                        "description": "Exact integer base units; never convert to a JavaScript number",
+                        "nullable": true
+                      },
                       "usdtDecimals": {
                         "type": "integer"
                       }
@@ -26580,6 +27215,7 @@
                       "contract",
                       "shares",
                       "claimableAtomic",
+                      "claimedAtomic",
                       "usdtDecimals"
                     ],
                     "additionalProperties": false
@@ -26600,6 +27236,302 @@
           "wallet",
           "tronWallet",
           "items"
+        ],
+        "additionalProperties": false
+      },
+      "MultichainComingSoon": {
+        "type": "object",
+        "properties": {
+          "chainId": {
+            "type": "integer"
+          },
+          "network": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "nativeSymbol": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "coming_soon"
+            ]
+          }
+        },
+        "required": [
+          "chainId",
+          "network",
+          "name",
+          "nativeSymbol",
+          "status"
+        ],
+        "additionalProperties": false
+      },
+      "MultichainWalletResponse": {
+        "type": "object",
+        "properties": {
+          "wallet": {
+            "type": "string"
+          },
+          "tronWallet": {
+            "type": "string",
+            "nullable": true
+          },
+          "readAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "usdtTotalAtomic": {
+            "type": "string",
+            "pattern": "^(0|[1-9][0-9]*)$",
+            "description": "Exact integer base units; never convert to a JavaScript number"
+          },
+          "usdtTotalDecimals": {
+            "type": "integer"
+          },
+          "complete": {
+            "type": "boolean"
+          },
+          "networks": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "chainId": {
+                  "type": "integer"
+                },
+                "network": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "address": {
+                  "type": "string"
+                },
+                "explorerUrl": {
+                  "type": "string"
+                },
+                "status": {
+                  "type": "string",
+                  "enum": [
+                    "ok",
+                    "unavailable"
+                  ]
+                },
+                "native": {
+                  "type": "object",
+                  "properties": {
+                    "symbol": {
+                      "type": "string"
+                    },
+                    "decimals": {
+                      "type": "integer"
+                    },
+                    "balanceAtomic": {
+                      "type": "string",
+                      "pattern": "^(0|[1-9][0-9]*)$",
+                      "description": "Exact integer base units; never convert to a JavaScript number",
+                      "nullable": true
+                    }
+                  },
+                  "required": [
+                    "symbol",
+                    "decimals",
+                    "balanceAtomic"
+                  ],
+                  "additionalProperties": false
+                },
+                "usdt": {
+                  "type": "object",
+                  "properties": {
+                    "address": {
+                      "type": "string"
+                    },
+                    "decimals": {
+                      "type": "integer"
+                    },
+                    "balanceAtomic": {
+                      "type": "string",
+                      "pattern": "^(0|[1-9][0-9]*)$",
+                      "description": "Exact integer base units; never convert to a JavaScript number",
+                      "nullable": true
+                    }
+                  },
+                  "required": [
+                    "address",
+                    "decimals",
+                    "balanceAtomic"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "required": [
+                "chainId",
+                "network",
+                "name",
+                "address",
+                "explorerUrl",
+                "status",
+                "native",
+                "usdt"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "comingSoon": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MultichainComingSoon"
+            }
+          }
+        },
+        "required": [
+          "wallet",
+          "tronWallet",
+          "readAt",
+          "usdtTotalAtomic",
+          "usdtTotalDecimals",
+          "complete",
+          "networks",
+          "comingSoon"
+        ],
+        "additionalProperties": false
+      },
+      "MultichainActivityResponse": {
+        "type": "object",
+        "properties": {
+          "wallet": {
+            "type": "string"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "type": {
+                  "type": "string",
+                  "enum": [
+                    "BUY",
+                    "APPROVE_USDT",
+                    "CLAIM",
+                    "TRANSFER_IN",
+                    "TRANSFER_OUT"
+                  ]
+                },
+                "status": {
+                  "type": "string",
+                  "enum": [
+                    "pending",
+                    "confirmed",
+                    "failed"
+                  ]
+                },
+                "source": {
+                  "type": "string",
+                  "enum": [
+                    "app",
+                    "chain"
+                  ]
+                },
+                "chainId": {
+                  "type": "integer"
+                },
+                "network": {
+                  "type": "string"
+                },
+                "projectId": {
+                  "type": "string",
+                  "nullable": true
+                },
+                "projectTitle": {
+                  "type": "string",
+                  "nullable": true
+                },
+                "quantity": {
+                  "type": "string",
+                  "pattern": "^(0|[1-9][0-9]*)$",
+                  "description": "Exact integer base units; never convert to a JavaScript number",
+                  "nullable": true
+                },
+                "asset": {
+                  "type": "string",
+                  "enum": [
+                    "USDT",
+                    "NATIVE"
+                  ],
+                  "nullable": true
+                },
+                "amountAtomic": {
+                  "type": "string",
+                  "pattern": "^(0|[1-9][0-9]*)$",
+                  "description": "Exact integer base units; never convert to a JavaScript number",
+                  "nullable": true
+                },
+                "decimals": {
+                  "type": "integer",
+                  "nullable": true
+                },
+                "symbol": {
+                  "type": "string",
+                  "nullable": true
+                },
+                "txHash": {
+                  "type": "string",
+                  "nullable": true
+                },
+                "explorerUrl": {
+                  "type": "string",
+                  "nullable": true
+                },
+                "at": {
+                  "type": "string",
+                  "format": "date-time"
+                }
+              },
+              "required": [
+                "id",
+                "type",
+                "status",
+                "source",
+                "chainId",
+                "network",
+                "projectId",
+                "projectTitle",
+                "quantity",
+                "asset",
+                "amountAtomic",
+                "decimals",
+                "symbol",
+                "txHash",
+                "explorerUrl",
+                "at"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "nextCursor": {
+            "type": "string",
+            "nullable": true
+          },
+          "comingSoon": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MultichainComingSoon"
+            }
+          }
+        },
+        "required": [
+          "wallet",
+          "items",
+          "nextCursor",
+          "comingSoon"
         ],
         "additionalProperties": false
       },

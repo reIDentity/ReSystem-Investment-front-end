@@ -66,14 +66,14 @@ export function routeResources(href: string): string[] {
     return [activityPath(1, ["all", "payouts", "buys", "deposits", "withdrawals"].includes(filter || "") ? filter! : "all")];
   }
   switch (href) {
-    case "/invest/home": return ["portfolio", "wallet", "projects", "wallet/cashflow"];
+    case "/invest/home": return ["multichain/wallet", "multichain/portfolio", "multichain/activity"];
     case "/invest/explore": return ["projects", "portfolio"];
-    case "/invest/earnings": return ["portfolio"];
-    case "/invest/wallet": return ["wallet", "portfolio"];
-    case "/invest/activity": return ["activity?page=1&pageSize=10&filter=all"];
+    case "/invest/earnings": return ["multichain/portfolio"];
+    case "/invest/wallet": return ["multichain/wallet", "multichain/portfolio"];
+    case "/invest/activity": return ["multichain/activity"];
     case "/invest/support": return ["support"];
     case "/invest/notifications": return ["notifications", "notification-preferences", "email-notifications"];
-    case "/invest/deposit": return ["wallet/deposits"];
+    case "/invest/deposit": return ["multichain/wallet"];
     default: return [];
   }
 }
