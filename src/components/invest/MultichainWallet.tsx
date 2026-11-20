@@ -165,64 +165,97 @@ export function MultichainWallet() {
   );
 }
 
+const DEPOSIT_HINTS: Record<string, string> = {
+  "tron-nile": "Lowest fees · supported by most exchanges",
+  "bsc-testnet": "Low fees",
+  sepolia: "Highest fees",
+};
+const DEPOSIT_ORDER = ["tron-nile", "bsc-testnet", "sepolia"];
+
 export function MultichainDeposit() {
   const params = useSearchParams();
   const wallet = useWallet();
   const w = wallet.error ? undefined : wallet.data;
   const requested = params.get("network");
   const [choice, setChoice] = useState<string | null>(null);
-  const selected = choice ?? (NETWORKS.some((n) => n.key === requested) ? requested : "bsc-testnet");
+  const [kind, setKind] = useState<"USDT" | "FEE">(params.get("asset") === "fee" ? "FEE" : "USDT");
+  const selected = choice ?? (NETWORKS.some((n) => n.key === requested) ? requested! : "tron-nile");
   const network = w?.networks.find((n) => n.network === selected);
   const meta = NETWORKS.find((n) => n.key === selected)!;
+  const ordered = DEPOSIT_ORDER.map((key) => NETWORKS.find((n) => n.key === key)!);
+  const coin = network?.native.symbol ?? "the network coin";
+  const what = kind === "USDT" ? meta.usdt : coin;
+  const noFee = network && atomic(network.native.balanceAtomic) && BigInt(network.native.balanceAtomic) === 0n;
   return (
-    <InvestorShell page="deposit" title="Deposit" subtitle="Add USDT or a network coin to your reID wallet">
+    <InvestorShell page="deposit" title="Add money" subtitle="Add USDT to your reID wallet to buy shares">
       <DataState loading={wallet.isLoading} error={wallet.error} onRetry={() => void wallet.mutate()} />
-      <Panel title="Choose a network">
-        <div className="iv-mcw-picker" role="radiogroup" aria-label="Network">
-          {NETWORKS.map((n) => (
-            <button key={n.key} type="button" role="radio" aria-checked={selected === n.key} className={`iv-button ${selected === n.key ? "iv-primary" : ""}`} onClick={() => setChoice(n.key)}>
-              {n.short}
-            </button>
-          ))}
-          <span className="iv-mcw-picker-soon">
-            INFRA <Tag tone="neutral">Coming soon</Tag>
-          </span>
-        </div>
-      </Panel>
-      {network ? (
-        <Panel title={`Your ${meta.name} address`} subtitle="Send only on this network">
-          <div className="iv-mcw-deposit">
-            <AddressQr value={network.address} label={`QR code for your ${meta.name} address`} />
-            <div>
-              <p className="iv-mcw-address mono">{network.address}</p>
-              <div className="iv-action-row">
-                <CopyButton value={network.address} />
-                <a className="iv-button iv-small" href={network.explorerUrl} target="_blank" rel="noopener noreferrer">
-                  Explorer ↗
-                </a>
-              </div>
-              <ul className="iv-mcw-rules">
-                <li>
-                  Send <strong>{meta.usdt}</strong> or <strong>{network.native.symbol}</strong> on <strong>{meta.name}</strong> only.
-                </li>
-                <li>Tokens sent on another network, or other tokens, may be lost.</li>
-                <li>Keep some {network.native.symbol} for network fees, even if you pay with USDT.</li>
-              </ul>
-              <dl className="iv-mcw-balances">
-                <div>
-                  <dt>USDT balance</dt>
-                  <dd>{amount(network.usdt.balanceAtomic, network.usdt.decimals, "USDT")}</dd>
-                </div>
-                <div>
-                  <dt>{network.native.symbol} balance</dt>
-                  <dd>{amount(network.native.balanceAtomic, network.native.decimals, network.native.symbol)}</dd>
-                </div>
-              </dl>
-              <p className="iv-muted">Balances refresh every 30 seconds after the network confirms your transfer.</p>
+      <div className="iv-main-sidebar iv-deposit-page">
+        <Panel className="iv-deposit-form">
+          <fieldset className="iv-deposit-options">
+            <legend>1. What are you adding?</legend>
+            <div className="iv-deposit-methods iv-add-two">
+              <label className={kind === "USDT" ? "iv-selected-option" : ""}>
+                <input type="radio" name="deposit-kind" checked={kind === "USDT"} onChange={() => setKind("USDT")} />
+                <span><strong>USDT</strong><small>Digital dollars. You buy shares with these.</small></span>
+              </label>
+              <label className={kind === "FEE" ? "iv-selected-option" : ""}>
+                <input type="radio" name="deposit-kind" checked={kind === "FEE"} onChange={() => setKind("FEE")} />
+                <span><strong>Fee coin ({coin})</strong><small>A small amount pays the network fee for each purchase.</small></span>
+              </label>
             </div>
+          </fieldset>
+          <fieldset className="iv-deposit-options">
+            <legend>2. Which network does your exchange or app send on?</legend>
+            <div className="iv-deposit-methods iv-add-networks">
+              {ordered.map((n) => (
+                <label key={n.key} className={selected === n.key ? "iv-selected-option" : ""}>
+                  <input type="radio" name="deposit-network" checked={selected === n.key} onChange={() => setChoice(n.key)} />
+                  <span><strong>{n.short}</strong><small>{kind === "USDT" ? n.usdt : n.name} · {DEPOSIT_HINTS[n.key]}</small></span>
+                </label>
+              ))}
+              <label className="iv-method-coming">
+                <span className="iv-method-coming-content" aria-hidden="true"><input type="radio" disabled tabIndex={-1} /><span><strong>INFRA</strong><small>reAED and USDT</small></span></span>
+                <span className="iv-coming-soon">Coming soon</span>
+                <span className="sr-only">INFRA — Coming soon, unavailable</span>
+              </label>
+            </div>
+          </fieldset>
+          <div>
+            <p className="iv-add-step">3. Send {what} to your address</p>
+            {network ? (
+              <div className="iv-deposit-address">
+                <div className="iv-qr"><AddressQr value={network.address} label={`QR code for your ${meta.short} address`} /></div>
+                <div>
+                  <p>Send <strong>{what}</strong> on <strong>{meta.short}</strong> to</p>
+                  <code data-deposit-wallet>{network.address}</code>
+                  <div className="iv-action-row"><CopyButton value={network.address} /><Tag tone="amber">{meta.short} network only</Tag></div>
+                  <small className="iv-add-warning">Choose {meta.short} in your exchange or app. Money sent on another network can be lost.</small>
+                </div>
+              </div>
+            ) : (
+              <p className="iv-muted">{wallet.isLoading ? "Loading your address…" : "Your address for this network isn’t available right now."}</p>
+            )}
           </div>
+          {network ? (
+            <div className="iv-add-arrival" role="status">
+              <strong>We’ll show it here when it arrives.</strong>
+              <span>You have {amount(network.usdt.balanceAtomic, network.usdt.decimals, "USDT")} and {amount(network.native.balanceAtomic, network.native.decimals, network.native.symbol)} on {meta.short}. This updates every 30 seconds.</span>
+              {kind === "USDT" && noFee ? <span>You’ll also need a little {coin} for the network fee. <button type="button" className="iv-text-link" onClick={() => setKind("FEE")}>Add {coin}</button></span> : null}
+            </div>
+          ) : null}
         </Panel>
-      ) : null}
+        <Panel title="Your money" className="iv-recent-deposits">
+          {w ? (
+            w.networks.map((n) => (
+              <div className="iv-recent-row" key={n.chainId}>
+                <div><strong>{NETWORKS.find((x) => x.key === n.network)?.short ?? n.name}</strong><small className="iv-muted">{n.status === "ok" ? "Up to date" : "Unavailable right now"}</small></div>
+                <span><strong>{amount(n.usdt.balanceAtomic, n.usdt.decimals, "USDT")}</strong><small className="iv-muted">{amount(n.native.balanceAtomic, n.native.decimals, n.native.symbol)}</small></span>
+              </div>
+            ))
+          ) : null}
+          <div className="iv-action-row"><Link className="iv-button iv-small" href="/invest/wallet">Open wallet</Link></div>
+        </Panel>
+      </div>
     </InvestorShell>
   );
 }

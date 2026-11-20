@@ -4,16 +4,18 @@ import type {
   ChainsResponse,
   MultichainPortfolioResponse,
   MultichainQuoteResponse,
+  MultichainWalletResponse,
   ProjectSupplyResponse,
   TransactionResponse,
 } from "@/lib/platform/api.generated";
 import type { Project, ProjectState, RewardView } from "@/lib/platform/types";
-import { api } from "@/lib/platform/client";
+import Link from "next/link";
+import { api, PlatformError } from "@/lib/platform/client";
 import { percentage, safeApproval, units, validWhole } from "@/lib/platform/money";
 import { publicIpfsUrl } from "@/lib/platform/media";
-import { useActionError, useActionFeedback } from "../ActionFeedback";
+import { useActionFeedback } from "../ActionFeedback";
 import { usePlatform, useResource } from "./PlatformProvider";
-import { Asset as AssetIcon, DataState, InvestorShell, Modal, Panel, Tag } from "./InvestorUI";
+import { Asset as AssetIcon, DataState, InvestorShell, Modal, Panel } from "./InvestorUI";
 import { ReidApprovalQr } from "./platform/ReidMobile";
 import { ProjectOverview, SupplyTiles, type ProjectNetwork } from "./ProjectOverview";
 import { isOpen, phasedView } from "@/lib/platform/multichain-view";
@@ -22,6 +24,9 @@ import "./MultichainProduct.css";
 import styles from "./ProjectPageDesign.module.css";
 
 type Chain = ChainsResponse["chains"][number];
+type PayOption = { key: string; chainId: number; asset: "USDT" | "NATIVE"; label: string; network: string; balance: string; enough: boolean | null; noFee: boolean; coin: string };
+const PLAIN: Record<string, string> = { "bsc-testnet": "BNB Smart Chain", sepolia: "Ethereum", "tron-nile": "TRON" };
+const plainNetwork = (key: string, name: string) => PLAIN[key] ?? name;
 type Asset = "USDT" | "NATIVE";
 export type Command = {
   type: "BUY" | "APPROVE_USDT" | "CLAIM";
@@ -61,11 +66,27 @@ export function MultichainProduct({ id }: { id: string }) {
   const [now] = useState(() => Date.now());
   const deployments = supply.data?.chains.filter((d) => d.status === "DEPLOYED") ?? [];
   const live = (chains.data?.chains ?? []).filter((c) => deployments.some((d) => d.chainId === c.chainId));
-  const [chainId, setChainId] = useState<number | null>(null);
-  const chain: Chain | undefined = live.find((c) => c.chainId === chainId) ?? live.find((c) => deployments.find((d) => d.chainId === c.chainId)?.saleOpen) ?? live[0];
-  const deployment = deployments.find((d) => d.chainId === chain?.chainId);
-  const [asset, setAsset] = useState<Asset>("USDT");
+  const wallet = useResource<MultichainWalletResponse>("multichain/wallet", 30000);
+  const [payKey, setPayKey] = useState<string | null>(null);
   const [quantity, setQuantity] = useState("1");
+  const current0 = supply.data?.phases.find((ph) => ph.status === "ACTIVE");
+  const costMicros = current0 && validWhole(quantity) ? BigInt(current0.priceUsdtMicros) * BigInt(quantity) : null;
+  const options: PayOption[] = live
+    .filter((c) => deployments.find((d) => d.chainId === c.chainId)?.saleOpen)
+    .flatMap((c) => {
+      const n = wallet.error ? undefined : wallet.data?.networks.find((x) => x.chainId === c.chainId && x.status === "ok");
+      const usdt = n ? usdtSix(n.usdt.balanceAtomic, n.usdt.decimals) : null;
+      const coin = n && validAtomic(n.native.balanceAtomic) ? BigInt(n.native.balanceAtomic) : null;
+      const where = plainNetwork(c.network, c.name);
+      return [
+        { key: `${c.chainId}:USDT`, chainId: c.chainId, asset: "USDT" as Asset, label: `USDT on ${where}`, network: c.network, balance: n ? `You have ${units(usdt!.toString(), 6, 2)} USDT` : "Balance unavailable", enough: costMicros === null || usdt === null || !n ? null : usdt >= costMicros, noFee: coin === 0n, coin: c.nativeSymbol },
+        { key: `${c.chainId}:NATIVE`, chainId: c.chainId, asset: "NATIVE" as Asset, label: `${c.nativeSymbol} on ${where}`, network: c.network, balance: n && coin !== null ? `You have ${units(coin.toString(), n.native.decimals, 4)} ${c.nativeSymbol}` : "Balance unavailable", enough: coin === null ? null : coin > 0n ? null : false, noFee: false, coin: c.nativeSymbol },
+      ];
+    });
+  const pay = options.find((o) => o.key === payKey) ?? options.find((o) => o.asset === "USDT" && o.enough) ?? options.find((o) => o.asset === "USDT") ?? options[0];
+  const chain: Chain | undefined = live.find((c) => c.chainId === pay?.chainId) ?? live[0];
+  const deployment = deployments.find((d) => d.chainId === chain?.chainId);
+  const asset: Asset = pay?.asset ?? "USDT";
   const [command, setCommand] = useState<Command | null>(null);
   const p = project.error ? undefined : project.data;
   const s = supply.error ? undefined : supply.data;
@@ -90,8 +111,7 @@ export function MultichainProduct({ id }: { id: string }) {
   });
   const documents = p?.media?.filter((media) => media.mimeType === "application/pdf" && /^[a-zA-Z0-9]{32,120}$/.test(media.cid)) || [];
   const issuedPercent = s ? percentage(s.sold, s.maxFractions) : "—";
-  const symbol = asset === "USDT" ? "USDT" : chain?.nativeSymbol ?? "";
-  const canBuy = Boolean(chain && allowed && q);
+  const canBuy = Boolean(chain && allowed && q && pay && pay.enough !== false && !(pay.asset === "USDT" && pay.noFee));
   function adjust(change: bigint) {
     const next = (valid ? BigInt(quantity) : 0n) + change;
     if (next > 0n && (change < 0n || (saleLimit !== null && next <= saleLimit))) setQuantity(next.toString());
@@ -147,40 +167,35 @@ export function MultichainProduct({ id }: { id: string }) {
                 {!valid ? <p className="iv-form-error" role="alert">Enter a whole share quantity greater than zero.</p> : saleLimit !== null && saleLimit > 0n && !allowed ? <p className="iv-form-error">Choose up to {units(String(saleLimit), 0)} shares.</p> : null}
               </div>
               <div className={`iv-order-summary ${styles.orderSummary}`}>
-                <p className="iv-eyebrow">ORDER SUMMARY</p>
-                <div className="iv-mc-chips" role="radiogroup" aria-label="Network">
-                  {live.map((c) => (
-                    <button key={c.chainId} type="button" role="radio" aria-checked={chain?.chainId === c.chainId} className={`iv-mc-chip${chain?.chainId === c.chainId ? " is-active" : ""}`} onClick={() => setChainId(c.chainId)}>{c.name}</button>
-                  ))}
-                  {chains.data?.comingSoon.map((c) => <span key={c.chainId} className="iv-mc-chip is-soon" aria-disabled="true">{c.name} <Tag tone="amber">Coming soon</Tag></span>)}
-                </div>
+                <p className="iv-eyebrow">PAY WITH</p>
+                {options.length ? (
+                  <div className="iv-pay-options" role="radiogroup" aria-label="Pay with">
+                    {options.map((o) => (
+                      <label key={o.key} className={pay?.key === o.key ? "is-selected" : ""}>
+                        <input type="radio" name="pay-with" checked={pay?.key === o.key} onChange={() => setPayKey(o.key)} />
+                        <span><strong>{o.label}</strong><small>{o.balance}</small></span>
+                        {o.enough === false ? <Link href={`/invest/deposit?network=${o.network}${o.asset === "NATIVE" ? "&asset=fee" : ""}`} className="iv-pay-add">Add money</Link> : null}
+                      </label>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="iv-muted">{wallet.isLoading ? "Checking your balances…" : "No network is selling this project right now."}</p>
+                )}
+                {pay?.asset === "USDT" && pay.noFee ? <p className="iv-pay-note">You also need a little {pay.coin} for the network fee. <Link href={`/invest/deposit?network=${pay.network}&asset=fee`}>Add {pay.coin}</Link></p> : null}
                 <dl>
                   <div><dt>Shares</dt><dd>{valid ? count(quantity) : "—"}</dd></div>
                   <div><dt>Price per share</dt><dd>{current ? `${units(current.priceUsdtMicros, 6)} USDT` : "—"}</dd></div>
-                  <div><dt>Selected project share</dt><dd>{s && valid ? percentage(quantity, s.maxFractions) : "—"}</dd></div>
-                  <div><dt>Network</dt><dd>{chain?.name ?? "—"}</dd></div>
                 </dl>
-                <fieldset className="iv-order-assets">
-                  <legend className="sr-only">Payment asset</legend>
-                  {(["USDT", "NATIVE"] as Asset[]).map((value) => (
-                    <label className={asset === value ? "iv-asset-selected" : ""} key={value}>
-                      <input type="radio" name="payment-asset" value={value} checked={asset === value} onChange={() => setAsset(value)} />
-                      <strong>{value === "USDT" ? "USDT" : chain?.nativeSymbol ?? "Coin"}</strong>
-                      <span>{value === "USDT" ? "Fixed phase price" : "At the live rate"}</span>
-                    </label>
-                  ))}
-                </fieldset>
                 <div className="iv-order-total">
                   <span>TOTAL</span>
                   <div>
                     <strong aria-live="polite" aria-busy={quote.isLoading}>{q ? `${q.costDisplay} ${q.symbol}` : quote.isLoading ? "Loading…" : "—"}</strong>
-                    <small>{q ? `${units(q.usdMicros, 6)} USDT · price held ${Math.round(q.validForSeconds / 60)} min · gas in ${chain?.nativeSymbol}` : `Network gas is paid separately in ${chain?.nativeSymbol ?? "the network coin"}`}</small>
+                    <small>{q ? (q.symbol === "USDT" ? `Plus a small network fee in ${chain?.nativeSymbol}` : `${units(q.usdMicros, 6)} USDT at today's rate · plus a small network fee`) : saleLimit === 0n ? "Not on sale right now" : "Choose how many shares"}</small>
                   </div>
                 </div>
                 <DataState error={quote.error} onRetry={() => void quote.mutate()} />
-                {asset === "USDT" ? <button className="iv-button iv-full iv-pd-allowance" disabled={!canBuy} onClick={() => q && chain && setCommand({ type: "APPROVE_USDT", projectId: id, chainId: chain.chainId, amountAtomic: q.costAtomic })}>Review exact USDT allowance</button> : null}
-                <button className="iv-button iv-primary iv-full" disabled={!canBuy} onClick={() => chain && setCommand({ type: "BUY", projectId: id, chainId: chain.chainId, asset, quantity })}>{asset === "USDT" ? "Review purchase" : `Review purchase with ${symbol}`}</button>
-                <p className="iv-muted">{saleLimit === 0n ? (current && chain && !deployment?.saleOpen ? `Sales aren't open on ${chain.name} right now.` : "There are no shares on sale now.") : `Approve with reID. Shares arrive in your wallet on ${chain?.name ?? "the chosen network"} after confirmation.`}</p>
+                <button className="iv-button iv-primary iv-full" disabled={!canBuy} onClick={() => chain && q && setCommand({ type: "BUY", projectId: id, chainId: chain.chainId, asset, quantity, amountAtomic: q.costAtomic })}>{q && valid ? `Buy ${count(quantity)} ${quantity === "1" ? "share" : "shares"} · ${q.costDisplay} ${q.symbol}` : "Buy shares"}</button>
+                <p className="iv-muted">{saleLimit === 0n ? (current && !anyOpen ? "Sales haven't opened yet." : "There are no shares on sale now.") : "You'll approve the payment in your reID app. The first USDT payment on a network asks you to approve twice."}</p>
                 <small>Returns depend on future revenue. Review the exact transaction before signing.</small>
               </div>
             </div>
@@ -221,89 +236,122 @@ export function MultichainProduct({ id }: { id: string }) {
   );
 }
 
+type Step = { command: Command; intent: TransactionResponse | null; error: string };
+const DONE = ["CONFIRMED", "INDEXED"];
+
+function stepLabel(command: Command) {
+  if (command.type === "APPROVE_USDT") return "Allow payment (first time only)";
+  if (command.type === "CLAIM") return "Claim your revenue";
+  return `Buy ${command.quantity} ${command.quantity === "1" ? "share" : "shares"}`;
+}
+
 export function MultichainReview({ command, network, onClose }: { command: Command; network: string; onClose: () => void }) {
   const { approvalOrigin } = usePlatform();
   const { notify } = useActionFeedback();
-  const [intent, setIntent] = useState<TransactionResponse | null>(null);
+  const [steps, setSteps] = useState<Step[]>([{ command, intent: null, error: "" }]);
+  const [index, setIndex] = useState(0);
   const [busy, setBusy] = useState(false);
-  const [error, setError] = useActionError();
-  const key = useRef<string | null>(null);
-  const id = intent?.id;
-  const status = intent?.status;
+  const keys = useRef(new Map<string, string>());
+  const started = useRef(false);
+  const step = steps[index];
+  const id = step?.intent?.id;
+  const status = step?.intent?.status;
+  const finished = steps.every((s) => s.intent && DONE.includes(s.intent.status));
+
+  function update(i: number, patch: Partial<Step>) {
+    setSteps((current) => current.map((s, n) => (n === i ? { ...s, ...patch } : s)));
+  }
+
+  async function start(i: number, list: Step[], retry = false) {
+    const item = list[i];
+    const name = `${i}:${item.command.type}`;
+    if (retry || !keys.current.has(name)) keys.current.set(name, crypto.randomUUID());
+    setBusy(true);
+    update(i, { error: "" });
+    try {
+      const prepared = await api<TransactionResponse>("multichain/transactions", { method: "POST", body: item.command, idempotencyKey: keys.current.get(name)! });
+      update(i, { intent: prepared });
+      const sent = prepared.status === "CREATED" ? await api<TransactionResponse>(`multichain/transactions/${prepared.id}/submit`, { method: "POST" }) : prepared;
+      update(i, { intent: sent });
+    } catch (e) {
+      if (e instanceof PlatformError && e.code === "MC_APPROVE_USDT" && item.command.type === "BUY" && item.command.amountAtomic && !list.some((s) => s.command.type === "APPROVE_USDT")) {
+        const allow: Step = { command: { type: "APPROVE_USDT", projectId: item.command.projectId, chainId: item.command.chainId, amountAtomic: item.command.amountAtomic }, intent: null, error: "" };
+        const next = [...list.slice(0, i), allow, ...list.slice(i)];
+        setSteps(next);
+        setIndex(i);
+        setBusy(false);
+        await start(i, next);
+        return;
+      }
+      update(i, { error: e instanceof Error ? e.message : "This couldn't be started. Try again." });
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  useEffect(() => {
+    if (started.current) return;
+    started.current = true;
+    void start(0, steps);
+  });
 
   useEffect(() => {
     if (!id || !status || FINAL.includes(status) || status === "CREATED") return;
-    const timer = setInterval(async () => {
+    const timer = window.setInterval(async () => {
       try {
         const next = await api<TransactionResponse>(`multichain/transactions/${id}`);
-        setIntent(next);
-        if (next.status !== status && FINAL.includes(next.status))
-          notify(next.status === "CONFIRMED" || next.status === "INDEXED" ? "Confirmed on the network." : STATUS[next.status] ?? next.status, { kind: next.status === "CONFIRMED" || next.status === "INDEXED" ? "success" : "error" });
+        update(index, { intent: next });
+        if (next.status === status || !FINAL.includes(next.status)) return;
+        if (DONE.includes(next.status)) {
+          if (index + 1 < steps.length) {
+            setIndex(index + 1);
+            void start(index + 1, steps);
+          } else notify(steps[index].command.type === "CLAIM" ? "Revenue claimed." : "Done. Your shares are in your wallet.", { kind: "success" });
+        } else update(index, { error: STATUS[next.status] ?? "This didn't go through." });
       } catch {
         return;
       }
     }, 4000);
-    return () => clearInterval(timer);
-  }, [id, status, notify]);
-
-  async function prepare() {
-    setBusy(true);
-    setError("");
-    key.current ??= crypto.randomUUID();
-    try {
-      setIntent(await api<TransactionResponse>("multichain/transactions", { method: "POST", body: command, idempotencyKey: key.current }));
-    } catch (e) {
-      setError(e instanceof Error ? e.message : "This request could not be prepared.");
-    } finally {
-      setBusy(false);
-    }
-  }
-
-  async function submit() {
-    if (!intent) return;
-    setBusy(true);
-    setError("");
-    try {
-      setIntent(await api<TransactionResponse>(`multichain/transactions/${intent.id}/submit`, { method: "POST" }));
-    } catch (e) {
-      setError(e instanceof Error ? e.message : "The approval request could not be sent.");
-    } finally {
-      setBusy(false);
-    }
-  }
+    return () => window.clearInterval(timer);
+  });
 
   const title = command.type === "BUY" ? `Buy ${command.quantity} ${command.quantity === "1" ? "share" : "shares"}` : command.type === "APPROVE_USDT" ? "Allow USDT" : "Claim revenue";
-  const url = intent ? safeApproval(intent.approvalUrl, approvalOrigin) : null;
+  const url = step?.intent ? safeApproval(step.intent.approvalUrl, approvalOrigin) : null;
   return (
     <Modal title={title} onClose={onClose}>
-      <p className="iv-muted">Network: {network}</p>
-      {error ? <p role="alert" className="iv-mc-error">{error}</p> : null}
-      {!intent ? (
-        <>
-          <p>{command.type === "CLAIM" ? "We will check your claimable revenue and the network fee, and prepare one claim for you to approve in reID. Nothing moves until you approve it." : command.type === "APPROVE_USDT" ? "We will prepare a USDT allowance for this project for you to approve in reID. Nothing moves until you approve it." : "We will reserve your shares, check your balance and the network fee, and prepare one transaction for you to approve in reID. Nothing moves until you approve it."}</p>
-          <button type="button" className="iv-button iv-primary" disabled={busy} onClick={() => void prepare()}>Prepare</button>
-        </>
+      <ol className="iv-flow-steps">
+        {steps.map((s, n) => {
+          const state = s.intent && DONE.includes(s.intent.status) ? "done" : s.error ? "failed" : n === index ? "active" : "waiting";
+          return (
+            <li key={`${n}:${s.command.type}`} className={`is-${state}`}>
+              <span aria-hidden="true">{state === "done" ? "✓" : n + 1}</span>
+              <div><strong>{stepLabel(s.command)}</strong>{state === "done" ? <small>Done</small> : state === "active" ? <small>{s.intent ? STATUS[s.intent.status] ?? s.intent.status : "Getting ready…"}</small> : null}</div>
+            </li>
+          );
+        })}
+      </ol>
+      {finished ? (
+        <div className="iv-flow-done" role="status">
+          <strong>{command.type === "CLAIM" ? "Your revenue is on its way to your wallet." : `All done. Your shares are in your reID wallet on ${network}.`}</strong>
+          <button type="button" className="iv-button iv-primary" onClick={onClose}>Close</button>
+        </div>
+      ) : step?.error ? (
+        <div className="iv-flow-error" role="alert">
+          <p>{step.error}</p>
+          <button type="button" className="iv-button iv-primary" disabled={busy} onClick={() => void start(index, steps, true)}>Try again</button>
+        </div>
+      ) : status === "AWAITING_APPROVAL" && url ? (
+        <div className="iv-flow-approve">
+          <p><strong>Approve in your reID app.</strong> We sent the request to your phone. You can also scan this code.</p>
+          <ReidApprovalQr url={url} />
+          <a className="iv-button iv-primary" href={url} target="_blank" rel="noreferrer">Open reID</a>
+        </div>
+      ) : status === "BROADCAST" || status === "SUBMITTING" ? (
+        <p className="iv-muted" role="status">Processing. This usually takes under a minute.</p>
       ) : (
-        <>
-          <p role="status"><Tag tone={["FAILED", "REJECTED", "EXPIRED"].includes(intent.status) ? "amber" : "blue"}>{STATUS[intent.status] ?? intent.status}</Tag></p>
-          {intent.status === "CREATED" ? (
-            <>
-              <p>Reserved until {new Date(intent.expiresAt).toLocaleTimeString()}. Approve before then.</p>
-              <button type="button" className="iv-button iv-primary" disabled={busy} onClick={() => void submit()}>Request approval in reID</button>
-            </>
-          ) : null}
-          {intent.status === "AWAITING_APPROVAL" && url ? (
-            <>
-              <p>Open the reID app on your phone, or scan this code, to approve.</p>
-              <ReidApprovalQr url={url} />
-              <a className="iv-button" href={url} target="_blank" rel="noreferrer">Open in reID</a>
-            </>
-          ) : null}
-          {intent.explorerUrl ? (
-            <p><a href={intent.explorerUrl} target="_blank" rel="noreferrer">View on the network explorer</a></p>
-          ) : null}
-        </>
+        <p className="iv-muted" role="status">Getting things ready…</p>
       )}
+      {step?.intent?.explorerUrl ? <p><a href={step.intent.explorerUrl} target="_blank" rel="noreferrer">View on the network explorer</a></p> : null}
     </Modal>
   );
 }

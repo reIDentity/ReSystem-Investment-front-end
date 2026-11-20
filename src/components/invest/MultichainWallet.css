@@ -37,3 +37,24 @@
   .iv-mcw-activity-row > div:last-child { justify-items:start; }
   .iv-mcw-summary > strong { font-size:26px; }
 }
+.iv-deposit-page .iv-deposit-form { display:flex; flex-direction:column; gap:22px; border-radius:22px; }
+.iv-deposit-options { border:0; padding:0; margin:0; min-width:0; }
+.iv-deposit-options legend, .iv-add-step { font-size:16px; font-weight:700; margin:0 0 12px; color:#061b2e; }
+.iv-deposit-page .iv-deposit-methods { margin:0; }
+.iv-deposit-page .iv-add-two { grid-template-columns:repeat(2,minmax(0,1fr)); }
+.iv-deposit-page .iv-add-networks { grid-template-columns:repeat(2,minmax(0,1fr)); }
+.iv-deposit-page .iv-deposit-methods label { min-height:64px; }
+.iv-deposit-page .iv-deposit-address { margin:0; }
+.iv-deposit-page .iv-qr img { display:block; width:148px; height:148px; border:0; }
+.iv-deposit-page .iv-action-row { margin-top:10px; }
+.iv-add-warning { display:block; margin-top:10px; color:#b54708; font-size:12px; line-height:1.5; }
+.iv-add-arrival { display:grid; gap:6px; padding:14px 16px; border-radius:16px; background:#f2f6ff; font-size:13px; color:#344054; }
+.iv-add-arrival strong { color:#061b2e; }
+.iv-deposit-page .iv-recent-row { display:flex; justify-content:space-between; gap:12px; padding:12px 0; border-bottom:1px solid #eef0f4; }
+.iv-deposit-page .iv-recent-row > div, .iv-deposit-page .iv-recent-row > span { display:grid; gap:2px; }
+.iv-deposit-page .iv-recent-row > span { text-align:right; }
+@media (max-width:767px) {
+  .iv-deposit-page .iv-add-two, .iv-deposit-page .iv-add-networks { grid-template-columns:1fr; }
+  .iv-deposit-page .iv-deposit-address { flex-direction:column; align-items:center; }
+  .iv-deposit-page .iv-deposit-address > div:last-child { width:100%; }
+}

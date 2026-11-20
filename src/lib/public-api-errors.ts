@@ -53,6 +53,10 @@ export function publicApiError(body: unknown) {
     requestId?: unknown;
   };
   return {
+    code:
+      typeof reason === "string" && Object.hasOwn(REASONS, reason)
+        ? reason
+        : undefined,
     message:
       typeof reason === "string" && Object.hasOwn(REASONS, reason)
         ? REASONS[reason]
