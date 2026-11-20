@@ -15,5 +15,5 @@ test('public artwork forwards no authentication, rejects arbitrary routes and ca
 test('only known error reasons and UUID references can reach user-facing copy',()=>{
  assert.equal(publicApiError({error:{reason:'arbitrary-secret',requestId:'secret-token'}}).message,undefined);
  assert.equal(publicApiError({error:{reason:'INSUFFICIENT_GAS',requestId:'secret-token'}}).reference,undefined);
- assert.match(publicApiError({error:{reason:'INSUFFICIENT_GAS'}}).message,/reAED/);
+ assert.match(publicApiError({error:{reason:'INSUFFICIENT_GAS'}}).message,/network coin/);
 });

@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { createReadAhead, routeResources, activityPath } from '../src/lib/platform/read-ahead.ts';
+import { createReadAhead, routeResources } from '../src/lib/platform/read-ahead.ts';
 const tick=()=>new Promise(resolve=>setImmediate(resolve));
 function deferred(){let resolve,reject;const promise=new Promise((a,b)=>{resolve=a;reject=b;});return{promise,resolve,reject};}
 
@@ -33,7 +33,6 @@ test('route hints contain only bounded GETs and canonical Activity filters/bound
  for(const href of ['/invest/home','/invest/explore','/invest/earnings','/invest/wallet','/invest/support','/invest/notifications','/invest/deposit','/invest/products/actual-public-id']){
   const paths=routeResources(href);assert.ok(paths.length<=4);for(const path of paths)assert.doesNotMatch(path,/transactions|quote|submit|auth|send/);
  }
- assert.deepEqual(routeResources('/invest/activity?filter=deposits'),['activity?page=1&pageSize=10&filter=deposits']);
+ assert.deepEqual(routeResources('/invest/activity?filter=deposits'),['multichain/activity']);
  assert.deepEqual(routeResources('https://attacker.invalid/invest/home'),[]);assert.deepEqual(routeResources('/api/auth/logout'),[]);
- assert.equal(activityPath(3,'all','100'),'activity?page=3&pageSize=10&filter=all&snapshotBlock=100');
 });

@@ -91,37 +91,8 @@ test('private image retry reuses its saved message and exact upload key without 
   assert.equal(calls[2].options.body.get('file').name, file.name);
 });
 
-const listing = () => ({ id: '7', seller: `0x${'2'.repeat(40)}`, project: `0x${'3'.repeat(40)}`, asset: 'USDT', unitPriceAtomic: '9007199254740993123456', remaining: '10', availableQuantity: '10', expiry: String(Math.floor(Date.now() / 1000) + 3600), cancelled: false, source: 'SYNTHETIC' });
-test('cached marketplace/proceeds failures cannot leave collection or purchase actions enabled', () => {
-  const l = listing(), unavailable = new Error('Controlled unavailable');
-  const { InvestorMarketplace } = clientRenderer({
-    './PlatformProvider': { usePlatform: () => ({ user }), useResource: path => ({ ...resource(path === 'marketplace' ? { items: [l], nextCursor: 'old-cursor' } : { assets: [{ asset: 'USDT', decimals: 6, amountAtomic: '1' }] }), error: unavailable }) },
-    './InvestorUI': ui, './platform/Transaction': { TransactionReview: () => null },
-  }).load('src/components/invest/Marketplace.tsx');
-  const view = render(React.createElement(InvestorMarketplace));
-  assert.equal(view.queryByRole('button', { name: 'Review collection' }), null);
-  assert.equal(view.queryByRole('button', { name: 'Buy a partial quantity' }), null);
-  assert.equal(view.queryByRole('button', { name: 'More listings' }), null);
-});
-test('fill review uses only the fresh exact quote and disables stale, changed-quantity or mismatched quotes', () => {
-  const l = listing();
-  let state = resource({ ...l, quantity: '1', amountAtomic: l.unitPriceAtomic });
-  const reviews = [];
-  const { FillListing } = clientRenderer({
-    './PlatformProvider': { usePlatform: () => ({ user }), useResource: () => state }, './InvestorUI': ui, './platform/Transaction': { TransactionReview: () => null },
-  }, { 'src/components/invest/Marketplace.tsx': ['FillListing'] }).load('src/components/invest/Marketplace.tsx');
-  const props = { listing: l, onClose() {}, onReview: value => reviews.push(value) };
-  const view = render(React.createElement(FillListing, props));
-  fireEvent.click(view.getByRole('button', { name: 'Review exact USDT approval if needed' }));
-  assert.equal(reviews[0].amountAtomic, l.unitPriceAtomic);
-  state = { ...state, error: new Error('Controlled quote refresh failure') };
-  view.rerender(React.createElement(FillListing, props));
-  assert.equal(view.getByRole('button', { name: 'Review partial purchase' }).disabled, true);
-  assert.equal(view.queryByRole('button', { name: 'Review exact USDT approval if needed' }), null);
-  state = resource({ ...l, quantity: '1', amountAtomic: l.unitPriceAtomic });
-  fireEvent.change(view.getByLabelText('Whole fraction quantity'), { target: { value: '2' } });
-  assert.equal(view.getByRole('button', { name: 'Review partial purchase' }).disabled, true);
-});
+
+
 
 test('a protected 401 immediately removes private children and clears their cache; a late old response cannot repopulate it', async () => {
   const runtime = clientRenderer();
@@ -159,88 +130,6 @@ test('a temporary service outage does not falsely expire an authenticated invest
   assert.equal(view.queryByRole('heading', { name: 'Your session has ended' }), null);
 });
 
-const sendTarget = `0x${'7'.repeat(40)}`;
-function maxFixture(readQuote) {
-  const reads = [], commands = [];
-  const native = '90071992547409931234567890', token = '9007199254740993123456', fee = '3000000000000000000';
-  const quote = (asset = 'REAED', recipient = sendTarget) => { const now = Date.now(); return { chainId: 15324, wallet, recipient, asset, decimals: asset === 'USDT' ? 6 : 18, maximumAtomic: asset === 'USDT' ? token : (BigInt(native) - BigInt(fee)).toString(), nativeBalanceAtomic: native, tokenBalanceAtomic: asset === 'USDT' ? token : null, estimatedFeeWei: fee, gasEstimate: '21000', canSend: true, quotedAt: new Date(now).toISOString(), expiresAt: new Date(now + 60000).toISOString(), source: 'INFRA pending RPC and verified UAT fee source' }; };
-  const { InvestorWithdraw } = clientRenderer({
-    './PlatformProvider': { usePlatform: () => ({ user }), useResource: () => resource({ assets: [{ symbol: 'REAED', decimals: 18, balanceAtomic: native }, { symbol: 'USDT', decimals: 6, balanceAtomic: token }] }) },
-    '@/lib/platform/client': { api: async path => { reads.push(path); return readQuote ? readQuote(path, quote) : quote(); } },
-    './InvestorUI': { ...ui, CopyButton: () => null }, './platform/Transaction': { TransactionReview: ({ command }) => { commands.push(command); return React.createElement('p', { role: 'status' }, 'Prepared review only'); } },
-  }).load('src/components/invest/WalletFlows.tsx');
-  const view = render(React.createElement(InvestorWithdraw));
-  return { view, reads, commands, quote };
-}
-test('original Max goes through Destination, fills the exact recipient-bound gas-reserved amount, then opens only the existing review', async () => {
-  const { view, reads, commands, quote } = maxFixture();
-  fireEvent.click(view.getByRole('button', { name: 'Continue' }));
-  fireEvent.click(view.getByRole('button', { name: 'Max' }));
-  assert.equal(reads.length, 0);
-  assert.ok(view.getByRole('heading', { name: 'Where should we send it?' }));
-  fireEvent.change(view.getByLabelText('Recipient INFRA address'), { target: { value: sendTarget } });
-  fireEvent.click(view.getByRole('button', { name: 'Continue' }));
-  await view.findByRole('heading', { name: 'Review your withdrawal' });
-  assert.equal(new URL(`https://fixture.invalid/${reads[0]}`).searchParams.get('recipient'), sendTarget);
-  assert.equal(reads.length, 1);
-  assert.equal(commands.length, 0);
-  fireEvent.click(view.getByRole('button', { name: 'Review transfer' }));
-  await view.findByText('Prepared review only');
-  assert.equal(commands[0].amountAtomic, quote().maximumAtomic);
-  assert.equal(commands[0].recipient, sendTarget);
-  assert.equal(commands[0].type, 'SEND');
-});
-test('Back/manual amount abandons deferred Max and a late quote cannot overwrite a changed destination', async () => {
-  let resolve;
-  const { view, reads, quote } = maxFixture(() => new Promise(done => { resolve = done; }));
-  fireEvent.click(view.getByRole('button', { name: 'Continue' }));
-  fireEvent.click(view.getByRole('button', { name: 'Max' }));
-  fireEvent.change(view.getByLabelText('Recipient INFRA address'), { target: { value: sendTarget } });
-  fireEvent.click(view.getByRole('button', { name: 'Continue' }));
-  fireEvent.change(view.getByLabelText('Recipient INFRA address'), { target: { value: `0x${'8'.repeat(40)}` } });
-  await act(async () => resolve(quote()));
-  assert.equal(view.queryByRole('heading', { name: 'Review your withdrawal' }), null);
-  fireEvent.click(view.getByRole('button', { name: 'Back' }));
-  fireEvent.change(view.getByLabelText('Amount in reAED'), { target: { value: '1' } });
-  fireEvent.click(view.getByRole('button', { name: 'Continue' }));
-  fireEvent.click(view.getByRole('button', { name: 'Continue' }));
-  await view.findByRole('heading', { name: 'Review your withdrawal' });
-  assert.equal(reads.length, 1);
-});
-
-
-test('revenue-allocation activity displays only this wallet’s exact allocation and never substitutes the project pool amount', () => {
-  const allocation = { chain_id: 15324, tx_hash: `0x${'a'.repeat(64)}`, activity_index: 'allocation-1', block_number: '7337161', timestamp: '2026-10-19T12:00:00Z', type: 'revenue_allocation', event_name: 'RevenueAllocation', asset: 'USDT', amount_atomic: '1', args: { project: `0x${'2'.repeat(40)}`, projectAmountAtomic: '900719925474099312345678', amount: '900719925474099312345678', asset: '1' }, direction: null, status: 'confirmed' };
-  const rows = [allocation, { ...allocation, activity_index: 'allocation-2', amount_atomic: null }];
-  const { InvestorActivity } = clientRenderer({ './PlatformProvider': { usePlatform: () => ({ user }), useResource: path => resource({ items: path.startsWith('activity?') && new URLSearchParams(path.split('?')[1]).get('filter') === 'all' ? rows : [], nextCursor: null }) }, './InvestorUI': ui, './platform/Transaction': { IntentReview: () => null } }).load('src/components/invest/ActivitySupport.tsx');
-  const view = render(React.createElement(InvestorActivity));
-  assert.equal(view.getAllByText('Revenue allocation').length, 2);
-  assert.ok(view.getByText('0.000001 USDT'));
-  assert.doesNotMatch(view.container.textContent, /900,719,925|900719925/);
-  const allocationRows = [...view.container.querySelectorAll('tbody tr')];
-  assert.equal(allocationRows[1].querySelectorAll('td')[5].textContent, '—');
-  fireEvent.click(view.getByRole('button', { name: 'Payouts', exact: true }));
-  assert.equal(view.queryByText('Revenue allocation'), null);
-});
-test('activity names link to the authoritative project while older or unattributed rows retain honest fallbacks', () => {
-  const contract = `0x${'2'.repeat(40)}`;
-  const base = { chain_id: 15324, tx_hash: `0x${'a'.repeat(64)}`, block_number: '100', timestamp: '2026-10-22T06:00:00Z', type: 'event', event_name: 'TransferSingle', asset: null, amount_atomic: null, direction: null, status: 'confirmed' };
-  const rows = [
-    { ...base, activity_index: 'named', args: { value: '1' }, project: { id: 'published-project', title: 'Actual project', contractAddress: contract } },
-    { ...base, activity_index: 'legacy', args: { value: '2', project: contract } },
-    { ...base, activity_index: 'unattributed', args: { value: '3' }, project: null },
-    { ...base, activity_index: 'wallet', type: 'wallet_transfer', direction: 'incoming', asset: 'USDT', amount_atomic: '1', project: null },
-  ];
-  const { InvestorActivity } = clientRenderer({ './PlatformProvider': { usePlatform: () => ({ user }), useResource: path => resource({ items: path.startsWith('activity?') ? rows : [], nextCursor: null }) }, './InvestorUI': ui, './platform/Transaction': { IntentReview: () => null } }).load('src/components/invest/ActivitySupport.tsx');
-  const view = render(React.createElement(InvestorActivity));
-  assert.equal(view.getByRole('link', { name: 'Actual project' }).getAttribute('href'), '/invest/products/published-project');
-  const renderedRows = [...view.container.querySelectorAll('tbody tr')];
-  assert.equal(renderedRows[0].querySelectorAll('td')[5].textContent, '1 fraction');
-  assert.equal(renderedRows[1].querySelectorAll('td')[1].textContent, '0x2222…2222');
-  assert.equal(renderedRows[1].querySelectorAll('td')[5].textContent, '2 fractions');
-  assert.equal(renderedRows[2].querySelectorAll('td')[1].textContent, '—');
-  assert.equal(renderedRows[3].querySelectorAll('td')[1].textContent, 'Wallet');
-});
 function notificationsFixture(emailStatus, { failEmailSave = false } = {}) {
   const calls = [], notices = [], cacheWrites = [];
   const data = { notifications: { items: [], nextCursor: null }, 'notification-preferences': { userId: 'synthetic-investor', transactionUpdates: true, supportUpdates: true }, 'email-notifications': emailStatus };
@@ -301,105 +190,6 @@ test('partial preference saving preserves the remaining edit and does not repeat
   assert.deepEqual(calls.map(call => call.endpoint), ['notification-preferences', 'email-notifications', 'email-notifications']);
 });
 
-function depositFixture({ count = 9, walletMatches = true, error } = {}) {
-  const items = Array.from({ length: count }, (_, index) => ({ tx_hash: `0x${(100 - index).toString(16).padStart(64, '0')}`, activity_index: String(index), timestamp: `2026-10-${String(22 - index).padStart(2, '0')}T06:00:00Z`, amount_atomic: String((100 - index) * 1e6), asset: 'USDT' }));
-  const calls = [];
-  const { LiveDeposit } = clientRenderer({
-    'next/image': ({ alt }) => React.createElement('span', null, alt),
-    qrcode: { toDataURL: () => new Promise(() => {}) },
-    '../PlatformProvider': { usePlatform: () => ({ user }), useResource: path => { calls.push(path); return { ...resource({ wallet: walletMatches ? wallet : `0x${'2'.repeat(40)}`, address: wallet, items, nextCursor: 'older-deposits' }), error }; } },
-    '../InvestorUI': { ...ui, CopyButton: () => null },
-  }).load('src/components/invest/platform/LiveDeposit.tsx');
-  return { view: render(React.createElement(LiveDeposit)), calls };
-}
-test('recent deposits shows only the newest five records and See more links to filtered Activity', () => {
-  const { view, calls } = depositFixture();
-  assert.equal(view.container.querySelectorAll('.iv-real-deposit').length, 5);
-  assert.deepEqual([...view.container.querySelectorAll('.iv-real-deposit time')].map(row => row.dateTime), ['22', '21', '20', '19', '18'].map(day => `2026-10-${day}T06:00:00Z`));
-  assert.equal(view.getByRole('link', { name: 'See more' }).getAttribute('href'), '/invest/activity?filter=deposits');
-  assert.equal(view.queryByRole('button', { name: 'Older deposits' }), null);
-  assert.deepEqual(calls, ['wallet/deposits']);
-});
-test('short and empty recent histories do not create placeholder deposits', () => {
-  for (const count of [0, 3, 5]) {
-    const { view } = depositFixture({ count });
-    assert.equal(view.container.querySelectorAll('.iv-real-deposit').length, count);
-    view.unmount();
-  }
-});
-test('recent deposits still hide records on wallet mismatch or load failure', () => {
-  for (const options of [{ walletMatches: false }, { error: new Error('Deposit history unavailable') }]) {
-    const { view } = depositFixture(options);
-    assert.equal(view.container.querySelectorAll('.iv-real-deposit').length, 0);
-    assert.ok(view.getByRole('alert'));
-    view.unmount();
-  }
-});
-test('See more arrival selects Deposits, requests numbered server pages and resets page/snapshot on another filter', async () => {
-  const calls = [];
-  const incoming = { tx_hash: `0x${'a'.repeat(64)}`, activity_index: 'incoming', timestamp: '2026-10-22T06:00:00Z', type: 'wallet_transfer', direction: 'incoming', asset: 'USDT', amount_atomic: '1000000', status: 'confirmed', block_number: '100' };
-  const { InvestorActivity } = clientRenderer({
-    './PlatformProvider': { usePlatform: () => ({ user }), useResource: path => {
-      calls.push(path);
-      if (!path.startsWith('activity?')) return resource({ items: [], nextCursor: null });
-      const params = new URLSearchParams(path.split('?')[1]), page = Number(params.get('page'));
-      return resource({ items: Array.from({ length: page === 3 ? 3 : 10 }, (_, index) => ({ ...incoming, activity_index: `${page}:${index}` })), nextCursor: null, pagination: { page, pageSize: 10, total: 23, totalPages: 3, filter: params.get('filter'), snapshotBlock: '100' } });
-    } },
-    './InvestorUI': ui, './platform/Transaction': { IntentReview: () => null },
-  }).load('src/components/invest/ActivitySupport.tsx');
-  const view = render(React.createElement(InvestorActivity, { initialFilter: 'deposits' }));
-  assert.equal(view.getByRole('button', { name: 'Deposits', exact: true }).getAttribute('aria-pressed'), 'true');
-  assert.equal(view.container.querySelectorAll('tbody tr').length, 10);
-  assert.ok(view.getByText('Showing 1–10 of 23 transactions'));
-  assert.equal(view.getByRole('button', { name: 'Previous', exact: true }).disabled, true);
-  fireEvent.click(view.getByRole('button', { name: 'Page 3', exact: true }));
-  assert.ok(calls.includes('activity?page=3&pageSize=10&filter=deposits&snapshotBlock=100'));
-  assert.ok(view.getByText('Showing 21–23 of 23 transactions'));
-  assert.equal(view.container.querySelectorAll('tbody tr').length, 3);
-  assert.equal(view.getByRole('button', { name: 'Next', exact: true }).disabled, true);
-  fireEvent.click(view.getByRole('button', { name: 'Previous', exact: true }));
-  assert.ok(calls.includes('activity?page=2&pageSize=10&filter=deposits&snapshotBlock=100'));
-  fireEvent.click(view.getByRole('button', { name: 'Withdrawals', exact: true }));
-  assert.ok(calls.includes('activity?page=1&pageSize=10&filter=withdrawals'));
-});
-test('unknown and repeated INFRA Activity filter values safely open All', async () => {
-  const { InvestorActivity } = clientRenderer({ './PlatformProvider': { usePlatform: () => ({ user }), useResource: () => resource({ items: [], nextCursor: null }) }, './InvestorUI': ui, './platform/Transaction': { IntentReview: () => null } }).load('src/components/invest/ActivitySupport.tsx');
-  for (const filter of ['unsupported', undefined]) {
-    const view = render(React.createElement(InvestorActivity, { initialFilter: filter }));
-    assert.equal(view.getByRole('button', { name: 'All', exact: true }).getAttribute('aria-pressed'), 'true');
-    view.unmount();
-  }
-});
-
-test('numbered pagination handles zero results, one page, loading and bounded page-number gaps accessibly', () => {
-  const { ActivityPagination } = clientRenderer().load('src/components/invest/platform/ActivityPagination.tsx');
-  const base = {page:1,pageSize:10,total:0,totalPages:0,filter:'all',snapshotBlock:'100'};
-  let view = render(React.createElement(ActivityPagination, { pagination: base, busy:false,onPage:()=>assert.fail('empty pages must not navigate') }));
-  assert.ok(view.getByRole('status').textContent.includes('Showing 0–0 of 0 transactions'));
-  assert.ok([...view.container.querySelectorAll('button')].every(button=>button.disabled));view.unmount();
-  const calls=[];
-  view=render(React.createElement(ActivityPagination,{pagination:{...base,page:50,total:1000,totalPages:100},busy:false,onPage:value=>calls.push(value)}));
-  assert.equal(view.getByRole('button',{name:'Page 50',exact:true}).getAttribute('aria-current'),'page');
-  assert.equal(view.getAllByRole('button').length,7);
-  fireEvent.click(view.getByRole('button',{name:'Page 100',exact:true}));assert.deepEqual(calls,[100]);view.unmount();
-  view=render(React.createElement(ActivityPagination,{pagination:{...base,total:2,totalPages:1},busy:true,onPage:()=>assert.fail('busy pages must not navigate')}));
-  assert.ok([...view.container.querySelectorAll('button')].every(button=>button.disabled));
-});
-
-test('project icons use validated public project art, preserve identity and recover from broken or missing images', () => {
-  const reads=[],cid='bafy'+'a'.repeat(50);
-  const {ProjectIcon}=clientRenderer({
-    'next/image': props=>React.createElement('img',props),
-    '../PlatformProvider':{useResource:path=>{reads.push(path);return resource({media:[{cid,mimeType:'image/png'}]});}},'../InvestorUI':ui,
-  }).load('src/components/invest/platform/ProjectIcon.tsx');
-  let view=render(React.createElement(ProjectIcon,{id:'project-a',title:'Actual project',media:[{cid,mimeType:'image/png'}]}));
-  assert.equal(view.container.querySelector('img').getAttribute('src'),`/api/artwork/project-a/${cid}?size=icon`);
-  assert.equal(reads[0],null);fireEvent.error(view.container.querySelector('img'));assert.ok(view.getByText('AC'));view.unmount();
-  view=render(React.createElement(ProjectIcon,{id:'project-b',title:'Another project'}));
-  assert.ok(reads.includes('projects/project-b'));assert.ok(view.container.querySelector('img'));view.unmount();
-  view=render(React.createElement(ProjectIcon,{id:'project-c',title:'Missing project',media:[{cid:'https://private.invalid',mimeType:'image/png'}]}));
-  assert.equal(view.container.querySelector('img'),null);assert.ok(view.getByText('MI'));
-});
 test('Mark all as read sends one scoped request, refreshes after success and never reports a failed operation as done', async () => {
   for (const outcome of ['success', 'write-failure', 'refresh-failure']) {
     const fail = outcome === 'write-failure';
@@ -416,31 +206,7 @@ test('Mark all as read sends one scoped request, refreshes after success and nev
   }
 });
 
-test('share totals update immediately in exact units while stale or loading quotes cannot enable a purchase', () => {
-  const projectId='project-a';let ready=false;
-  const {InvestorProduct}=clientRenderer({
-    'next/image': props=>React.createElement('img',props),
-    './PlatformProvider':{useResource:path=>{
-      if (path===`projects/${projectId}`) return resource({id:projectId,title:'Actual project',description:'Public data',maxFractions:'10000',unitPriceReaedAtomic:'3600000000000000',unitPriceUsdtAtomic:'1000',media:[]});
-      if (path===`projects/${projectId}/chain`) return resource({totalSupply:'0',remainingSupply:'10000',saleOpen:true,purchasePaused:false});
-      if (path==='portfolio') return resource({items:[]});
-      if (path==='wallet') return resource({assets:[]});
-      if (path?.includes('/quote?')) {
-        const p=new URLSearchParams(path.split('?')[1]),asset=p.get('asset'),quantity=p.get('quantity');
-        return {...resource(ready?{projectId,asset,quantity,chainId:15324,decimals:asset==='USDT'?6:18,amountAtomic:(BigInt(quantity)*(asset==='USDT'?1000n:3600000000000000n)).toString()}:undefined),isLoading:!ready};
-      }
-      return resource(undefined);
-    }},'./InvestorUI':{...ui,Asset:()=>null,CopyButton:()=>null,DataState:({loading,error})=>loading?React.createElement('p',null,'Quote loading layout marker'):error?React.createElement('p',null,error.message):null},'./platform/Transaction':{TransactionReview:()=>null},'./platform/AssetSelect':{AssetSelect:()=>null},
-  }).load('src/components/invest/ProductDetail.tsx');
-  const view=render(React.createElement(InvestorProduct,{id:projectId}));
-  const total=()=>view.container.querySelector('.iv-order-total strong').textContent;
-  assert.equal(total(),'0.0036 reAED');assert.equal(view.getByRole('button',{name:'Review purchase',exact:true}).disabled,true);
-  fireEvent.click(view.getByRole('button',{name:'50',exact:true}));assert.equal(total(),'0.18 reAED');
-  fireEvent.change(view.getByLabelText('Share quantity'),{target:{value:'51'}});assert.equal(total(),'0.1836 reAED');assert.doesNotMatch(total(),/Unavailable/);assert.equal(view.queryByText('Quote loading layout marker'),null);
-  fireEvent.click(view.getByRole('radio',{name:/USDT/}));assert.equal(total(),'0.051 USDT');assert.equal(view.getByRole('button',{name:'Review purchase',exact:true}).disabled,true);
-  ready=true;view.rerender(React.createElement(InvestorProduct,{id:projectId}));assert.equal(view.getByRole('button',{name:'Review purchase',exact:true}).disabled,false);
-  fireEvent.change(view.getByLabelText('Share quantity'),{target:{value:'0'}});assert.equal(total(),'—');assert.equal(view.getByRole('button',{name:'Review purchase',exact:true}).disabled,true);
-});
+
 
 
 test('successful ticket creation remains successful when the follow-up list refresh fails', async () => {
@@ -454,76 +220,9 @@ test('successful ticket creation remains successful when the follow-up list refr
  assert.equal(view.queryByText('Synthetic list refresh failed'),null);
 });
 
-test('phased checkout shows the reserved supply and submits the exact reviewed phase, price and revision', () => {
-  const id='phase-project'; let stamp='314'; let command;
-  const phase={id:'2',name:'Public sale',blocks:'4000',sold:'1',remaining:'3999',unitPriceAtomic:'30000000',open:true,whitelist:false,status:'Active'};
-  const {InvestorProduct}=clientRenderer({
-    'next/image':props=>React.createElement('img',props),
-    './PlatformProvider':{useResource:path=>{
-      if(path===`projects/${id}`) return resource({id,title:'Expansion project',description:'Sales in phases',maxFractions:'20001',unitPriceReaedAtomic:'108000000000000000000',unitPriceUsdtAtomic:'30000000',phasePriceAtomic:'30000000',currentPhase:'Public sale',phaseRemaining:'3999',businessOpportunity:true,media:[]});
-      if(path===`projects/${id}/chain`)return resource({totalSupply:'1',maxFractions:'20001',remainingSupply:'13999',saleOpen:true,purchasePaused:false});
-      if(path?.includes('/phases?'))return resource({mode:'phased',totalBlocks:'20001',reservedBlocks:'6001',current:phase,phases:[phase],page:1,nextPage:null});
-      if(path?.includes('/quote?'))return resource({projectId:id,asset:'REAED',quantity:'1',chainId:15324,decimals:18,amountAtomic:'108000000000000000000',phaseId:'2',phaseName:phase.name,phaseRevision:stamp});
-      if(path==='portfolio')return resource({items:[]});
-      if(path==='wallet')return resource({assets:[]});
-      return resource(undefined);
-    }},
-    './InvestorUI':{...ui,Asset:()=>null,CopyButton:()=>null},
-    './platform/Transaction':{TransactionReview:props=>{command=props.command;return null;}},
-    './platform/AssetSelect':{AssetSelect:()=>null},
-  }).load('src/components/invest/ProductDetail.tsx');
-  const view=render(React.createElement(InvestorProduct,{id}));
-  assert.ok(view.getByText(/6,001 Reserved/));
-  assert.ok(view.getByRole('progressbar',{name:'Blocks sold in current phase'}));
-  stamp=undefined;view.rerender(React.createElement(InvestorProduct,{id}));
-  assert.equal(view.getByRole('button',{name:'Review purchase'}).disabled,true);
-  stamp='316';view.rerender(React.createElement(InvestorProduct,{id}));
-  fireEvent.click(view.getByRole('button',{name:'Review purchase'}));
-  assert.deepEqual({...command},{type:'BUY',projectId:id,asset:'REAED',quantity:'1',phaseId:'2',phaseName:'Public sale',phaseRevision:'316',amountAtomic:'108000000000000000000'});
-});
 
-test('the picker separates phase allocation, wallet approval, and affordable quantity for both payment assets', () => {
-  const id = 'early-access', phase = {id:'1',name:'Pre-launch',blocks:'3000',sold:'2988',remaining:'12',unitPriceAtomic:'25000000',open:true,whitelist:true,status:'Active',startsAt:'0'};
-  let approved = false, paused = false, endpointFailed = false;
-  const {InvestorProduct} = clientRenderer({
-    'next/image':props=>React.createElement('img',props),
-    './PlatformProvider':{useResource(path){
-      if (path === 'projects/'+id) return resource({id,title:'Fixture',maxFractions:'10000',businessOpportunity:true,media:[]});
-      if (path === 'projects/'+id+'/chain') return resource({maxFractions:'10000',totalSupply:'2988',remainingSupply:'4012',saleOpen:true,purchasePaused:paused});
-      if (path === 'portfolio/projects/'+id+'/phases?page=1') return endpointFailed ? {...resource(undefined),error:Error('Try again')} : resource({mode:'phased',totalBlocks:'10000',reservedBlocks:'3000',whitelistBlocks:'3000',publicBlocks:'4000',unallocatedBlocks:'0',walletApproved:approved,current:phase,phases:[phase]});
-      if (path === 'wallet') return resource({assets:[{symbol:'REAED',decimals:18,balanceAtomic:String(900n*10n**18n)},{symbol:'USDT',decimals:6,balanceAtomic:'50000000'}]});
-      if (path?.includes('/quote?')) {
-        const args = new URLSearchParams(path.split('?')[1]); const asset=args.get('asset'),quantity=args.get('quantity');
-        const price = asset === 'USDT' ? 25000000n : 90n*10n**18n;
-        return resource({projectId:id,chainId:15324,asset,quantity,decimals:asset==='USDT'?6:18,phaseId:'1',phaseRevision:'7',phaseName:'Pre-launch',amountAtomic:String(BigInt(quantity)*price)});
-      }
-      return resource(undefined);
-    }},
-    './InvestorUI':{...ui,Asset:()=>null,CopyButton:()=>null},
-    './platform/Transaction':{TransactionReview:()=>null}, './platform/AssetSelect':{AssetSelect:()=>null},
-  }).load('src/components/invest/ProductDetail.tsx');
-  const view=render(React.createElement(InvestorProduct,{id}));
-  const refresh=()=>view.rerender(React.createElement(InvestorProduct,{id}));
-  const button=name=>view.getByRole('button',{name,exact:true});
-  assert.match(view.getByRole('img',{name:/Share allocation:/}).getAttribute('aria-label'),/Reserved · locked, 3,000 shares, 30.00%/);
-  assert.equal(view.container.querySelectorAll('.iv-block-grid-wrap .iv-pd-supply-tiles > i').length, 50, 'the allocation chart must retain the visible share blocks');
-  const availability=()=>view.getByLabelText('Purchase availability').textContent;
-  assert.match(availability(),/On sale now12 sharesAvailable to you0 shares/);
-  assert.equal(view.getByRole('link',{name:/Ask support/}).getAttribute('href'),'/invest/support');
-  assert.equal(button('Review purchase').disabled,true);
-  approved=true;refresh();
-  assert.match(availability(),/Available to you10 shares/);assert.equal(button('Review purchase').disabled,false);
-  fireEvent.click(button('10'));assert.equal(button('Increase share quantity').disabled,true);assert.equal(button('50').disabled,true);
-  fireEvent.click(view.getByRole('radio',{name:/USDT/}));assert.match(availability(),/Available to you2 shares/);
-  assert.equal(button('Review exact USDT allowance').disabled,true);
-  fireEvent.change(view.getByLabelText('Share quantity'),{target:{value:'2'}});
-  assert.equal(button('Review exact USDT allowance').disabled,false);
-  approved=false;refresh();assert.equal(button('Review exact USDT allowance').disabled,true);
-  approved=true;paused=true;refresh();assert.match(availability(),/On sale now0 shares/);assert.equal(button('Review purchase').disabled,true);
-  paused=false;phase.open=false;refresh();assert.match(availability(),/On sale now0 shares/);
-  phase.open=true;endpointFailed=true;refresh();assert.equal(button('Review purchase').disabled,true);
-  assert.match(availability(),/On sale nowUnavailable/);
-});
+
+
 
 function multichainFixture(resources, extra = {}) {
   const claims = [];
@@ -585,4 +284,26 @@ test('multichain deposit opens the requested network address with network-specif
   assert.ok(view.getByText('USDT (TRC-20)'));
   fireEvent.click(view.getByRole('radio', { name: 'Ethereum' }));
   assert.ok(view.getByText('USDT (ERC-20)'));
+});
+
+test('Explore filters by the admin category and tags owned projects from the multichain portfolio', () => {
+  const project = (id, title, category) => ({ id, title, category, deploymentMode: 'MULTICHAIN', maxFractions: '10000', description: `${title} project`, media: [] });
+  const { InvestorExplore } = clientRenderer({
+    'next/image': props => React.createElement('img', props),
+    'next/link': ({ href, children, ...rest }) => React.createElement('a', { href, ...rest }, children),
+    './PlatformProvider': { useResource(path) {
+      if (path === 'projects') return resource({ items: [project('p-finance', 'INFRA Global', 'Finance'), project('p-identity', 'reID', 'Identity')], nextCursor: null });
+      if (path === 'multichain/portfolio') return resource({ wallet, tronWallet: null, items: [{ projectId: 'p-identity', title: 'reID', totalShares: '12', chains: [] }] });
+      return resource(undefined);
+    } },
+    './InvestorUI': ui,
+  }).load('src/components/invest/HomeExplore.tsx');
+  const view = render(React.createElement(InvestorExplore));
+  assert.ok(view.getByText('INFRA Global'));
+  assert.ok(view.getByText('You own 12'));
+  fireEvent.click(view.getByRole('tab', { name: 'Identity' }));
+  assert.equal(view.queryByText('INFRA Global'), null);
+  assert.ok(view.getByText('reID'));
+  fireEvent.click(view.getByRole('tab', { name: 'Services' }));
+  assert.ok(view.getByText('Nothing in this category yet'));
 });

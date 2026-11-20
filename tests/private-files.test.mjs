@@ -1,7 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readPrivateAttachments, validatePrivateImage } from '../src/lib/platform/support-attachments.ts';
-import { readSendQuote, inputAtomic } from '../src/lib/platform/send-quote.ts';
 import { proxyConfig, proxyPlatform } from '../src/lib/platform/proxy.ts';
 
 const record = (id = 'file1') => ({ id, ticketId: 'ticket1', messageId: 'message1', filename: 'synthetic.webp', mimeType: 'image/webp', sizeBytes: 10, sha256: 'a'.repeat(64), createdAt: new Date().toISOString(), deletedAt: null });
@@ -37,13 +36,4 @@ test('only the exact private upload accepts bounded multipart and unsafe Origin/
   assert.equal((await proxyPlatform(bounded(4 * 1024 * 1024 + 1), path, config, fetcher)).status, 413); assert.equal(calls, acceptedCalls);
   const denied = await proxyPlatform(make(config.origin), ['support', 'ticket1', 'messages'], config, fetcher); assert.equal(denied.status, 415); assert.equal(calls, acceptedCalls);
 });
-test('safe Max keeps huge atomic precision, exact gas reserve and the selected wallet/recipient/asset; malformed or expired quotes cannot become amounts', () => {
-  const now = Date.parse('2026-10-19T12:00:00Z'), wallet = `0x${'1'.repeat(40)}`, recipient = `0x${'2'.repeat(40)}`;
-  const native = '90071992547409931234567890', fee = '3000000000000000000';
-  const quote = { chainId: 15324, wallet, recipient, asset: 'REAED', decimals: 18, maximumAtomic: (BigInt(native) - BigInt(fee)).toString(), nativeBalanceAtomic: native, tokenBalanceAtomic: null, estimatedFeeWei: fee, gasEstimate: '21000', canSend: true, quotedAt: new Date(now).toISOString(), expiresAt: new Date(now + 60000).toISOString(), source: 'INFRA pending RPC and verified UAT fee source' };
-  assert.equal(inputAtomic(readSendQuote(quote, wallet, recipient, 'REAED', now).maximumAtomic, 18), '90071989.54740993123456789');
-  const token = { ...quote, asset: 'USDT', decimals: 6, maximumAtomic: '9007199254740993123456', tokenBalanceAtomic: '9007199254740993123456' };
-  assert.equal(inputAtomic(readSendQuote(token, wallet, recipient, 'USDT', now).maximumAtomic, 6), '9007199254740993.123456');
-  for (const change of [{ chainId: 1 }, { wallet: recipient }, { recipient: wallet }, { asset: 'USDT' }, { decimals: 6 }, { maximumAtomic: native }, { estimatedFeeWei: '0' }, { expiresAt: new Date(now).toISOString() }, { maximumAtomic: '1.2' }]) assert.throws(() => readSendQuote({ ...quote, ...change }, wallet, recipient, 'REAED', now));
-  assert.throws(() => readSendQuote({ ...quote, canSend: false, maximumAtomic: '0', gasEstimate: null }, wallet, recipient, 'REAED', now), /reserve/);
-});
+

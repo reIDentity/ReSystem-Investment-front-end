@@ -91,5 +91,5 @@ test('loading and unavailable states do not draw guessed allocation segments', (
   const paused = render({ saleLimit: 0n, walletLimit: 0n, paused: true });
   assert.match(visible(paused), /Purchases are paused/);
   assert.match(visible(render({ saleLimit: 0n, walletLimit: 0n, saleOpen: false })), /The primary sale is closed/);
-  assert.match(visible(render({ noGas: true, walletLimit: 0n })), /Your wallet needs reAED to pay the network fee/);
+  assert.match(visible(render({ noGas: true, walletLimit: 0n })), /Your wallet needs the network coin \(tBNB, ETH or TRX\) to pay the network fee/);
 });
