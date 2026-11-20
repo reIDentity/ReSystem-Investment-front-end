@@ -8,7 +8,7 @@ import type { LandingProject } from "@/lib/platform/landing-data";
 import { Container } from "./Container";
 import { Reveal } from "./Reveal";
 import { useInView } from "@/hooks/motion";
-import { categories, orderedCatalogue, productForProject } from "@/data/products";
+import { categories, orderedCatalogue, productForProject, projectCategory } from "@/data/products";
 import { projectArtworkUrl } from "@/lib/platform/media";
 import { catalogueProjectPath, publicProjectPath } from "@/lib/platform/public-project";
 
@@ -57,7 +57,7 @@ function ProductCard({ row, publicPath }: { row: LandingProject; publicPath?: st
       </div>
       <div className="product-content flex flex-1 flex-col px-2 pt-3 pb-2">
         <h3 className="font-display text-[20px] leading-tight font-extrabold text-ink">{project.title}</h3>
-        <p className="product-category mt-0.5 text-[14px] text-muted">{product?.category ?? "Project"}</p>
+        <p className="product-category mt-0.5 text-[14px] text-muted">{projectCategory(row) ?? "Project"}</p>
         <p title={project.description} className="product-description line-clamp-2 mt-3 min-h-[68px] text-[17px] leading-snug text-ink-soft">{project.description}</p>
         <dl className="product-stats mt-3 grid grid-cols-3 gap-1.5 rounded-xl bg-[#f1f4f9] px-3 py-3">
           <div>
@@ -116,7 +116,7 @@ export function Products() {
   const { projects, loading, error, retry } = useLanding();
   // Brand artwork/categories are presentation metadata only; catalogue membership comes exclusively from published records.
   const ordered = projects ? orderedCatalogue(projects) : [];
-  const visible = active === "All" ? ordered : ordered.filter(row => productForProject(row.project.id)?.category === active);
+  const visible = active === "All" ? ordered : ordered.filter(row => projectCategory(row) === active);
   const requestedCategory = useRef<(typeof categories)[number]>("All");
   const [list, pill] = useTabPill(active);
   const [grid, gridIn] = useInView<HTMLDivElement>();
