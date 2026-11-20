@@ -26,7 +26,7 @@ const REASONS: Record<string, string> = {
   PHASE_CAPACITY: "Choose a quantity within the blocks remaining in this phase.",
 
   INSUFFICIENT_GAS:
-    "Add enough reAED to cover the payment and network fee. USDT cannot pay the network fee.",
+    "Add enough of the network coin (tBNB, ETH or TRX) to cover the payment and network fee. USDT cannot pay the network fee.",
   SALE_CLOSED:
     "This project’s primary sale is closed. Refresh the project to see its current availability.",
   SUPPLY_CHANGED:

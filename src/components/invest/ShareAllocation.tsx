@@ -108,7 +108,7 @@ export function ShareAllocation({
         <p>This project has one public sale with no early-access whitelist.</p>
       ) : null}
       {noGas && saleLimit !== null && saleLimit > 0n && (
-        <p>Your wallet needs reAED to pay the network fee.</p>
+        <p>Your wallet needs the network coin (tBNB, ETH or TRX) to pay the network fee.</p>
       )}
       {publicView ? <p>Connect with reID to check your balance and review an investment. No funds move until you approve.</p> : walletLimit !== null ? walletLimit > 0n && (
         <p>Your limit uses your {assetLabel(asset)} balance before network fees. Final costs are checked at review.</p>

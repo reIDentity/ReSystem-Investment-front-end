@@ -57,7 +57,7 @@ function PaymentsIn({ feed, count, shown }: { feed: LandingPayment[] | null; cou
         ))}
       </ul>
       <a
-        href={`${publicExplorer}/address/0x2dbd7500cc9899c9a5bba6c96f09c086502c5661`}
+        href="#where"
         className="group mt-3 flex items-center justify-between rounded-xl bg-[#f1f1f1] px-4 py-3 font-display text-[13px] font-semibold text-ink transition-colors hover:bg-[#e0f1ff]"
       >
         View project contracts <ArrowRight size={16} className="transition-transform duration-300 group-hover:translate-x-1" />
@@ -325,11 +325,11 @@ function Transparent({ payment }: { payment: LandingPayment | null }) {
         <p className="mt-3 font-mono text-[10px] text-white/50">{payment ? `Latest tx ${payment.hash.slice(0, 8)}…${payment.hash.slice(-4)}` : "No verified revenue transaction available"}</p>
       </div>
       <a
-        href={payment ? `${publicExplorer}/tx/${payment.hash}` : publicExplorer}
+        href={payment ? `${publicExplorer}/tx/${payment.hash}` : "#where"}
         data-magnetic
         className="btn btn-shine mt-6 flex items-center justify-center gap-2 rounded-2xl bg-brand py-3.5 font-display text-[14px] font-bold text-white"
       >
-        View on explorer
+        {payment ? "View on explorer" : "See project contracts"}
         <ArrowUpRight size={16} className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
       </a>
     </div>

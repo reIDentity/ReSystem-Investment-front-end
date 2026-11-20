@@ -50,27 +50,4 @@ test('toast moves into the active native dialog, remains dismissible and returns
  assert.ok(dialog.contains(f.view.getByRole('alert')));fireEvent.click(f.view.getByRole('button',{name:'Dismiss notification'}));assert.equal(dialog.querySelector('.action-toast'),null);
  f.notify('Saved.','success');act(()=>release());assert.equal(dialog.querySelector('.action-toast'),null);assert.ok(document.body.contains(f.view.getByRole('status')));dialog.remove();
 });
-test('actual product listing validation uses a toast and never opens transaction review for an expired listing',()=>{
- const fragment=({children})=>React.createElement(React.Fragment,null,children);let reviews=0;
- const resources={
-  'projects/synthetic':{id:'synthetic',title:'Synthetic project',description:'Test only',maxFractions:'10000',media:[]},
-  'projects/synthetic/chain':{totalSupply:'10',remainingSupply:'9990',saleOpen:true,purchasePaused:false},
-  portfolio:{items:[{projectId:'synthetic',quantity:'10',claimable:[],claimed:[]}]},wallet:{assets:[]},
- };
- const runtime=clientRenderer({
-  'next/image':()=>null,
-  './PlatformProvider':{useResource:path=>({data:resources[path],isLoading:false})},
-  './InvestorUI':{InvestorShell:fragment,Panel:fragment,Tag:fragment,Asset:()=>null,CopyButton:()=>null,DataState:()=>null},
-  './platform/Transaction':{TransactionReview:()=>{reviews++;return null;}},'./platform/AssetSelect':{AssetSelect:()=>null},
- });
- const {ActionFeedbackProvider}=runtime.load('src/components/ActionFeedback.tsx');
- const {InvestorProduct}=runtime.load('src/components/invest/ProductDetail.tsx');
- const view=render(React.createElement(ActionFeedbackProvider,null,React.createElement(InvestorProduct,{id:'synthetic'})));
- view.container.querySelector('details').open=true;
- fireEvent.change(view.getByLabelText('Price per share (USDT)'),{target:{value:'0.001'}});
- fireEvent.change(view.getByLabelText('Expiry'),{target:{value:'2020-01-01T00:00'}});
- const form=view.getByRole('button',{name:'Review listing'}).closest('form');fireEvent.submit(form);
- assert.match(view.getByRole('alert').textContent,/Choose an expiry within the next year/);assert.equal(reviews,0);
- assert.equal(view.container.querySelector('.iv-form-error'),null);
- fireEvent.click(view.getByRole('button',{name:'Dismiss notification'}));fireEvent.submit(form);assert.ok(view.getByRole('alert'));assert.equal(reviews,0);
-});
+

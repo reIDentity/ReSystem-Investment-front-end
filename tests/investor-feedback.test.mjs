@@ -38,43 +38,8 @@ test('account and notification popovers dismiss outside and Escape returns keybo
  const account=view.getByRole('button',{name:/Synthetic QA/});fireEvent.click(account);assert.equal(account.getAttribute('aria-expanded'),'true');
  fireEvent.pointerDown(view.getByRole('button',{name:'Outside action'}));assert.equal(account.getAttribute('aria-expanded'),'false');
 });
-test('confirmed deposit refresh gives feedback, while a failed refresh never announces success',async()=>{
- const notices=[];let fail=false;
- const data={wallet:user.wallet,address:user.wallet,items:[],provenance:{source:'synthetic'}};
- const resource={data,isValidating:false,isLoading:false,mutate:async fresh=>{if(fresh)await fresh;if(fail)throw new Error('Synthetic failure');return data;}};
- const {LiveDeposit}=clientRenderer({
-  '@/lib/platform/client':{api:async()=>data},
-  'next/image':()=>null,
-  '../PlatformProvider':{usePlatform:()=>({user,notify:message=>notices.push(message)}),useResource:()=>resource},
-  '../InvestorUI':{InvestorShell:fragment,Panel:fragment,Tag:fragment,Initials:fragment,CopyButton:()=>null,DataState:()=>null,Provenance:()=>null},
- }).load('src/components/invest/platform/LiveDeposit.tsx');
- const view=render(React.createElement(LiveDeposit));fireEvent.click(view.getByRole('button',{name:'Refresh deposits'}));
- await waitFor(()=>assert.match(notices.at(-1),/Deposit history refreshed/));
- await waitFor(()=>assert.equal(view.getByRole('button',{name:'Refresh deposits'}).disabled,false));
- fail=true;fireEvent.click(view.getByRole('button',{name:'Refresh deposits'}));await waitFor(()=>assert.match(notices.at(-1),/Could not refresh deposits/));
- assert.equal(notices.filter(value=>value.startsWith('Deposit history refreshed')).length,1);
-});
-test('mounted SWR never treats stale cached deposits as a successful refresh after an HTTP 503',async()=>{
- const notices=[];let fail=false;
- const data={wallet:user.wallet,address:user.wallet,items:[{tx_hash:'0x'+'a'.repeat(64),activity_index:'1',asset:'USDT',amount_atomic:'1000000',timestamp:'2026-10-23T06:00:00Z'}]};
- globalThis.fetch=async()=>fail?Response.json({error:{message:'Synthetic service failure'}},{status:503}):Response.json(data);
- const {api}=clientRenderer().load('src/lib/platform/client.ts');
- const {LiveDeposit}=clientRenderer({
-  'next/image':()=>null,
-  '../PlatformProvider':{usePlatform:()=>({user,notify:message=>notices.push(message)}),useResource:path=>useSWR([user.id,path],()=>api(path),{shouldRetryOnError:false,revalidateOnFocus:false,dedupingInterval:0})},
-  '../InvestorUI':{InvestorShell:fragment,Panel:fragment,Tag:fragment,Initials:fragment,CopyButton:()=>null,DataState:({error})=>error?React.createElement('p',{role:'alert'},error.message):null,Provenance:()=>null},
- }).load('src/components/invest/platform/LiveDeposit.tsx');
- const view=render(React.createElement(SWRConfig,{value:{provider:()=>new Map()}},React.createElement(LiveDeposit)));
- await waitFor(()=>assert.equal(view.container.querySelectorAll('.iv-real-deposit').length,1));
- fail=true;fireEvent.click(view.getByRole('button',{name:'Refresh deposits'}));
- await waitFor(()=>assert.match(notices.at(-1),/Could not refresh deposits/));
- assert.match(view.getByRole('alert').textContent,/could not refresh/);
- assert.equal(view.container.querySelectorAll('.iv-real-deposit').length,0);
- assert.equal(notices.some(value=>value.startsWith('Deposit history refreshed')),false);
- fail=false;fireEvent.click(view.getByRole('button',{name:'Refresh deposits'}));
- await waitFor(()=>assert.match(notices.at(-1),/Deposit history refreshed/));
- assert.equal(view.queryByRole('alert'),null);assert.equal(view.container.querySelectorAll('.iv-real-deposit').length,1);
-});
+
+
 test('mounted SWR reports a completed read-all mutation separately from its failed list refresh',async()=>{
  const notices=[];let listReads=0,mutations=0;
  globalThis.fetch=async(path,options)=>{

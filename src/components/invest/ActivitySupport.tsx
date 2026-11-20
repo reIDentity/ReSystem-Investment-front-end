@@ -4,115 +4,15 @@ import { useEffect, useRef, useState, type FormEvent } from "react";
 import useSWR, { useSWRConfig } from "swr";
 import { useSupportHistory, useSupportRequestKey } from "@/lib/use-support-history";
 import { Paperclip } from "lucide-react";
-import type { TicketPage, TicketResponse, TransactionPage, TransactionResponse, NotificationPage, PreferenceDto, EmailNotificationsResponse, EmailPreferenceDto, ActivityPage } from "@/lib/platform/api.generated";
-import type { ChainActivity, Page } from "@/lib/platform/types";
-import { activityPath } from "@/lib/platform/read-ahead";
+import type { TicketPage, TicketResponse, NotificationPage, PreferenceDto, EmailNotificationsResponse, EmailPreferenceDto } from "@/lib/platform/api.generated";
 import { api } from "@/lib/platform/client";
 import { messageId, privateAttachmentPath, readPrivateAttachments, validatePrivateImage, type PendingAttachment } from "@/lib/platform/support-attachments";
-import { assetLabel, explorer, units } from "@/lib/platform/money";
 import { usePlatform, useResource } from "./PlatformProvider";
-import { DataState, Initials, InvestorShell, Modal, notificationPath, Panel, Provenance, Tag } from "./InvestorUI";
-import { ActivityPagination } from "./platform/ActivityPagination";
-import { IntentReview } from "./platform/Transaction";
+import { DataState, Initials, InvestorShell, Modal, notificationPath, Panel, Tag } from "./InvestorUI";
 import Link from "next/link";
 import "./ActivitySupport.css";
 function cursorPath(path: string, cursor: string | null) { return `${path}${cursor ? `?cursor=${encodeURIComponent(cursor)}` : ""}`; }
 function PageButtons({ cursor, next, change }: { cursor: string | null; next?: string | null; change: (cursor: string | null) => void }) { return <div className="iv-action-row">{cursor ? <button className="iv-button" onClick={() => change(null)}>First page</button> : null}{next ? <button className="iv-button iv-primary" onClick={() => change(next)}>Next page</button> : null}</div>; }
-function activityAmount(row: ChainActivity) {
-  if (row.type === "revenue_allocation" || row.event_name === "RevenueAllocation") return typeof row.amount_atomic === "string" && /^(0|[1-9][0-9]{0,81})$/.test(row.amount_atomic) && ["REAED", "reAED", "USDT"].includes(row.asset || "") ? `${units(row.amount_atomic, row.asset === "USDT" ? 6 : 18)} ${assetLabel(row.asset!)}` : "—";
-  if (row.amount_atomic && row.asset) return `${units(row.amount_atomic, row.asset === "USDT" ? 6 : 18)} ${assetLabel(row.asset)}`;
-  const value = row.args?.amount; const asset = String(row.args?.asset);
-  if (typeof value === "string" && ["0", "1"].includes(asset)) return `${units(value, asset === "1" ? 6 : 18)} ${asset === "1" ? "USDT" : "reAED"}`;
-  if (["TransferSingle", "Purchased", "ListingFilled"].includes(row.event_name || "")) { const quantity = row.args?.quantity || row.args?.value; if (typeof quantity === "string") return `${units(quantity, 0)} ${quantity === "1" ? "fraction" : "fractions"}`; }
-  return "—";
-}
-const activityFilters = [["all", "All"], ["payouts", "Payouts"], ["buys", "Buys"], ["deposits", "Deposits"], ["withdrawals", "Withdrawals"]] as const;
-function activityDescription(row: ChainActivity): { label: string; icon: string; tone: string } {
-  if (row.type === "revenue_allocation" || row.event_name === "RevenueAllocation") return { label: "Revenue allocation", icon: "$", tone: "green" };
-  if (row.type === "wallet_transfer") return row.direction === "incoming" ? { label: "Deposit received", icon: "↓", tone: "blue" } : { label: "Withdrawal to INFRA wallet", icon: "↑", tone: "orange" };
-  if (row.event_name === "RewardClaimed") return { label: "Earnings claimed", icon: "$", tone: "green" };
-  if (row.event_name === "Purchased") return { label: "Shares purchased", icon: "+", tone: "blue" };
-  if (row.event_name === "ListingFilled") return { label: "Resale trade", icon: "↔", tone: "blue" };
-  if (row.event_name === "TransferSingle") return { label: row.args?.from === "0x0000000000000000000000000000000000000000" ? "Shares received from purchase" : "Shares transferred", icon: "↔", tone: "purple" };
-  if (row.event_name === "ProceedsWithdrawn") return { label: "Resale proceeds claimed", icon: "$", tone: "green" };
-  return { label: (row.event_name || "Chain activity").replace(/([a-z])([A-Z])/g, "$1 $2"), icon: "·", tone: "neutral" };
-}
-type ActivityPosition = { number: number; snapshotBlock?: string };
-function position(page?: string | null, block?: string | null): ActivityPosition {
-  const number = page && /^[1-9]\d{0,6}$/.test(page) && Number(page) <= 1000000 ? Number(page) : 1;
-  const snapshotBlock = block && /^(0|[1-9]\d{0,18})$/.test(block) && BigInt(block) <= 9223372036854775807n ? block : undefined;
-  return { number, snapshotBlock };
-}
-function validFilter(value?: string | null) {
-  return activityFilters.some(([filter]) => filter === value) ? value! : "all";
-}
-export function InvestorActivity({ initialIntent, initialFilter, initialPage, initialSnapshot }: { initialIntent?: string; initialFilter?: string; initialPage?: string; initialSnapshot?: string }) {
-  const { user, prefetch } = usePlatform();
-  const { mutate: cachePage } = useSWRConfig();
-  const [approvalsOpen, setApprovalsOpen] = useState(false);
-  const [page, setPage] = useState<ActivityPosition>(() => position(initialPage, initialSnapshot));
-  const [txCursor, setTxCursor] = useState<string | null>(null);
-  const [filter, setFilter] = useState(validFilter(initialFilter));
-  const [intent, setIntent] = useState<TransactionResponse | string | null>(initialIntent || null);
-  function navigateActivity(nextFilter: string, nextPage: ActivityPosition) {
-    const url = new URL(window.location.href);
-    if (nextFilter === "all") url.searchParams.delete("filter");
-    else url.searchParams.set("filter", nextFilter);
-    if (nextPage.number === 1) url.searchParams.delete("page");
-    else url.searchParams.set("page", String(nextPage.number));
-    if (nextPage.snapshotBlock) url.searchParams.set("snapshotBlock", nextPage.snapshotBlock);
-    else url.searchParams.delete("snapshotBlock");
-    if (url.href !== window.location.href) window.history.pushState(null, "", url);
-    setFilter(nextFilter);
-    setPage(nextPage);
-  }
-  useEffect(() => {
-    function restore() {
-      const query = new URLSearchParams(window.location.search);
-      setFilter(validFilter(query.get("filter")));
-      setPage(position(query.get("page"), query.get("snapshotBlock")));
-    }
-    window.addEventListener("popstate", restore);
-    return () => window.removeEventListener("popstate", restore);
-  }, []);
-  const history = useResource<Page<ChainActivity> & Pick<ActivityPage, "pagination">>(activityPath(page.number, filter, page.snapshotBlock), 30000, { keepPreviousData: true });
-  const transactions = useResource<TransactionPage>(cursorPath("transactions", txCursor), approvalsOpen ? 10000 : 0);
-  const displayed = history.data?.pagination && history.data.pagination.filter !== filter ? undefined : history.data;
-  const items = history.error ? [] : displayed?.items || [];
-  const pagination = displayed?.pagination;
-  const pagePending = Boolean(history.isLoading && (!pagination || pagination.page !== page.number || (page.snapshotBlock && pagination.snapshotBlock !== page.snapshotBlock)));
-  const warmPage = (number: number) => { if (pagination) prefetch?.([activityPath(number, filter, pagination.snapshotBlock)]); };
-  const currentPage = pagination?.page, totalPages = pagination?.totalPages, snapshotBlock = pagination?.snapshotBlock;
-  useEffect(() => {
-    // The first response already proves this exact confirmed boundary. Reuse
-    // its equivalent anchored key so Previous does not fetch page one twice.
-    if (displayed && pagination && !history.error && !page.snapshotBlock) {
-      void cachePage([user.id, activityPath(pagination.page, filter, pagination.snapshotBlock)], displayed, { revalidate: false });
-    }
-  }, [cachePage, displayed, pagination, history.error, page.snapshotBlock, user.id, filter]);
-  useEffect(() => {
-    if (!currentPage || !totalPages || !snapshotBlock || history.error || pagePending) return;
-    const adjacent = [currentPage + 1, currentPage - 1, currentPage + 2].filter(number => number >= 1 && number <= totalPages);
-    prefetch?.(adjacent.map(number => activityPath(number, filter, snapshotBlock)));
-  }, [prefetch, filter, currentPage, totalPages, snapshotBlock, history.error, pagePending]);
-  return <InvestorShell page="activity" title="Activity" subtitle="Every purchase, payout, deposit and withdrawal, recorded on INFRA" networkBlock={history.data?.provenance?.indexedBlock}>
-    <Panel className="iv-transactions iv-activity-restored">
-      <div className="iv-panel-toolbar"><h2>Transactions</h2><div className="iv-tabs" role="group" aria-label="Filter activity">{activityFilters.map(([value, label]) => <button key={value} aria-pressed={filter === value} onPointerEnter={() => prefetch?.([activityPath(1, value)])} onFocus={() => prefetch?.([activityPath(1, value)])} onClick={() => navigateActivity(value, { number: 1 })}>{label}</button>)}</div></div>
-      <DataState loading={pagePending && !displayed} error={history.error} empty={Boolean(displayed && items.length === 0 && !pagePending)} onRetry={() => void history.mutate()}>No matching transactions yet.</DataState>
-      <div className="iv-table-scroll"><table className="iv-table iv-activity-table" aria-busy={pagePending}><thead><tr><th>Activity</th><th>Product</th><th>Date</th><th>Transaction</th><th>Status</th><th>Amount</th><th><span className="sr-only">Help</span></th></tr></thead><tbody>{items.map(row => {
-        const action = activityDescription(row);
-        const project = row.project?.contractAddress || (typeof row.args?.project === "string" ? row.args.project : null);
-        const projectTitle = typeof row.project?.title === "string" ? row.project.title.trim() : null;
-        const projectLink = typeof row.project?.id === "string" && /^[a-zA-Z0-9_-]+$/.test(row.project.id) ? `/invest/products/${row.project.id}` : null;
-        return <tr key={`${row.tx_hash}:${row.activity_index}`}><td><div className="iv-activity-label"><Initials name={action.icon} tone={action.tone} /><span>{action.label}<small>Block {row.block_number}</small></span></div></td><td>{row.type === "wallet_transfer" ? "Wallet" : projectTitle ? projectLink ? <Link className="iv-text-link" href={projectLink} title={project || undefined}>{projectTitle}</Link> : projectTitle : project ? <span title={project}>{project.slice(0, 6)}…{project.slice(-4)}</span> : "—"}</td><td><time dateTime={row.timestamp}>{new Date(row.timestamp).toLocaleDateString(undefined, { day: "2-digit", month: "short", year: "numeric" })}</time></td><td>{explorer(row.tx_hash) ? <a className="iv-text-link" href={explorer(row.tx_hash)!} target="_blank" rel="noopener noreferrer">{row.tx_hash.slice(0, 6)}…{row.tx_hash.slice(-4)} ↗</a> : "Unavailable"}</td><td><Tag tone={["confirmed", "indexed", "completed"].includes(row.status.toLowerCase()) ? "green" : "neutral"}>{row.status.replaceAll("_", " ")}</Tag></td><td>{activityAmount(row)}</td><td><Link className="iv-button iv-small" href="/invest/support">Get help</Link></td></tr>;
-      })}</tbody></table></div>
-      {pagination && !history.error ? <ActivityPagination pagination={pagination} busy={pagePending} onIntent={warmPage} onPage={number => navigateActivity(filter, { number, snapshotBlock: pagination.snapshotBlock })} /> : null}
-      <Provenance source={history.data?.provenance?.source} block={history.data?.provenance?.indexedBlock} updated={history.data?.provenance?.updatedAt} coverage={history.data?.provenance?.historyCoverage} />
-    </Panel>
-    <Panel className="iv-approval-history"><details onToggle={event => { const open = event.currentTarget.open; setApprovalsOpen(open); if (open) void transactions.mutate(); }}><summary>Transaction approvals {transactions.data ? `(${transactions.data.items.length}${transactions.data.nextCursor ? "+" : ""})` : ""}</summary><DataState loading={transactions.isLoading} error={transactions.error} empty={Boolean(transactions.data && transactions.data.items.length === 0)} onRetry={() => void transactions.mutate()}>No transaction requests yet.</DataState>{transactions.data?.items.map(tx => <div className="iv-record iv-record-with-action" key={tx.id}><div><strong>{String(tx.command.type).replaceAll("_", " ")}</strong><Tag tone={["FAILED", "REJECTED", "EXPIRED"].includes(tx.status) ? "amber" : "blue"}>{tx.status.replaceAll("_", " ")}</Tag></div><button className="iv-button iv-small" onClick={() => setIntent(tx)}>View progress</button></div>)}<PageButtons cursor={txCursor} next={transactions.data?.nextCursor} change={setTxCursor} /></details></Panel>
-    {intent ? <IntentReview initial={typeof intent === "string" ? undefined : intent} id={typeof intent === "string" ? intent : undefined} onClose={() => setIntent(null)} /> : null}
-  </InvestorShell>;
-}
 export function InvestorSupport({ initialTicket }: { initialTicket?: string }) {
   const { user, live, notify } = usePlatform(); const [cursor, setCursor] = useState<string | null>(null); const tickets = useResource<TicketPage>(cursorPath("support", cursor)); const [selected, setSelected] = useState(initialTicket || ""); const ticketId = selected || tickets.data?.items[0]?.id;
   const activeTicket = useRef<string | undefined>(ticketId); const requestPending = useRef(false);

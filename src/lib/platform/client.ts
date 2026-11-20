@@ -7,7 +7,7 @@ function expireSession() { if (typeof window !== "undefined") window.dispatchEve
 export class PlatformError extends Error { status: number; constructor(message: string, status: number) { super(message); this.status = status; } }
 async function read<T>(path: string, options: RequestInit = {}): Promise<T> {
   const mutation = options.method && options.method !== "GET";
-  const uncertain = path.startsWith("transactions")
+  const uncertain = /^(?:multichain\/)?transactions/.test(path)
     ? "The response was interrupted. Your request may have reached the platform. Check this transaction in Activity before starting another; do not repeat an uncertain approval."
     : "The response was interrupted. Your change may already be saved. Refresh this page to check before repeating it.";
   let response: Response;

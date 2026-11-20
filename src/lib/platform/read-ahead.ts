@@ -60,14 +60,11 @@ export function createReadAhead(fetcher: (path: string) => Promise<unknown>) {
 /** Read-only intent hints. Quotes, approvals and mutations are never speculative. */
 export function routeResources(href: string): string[] {
   const project = href.match(/^\/invest\/products\/([a-zA-Z0-9_-]{1,100})$/);
-  if (project) return [`projects/${project[1]}`, `projects/${project[1]}/chain`, `projects/${project[1]}/revenue`];
-  if (href.startsWith("/invest/activity?")) {
-    const filter = new URLSearchParams(href.split("?", 2)[1]).get("filter");
-    return [activityPath(1, ["all", "payouts", "buys", "deposits", "withdrawals"].includes(filter || "") ? filter! : "all")];
-  }
+  if (project) return [`projects/${project[1]}`, `projects/${project[1]}/supply`];
+  if (href.startsWith("/invest/activity?")) return ["multichain/activity"];
   switch (href) {
     case "/invest/home": return ["multichain/wallet", "multichain/portfolio", "multichain/activity"];
-    case "/invest/explore": return ["projects", "portfolio"];
+    case "/invest/explore": return ["projects", "multichain/portfolio"];
     case "/invest/earnings": return ["multichain/portfolio"];
     case "/invest/wallet": return ["multichain/wallet", "multichain/portfolio"];
     case "/invest/activity": return ["multichain/activity"];
@@ -76,10 +73,4 @@ export function routeResources(href: string): string[] {
     case "/invest/deposit": return ["multichain/wallet"];
     default: return [];
   }
-}
-
-export function activityPath(page: number, filter: string, snapshotBlock?: string): string {
-  const query = new URLSearchParams({ page: String(page), pageSize: "10", filter });
-  if (snapshotBlock) query.set("snapshotBlock", snapshotBlock);
-  return `activity?${query}`;
 }
