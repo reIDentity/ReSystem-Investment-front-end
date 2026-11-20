@@ -23,7 +23,7 @@ import styles from "./ProjectPageDesign.module.css";
 
 type Chain = ChainsResponse["chains"][number];
 type Asset = "USDT" | "NATIVE";
-type Command = {
+export type Command = {
   type: "BUY" | "APPROVE_USDT" | "CLAIM";
   projectId: string;
   chainId: number;
@@ -221,7 +221,7 @@ export function MultichainProduct({ id }: { id: string }) {
   );
 }
 
-function MultichainReview({ command, network, onClose }: { command: Command; network: string; onClose: () => void }) {
+export function MultichainReview({ command, network, onClose }: { command: Command; network: string; onClose: () => void }) {
   const { approvalOrigin } = usePlatform();
   const { notify } = useActionFeedback();
   const [intent, setIntent] = useState<TransactionResponse | null>(null);
@@ -280,7 +280,7 @@ function MultichainReview({ command, network, onClose }: { command: Command; net
       {error ? <p role="alert" className="iv-mc-error">{error}</p> : null}
       {!intent ? (
         <>
-          <p>We will reserve your shares, check your balance and the network fee, and prepare one transaction for you to approve in reID. Nothing moves until you approve it.</p>
+          <p>{command.type === "CLAIM" ? "We will check your claimable revenue and the network fee, and prepare one claim for you to approve in reID. Nothing moves until you approve it." : command.type === "APPROVE_USDT" ? "We will prepare a USDT allowance for this project for you to approve in reID. Nothing moves until you approve it." : "We will reserve your shares, check your balance and the network fee, and prepare one transaction for you to approve in reID. Nothing moves until you approve it."}</p>
           <button type="button" className="iv-button iv-primary" disabled={busy} onClick={() => void prepare()}>Prepare</button>
         </>
       ) : (

@@ -157,11 +157,11 @@ export function InvestorSupport({ initialTicket }: { initialTicket?: string }) {
   useFeedbackMessage(conversation.error || (attachments.error ? "Private images could not be loaded. Refresh this conversation." : ""));
   const initials = user.name.split(/\s+/).filter(Boolean).slice(0, 2).map(name => name[0]).join("").toUpperCase();
   const answers = [
-    ["How do I start investing?", "Add reAED or USDT to your connected wallet on INFRA, choose a published project in Explore, select whole shares and review the exact cost. Approve the request in reID, then follow confirmation in Activity. A wallet deposit alone does not buy shares."],
-    ["Why do I need reAED when paying with USDT?", "INFRA network fees are paid separately in reAED. A USDT purchase may need an exact token allowance first, followed by a separate purchase approval. Review each request in reID."],
+    ["How do I start investing?", "Add USDT, or the network coin (BNB, ETH or TRX), to your reID wallet on BNB Smart Chain, Ethereum or TRON. Choose a published project in Explore, pick the network, select whole shares and review the exact cost. Approve the request in reID, then follow confirmation in Activity. A wallet deposit alone does not buy shares."],
+    ["Why do I need the network coin when paying with USDT?", "Network fees are paid in the network's own coin: BNB on BNB Smart Chain, ETH on Ethereum and TRX on TRON. A USDT purchase may need an exact token allowance first, followed by a separate purchase approval. Review each request in reID."],
     ["How are my earnings calculated?", "Each project revenue deposit is shared across investor-held fractions at that time. Rewards already allocated to you stay yours after a transfer or sale."],
-    ["Is there a lock period?", "Your fractions are transferable. Reselling requires a buyer on the marketplace; there is no automatic buyback."],
-    ["How long do withdrawals take?", "A wallet transfer is sent after you approve it and appears after INFRA confirms it. Network fees are paid in reAED."],
+    ["Is there a lock period?", "Your shares are transferable. The resale marketplace for BNB Smart Chain, Ethereum and TRON is coming soon; there is no automatic buyback."],
+    ["How do I withdraw?", "Your funds stay in your own reID wallet. Open the reID app to send USDT or a network coin to another address; the transfer appears once the network confirms it. Network fees are paid in that network's coin."],
   ];
   return <InvestorShell page="support" title="Support" subtitle="Tickets, answers and help from the reSystem team">
     <div className="iv-support-layout iv-support-restored"><aside>

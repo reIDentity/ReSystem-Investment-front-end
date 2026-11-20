@@ -11,7 +11,7 @@ const ROUTES: [RegExp, string[]][] = [
   [/^auth\/reid\/device$/, ["POST", "DELETE"]], [/^auth\/reid\/device\/poll$/, ["POST"]],
   [/^portfolio\/projects\/[a-zA-Z0-9_-]+\/phases$/, ["GET"]],
   [/^projects(?:\/[a-zA-Z0-9_-]+(?:\/(?:quote|chain|revenue|rewards|phases|supply|multichain-quote))?)?$/, ["GET"]],
-  [/^chains$/, ["GET"]], [/^multichain\/portfolio$/, ["GET"]],
+  [/^chains$/, ["GET"]], [/^multichain\/(?:portfolio|wallet|activity)$/, ["GET"]],
   [/^multichain\/transactions$/, ["POST"]], [/^multichain\/transactions\/[a-zA-Z0-9_-]+$/, ["GET"]],
   [/^multichain\/transactions\/[a-zA-Z0-9_-]+\/submit$/, ["POST"]],
   [/^(?:wallet(?:\/(?:deposits|send-quote|cashflow))?|portfolio(?:\/phase-purchases)?|earnings|activity|marketplace(?:\/(?:proceeds|[0-9]+(?:\/quote)?))?)$/, ["GET"]],
