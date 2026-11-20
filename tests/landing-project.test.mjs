@@ -28,15 +28,16 @@ test('published multichain records need no INFRA publication identity, but INFRA
   assert.equal(landingProjectStats(multichain, null, null, Date.now()).sold, '—');
 });
 
-test('the landing loader reads only public supply for multichain projects and derives card stats from it', async () => {
+test('the landing loader reads public supply and revenue for multichain projects and derives card stats from them', async () => {
   const { loadLanding } = clientRenderer().load('src/lib/platform/landing-data.ts');
   const multichain = { ...project(), deploymentMode: 'MULTICHAIN', contractAddress: null, publicationBlock: null, publicationTxHash: null };
   const supply = (changes = {}) => ({ projectId: id, maxFractions: '10000', reservedBlocks: '3000', sold: '1000', available: '6000',
     chains: [{ chainId: 97, network: 'bsc-testnet', name: 'BNB Smart Chain Testnet', status: 'DEPLOYED', contract: `0x${'7'.repeat(40)}`, explorerUrl: null, saleOpen: true }],
     phases: [{ number: 2, name: 'Public sale', status: 'ACTIVE', whitelist: false, blocks: '4000', sold: '1000', available: '3000', priceUsdtMicros: '25000000', startsAt: null, endsAt: null }], ...changes });
-  const run = async (value) => { const reads = []; const snapshot = await loadLanding(async path => { reads.push(path); if (path === 'projects') return { items: [multichain], nextCursor: null }; if (path.endsWith('/supply')) return value; throw new Error('INFRA-only read'); }); return { reads, row: snapshot.projects[0] }; };
+  const run = async (value) => { const reads = []; const snapshot = await loadLanding(async path => { reads.push(path); if (path === 'projects') return { items: [multichain], nextCursor: null }; if (path.endsWith('/supply')) return value; throw new Error('revenue unavailable'); }); return { reads, row: snapshot.projects[0] }; };
   const open = await run(supply());
-  assert.deepEqual(open.reads, ['projects', `projects/${id}/supply`]);
+  assert.deepEqual(open.reads.sort(), ['projects', `projects/${id}/multichain/revenue`, `projects/${id}/supply`]);
+  assert.equal(open.row.funded, null);
   assert.equal(open.row.stats.sale, 'Open');
   assert.equal(open.row.stats.sold, '10.00%');
   assert.equal(open.row.chain.totalSupply, '1000');

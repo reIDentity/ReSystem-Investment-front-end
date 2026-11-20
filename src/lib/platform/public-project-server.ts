@@ -9,7 +9,7 @@ import type { Project } from "./types";
 /** Fixed public endpoints, without user cookies, credentials or arbitrary destinations. */
 export async function readPublicApi(path: string, signal?: AbortSignal): Promise<unknown> {
   const uuid = "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}";
-  if (!new RegExp(`^projects(?:\\?cursor=${uuid}|/${uuid}(?:/(?:chain|revenue|supply))?)?$`, "i").test(path)) throw new PublicProjectError(404);
+  if (!new RegExp(`^projects(?:\\?cursor=${uuid}|/${uuid}(?:/(?:chain|revenue|supply|multichain/revenue))?)?$`, "i").test(path)) throw new PublicProjectError(404);
   const config = proxyConfig(process.env);
   try {
     const response = await fetch(`${config.base}${path}`, { headers: { Accept: "application/json", Origin: config.origin }, credentials: "omit", cache: "no-store", redirect: "error", signal: signal ? AbortSignal.any([signal, AbortSignal.timeout(10000)]) : AbortSignal.timeout(10000) });

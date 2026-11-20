@@ -44,6 +44,14 @@ export function validPublicResponse(section: string, data: unknown) {
   if (section === "supply") return typeof data.projectId === "string" && [data.maxFractions, data.reservedBlocks, data.sold, data.available].every(uint)
     && Array.isArray(data.chains) && data.chains.every(c => record(c) && Number.isSafeInteger(c.chainId) && typeof c.name === "string" && typeof c.status === "string" && (c.contract === null || typeof c.contract === "string") && (c.explorerUrl === null || typeof c.explorerUrl === "string"))
     && Array.isArray(data.phases) && data.phases.every(p => record(p) && Number.isSafeInteger(p.number) && typeof p.name === "string" && typeof p.status === "string" && typeof p.whitelist === "boolean" && [p.blocks, p.sold, p.available].every(uint) && (p.priceUsdtMicros === null || uint(p.priceUsdtMicros)));
+  if (section === "multichain-revenue") {
+    const totals = data.totals;
+    return typeof data.projectId === "string" && typeof data.fresh === "boolean" && typeof data.complete === "boolean" && typeof data.readAt === "string" && Number.isFinite(Date.parse(data.readAt))
+      && record(totals) && [totals.fundedUsdtMicros, totals.claimedUsdtMicros, totals.unclaimedUsdtMicros, totals.last30DaysUsdtMicros, totals.todayUsdtMicros, totals.monthUsdtMicros].every(uint)
+      && Array.isArray(data.days) && data.days.length === 30 && data.days.every(d => record(d) && typeof d.date === "string" && /^\d{4}-\d{2}-\d{2}$/.test(d.date) && uint(d.usdtMicros))
+      && Array.isArray(data.payments) && data.payments.length <= 100 && data.payments.every(p => record(p) && Number.isSafeInteger(p.chainId) && typeof p.name === "string" && typeof p.txHash === "string" && /^0x[0-9a-f]{64}$/i.test(p.txHash) && typeof p.explorerUrl === "string" && /^https:\/\//.test(p.explorerUrl) && uint(p.block) && uint(p.usdtMicros) && (p.at === null || (typeof p.at === "string" && Number.isFinite(Date.parse(p.at)))))
+      && typeof data.paymentsTruncated === "boolean";
+  }
   if (section === "chains") return Array.isArray(data.chains) && data.chains.every(c => record(c) && Number.isSafeInteger(c.chainId) && typeof c.name === "string" && typeof c.nativeSymbol === "string");
   if (["legacy", "excluded"].includes(String(data.mode))) return true;
   const phase = (p: unknown) => record(p) && typeof p.id === "string" && typeof p.name === "string" && [p.blocks, p.sold, p.remaining, p.unitPriceAtomic].every(uint) && typeof p.open === "boolean" && typeof p.whitelist === "boolean";

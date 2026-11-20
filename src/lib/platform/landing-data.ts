@@ -1,5 +1,5 @@
 import { catalogueProjectPath, validPublicResponse } from "./public-project";
-import type { ProjectChainResponse, ProjectSupplyResponse } from "./api.generated";
+import type { MultichainRevenueResponse, ProjectChainResponse, ProjectSupplyResponse } from "./api.generated";
 import { multichainSaleLimit, multichainState } from "./multichain-view";
 import type { Project } from "./types";
 import { publishedLandingProject, landingProjectStats } from "./landing-project";
@@ -16,7 +16,7 @@ const zero = (): AssetTotals => ({ REAED: 0n, USDT: 0n });
 export const add = (a: AssetTotals, b: AssetTotals): AssetTotals => ({ REAED: a.REAED + b.REAED, USDT: a.USDT + b.USDT });
 export const valuation = (a: AssetTotals) => a.REAED * 5n + a.USDT * 18n * 10n ** 12n;
 export const publicExplorer = "https://uat.scan.infraworld.org";
-export type LandingPayment = { id: string; projectId: string; name: string; hash: string; block: string; asset: "REAED" | "USDT"; amount: string; display: string };
+export type LandingPayment = { id: string; projectId: string; name: string; hash: string; block: string; asset: "REAED" | "USDT"; amount: string; display: string; url?: string; network?: string; at?: number };
 export type LandingProject = {
   project: Project; chain: LandingChain | null; series: VerifiedRevenueSeries | null;
   stats: ReturnType<typeof landingProjectStats>;
@@ -56,7 +56,7 @@ export async function loadLanding(read: (path: string) => Promise<unknown>, now:
   async function worker() {
     while (index < projects.length) {
       const i = index++, project = projects[i];
-      const [chain, revenue] = project.deploymentMode === "MULTICHAIN" ? [await read(`projects/${project.id}/supply`).catch(() => null), null] : await Promise.all([read(`projects/${project.id}/chain`).catch(() => null), read(`projects/${project.id}/revenue`).catch(() => null)]);
+      const [chain, revenue] = project.deploymentMode === "MULTICHAIN" ? await Promise.all([read(`projects/${project.id}/supply`).catch(() => null), read(`projects/${project.id}/multichain/revenue`).catch(() => null)]) : await Promise.all([read(`projects/${project.id}/chain`).catch(() => null), read(`projects/${project.id}/revenue`).catch(() => null)]);
       rows[i] = verifiedLandingProject(project, chain, revenue, now());
     }
   }
@@ -66,7 +66,7 @@ export async function loadLanding(read: (path: string) => Promise<unknown>, now:
 
 /** Never infer totals from a truncated history, an inconsistent ledger or an old canonical anchor. */
 export function verifiedLandingProject(project: Project, chain: unknown, revenue: unknown, now: number): LandingProject {
-  if (project.deploymentMode === "MULTICHAIN") return multichainLandingProject(project, chain, now);
+  if (project.deploymentMode === "MULTICHAIN") return multichainLandingProject(project, chain, revenue, now);
   const stats = landingProjectStats(project, chain, revenue, now);
   const state = stats.sale !== null ? chain as ProjectChainResponse : null;
   let series = object(revenue) ? readRevenueSeries(revenue.series) : null;
@@ -102,13 +102,36 @@ export function verifiedLandingProject(project: Project, chain: unknown, revenue
   return { project, chain: state, series, stats, funded, claimed, reserve, last30, payments };
 }
 
-function multichainLandingProject(project: Project, supply: unknown, now: number): LandingProject {
+function multichainLandingProject(project: Project, supply: unknown, revenue: unknown, now: number): LandingProject {
   const empty = { project, chain: null, series: null, stats: landingProjectStats(project, null, null, now), funded: null, claimed: null, reserve: null, last30: null, payments: null };
   if (!validPublicResponse("supply", supply) || (supply as ProjectSupplyResponse).projectId !== project.id || (supply as ProjectSupplyResponse).maxFractions !== project.maxFractions) return empty;
   const shared = supply as ProjectSupplyResponse, state = multichainState(shared), { current, limit } = multichainSaleLimit(shared, now);
   const priced = { ...project, currentPhase: current?.name ?? null, phasePriceAtomic: current?.priceUsdtMicros ?? null, phaseRemaining: current?.available ?? "0", reservedBlocks: shared.reservedBlocks };
   const sold = percentage(state.totalSupply, state.maxFractions);
-  return { ...empty, project: priced, chain: state, stats: { ...empty.stats, sold, soldTitle: `${state.totalSupply} of ${state.maxFractions} shares issued across all networks`, sale: limit > 0n ? "Open" : "Closed" } };
+  return { ...empty, ...multichainRevenue(project, revenue, BigInt(state.totalSupply), now), project: priced, chain: state, stats: { ...empty.stats, sold, soldTitle: `${state.totalSupply} of ${state.maxFractions} shares issued across all networks`, sale: limit > 0n ? "Open" : "Closed" } };
+}
+
+const usdt = (micros: bigint): AssetTotals => ({ REAED: 0n, USDT: micros });
+
+/** Multichain revenue is USDT on every network, normalised to 6 decimals by the API. Stale or partial reads show as unavailable. */
+export function multichainRevenue(project: Project, revenue: unknown, issued: bigint, now: number): Pick<LandingProject, "series" | "funded" | "claimed" | "reserve" | "last30" | "payments"> {
+  const none = { series: null, funded: null, claimed: null, reserve: null, last30: null, payments: null };
+  if (!validPublicResponse("multichain-revenue", revenue)) return none;
+  const r = revenue as MultichainRevenueResponse, readAt = Date.parse(r.readAt);
+  if (r.projectId !== project.id || !r.fresh || !r.complete || readAt > now + 5000 || now - readAt > 300000) return none;
+  const funded = BigInt(r.totals.fundedUsdtMicros), claimed = BigInt(r.totals.claimedUsdtMicros);
+  if (claimed > funded || BigInt(r.totals.unclaimedUsdtMicros) !== funded - claimed) return none;
+  const perShare = (v: bigint) => issued > 0n ? v / issued : 0n;
+  const days = r.days.slice(-14).map(d => ({ date: d.date, revenue: usdt(BigInt(d.usdtMicros)), perShare: usdt(perShare(BigInt(d.usdtMicros))) }));
+  const today = BigInt(r.totals.todayUsdtMicros), month = BigInt(r.totals.monthUsdtMicros);
+  const series = { confirmedBlock: "0", blockHash: "0x" + "0".repeat(64), asOf: r.readAt, days,
+    totals: { today: usdt(today), month: usdt(month), todayPerShare: usdt(perShare(today)), monthPerShare: usdt(perShare(month)), cumulativePerShare: usdt(perShare(funded)) } };
+  let payments: LandingPayment[] | null = null;
+  if (!r.paymentsTruncated) {
+    const list = r.payments.map((p, i) => ({ id: `${project.id}-${p.chainId}-${p.txHash}-${i}`, projectId: project.id, name: project.title, hash: p.txHash, block: p.block, asset: "USDT" as const, amount: p.usdtMicros, display: `${units(p.usdtMicros, 6)} USDT`, url: p.explorerUrl, network: p.name, at: p.at ? Date.parse(p.at) : undefined }));
+    if (list.reduce((a, p) => a + BigInt(p.amount), 0n) === funded) payments = list;
+  }
+  return { series, funded: usdt(funded), claimed: usdt(claimed), reserve: usdt(funded - claimed), last30: usdt(BigInt(r.totals.last30DaysUsdtMicros)), payments };
 }
 
 /** All-project figures require all project reads; individual cards may still show their independent verified values. */
@@ -124,7 +147,7 @@ export function landingTotals(rows: LandingProject[] | null) {
   const seriesReady = rows !== null && rows.every(p => p.series !== null) && new Set(dates).size <= 1;
   const today = seriesReady ? rows.reduce((a, p) => add(a, p.series!.totals.today), zero()) : null;
   const days = seriesReady && rows.length ? rows[0].series!.days.map((d, i) => ({ date: d.date, revenue: rows.reduce((a, p) => add(a, p.series!.days[i].revenue), zero()) })) : [];
-  const payments = rows && rows.every(p => p.payments !== null) ? rows.flatMap(p => p.payments!).sort((a, b) => BigInt(a.block) > BigInt(b.block) ? -1 : BigInt(a.block) < BigInt(b.block) ? 1 : a.id.localeCompare(b.id)) : null;
+  const payments = rows && rows.every(p => p.payments !== null) ? rows.flatMap(p => p.payments!).sort((a, b) => a.at !== undefined && b.at !== undefined && a.at !== b.at ? b.at - a.at : BigInt(a.block) > BigInt(b.block) ? -1 : BigInt(a.block) < BigInt(b.block) ? 1 : a.id.localeCompare(b.id)) : null;
   const funded = sum("funded"), claimed = sum("claimed"), reserve = sum("reserve");
   return { funded, claimed, reserve, last30: seriesReady ? sum("last30") : null, today, days, payments,
     sold: supply !== undefined && maximum && maximum > 0n ? percentage(supply.toString(), maximum.toString()) : "—",

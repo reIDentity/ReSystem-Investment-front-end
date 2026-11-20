@@ -159,3 +159,29 @@ test('a project category from the API wins, with the built-in list as fallback',
   assert.equal(projectCategory(row({ category: 'Infrastructure' })), 'Infrastructure');
   assert.equal(projectCategory(row({ id: 'a0000000-0000-4000-8000-000000000000' })), null);
 });
+
+test('multichain projects read USDT revenue from every network, link each payment to its explorer and hide stale reads', () => {
+  const at = Date.parse('2026-11-20T12:00:00Z');
+  const mc = { ...project(), deploymentMode: 'MULTICHAIN', contractAddress: null, publicationBlock: null, publicationTxHash: null };
+  const supply = { projectId: id, maxFractions: '10000', reservedBlocks: '3000', saleable: '7000', sold: '100', pendingReservations: '0', available: '6900', issuedOnChains: '100', chains: [{ chainId: 97, network: 'bsc-testnet', name: 'BSC', status: 'DEPLOYED', contract: '0x' + '1'.repeat(40), explorerUrl: 'https://b', issued: '100', chainCap: '7000', saleOpen: false }], phases: [] };
+  const days = Array.from({ length: 30 }, (_, i) => ({ date: new Date(Date.parse('2026-10-22T00:00:00Z') + i * 86400000).toISOString().slice(0, 10), usdtMicros: i === 29 ? '3000000' : i === 27 ? '5000000' : '0' }));
+  const revenue = (changes = {}) => ({ projectId: id, fresh: true, complete: true, readAt: '2026-11-20T11:59:00Z',
+    totals: { fundedUsdtMicros: '8000000', claimedUsdtMicros: '1000000', unclaimedUsdtMicros: '7000000', last30DaysUsdtMicros: '8000000', todayUsdtMicros: '3000000', monthUsdtMicros: '8000000' },
+    chains: [], days, paymentsTruncated: false,
+    payments: [
+      { chainId: 3448148188, network: 'tron-nile', name: 'TRON Nile', txHash: '0x' + '2'.repeat(64), explorerUrl: 'https://nile.tronscan.org/#/transaction/' + '2'.repeat(64), block: '20', at: '2026-11-20T08:00:00Z', usdtMicros: '3000000' },
+      { chainId: 97, network: 'bsc-testnet', name: 'BSC', txHash: '0x' + '1'.repeat(64), explorerUrl: 'https://testnet.bscscan.com/tx/0x' + '1'.repeat(64), block: '900000', at: '2026-11-18T08:00:00Z', usdtMicros: '5000000' },
+    ], ...changes });
+  const live = verifiedLandingProject(mc, supply, revenue(), at);
+  assert.equal(live.funded.USDT, 8000000n); assert.equal(live.claimed.USDT, 1000000n); assert.equal(live.reserve.USDT, 7000000n); assert.equal(live.last30.USDT, 8000000n);
+  assert.equal(live.series.days.length, 14); assert.equal(live.series.totals.today.USDT, 3000000n); assert.equal(live.series.totals.cumulativePerShare.USDT, 80000n);
+  assert.deepEqual(live.payments.map(p => [p.network, p.amount, new URL(p.url).host]), [['TRON Nile', '3000000', 'nile.tronscan.org'], ['BSC', '5000000', 'testnet.bscscan.com']]);
+  const totals = landingTotals([live]);
+  assert.equal(totals.payments[0].network, 'TRON Nile'); assert.equal(totals.funded.USDT, 8000000n); assert.equal(totals.claimedPercent, 12.5);
+  for (const bad of [revenue({ fresh: false }), revenue({ complete: false }), revenue({ readAt: '2026-11-20T11:00:00Z' }), revenue({ projectId: '00000000-0000-4000-8000-000000000000' }), revenue({ days: days.slice(1) }), null]) {
+    const r = verifiedLandingProject(mc, supply, bad, at);
+    assert.equal(r.funded, null); assert.equal(r.payments, null); assert.equal(r.chain.totalSupply, '100');
+  }
+  assert.equal(verifiedLandingProject(mc, supply, revenue({ paymentsTruncated: true }), at).payments, null);
+  assert.equal(verifiedLandingProject(mc, supply, revenue({ payments: revenue().payments.slice(1) }), at).payments, null);
+});

@@ -46,11 +46,11 @@ function PaymentsIn({ feed, count, shown }: { feed: LandingPayment[] | null; cou
               </span>
               <div className="min-w-0 flex-1">
                 <p className="truncate font-display text-[13px] font-semibold text-ink">{p.name}</p>
-                <p className="font-mono text-[10px] text-muted"><a href={`${publicExplorer}/tx/${p.hash}`} title={p.hash} className="underline-offset-2 hover:underline">{p.hash.slice(0, 8)}…{p.hash.slice(-4)}</a></p>
+                <p className="font-mono text-[10px] text-muted"><a href={p.url ?? `${publicExplorer}/tx/${p.hash}`} title={p.hash} className="underline-offset-2 hover:underline">{p.hash.slice(0, 8)}…{p.hash.slice(-4)}</a></p>
               </div>
               <div className="text-right">
                 <p className="font-display text-[14px] font-bold text-[#061b32]">+{p.display}</p>
-                <p className="text-[10px] text-muted">Block {p.block}</p>
+                <p className="text-[10px] text-muted">{p.network ? `${p.network} · ` : ""}Block {p.block}</p>
               </div>
             </div>
           </li>
@@ -325,7 +325,7 @@ function Transparent({ payment }: { payment: LandingPayment | null }) {
         <p className="mt-3 font-mono text-[10px] text-white/50">{payment ? `Latest tx ${payment.hash.slice(0, 8)}…${payment.hash.slice(-4)}` : "No verified revenue transaction available"}</p>
       </div>
       <a
-        href={payment ? `${publicExplorer}/tx/${payment.hash}` : "#where"}
+        href={payment ? payment.url ?? `${publicExplorer}/tx/${payment.hash}` : "#where"}
         data-magnetic
         className="btn btn-shine mt-6 flex items-center justify-center gap-2 rounded-2xl bg-brand py-3.5 font-display text-[14px] font-bold text-white"
       >
