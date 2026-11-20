@@ -4,7 +4,7 @@ import type { SessionResponse } from "./api.generated";
 import { platformErrorMessage } from "./errors";
 export const SESSION_EXPIRED_EVENT = "resystem:investor-session-expired";
 function expireSession() { if (typeof window !== "undefined") window.dispatchEvent(new Event(SESSION_EXPIRED_EVENT)); }
-export class PlatformError extends Error { status: number; constructor(message: string, status: number) { super(message); this.status = status; } }
+export class PlatformError extends Error { status: number; code?: string; constructor(message: string, status: number, code?: string) { super(message); this.status = status; this.code = code; } }
 async function read<T>(path: string, options: RequestInit = {}): Promise<T> {
   const mutation = options.method && options.method !== "GET";
   const uncertain = /^(?:multichain\/)?transactions/.test(path)
@@ -21,7 +21,7 @@ async function read<T>(path: string, options: RequestInit = {}): Promise<T> {
     const message = detail.message || platformErrorMessage(body, response.status);
     // A gateway/server failure can happen after a mutation committed. Preserve
     // known, actionable refusals, but do not turn an unknown outcome into a retry.
-    throw new PlatformError((mutation && response.status >= 500 && !detail.message && message === platformErrorMessage({}, response.status) ? uncertain : message) + (detail.reference ? ` Support reference: ${detail.reference}.` : ""), response.status);
+    throw new PlatformError((mutation && response.status >= 500 && !detail.message && message === platformErrorMessage({}, response.status) ? uncertain : message) + (detail.reference ? ` Support reference: ${detail.reference}.` : ""), response.status, detail.code);
   }
   return body as T;
 }

@@ -276,14 +276,18 @@ test('multichain earnings total claimable and claimed USDT and claim only networ
   assert.equal(claims.at(-1).network, 'BNB Smart Chain Testnet');
 });
 
-test('multichain deposit opens the requested network address with network-specific sending rules', () => {
+test('add money asks what and which network, then shows that network address with a plain warning', () => {
   const { mod } = multichainFixture({ 'multichain/wallet': multichainWallet }, { search: 'network=tron-nile' });
   const view = render(React.createElement(mod.MultichainDeposit));
-  assert.equal(view.getByRole('radio', { name: 'TRON' }).getAttribute('aria-checked'), 'true');
+  assert.equal(view.getByRole('radio', { name: /^TRON/ }).checked, true);
+  assert.equal(view.getByRole('radio', { name: /^USDT/ }).checked, true);
   assert.ok(view.getAllByText('TSyntheticTron').length);
-  assert.ok(view.getByText('USDT (TRC-20)'));
-  fireEvent.click(view.getByRole('radio', { name: 'Ethereum' }));
-  assert.ok(view.getByText('USDT (ERC-20)'));
+  assert.ok(view.getByText(/USDT \(TRC-20\) · Lowest fees/));
+  assert.ok(view.getByText(/Money sent on another network can be lost/));
+  fireEvent.click(view.getByRole('radio', { name: /^Ethereum/ }));
+  assert.ok(view.getByText(/USDT \(ERC-20\) · Highest fees/));
+  fireEvent.click(view.getByRole('radio', { name: /^Fee coin/ }));
+  assert.equal(view.getByRole('radio', { name: /^Fee coin/ }).checked, true);
 });
 
 test('Explore filters by the admin category and tags owned projects from the multichain portfolio', () => {
@@ -306,4 +310,31 @@ test('Explore filters by the admin category and tags owned projects from the mul
   assert.ok(view.getByText('reID'));
   fireEvent.click(view.getByRole('tab', { name: 'Services' }));
   assert.ok(view.getByText('Nothing in this category yet'));
+});
+
+test('buying with USDT adds the one-time allowance step by itself and goes straight to reID approval', async () => {
+  class PlatformError extends Error { constructor(message, status, code) { super(message); this.status = status; this.code = code; } }
+  const calls = [];
+  const { MultichainReview } = clientRenderer({
+    './PlatformProvider': { usePlatform: () => ({ user, live: true, approvalOrigin: 'https://app.reidentity.example' }), useResource: () => resource(undefined) },
+    '../ActionFeedback': { useActionFeedback: () => ({ notify() {} }), useActionError: () => ['', () => {}] },
+    './platform/ReidMobile': { ReidApprovalQr: ({ url }) => React.createElement('img', { alt: 'Approval QR', 'data-url': url }) },
+    './InvestorUI': { ...ui, Modal: ({ title, children }) => React.createElement('section', { role: 'dialog', 'aria-label': title }, children) },
+    './ProjectOverview': { ProjectOverview: () => null, SupplyTiles: () => null },
+    './ShareAllocation': { ShareAllocation: () => null },
+    'next/link': ({ href, children, ...rest }) => React.createElement('a', { href, ...rest }, children),
+    '@/lib/platform/client': { PlatformError, api: async (path, options = {}) => {
+      calls.push([path, options.body?.type ?? null]);
+      if (path === 'multichain/transactions' && options.body.type === 'BUY') throw new PlatformError('Allow USDT first', 400, 'MC_APPROVE_USDT');
+      if (path === 'multichain/transactions') return { id: 'allow-1', status: 'CREATED', approvalUrl: null, explorerUrl: null, expiresAt: new Date(Date.now() + 600000).toISOString() };
+      if (path === 'multichain/transactions/allow-1/submit') return { id: 'allow-1', status: 'AWAITING_APPROVAL', approvalUrl: 'https://app.reidentity.example/approve/allow-1', explorerUrl: null, expiresAt: new Date(Date.now() + 600000).toISOString() };
+      return { id: 'allow-1', status: 'AWAITING_APPROVAL', approvalUrl: 'https://app.reidentity.example/approve/allow-1' };
+    } },
+  }).load('src/components/invest/MultichainProduct.tsx');
+  const view = render(React.createElement(MultichainReview, { command: { type: 'BUY', projectId: 'p1', chainId: 3448148188, asset: 'USDT', quantity: '1', amountAtomic: '25000000' }, network: 'TRON Nile', onClose() {} }));
+  await waitFor(() => assert.ok(view.getByText(/Approve in your reID app/)));
+  assert.ok(view.getByText('Allow payment (first time only)'));
+  assert.ok(view.getByText('Buy 1 share'));
+  assert.equal(view.queryByText('Prepare'), null);
+  assert.deepEqual(calls.slice(0, 3), [['multichain/transactions', 'BUY'], ['multichain/transactions', 'APPROVE_USDT'], ['multichain/transactions/allow-1/submit', null]]);
 });
