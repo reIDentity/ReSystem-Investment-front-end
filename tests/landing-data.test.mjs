@@ -182,3 +182,13 @@ test('phased replacements advertise the current phase price in hero artwork and 
   assert.equal(readHero().priceUsdt, '—');
   assert.equal(landingTotals(projects).minimum, '—');
 });
+
+test('a project category from the API wins, with the built-in list as fallback', () => {
+  const { projectCategory } = clientRenderer().load('src/data/products.ts');
+  const row = (p) => ({ project: { ...project(), ...p }, chain: null, series: null, stats: {} });
+  assert.equal(projectCategory(row({ id: 'a0000000-0000-4000-8000-000000000000', category: 'Real-world assets' })), 'Real-world assets');
+  assert.equal(projectCategory(row({ category: null })), 'Identity');
+  assert.equal(projectCategory(row({ category: 'Nope' })), 'Identity');
+  assert.equal(projectCategory(row({ category: 'Infrastructure' })), 'Infrastructure');
+  assert.equal(projectCategory(row({ id: 'a0000000-0000-4000-8000-000000000000' })), null);
+});

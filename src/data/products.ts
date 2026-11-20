@@ -92,3 +92,8 @@ export function orderedCatalogue(rows: readonly LandingProject[]) {
   });
   return [...featured, ...rows.filter(row => row.project.status === "PUBLISHED" && !productForProject(row.project.id))];
 }
+
+export function projectCategory(row: LandingProject): Category | null {
+  const value = row.project.category;
+  return value && (categories as readonly string[]).includes(value) ? (value as Category) : (productForProject(row.project.id)?.category ?? null);
+}
