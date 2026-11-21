@@ -124,3 +124,21 @@ test('actual landing card renders the shared verified snapshot and removes unava
   assert.ok(unavailable.includes('/projects/infra-global')); assert.ok(!unavailable.includes('12.34%')); assert.ok(!unavailable.includes('6.50%'));
   assert.equal((unavailable.match(/aria-label="Unavailable"/g) || []).length, 3);
 });
+
+test('every multichain project gets a sale stage: not started, pre-sale, public, sold out or closed', () => {
+  const { saleStage, SALE_STAGE_LABELS } = clientRenderer().load('src/lib/platform/multichain-view.ts');
+  const now = Date.parse('2026-11-21T12:00:00Z');
+  const phase = (number, status, whitelist, available, extra = {}) => ({ number, name: `P${number}`, status, whitelist, blocks: '400', sold: '0', reserved: '0', available, priceUsdtMicros: '10000', startsAt: null, endsAt: null, ...extra });
+  const supply = (phases, saleOpen, sold = '0', available = '700') => ({ projectId: 'p', maxFractions: '1000', reservedBlocks: '300', saleable: '700', sold, pendingReservations: '0', available, issuedOnChains: sold, chains: [{ chainId: 97, network: 'bsc-testnet', name: 'BSC', status: 'DEPLOYED', contract: null, explorerUrl: null, issued: sold, chainCap: '700', saleOpen }], phases });
+  const stage = (s) => SALE_STAGE_LABELS[saleStage(s, now)];
+  assert.equal(stage(supply([phase(1, 'DRAFT', true, '300'), phase(2, 'DRAFT', false, '400')], false)), 'Sales not started');
+  assert.equal(stage(supply([phase(1, 'ACTIVE', true, '300'), phase(2, 'DRAFT', false, '400')], false)), 'Sales not started');
+  assert.equal(stage(supply([phase(1, 'ACTIVE', true, '300'), phase(2, 'DRAFT', false, '400')], true)), 'Pre-sale open');
+  assert.equal(stage(supply([phase(1, 'CLOSED', true, '0'), phase(2, 'ACTIVE', false, '400')], true)), 'Public sale open');
+  assert.equal(stage(supply([phase(1, 'ACTIVE', false, '400', { startsAt: '2026-12-01T00:00:00Z' })], true)), 'Sales not started');
+  assert.equal(stage(supply([phase(1, 'DRAFT', true, '300'), phase(2, 'ACTIVE', false, '0', { sold: '400' })], true, '400', '300')), 'Sold out');
+  assert.equal(stage(supply([phase(1, 'ACTIVE', false, '0', { reserved: '20' })], true)), 'Sold out');
+  assert.equal(stage(supply([phase(1, 'CLOSED', true, '100'), phase(2, 'DRAFT', false, '400')], false, '200', '500')), 'Sales closed');
+  assert.equal(stage(supply([phase(1, 'ACTIVE', false, '200')], false, '200', '500')), 'Sales closed');
+  assert.equal(stage(supply([phase(1, 'CLOSED', false, '0', { sold: '700' })], false, '700', '0')), 'Sold out');
+});

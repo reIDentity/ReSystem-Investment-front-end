@@ -19,7 +19,8 @@ function ProductCard({ row, publicPath }: { row: LandingProject; publicPath?: st
   const image = project.media?.find(m => m.mimeType.startsWith("image/") && /^[a-zA-Z0-9]{32,120}$/.test(m.cid));
   const publicArtwork = image ? projectArtworkUrl(project.id, image.cid) : null;
   const artwork = publicArtwork && publicArtwork !== failedArtwork ? publicArtwork : product?.image;
-  const badge = stats.sale === "Open" ? "Live" : stats.sale === "Closed" ? "Published" : "—";
+  const badge = project.deploymentMode === "MULTICHAIN" ? stats.stage ?? "Checking sales…" : "INFRA · coming soon";
+  const live = stats.stage === "Pre-sale open" || stats.stage === "Public sale open";
   return (
     <a
       href={publicPath ?? publicProjectPath(project.id, project.title)}
@@ -45,15 +46,13 @@ function ProductCard({ row, publicPath }: { row: LandingProject; publicPath?: st
             />
           )}
         </div>
-        {(product?.status || !product) && (
-          <span
-            className="product-badge absolute top-2 right-2 flex items-center gap-1.5 rounded-full bg-white px-2.5 py-1 font-display text-[11px] font-semibold text-forest"
-            title={stats.sale === "Open" ? "Primary sale is open." : stats.sale === "Closed" ? "Published project; the primary sale is currently closed." : "Purchase availability is unavailable."}
-            aria-label={badge === "—" ? "Published investment status unavailable" : badge}
-          >
-            {badge}
-          </span>
-        )}
+        <span
+          className={`product-badge absolute top-2 right-2 flex items-center gap-1.5 rounded-full bg-white px-2.5 py-1 font-display text-[11px] font-semibold ${live ? "text-forest" : "text-ink-soft"}`}
+          aria-label={`Sale status: ${badge}`}
+        >
+          {live ? <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-forest" /> : null}
+          {badge}
+        </span>
       </div>
       <div className="product-content flex flex-1 flex-col px-2 pt-3 pb-2">
         <h3 className="font-display text-[20px] leading-tight font-extrabold text-ink">{project.title}</h3>
