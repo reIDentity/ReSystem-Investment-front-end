@@ -1,6 +1,6 @@
 import { catalogueProjectPath, validPublicResponse } from "./public-project";
 import type { MultichainRevenueResponse, ProjectChainResponse, ProjectSupplyResponse } from "./api.generated";
-import { multichainSaleLimit, multichainState } from "./multichain-view";
+import { multichainSaleLimit, multichainState, saleStage, SALE_STAGE_LABELS } from "./multichain-view";
 import type { Project } from "./types";
 import { publishedLandingProject, landingProjectStats } from "./landing-project";
 import { readRevenueSeries, type VerifiedRevenueSeries } from "./revenue-values";
@@ -108,7 +108,7 @@ function multichainLandingProject(project: Project, supply: unknown, revenue: un
   const shared = supply as ProjectSupplyResponse, state = multichainState(shared), { current, limit } = multichainSaleLimit(shared, now);
   const priced = { ...project, currentPhase: current?.name ?? null, phasePriceAtomic: current?.priceUsdtMicros ?? null, phaseRemaining: current?.available ?? "0", reservedBlocks: shared.reservedBlocks };
   const sold = percentage(state.totalSupply, state.maxFractions);
-  return { ...empty, ...multichainRevenue(project, revenue, BigInt(state.totalSupply), now), project: priced, chain: state, stats: { ...empty.stats, sold, soldTitle: `${state.totalSupply} of ${state.maxFractions} shares issued across all networks`, sale: limit > 0n ? "Open" : "Closed" } };
+  return { ...empty, ...multichainRevenue(project, revenue, BigInt(state.totalSupply), now), project: priced, chain: state, stats: { ...empty.stats, sold, soldTitle: `${state.totalSupply} of ${state.maxFractions} shares issued across all networks`, sale: limit > 0n ? "Open" : "Closed", stage: SALE_STAGE_LABELS[saleStage(shared, now)] } };
 }
 
 const usdt = (micros: bigint): AssetTotals => ({ REAED: 0n, USDT: micros });

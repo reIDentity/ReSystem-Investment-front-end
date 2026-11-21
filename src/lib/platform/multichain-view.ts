@@ -72,3 +72,25 @@ export function multichainSaleLimit(supply: ProjectSupplyResponse, now: number) 
   const open = supply.chains.some((chain) => chain.status === "DEPLOYED" && chain.saleOpen === true);
   return { current, limit: current && open && isOpen(current, now) ? BigInt(current.available) : 0n };
 }
+
+export type SaleStage = "not_started" | "presale" | "public" | "sold_out" | "closed";
+export const SALE_STAGE_LABELS: Record<SaleStage, string> = {
+  not_started: "Sales not started",
+  presale: "Pre-sale open",
+  public: "Public sale open",
+  sold_out: "Sold out",
+  closed: "Sales closed",
+};
+
+export function saleStage(supply: ProjectSupplyResponse, now: number): SaleStage {
+  const current = supply.phases.find((phase) => phase.status === "ACTIVE");
+  const open = supply.chains.some((chain) => chain.status === "DEPLOYED" && chain.saleOpen === true);
+  const started = supply.phases.some((phase) => phase.status === "CLOSED") || BigInt(supply.sold) > 0n;
+  if (current) {
+    if (BigInt(current.available) === 0n) return "sold_out";
+    if (open && isOpen(current, now)) return current.whitelist ? "presale" : "public";
+    return started ? "closed" : "not_started";
+  }
+  if (BigInt(supply.available) === 0n && started) return "sold_out";
+  return started ? "closed" : "not_started";
+}

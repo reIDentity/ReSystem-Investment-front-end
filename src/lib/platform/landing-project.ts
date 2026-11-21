@@ -28,7 +28,7 @@ export function publishedLandingProject(id: string | undefined, value: unknown):
 }
 
 export function landingProjectStats(project: ProjectResponse | null, chain: unknown, revenue: unknown, timestamp?: number) {
-  const result = { revenue: "—", sold: "—", yieldPace: "—", sale: null as "Open" | "Closed" | null, revenueTitle: "Verified monthly revenue is unavailable.", yieldTitle: "Verified yield pace is unavailable.", soldTitle: "Verified fractions sold are unavailable." };
+  const result = { revenue: "—", sold: "—", yieldPace: "—", sale: null as "Open" | "Closed" | null, stage: null as string | null, revenueTitle: "Verified monthly revenue is unavailable.", yieldTitle: "Verified yield pace is unavailable.", soldTitle: "Verified fractions sold are unavailable." };
   if (!project) return result;
   // Public reads arrive after hydration; static empty cards do not read request-time APIs.
   const now = timestamp ?? Date.now();

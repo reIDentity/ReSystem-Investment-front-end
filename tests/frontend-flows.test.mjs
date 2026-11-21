@@ -298,13 +298,17 @@ test('Explore filters by the admin category and tags owned projects from the mul
     './PlatformProvider': { useResource(path) {
       if (path === 'projects') return resource({ items: [project('p-finance', 'INFRA Global', 'Finance'), project('p-identity', 'reID', 'Identity')], nextCursor: null });
       if (path === 'multichain/portfolio') return resource({ wallet, tronWallet: null, items: [{ projectId: 'p-identity', title: 'reID', totalShares: '12', chains: [] }] });
+      if (path === 'projects/p-identity/supply') return resource({ projectId: 'p-identity', maxFractions: '10000', reservedBlocks: '3000', saleable: '7000', sold: '12', pendingReservations: '0', available: '6988', issuedOnChains: '12', chains: [{ chainId: 97, network: 'bsc-testnet', name: 'BSC', status: 'DEPLOYED', contract: null, explorerUrl: null, issued: '12', chainCap: '7000', saleOpen: true }], phases: [{ number: 2, name: 'Public sale', status: 'ACTIVE', whitelist: false, blocks: '4000', sold: '12', reserved: '0', available: '3988', priceUsdtMicros: '25000000', startsAt: null, endsAt: null }] });
+      if (path === 'projects/p-finance/supply') return resource({ projectId: 'p-finance', maxFractions: '10000', reservedBlocks: '3000', saleable: '7000', sold: '0', pendingReservations: '0', available: '7000', issuedOnChains: '0', chains: [{ chainId: 97, network: 'bsc-testnet', name: 'BSC', status: 'DEPLOYED', contract: null, explorerUrl: null, issued: '0', chainCap: '7000', saleOpen: false }], phases: [{ number: 1, name: 'Pre-launch', status: 'DRAFT', whitelist: true, blocks: '3000', sold: '0', reserved: '0', available: '3000', priceUsdtMicros: '25000000', startsAt: null, endsAt: null }] });
       return resource(undefined);
     } },
     './InvestorUI': ui,
   }).load('src/components/invest/HomeExplore.tsx');
   const view = render(React.createElement(InvestorExplore));
   assert.ok(view.getByText('INFRA Global'));
-  assert.ok(view.getByText('You own 12'));
+  assert.ok(view.getByText(/You own 12/));
+  assert.ok(view.getByText(/Public sale open/));
+  assert.ok(view.getByText(/Sales not started/));
   fireEvent.click(view.getByRole('tab', { name: 'Identity' }));
   assert.equal(view.queryByText('INFRA Global'), null);
   assert.ok(view.getByText('reID'));

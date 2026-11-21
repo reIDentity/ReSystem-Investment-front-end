@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import type { MultichainPortfolioResponse, ProjectPage, ProjectSupplyResponse } from "@/lib/platform/api.generated";
-import { multichainSaleLimit, multichainState } from "@/lib/platform/multichain-view";
+import { multichainSaleLimit, multichainState, saleStage, SALE_STAGE_LABELS } from "@/lib/platform/multichain-view";
 import type { Project } from "@/lib/platform/types";
 import { percentage, units } from "@/lib/platform/money";
 import { projectArtworkUrl } from "@/lib/platform/media";
@@ -25,8 +25,11 @@ export function ProjectCard({ project, ownedQuantity }: { project: Project; owne
   const issued = supply ? percentage(supply.totalSupply, project.maxFractions) : "—";
   const price = current?.priceUsdtMicros ?? null;
   const owned = ownedQuantity && /^[0-9]+$/.test(ownedQuantity) && BigInt(ownedQuantity) > 0n;
+  const stage = sharedSupply ? saleStage(sharedSupply, now) : null;
+  const stageLabel = !multichain ? "INFRA · coming soon" : stage ? SALE_STAGE_LABELS[stage] : shared.isLoading ? "Checking sales…" : "Sales status unavailable";
+  const stageTone = stage === "presale" || stage === "public" ? "green" : "neutral";
   return <Link className="iv-product-card iv-explore-card" href={`/invest/products/${project.id}`}>
-    <div className="iv-product-placeholder iv-explore-image">{image ? <Image src={projectArtworkUrl(project.id, image.cid)} alt={project.title} width={640} height={360} unoptimized /> : <span className="sr-only">Project image not supplied</span>}{owned ? <Tag tone="dark">You own {units(ownedQuantity, 0)}</Tag> : multichain ? <Tag tone="neutral">Published</Tag> : <Tag tone="neutral">INFRA · coming soon</Tag>}<span className="iv-explore-project-mark" aria-hidden="true" /></div>
+    <div className="iv-product-placeholder iv-explore-image">{image ? <Image src={projectArtworkUrl(project.id, image.cid)} alt={project.title} width={640} height={360} unoptimized /> : <span className="sr-only">Project image not supplied</span>}<span className="iv-explore-tags"><Tag tone={stageTone}>{stageLabel}</Tag>{owned ? <Tag tone="dark">You own {units(ownedQuantity, 0)}</Tag> : null}</span><span className="iv-explore-project-mark" aria-hidden="true" /></div>
     <h2>{project.title}</h2><small>{project.location || "BNB · Ethereum · TRON"}</small><p>{project.description}</p>
     {multichain ? <>
       <div className="iv-product-supply"><span>{issued === "—" ? shared.isLoading ? "Loading supply…" : "Supply unavailable" : `${issued} issued`}</span><span>{supply?.remainingSupply != null ? `${units(supply.remainingSupply, 0)} left` : "—"}</span></div>
